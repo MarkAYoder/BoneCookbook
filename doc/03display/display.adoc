@@ -1,0 +1,367 @@
+[[displays]]
+== Displays and Other Outputs
+
+=== Introduction
+
+In this chapter, you will learn how to control physical hardware via 
+BeagleBone Black's general-purpose input/output (GPIO) pins. The Bone has 65 GPIO pins that are brought out on two 46-pin headers, called +P8+ and +P9+, as shown in <<js_P8P9_fig>>.
+
+[[js_P8P9_fig]]
+.The P8 and P9 GPIO headers
+image::images/bglb_0202.png["Headers P8 and P9"]
+
+The purpose of this chapter is to give simple examples that show how to use various methods of output. Most solutions require a breadboard and some jumper wires.
+
+All these examples assume that you know how to edit a file (<<basics_cloud9>>) and run it, either within Cloud9 integrated development environment (IDE) or from the command line (<<tips_shell>>).
+
+[[displays_onboardLED]]
+=== Toggling an Onboard LED
+
+==== Problem
+((("LEDs", "toggling onboard")))((("outputs", "toggling onboard LEDs")))((("displays", "toggling onboard LEDs")))((("USER LEDs")))You want to know how to flash the four LEDs that are next to the Ethernet port on the Bone.
+
+==== Solution
+Locate the four onboard LEDs shown in <<js_internLED_fig>>. They are labeled +USR0+ through +USR3+, but we'll refer to them as the +USER+ LEDs.
+
+[[js_internLED_fig]]
+.The four +USER+ LEDs
+image::images/bglb_0302.png["USER LEDs"]
+
+Place the code shown in <<js_internLED_code>> in a file called _internLED.js_. You can do this using Cloud9 to edit files (as shown in <<basics_cloud9>>) or with a more traditional editor (as shown in <<tips_editing_files>>).
+
+[[js_internLED_code]]
+.Using an internal LED (internLED.js)
+====
+[source, javascript]
+----
+
+include::images/displays/internLED.js[]
+
+----
+====
+
+In the +bash+ command window, enter the following commands:
+
+++++
+<pre data-type="programlisting">
+bone# <strong>chmod +x internLED.js</strong>
+bone# <strong>./internLED.js</strong>
+</pre>
+++++
+
+The +USER0+ LED should now be flashing.
+
+==== Discussion
+
+
+[[displays_externalLED]]
+=== Toggling an External LED
+
+==== Problem
+((("displays", "toggling external LEDs")))((("outputs", "toggling external LEDs")))((("LEDs", "toggling external")))((("series resistors")))((("limiting resistors")))((("resistors", "toggling external LEDs with")))You want to connect your own external LED to the Bone.
+
+==== Solution
+Connect an LED to one of the GPIO pins using a series resistor to limit the current.  To make this recipe, you will need:
+
+* Breadboard and jumper wires (see <<app_proto>>)
+* 220 &#8486; to 470 &#8486; resistor (see <<app_resistor>>)
+* LED (see <<app_opto>>)
+
+[WARNING]
+====
+The value of the current limiting resistor depends on the LED you are using. The Bone can drive only 4 to 6 mA, so you might need a larger resistor to keep from pulling too much current. A 330 &#8486; or 470 &#8486; resistor might be better.
+====
+
+<<displays_externLED_fig>> shows how you can wire the LED to pin 14 of the +P9+ header (+P9_14+). Every circuit in this book (<<basics_wire_breadboard>>) assumes you have already wired the rightmost bus to ground (+P9_1+) and the next bus to the left to the 3.3 V (+P9_3+) pins on the header. Be sure to get the polarity right on the LED. The _short_ lead always goes to ground.
+
+[[displays_externLED_fig]]
+.Diagram for using an external LED
+image::images/bglb_0303.png["External LED"]
+
+After you've wired it, start Cloud9 (see <<basics_cloud9>>) and enter the code shown in <<js_externLED_code>> in a file called _externLED.js_.
+
+[[js_externLED_code]]
+.Code for using an external LED (externLED.js)
+====
+[source, javascript]
+----
+
+include::images/displays/externLED.js[]
+
+----
+====
+Save your file and run the code as before (<<displays_onboardLED>>).
+
+==== Discussion
+
+[[displays_powerSwitch]]
+=== Toggling a High-Voltage External Device
+
+==== Problem
+((("outputs", "controlling high-voltage devices")))((("120 V devices")))((("high-voltage devices")))((("hardware", "high-voltage devices")))You want to control a device that runs at 120 V.
+
+==== Solution
+Working with 120 V can be tricky--even dangerous--if you aren't careful.  Here's a safe way to do it.
+
+To make this recipe, you will need:
+
+* PowerSwitch Tail II (see <<app_misc>>)
+
+<<displays_powerSwitch_fig>> shows how you can wire the PowerSwitch Tail II to pin +P9_14+.
+
+[[displays_powerSwitch_fig]]
+.Diagram for wiring PowerSwitch Tail II
+image::images/bglb_0304.png[Power Switch Tail II]
+
+After you've wired it, because this uses the same output pin as <<displays_externalLED>>, you can run the same code (<<js_externLED_code>>).
+
+==== Discussion
+
+[[displays_PWMdiscussion]]
+=== Fading an External LED
+
+==== Problem
+((("outputs", "fading external LEDs")))((("displays", "fading external LEDs")))((("LEDs", "fading external")))You want to change the brightness of an LED from the Bone.
+
+==== Solution
+
+((("analogWrite()")))((("b.analogWrite()")))((("pulse width modulation (PWM)")))BoneScript has an +analogWrite()+ function that uses the Bone's pulse width modulation (PWM) hardware to produce an analog out signal. We'll use the same circuit as before (<<displays_externLED_fig>>) and declare the pin mode to be +ANALOG_OUTPUT+. Add the code in <<js_fadeLED_code>> to a file called _fadeLED.js_ and then run it as before.
+
+[role="pagebreak-before"]
+[[js_fadeLED_code]]
+.Code for using an external LED (fadeLED.js)
+====
+[source, javascript]
+----
+
+include::images/displays/fadeLED.js[]
+
+----
+====
+
+==== Discussion
+
+[[cape-headers-pwm_fig]]
+.Table of PWM outputs
+image::images/bglb_0305.png["PWM outputs"]
+
+=== Writing to an LED Matrix
+
+==== Problem
+((("displays", "LED matrix")))((("outputs", "LED matrix")))((("LEDs", "I&#x00B2;C-based matrix")))((("I&#x00B2;C-based serial protocol")))((("Adafruit Bicolor 8x8 LED Square Pixel Matrix")))You have an I^2^C-based LED matrix to interface.
+
+==== Solution
+There are a number of nice LED matrices that allow you to control several LEDs via one interface. This solution uses an http://www.adafruit.com/products/902[Adafruit Bicolor 8x8 LED Square Pixel Matrix w/I^2^C Backpack].
+
+To make this recipe, you will need:
+
+* Breadboard and jumper wires (see <<app_proto>>)
+* Two 4.7 k&#8486; resistors (see <<app_resistor>>)
+* I^2^C LED matrix (see <<app_opto>>)
+
+The LED matrix is a 5 V device, but you can drive it from 3.3 V. Wire, as shown in <<displays_i2cMatrix_fig>>.
+
+[[displays_i2cMatrix_fig]]
+.Wiring an i2c LED matrix
+image::images/bglb_0306.png["i2c LED matrix"]
+
+<<sensors_i2c_temp>> shows how to use +i2cdetect+ to discover the address of an I^2^C device. It also describes the difference between how Linux numbers the I^2^C buses (+0+ and +1+) versus how BoneScript numbers them (+1+ and +2+). Let's see how your display shows up. 
+
+[NOTE]
+====
+The BoneScript library convention is to use the index numbers provided in the hardware documentation. The version of the Linux kernel we use, however, begins index numbers at +0+ for the first one registered and increases by 1, so these numbers might not always match. The BoneScript library attempts to hide this complication from you.
+====
+
+Run the +i2cdetect -y -r 1+ command to discover the address of the display, as shown in <<displays_i2cdetect>>.
+
+[role="pagebreak-before"]
+[[displays_i2cdetect]]
+.Using I^2^C command-line tools to discover the address of the display
+====
+++++
+<pre data-type="programlisting">
+bone# <strong>i2cdetect -y -r 1</strong>
+     0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f
+00:          -- -- -- -- -- -- -- -- -- -- -- -- -- 
+10: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 
+20: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 
+30: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 
+40: -- -- -- -- -- -- -- -- -- 49 -- -- -- -- -- -- 
+50: -- -- -- -- UU UU UU UU -- -- -- -- -- -- -- -- 
+60: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 
+70: 70 -- -- -- -- -- -- -- 
+</pre>
+++++
+====
+
+Here, you can see a device at +0x49+ and +0x70+. I know I have a temperature sensor at +0x49+, so the LED matrix must be at +0.70+. 
+
+Add the code in <<displays_matrix_i2c>> to a file called _matrixLEDi2c.js_ and run it by using the following command:
+
+++++
+<pre data-type="programlisting">
+bone# <strong>npm install -g sleep</strong>
+bone# <strong>./matrixLEDi2c.js</strong>
+</pre>
+++++
+
+[[displays_matrix_i2c]]
+.LED matrix display (matrixLEDi2c.js)
+====
+[source, c]
+----
+
+include::images/displays/matrixLEDi2c.js[]
+
+----
+====
+<1> This line states which bus to use. The last digit gives the BoneScript bus number.
+
+<2> This specifies the address of the LED matrix, +0x70+ in our case.
+
+<3> This indicates which LEDs to turn on. The first byte is for the first column of _green_ LEDs. In this case, all are turned off. The next byte is for the first column of _red_ LEDs. The hex +0x3c+ number is +0b00111100+ in binary. This means the first two red LEDs are off, the next four are on, and the last two are off. The next byte (+0x00+) says the second column of _green_ LEDs are all off, the fourth byte (+0x42+ = +0b01000010+) says just two +red+ LEDs are on, and so on. Declarations define four different patterns to display on the LED matrix, the last being all turned off.
+
+<4> Open the I^2^C port.
+
+<5> Send three commands to the matrix to get it ready to display.
+
+<6> Now, we are ready to display the various patterns. After each pattern is displayed, we sleep a certain amount of time so that the pattern can be seen.
+
+<7> Finally, send commands to the LED matrix to set the brightness. This makes the disply fade out and back in again.
+
+==== Discussion
+
+[[displays_drive5V]]
+=== Driving a 5 V Device
+
+==== Problem
+((("outputs", "controlling 5 V devices")))((("hardware", "5 V devices")))((("5 V devices")))((("level translators")))((("PCA9306 level translator")))You have a 5 V device to drive, and the Bone has 3.3 V outputs.
+
+==== Solution
+If you are lucky, you might be able to drive a 5 V device from the Bone's 3.3 V output. Try it and see if it works. If not, you need a level translator.  
+
+What you will need for this recipe:
+
+* A PCA9306 level translator (see <<app_ic>>)
+* A 5 V power supply (if the Bone's 5 V power supply isn't enough)
+
+The PCA9306  translates signals at 3.3 V to 5 V in both directions. It's meant to work with I^2^C devices that have a pull-up resistor, but it can work with anything needing translation.
+
+<<displays_i2cMatrixLevelTrans_fig>> shows how to wire a PCA9306 to an LED matrix. The left is the 3.3 V side and the right is the 5 V side. Notice that we are using the Bone's built-in 5 V power supply.
+
+[[displays_i2cMatrixLevelTrans_fig]]
+.Wiring a PCA9306 level translator to an LED matrix
+image::images/bglb_0307.png[PCA9306 level translator]
+
+[NOTE]
+====
+If your device needs more current than the Bone's 5 V power supply provides, you can wire in an external power supply.
+====
+
+==== Discussion
+
+=== Writing to a NeoPixel LED String
+
+==== Problem
+((("displays", "NeoPixel LED strings")))((("outputs", "NeoPixel LED strings")))((("Adafruit Neopixel LED strings")))((("Neopixel LED strings")))((("LEDs", "Adafruit Neopixel LED strings")))You have an http://www.adafruit.com/products/1138[Adafruit NeoPixel LED string] or http://www.adafruit.com/products/1487[Adafruit NeoPixel LED matrix] and want to light it up.
+
+==== Solution
+
+Wire up an Adafruit NeoPixel LED 8-by-8 matrix as shown in <<js_neoPixelMatrix_fig>>.
+
+[[js_neoPixelMatrix_fig]]
+.Wiring an Adafruit NeoPixel LED matrix to +P8_30+
+image::images/bglb_0308.png["NeoPixel Matrix"]
+
+<<js_neoPixel_code>> shows how to install LEDscape and run the LEDs.
+
+[[js_neoPixel_code]]
+.Installing and running LEDscape and OpenPixelControl (neoPixel.sh)
+====
+[source, bash]
+----
+
+include::images/displays/neoPixel.sh[]
+
+----
+====
+
+==== Discussion
+
+=== Using a Nokia 5510 LCD Display
+
+==== Problem
+((("outputs", "Nokia 5510 LCD display")))((("Nokia 5510 LCD display")))((("displays", "Nokia 5510 LCD")))((("LCD displays")))((("text, displaying")))((("graphics, displaying")))You want to display some text and graphics on a Nokia 5510 black-and-white LCD display.
+
+==== Solution
+What you will need for this recipe:
+
+* Breadboard and jumper wires (see <<app_proto>>)
+* Nokia 5110 LCD (see <<app_misc>>)
+* 220 &#8486; resistor (see <<app_resistor>>)
+
+The Nokia 5110 LCD runs off of 3.3 V, so you can wire it directly to the Bone (<<displays_nokia_fig>>).
+
+[[displays_nokia_fig]]
+.Wiring a Nokia 5110 LCD display
+image::images/bglb_0309.png["Nokia 5110"]
+
+The drivers for the 5110 are in the Node Packaged Modules repository. Get and install them by running the following commands:
+
+++++
+<pre data-type="programlisting">
+bone# <strong>npm install -g nokia5110</strong>
+bone# <strong>cd /usr/local/lib/node_modules/nokia5110</strong>
+bone# <strong>ln -s LCD_5110.js nokia5110.js</strong>
+bone# <strong>cp lcdTest.js /tmp</strong>
+bone# <strong>cd -</strong>
+bone# <strong>mv /tmp/lcdTest.js nokia5110Test.js</strong>
+</pre>
+++++
+
+Edit _nokia5110Test.js_ so that the first few lines specify how it's wired (as shown in <<displays_nokia5110_code>>) and then run the code.
+
+[role="pagebreak-before"]
+[[displays_nokia5110_code]]
+.Defining the Nokia 5110 pins (nokia5110.js)
+====
+[source, javascript]
+----
+
+include::images/displays/nokia5110.js[]
+
+----
+====
+
+==== Discussion
+
+=== Making Your Bone Speak
+
+==== Problem
+((("text-to-speech programs")))((("flite text-to-speech program")))((("audio files", "text-to-speech programs")))((("speech")))((("files", "audio")))Your Bone wants to talk.
+
+==== Solution
+Just install the _flite_ text-to-speech program:
+
+++++
+<pre data-type="programlisting">
+bone# <strong>apt-get install flite</strong>
+</pre>
+++++
+
+Then add the code from <<speak_code>> in a file called _speak.js_ and run.
+
+[[speak_code]]
+.A program that talks (speak.js)
+====
+[source, javascript]
+----
+
+include::images/displays/speak.js[]
+
+----
+====
+
+See <<sensors_audio>> to see how to use a USB audio dongle and set your default audio out.
+
+==== Discussion
