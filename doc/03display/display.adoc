@@ -76,7 +76,7 @@ The value of the current limiting resistor depends on the LED you are using. The
 
 [[displays_externLED_fig]]
 .Diagram for using an external LED
-image::images/bglb_0303.png["External LED"]
+image::figures/externalLED.png["External LED"]
 
 After you've wired it, start Cloud9 (see <<basics_cloud9>>) and enter the code shown in <<js_externLED_code>> in a file called _externLED.js_.
 
@@ -86,7 +86,7 @@ After you've wired it, start Cloud9 (see <<basics_cloud9>>) and enter the code s
 [source, javascript]
 ----
 
-include::images/displays/externLED.js[]
+include::code/externLED.js[]
 
 ----
 ====
