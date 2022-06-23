@@ -453,7 +453,7 @@ BeagleBone Black&#8217;s general-purpose input/output (GPIO) pins. The Bone has 
 </div>
 <div id="js_P8P9_fig" class="imageblock">
 <div class="content">
-<img src="figurs/p8p9headers.png" alt="Headers P8 and P9">
+<img src="figures/p8p9headers.png" alt="Headers P8 and P9">
 </div>
 <div class="title">Figure 1. The P8 and P9 GPIO headers</div>
 </div>
@@ -479,7 +479,7 @@ BeagleBone Black&#8217;s general-purpose input/output (GPIO) pins. The Bone has 
 </div>
 <div id="js_internLED_fig" class="imageblock">
 <div class="content">
-<img src="images/bglb_0302.png" alt="USER LEDs">
+<img src="figures/USERLEDs.png" alt="USER LEDs">
 </div>
 <div class="title">Figure 2. The four USER LEDs</div>
 </div>
@@ -491,7 +491,22 @@ BeagleBone Black&#8217;s general-purpose input/output (GPIO) pins. The Bone has 
 <div class="content">
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-javascript" data-lang="javascript">Unresolved directive in display.adoc - include::images/displays/internLED.js[]</code></pre>
+<pre class="highlight"><code class="language-javascript" data-lang="javascript">#!/usr/bin/env node
+var b = require('bonescript');
+var LED = 'USR0';
+var state = b.HIGH;     // Initial state
+b.pinMode(LED, b.OUTPUT);
+
+setInterval(flash, 250);    // Change state every 250 ms
+
+function flash() {
+    b.digitalWrite(LED, state);
+    if(state === b.HIGH) {
+        state = b.LOW;
+    } else {
+        state = b.HIGH;
+    }
+}</code></pre>
 </div>
 </div>
 </div>
@@ -557,7 +572,7 @@ bone# <strong>./internLED.js</strong>
 </div>
 <div id="displays_externLED_fig" class="imageblock">
 <div class="content">
-<img src="images/bglb_0303.png" alt="External LED">
+<img src="figures/externalLED.png" alt="External LED">
 </div>
 <div class="title">Figure 3. Diagram for using an external LED</div>
 </div>
@@ -569,7 +584,22 @@ bone# <strong>./internLED.js</strong>
 <div class="content">
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-javascript" data-lang="javascript">Unresolved directive in display.adoc - include::images/displays/externLED.js[]</code></pre>
+<pre class="highlight"><code class="language-javascript" data-lang="javascript">#!/usr/bin/env node
+var b = require('bonescript');
+var LED = 'P9_14';
+var state = b.HIGH;     // Initial state
+b.pinMode(LED, b.OUTPUT);
+
+setInterval(flash, 250);    // Change state every 250 ms
+
+function flash() {
+    b.digitalWrite(LED, state);
+    if(state === b.HIGH) {
+        state = b.LOW;
+    } else {
+        state = b.HIGH;
+    }
+}</code></pre>
 </div>
 </div>
 </div>
@@ -988,7 +1018,7 @@ bone# <strong>apt-get install flite</strong>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2022-06-23 14:33:36 -0400
+Last updated 2022-06-23 14:49:58 -0400
 </div>
 </div>
 </body>
