@@ -8,7 +8,7 @@ BeagleBone Black's general-purpose input/output (GPIO) pins. The Bone has 65 GPI
 
 [[js_P8P9_fig]]
 .The P8 and P9 GPIO headers
-image::figurs/p8p9headers.png["Headers P8 and P9"]
+image::figures/p8p9headers.png["Headers P8 and P9"]
 
 The purpose of this chapter is to give simple examples that show how to use various methods of output. Most solutions require a breadboard and some jumper wires.
 
