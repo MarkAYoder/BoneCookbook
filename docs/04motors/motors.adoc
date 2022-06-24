@@ -57,7 +57,7 @@ There is no standard for how servo motor wires are colored. One of my servos is 
 
 [[motors_servoMotor]]
 .Driving a servo motor with the 3.3 V power supply
-image::images/bglb_0401.png[Servo Motor]
+image:figures/servoMotor_bb.png[Servo Motor]
 
 The code for controlling the servo motor is in _servoMotor.js_, shown in <<motors_servoMotor_code>>.
 
@@ -68,7 +68,7 @@ The code for controlling the servo motor is in _servoMotor.js_, shown in <<motor
 [source, javascript]
 ----
 
-include::images/motors/servoMotor.js[]
+include::code/servoMotor.js[]
 
 ----
 ====
@@ -103,7 +103,7 @@ Wire your breadboard as shown in <<motors_dcMotor_fig>>.
 
 [[motors_dcMotor_fig]]
 .Wiring a DC motor to spin one direction
-image::images/bglb_0403.png[DC Motor]
+image:figures/dcMotor_bb.png[DC Motor]
 
 Use the code in <<motors_dcMotor_code>> (_dcMotor.js_) to run the motor.
 
@@ -114,7 +114,7 @@ Use the code in <<motors_dcMotor_code>> (_dcMotor.js_) to run the motor.
 [source, javascript]
 ----
 
-include::images/motors/dcMotor.js[]
+include::code/dcMotor.js[]
 
 ----
 ====
@@ -148,7 +148,7 @@ Lay out your breadboard as shown in <<motors_h-bridge_fig>>. Ensure that the L29
 
 [[motors_h-bridge_fig]]
 .Driving a DC motor with an H-bridge
-image::images/bglb_0404.png[H-bridge Motor]
+image:figures/h-bridgeMotor_bb.png[H-bridge Motor]
 
 The code in <<motors_h-bridge_code>> (_h-bridgeMotor.js_) looks much like the code for driving the DC motor with a transistor (<<motors_dcMotor_code>>). 
 The additional code specifies which direction to spin the motor.
@@ -158,7 +158,7 @@ The additional code specifies which direction to spin the motor.
 ====
 [source, javascript]
 ----
-include::images/motors/h-bridgeMotor.js[]
+include::code/h-bridgeMotor.js[]
 ----
 ====
 
@@ -185,7 +185,7 @@ Wire as shown in <<motors_bipolar_fig>>.
 
 [[motors_bipolar_fig]]
 .Bipolar stepper motor wiring
-image::images/bglb_0408.png[Bipolar Stepper Motor]
+image:figures/bipolarStepperMotor_bb.png[Bipolar Stepper Motor]
 
 Use the code in <<motors_stepperMotor_code>> (_bipolarStepperMotor.js_) to drive the motor.
 
@@ -195,7 +195,7 @@ Use the code in <<motors_stepperMotor_code>> (_bipolarStepperMotor.js_) to drive
 [source, js]
 ----
 
-include::images/motors/bipolarStepperMotor.js[]
+include::code/bipolarStepperMotor.js[]
 
 ----
 ====
@@ -234,7 +234,7 @@ The stepper motor I'm using runs better at 5 V, so I'm using the Bone's 5 V powe
 
 [[motors_unipolar_fig]]
 .Unipolar stepper motor wiring
-image::images/bglb_0411.png[Unipolar Stepper Motor]
+image:figures/unipolarStepperMotor_bb.png[Unipolar Stepper Motor]
 
 The code for driving the motor is in _unipolarStepperMotor.js_; however, it is almost identical to the bipolar stepper code (<<motors_stepperMotor_code>>), so <<motors_unistepperMotor_code>> shows only the lines that you need to change.
 
@@ -243,7 +243,7 @@ The code for driving the motor is in _unipolarStepperMotor.js_; however, it is a
 ====
 [source, js]
 ----
-include::images/motors/unipolarStepperMotor.diff[]
+include::code/unipolarStepperMotor.diff[]
 ----
 ====
 [role="pagebreak-before"]
