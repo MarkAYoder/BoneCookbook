@@ -78,7 +78,7 @@ For our example module, add the code in <<kernel_simple_module>> to a file calle
 [source, js]
 ----
 
-include::images/kernel/hello.c[]
+include::code/hello.c[]
 
 ----
 ====
@@ -106,7 +106,7 @@ Next, add the code in <<kernel_Makefle>> to a file called _Makefile_.
 [source, js]
 ----
 
-include::images/kernel/Makefile.display[]
+include::code/Makefile.display[]
 
 ----
 ====
@@ -122,13 +122,13 @@ Now, compile the kernel module by using the +make+ command:
 <pre data-type="programlisting">
 bone# <strong>make</strong>
 make -C /lib/modules/3.8.13-bone67/build \
-      SUBDIRS=/root/cookbook-atlas/images/kernel/hello modules
+      SUBDIRS=/root/cookbook-atlas/code/hello modules
 make[1]: Entering directory `/usr/src/linux-headers-3.8.13-bone67'
-  CC [M]  /root/cookbook-atlas/images/kernel/hello/hello.o
+  CC [M]  /root/cookbook-atlas/code/hello/hello.o
   Building modules, stage 2.
   MODPOST 1 modules
-  CC      /root/cookbook-atlas/images/kernel/hello/hello.mod.o
-  LD [M]  /root/cookbook-atlas/images/kernel/hello/hello.ko
+  CC      /root/cookbook-atlas/code/hello/hello.mod.o
+  LD [M]  /root/cookbook-atlas/code/hello/hello.ko
 make[1]: Leaving directory `/usr/src/linux-headers-3.8.13-bone67'
 bone# <strong>ls</strong>
 Makefile        hello.c   hello.mod.c  hello.o
@@ -232,7 +232,7 @@ Suppose that you want to read the state of the +P9_42+ GPIO pin. (<<sensors_push
 
 [[kernel_gpio_map_fig]]
 .Mapping P9_42 header position to GPIO 7
-image::images/bglb_0701.png[Mapping Header Position to GPIO Numbers]
+image::figures/cape-headers-digitalGPIO7.png[Mapping Header Position to GPIO Numbers]
 
 Next, change to the GPIO +sysfs+ directory:
 
@@ -358,7 +358,7 @@ After the kernel is patched, you'll see a screen similar to <<kernel_config_fig>
 
 [[kernel_config_fig]]
 .Kernel configuration menu
-image::images/bglb_0702.png[Kernel configuration menu]
+image::figures/KernelConfig3.16.png[Kernel configuration menu]
 
 You can use the arrow keys to navigate. No changes need to be made, so you can just press the right arrow and Enter to start the kernel compiling. The entire process took about 25 minutes on my 8-core host. 
 
@@ -411,7 +411,7 @@ Are you 100% sure, on selecting [/dev/sdb] (y/n)? y
 The script lists the partitions it sees and asks if you have the correct one. If you are sure, press Y, and the script will uncompress and copy the files to the correct locations on your card. When this is finished, eject your card, plug it into the Bone, and boot it up. Run +uname -a+, and you will see that you are running your compiled kernel.
 
 ==== Discussion
-I
+
 
 [[kernel_using_cross_compiler]]
 === Using the Installed Cross Compiler
@@ -535,7 +535,7 @@ These lines set up the standard environmental variables so that you can determin
 [source, c]
 ----
 
-include::images/kernel/helloWorld.c[]
+include::code/helloWorld.c[]
 
 ----
 ====
@@ -572,7 +572,7 @@ The +file+ command shows that +a.out+ was compiled for an ARM processor.
 [source, c]
 ----
 
-include::images/kernel/hello.patch[]
+include::code/hello.patch[]
 
 ----
 ====
