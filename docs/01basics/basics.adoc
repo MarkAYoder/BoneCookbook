@@ -29,13 +29,13 @@ Plug the USB cable into your host computer (Mac, Windows, or Linux) and plug the
 
 [[basics_pluggingIn_fig]]
 .Plugging BeagleBone Black into a USB port
-image::images/bglb_0110.png[Plugging In]
+image::figures/pluggingIn.jpg[Plugging In]
 
 ((("USER LEDs")))((("LEDs", "USER LEDs", seealso="input/output (I/O)")))The four blue +USER+ LEDs will begin to blink, and in 10 or 15 seconds, you'll see a new USB drive appear on your host computer. <<basics_01gettingStarted_fig>> shows how it will appear on a Windows host, and Linux and Mac hosts will look similar. The Bone acting like a USB drive and the files you see are located on the Bone.
 
 [[basics_01gettingStarted_fig]]
 .The Bone appears as a USB drive
-image::images/bglb_0111.png[A new USB drive]
+image::figures/01GettingStarted.png[A new USB drive]
 
 ((("START.htm")))Open the drive and open _START.htm_ using http://www.google.com/chrome/[Google Chrome] or https://www.mozilla.org/en-US/firefox/new/[Firefox] (<<basics_02gettingStarted_fig>>).
 
@@ -46,19 +46,19 @@ image::images/bglb_0111.png[A new USB drive]
 
 [[basics_02gettingStarted_fig]]
 .Open START.htm
-image::images/bglb_0112.png[Open START.htm]
+image::figures/02GettingStarted.png[Open START.htm]
 
 ((("START.htm")))((("host computer", "installing USB drivers for")))((("USB drivers, installing")))((("drivers", "installing USB")))Follow the instructions (<<basics_03gettingStarted_fig>>) for installing the USB drivers for your host computer's operating system (OS).  
 
 [[basics_03gettingStarted_fig]]
 .Install the USB drivers
-image::images/bglb_0113.png[Install USB drivers]
+image::figures/03GettingStarted.png[Install USB drivers]
 
 On your host, browse to http://192.168.7.2 (<<basics_04gettingStarted_fig>>).  
 
 [[basics_04gettingStarted_fig]]
 .Open http://192.168.7.2 on your host computer
-image::images/bglb_0114.png[Open START.htm]
+image::figures/04GettingStarted.png[Open START.htm]
 
 ((("beagleboard.org web page")))You are now ready to explore your Bone. Look around. There's lots of information on the page. 
 
@@ -72,7 +72,7 @@ image::images/bglb_0114.png[Open START.htm]
 
 [[basics_05gettingStarted_fig]]
 .Cloud9
-image::images/bglb_0115.png[Cloud9]
+image::figures/05GettingStarted.png[Cloud9]
 
 Here, you'll find _Cloud9_, a web-based integrated development environment (IDE) that lets you edit and run code on your Bone!  See <<basics_cloud9>> for more details.
 
@@ -116,7 +116,7 @@ Note to update image reference in previous paragraph when new version ships.
 
 [[basics_ID]]
 .Contents of ID.txt
-image::images/bglb_0116.png[Contents of ID.txt]
+image::figures/ID.txt.png[Contents of ID.txt]
 
 ==== Discussion
 
@@ -133,7 +133,7 @@ Plug your board into the USB of your host computer and browse to http://192.168.
 
 [[basics_bonescript]]
 .The BoneScript API examples page
-image::images/bglb_0117.png[The BoneScript examples page]
+image::figures/bonescript-examples.png[The BoneScript examples page]
 
 [TIP]
 ====
@@ -174,7 +174,7 @@ To make this recipe, you will need:
 
 [[basics_breadboard_template]]
 .Breadboard wired to BeagleBone Black
-image::images/bglb_0001.png[Breadboad]
+image::figures/template_bb.png[Breadboad]
 
 ==== Discussion
 
@@ -194,7 +194,7 @@ select Add Home to Favorites (<<basics_addHome_fig>>). Now, your home directory 
 
 [[basics_addHome_fig]]
 .Making your home folder appear in Cloud9
-image::images/bglb_0122.png[add home]
+image::figures/addHome.png[add home]
 
 [NOTE]
 ====
@@ -230,7 +230,7 @@ Click the +bash+ tab (it should be the leftmost tab). Here, you have a command p
 
 [[basics_cloud9Bash_fig]]
 .Cloud9 debugger
-image::images/bglb_0123.png[cloud9 bash]
+image::figures/cloud9Bash.png[cloud9 bash]
 
 ((("directories", "changing")))((("cd (change directory) command")))((("commands", "cd (change directory)")))((("chmod (change mode) command")))((("commands", "chmod (change mode)")))((("debugging", "using Cloud9")))Change to the directory that contains your file, make it executable, and then run it:
 
@@ -259,7 +259,7 @@ You need to use the +chmod +x+ command only once. Finally, +./blinkled.js+ instr
 
 [[basics_autoRun_fig]]
 .Making applications autorun at boot-up time
-image::images/bglb_0124.png[autorun]
+image::figures/autoRun.png[autorun]
 
 You can drag and drop the script into the _autorun_ folder using the Cloud9 IDE workspace view, or you can move it using the bash prompt:
 
@@ -287,7 +287,7 @@ On your host computer, open a browser and go to http://rcn-ee.net/deb/testing/. 
 
 [[basics_deb1]]
 .Latest Debian images
-image::images/bglb_0125.png[Latest Debian images]
+image::figures/deb1.png[Latest Debian images]
 
 Clicking a date will show you several variations for that particular date. <<basics_deb2>> shows the results of clicking _2014-11-11_.
 
