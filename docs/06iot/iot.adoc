@@ -1,0 +1,838 @@
+[[networking]]
+== Internet of Things
+
+=== Introduction
+
+((("networking", "Internet connections")))You can easily connect BeagleBone Black to the Internet via a wire (<<networking_wired>>), wirelessly (<<networking_wireless>>), or through the USB to a host and then to the Internet (<<networking_usb>>). Either way, it opens up a world of possibilities for the "Internet of Things" (IoT). 
+
+Now that you're online, this chapter offers various things to do with your connection.
+
+=== Accessing Your Host Computer's Files on the Bone
+
+==== Problem
+((("networking", "accessing files on host computer")))((("host computer", "accessing files from")))((("files", "accessing from host computer")))((("sshfs command")))((("commands", "sshfs")))You want to access a file on a Linux host computer that's attached to the Bone.
+
+==== Solution
+If you are running Linux on a host computer attached to BeagleBone Black, it's not hard to mount the Bone's files on the host or the host's files on the Bone by using +sshfs+. Suppose that you want to access files on the host from the Bone. First, install +sshfs+:
+
+++++
+<pre data-type="programlisting">
+bone# <strong>apt-get install sshfs</strong>
+</pre>
+++++
+
+Now, mount the files to an empty directory (substitute your username on the host computer for +username+ and the IP address of the host for +192.168.7.1+):
+
+++++
+<pre data-type="programlisting">
+bone# <strong>mkdir host</strong>
+bone# <strong>sshfs username@$192.168.7.1:. host</strong>
+bone# <strong>cd host</strong>
+bone# <strong>ls</strong>
+</pre>
+++++
+
+((("ls command")))((("commands", "ls")))((("files", "listing")))((("directories", "listing files in")))The +ls+ command will now list the files in your home directory on your host computer.  You can edit them as if they were local to the Bone.  You can access all the files by substituting +:/+ for the +:.+ following the IP address.
+
+You can go the other way, too. Suppose that you are on your Linux host computer and want to access files on your Bone. Install +sshfs+:
+
+++++
+<pre data-type="programlisting">
+host$ <strong>sudo apt-get install sshfs</strong>
+</pre>
+++++
+
+and then access:
+
+++++
+<pre data-type="programlisting">
+host$ <strong>mkdir /mnt/bone</strong>
+host$ <strong>sshfs root@$192.168.7.2:/ /mnt/bone</strong>
+host$ <strong>cd /mnt/bone</strong>
+host$ <strong>ls</strong>
+</pre>
+++++
+
+Here, we are accessing the files on the Bone as +root+. We’ve mounted the entire file system, starting with +/+, so you can access any file. Of course, with great power comes great responsibility, so be careful.
+
+==== Discussion
+The +sshfs+ command gives you easy access from one computer to another. When you are done, you can unmount the files by using the following commands:
+
+++++
+<pre data-type="programlisting">
+host$ <strong>umount /mnt/bone</strong>
+bone# <strong>umount home</strong>
+</pre>
+++++
+
+[[networking_builtin_server]]
+=== Serving Web Pages from the Bone
+
+==== Problem
+((("networking", "serving web pages")))((("web servers", "using BeagleBone as")))((("Node.js web server")))You want to use BeagleBone Black as a web server.
+
+==== Solution
+BeagleBone Black already has a couple of web servers running. This recipe shows how to use the Node.js-based server. <<networking_apache>> shows how to use _Apache_.
+
+When you point your browser to _192.168.7.2_, you are using the Node.js web server The web pages are served from _/var/lib/cloud9_. Add the HTML in <<networking_index_html>> to a file called _/var/lib/cloud9/test.html_, and then point your browser to _192.168.7.2:test.html_.  
+
+[role="pagebreak-before"]
+[[networking_index_html]]
+.A sample web page (test.html)
+====
+[source, html]
+----
+
+include::images/networking/test.html[Sample html]
+
+----
+====
+
+You will see the web page shown in <<networking_node_page>>.
+
+[[networking_node_page]]
+.test.html as served by Node.js
+image::images/bglb_0601.png[test.html served by Node.js]
+
+==== Discussion
+
+
+[[networking_nodejs]]
+=== Interacting with the Bone via a Web Browser
+
+==== Problem
+((("networking", "interaction via web browsers")))((("web servers", "creating your own")))BeagleBone Black is interacting with the physical world nicely via BoneScript, and you want to display that information on a web browser.
+
+==== Solution
+http://nodejs.org/[Node.js] is a platform built on http://code.google.com/p/v8/[Chrome's JavaScript runtime] for easily building fast, scalable network applications. <<networking_builtin_server>> shows how to use the node server that's already running. This recipe shows how easy it is to build your own server.  
+
+First, create a directory for this recipe:
+
+++++
+<pre data-type="programlisting">
+bone# <strong>mkdir serverExample</strong>
+bone# <strong>cd serverExample</strong>
+</pre>
+++++
+
+Add the code in <<networking_nodeServer_code>> to a file called _server.js_ in the _serverExample_ directory.
+
+[[networking_nodeServer_code]]
+.Javascript code for a simple Node.js-based web server (server.js)
+====
+[source, js]
+----
+
+include::images/networking/server.js[simple Node.js-based web server]
+
+----
+====
+<1> Creates the server. Whenever a browser requests a page from port +9090+, the function +servepage+ is called.
+
+<2> Instructs the server to begin listening on port +9090+.
+
+<3> When +servepage+ is called, +req+ contains the path to the page being requested. This code extracts the path to the page.
+
+<4> +readFile+ reads the entire page being requested.
+
+<5> Be sure the page is there; if not, send the famous +404+ error.
+
+<6> Write the page to the web browser.
+
+Add the HTML in <<networking_index_html>> to a file called _test.html_ in the _serverExample_ directory, and then run this:
+
+++++
+<pre data-type="programlisting">
+bone# <strong>cd serverExample</strong>
+bone# <strong>chmod +x server.js</strong>
+bone# <strong>./server.js</strong>
+Listening on 9090
+</pre>
+++++
+
+Now, navigate to _192.168.7.2:9090/test.html_ on your host computer (or the Bone) browser, and you will see something like <<networking_nodeServer>>.  
+
+[[networking_nodeServer]]
+.Test page served by our custom node-based server
+image::images/bglb_0602.png[Test page]
+
+Note that the only difference between <<networking_nodeServer>> and <<networking_node_page>> is that the first uses port +9090+.
+
+==== Discussion
+
+
+=== Displaying GPIO Status in a Web Browser
+
+==== Problem
+((("networking", "displaying GPIO pin status")))((("GPIO pins", "displaying status of")))You want a web page to display the status of a GPIO pin.
+
+==== Solution
+This solution builds on the Node.js-based web server solution in <<networking_nodejs>>.  
+
+To make this recipe, you will need:
+
+* Breadboard and jumper wires (see <<app_proto>>)
+* Pushbutton switch (see <<app_misc>>)
+
+Wire your pushbutton as shown in <<js_pushbutton_fig>>. Add the code in <<networking_gpioServer_code>> to a file called _GPIOserver.js_ in the _serverExample_ directory.
+
+[[networking_gpioServer_code]]
+.A simple Node.js-based web server to read a GPIO (GPIOserver.js)
+====
+[source, js]
+----
+
+include::images/networking/GPIOserver.js[]
+
+----
+====
+<1> This the the HTML to send to the server before the data value.
+
+<2> This is the HTML for after the data.
+
+<3> Normally, we'd send a file, but if +/gpio+ is requested, we'll build our own page and include the value of the GPIO pin.
+
+<4> Read the value of the GPIO pin.
+
+<5> Concatenate the HTML code with the data and send it to the browser.
+
+Now, run the following command:
+
+++++
+<pre data-type="programlisting">
+bone# <strong>./GPIOserver.js</strong>
+Listening on 9090
+</pre>
+++++
+
+Point your browser to _http://192.168.7.2:9090/gpio_, and the page will look like <<networking_GPIOserver_fig>>.
+
+[[networking_GPIOserver_fig]]
+.Status of a GPIO pin on a web page
+image::images/bglb_0603.png[GPIO status]
+
+Currently, the +0+ shows that the button isn't pressed. Try refreshing the page while pushing the button, and you will see +1+ displayed.
+
+==== Discussion
+It's not hard to assemble your own HTML with the GPIO data. It's an easy extension to write a program to display the status of all the GPIO pins.
+
+[[networking_jsfiddle]]
+=== Continuously Displaying the GPIO Value via jsfiddle
+
+==== Problem
+((("networking", "displaying GPIO value via jsfiddle")))((("jsfiddle")))((("GPIO pins", "displaying value via jsfiddle")))The value of your GPIO port keeps changing, and you want your web page to always show the current value.
+
+==== Solution
+We'll attack this problem in two steps. This recipe will show how to use an external website (jsfiddle [http://jsfiddle.net/]) to read a GPIO pin on the Bone (yup, an external site can read the GPIO pins on the Bone). <<networking_jQuery_local>> will show how to move the code to run locally on the Bone.
+
+To make this recipe, you will need:
+
+* Breadboard and jumper wires (see <<app_proto>>)
+* Pushbutton switch (see <<app_misc>>)
+* 10 k&#8486; trimpot (variable resistor) (see <<app_resistor>>)
+
+http://jsfiddle.net/[jsfiddle] is a website that lets you fiddle with JavaScript. It's best introduced by an example. Point your browser to http://bit.ly/19c75ql[jQuery example], and you will see the screen shown in <<networking_jQuery_jsfiddle>>.
+
+[[networking_jQuery_jsfiddle]]
+.jsfiddle example of GPIO
+image::images/bglb_0604.png[jsfiddle example of GPIO]
+
+The page has four panels. The upper-left panel shows your HTML code. The lower-left panel shows the JavaScript that animates the HTML. The upper-right panel shows the CSS code that formats your HTML (not used here), and the lower-right panel shows what your rendered page looks like.
+
+Wire your pushbutton switch to +P8_19+ (use <<js_pushbutton_fig>> as an example, but note that the pushbutton in that figure is wired to +P9_42+, instead) and the variable resistor to +P9_36+, as shown in <<sensors_analogIn_fig>>.
+
+[NOTE]
+=====
+You can use any GPIO pin and any analog-in pin; just edit the code to match your setup.
+=====
+
+Press the Run button on the jsfiddle page. The values in the lower-right panel will track your button and variable resistor in real time.
+
+==== Discussion
+
+
+==== See Also
+jsfiddle is great for experimenting with your code, but what if want everything to be served from your Bone and not use an external site? Check out <<networking_jQuery_local>>.
+
+[[networking_jQuery_local]]
+=== Continuously Displaying the GPIO Value
+
+==== Problem
+((("networking", "displaying GPIO value continuously")))((("GPIO pins", "displaying value continuously")))The value of your GPIO port keeps changing, and you want your web page to always show the current value, but you don't want to use an external site.
+
+==== Solution
+((("BoneScript", "displaying GPIO pin values via")))<<networking_jsfiddle>> shows how to use BoneScript in a browser to read GPIO pins on the Bone, but it requires the use of an external website. This recipe shows how to move from jsfiddle to the Bone, with a few simple steps.
+
+Go to a working jsfiddle page (such as the one shown in <<networking_jQuery_jsfiddle>>) and do the pass:[<span class="keep-together">following</span>]:
+
+. In the lower-left panel, select all the BoneScript code and copy it to a file. In this case, call it _jQueryDemo.js_. Save it in the _serverExample_ directory.
+. From the upper-left panel, select all the HTML code and copy it to _jQueryDemo.html_ in the _serverExample_ directory.
+. We need to add code to inform the browser where to find the external libraries we are using. Edit _jQueryDemo.html_ and _before_ your HTML, add the following lines:
+
+[source, html]
+----
+<html>
+    <head>
+        <title>BoneScript jQuery Demo</title>
+        <script src="static/jquery.js"></script>
+        <script src="static/bonescript.js"></script>
+        <script src="jQueryDemo.js"></script>
+    </head>
+<body>
+----
+
+[start=4]
+. Add the following lines _after_ your HTML:
+
+[source, html]
+----
+</body>
+</html>
+----
+
+[start=5]
+. Open _http://192.168.7.2/serverExample/jQueryDemo.html_, and you'll now see your values in your own web page.
+
+[NOTE]
+====
+There are several useful JavaScript libraries already located in _/var/lib/cloud9/static_, and this recipe makes use of a couple of them here.
+====
+
+==== Discussion
+
+
+=== Plotting Data
+
+==== Problem
+. ((("networking", "plotting live data")))((("plotting live data")))((("data", "plotting live")))((("flot plotting package")))You have live data coming into your Bone, and you want to plot it.
+
+==== Solution
+There are a number of http://bit.ly/1MrHm9L[JavaScript-based plotting packages] out there. This recipe uses http://www.flotcharts.org/[flot] because it strikes a nice balance between ease-of-use and power.
+
+To make this recipe, you will need:
+
+* Breadboard and jumper wires (see <<app_proto>>)
+* 10 k&#8486; trimpot (variable resistor) (see <<app_resistor>>)
+
+Wire your variable resistor to +P9_36+, as shown in <<sensors_analogIn_fig>>.
+Go to http://bit.ly/1E5DW85[jsfiddle Flot Demo] for a nice quick demo. You will the screen shown in <<networking_flot_demo>>. Try changing the variable resistor, and watch the plot respond in real time.
+
+[[networking_flot_demo]]
+.jsfiddle Flot Demo
+image::images/bglb_0606.png[Flot Demo]
+
+See <<networking_jsfiddle>> for a description of the jsfiddle panels. In <<networking_flot_demo>>, the lower-right panel displays a live scrolling chart of the values being read from the variable resistor.
+
+==== Discussion
+You can perform plotting externally, via the http://jsfiddle.net/[jsfiddle] site, or locally.
+
+===== Plotting with jsfiddle
+The HTML panel in <<networking_flot_demo>> simply creates an area called +myplot+ in which to draw the plot. The JavaScript code in <<networking_flot_js>> then reads the analog in and creates the plot to display.
+
+[[networking_flot_js]]
+.Code for plotting data with Flot (flotDemo.js)
+====
+[source, js]
+----
+
+include::images/networking/flotDemo.js[]
+
+----
+====
+<1> Direct the browser where to find the Bone.  After it is initialized, it calls +run+ to get things going.
+
+<2> Read in the BoneScript library.
+
+<3> Pick which analog-in to use.
+
+<4> Pick where on the web page to draw the plot.  In this case, the code defines only one place, +myplot+.
+
+<5> Decide how many points can be plotted.
+
+<6> Set various plotting options.
+
+<7> Initialize the plot.
+
+<8> Draw the graph on the web page.
+
+<9> Set the data and draw. Then read the next value and call +onAnalogRead+ when it's ready.
+
+<10> If no error, add newest value to the data array.
+
+<11> Do it all over again in 20 ms.
+
+===== Plotting locally
+You can do plotting locally by following the process in <<networking_jQuery_local>>:
+
+. Copy the JavaScript code in the lower-left panel and save it in a file called _pass:[<span class="keep-together">flotDemo.js</span>]_.
+
+. Copy the HTML in the upper-left panel and add the header material. <<networking_flotDemo>> loads the +flot+ library in addition to +jquery+ and our own code.
+
+[[networking_flotDemo]]
+.flotDemo.html (flotDemo.html)
+====
+[source, html]
+----
+
+include::images/networking/flotDemo.html[]
+
+----
+====
+
+[start=3]
+. Put both files in the _serverExample_ subdirectory under the Cloud9 IDE (_/var/lib/cloud9_).
+
+. Browse to _http://192.168.7.2/serverExample/flotDemo.html_, and you'll have a local version of your demo running.
+
+Go explore the http://www.flotcharts.org/[Flot site] and see what other plots you pass:[<span class="keep-together">can do</span>].
+
+=== Sending an Email
+
+==== Problem
+((("networking", "sending email")))((("email")))((("Gmail")))You want to send an email via Gmail from the Bone.
+
+==== Solution
+First, you need to https://mail.google.com[set up a Gmail account], if you don't already have one. Next, install +nodemailer+:
+
+++++
+<pre data-type="programlisting">
+bone# <strong>npm install -g nodemailer</strong>
+</pre>
+++++
+
+Then add the code in <<networking_nodemailer_code>> to a file named _nodemailer-test.js_ in the _serverExample_ directory. Be sure to substitute your own Gmail username and password for +user+ and +pass+.
+
+[[networking_nodemailer_code]]
+.Sending email using nodemailer (nodemailer-test.js)
+====
+[source, js]
+----
+
+include::images/networking/nodemailer-test.js[nodemailer-test.js]
+
+----
+====
+
+Then run the script to send the email:
+
+++++
+<pre data-type="programlisting">
+bone# <strong>chmod +x nodemailer-test.js</strong>
+bone# <strong>.\nodemailer-test.js</strong>
+</pre>
+++++
+
+[WARNING]
+====
+((("security issues", "email")))This solution requires your Gmail password to be in plain text in a file, which is a security problem. Make sure you know who has access to your Bone. Also, if you remove the microSD card, make sure you know who has access to it. Anyone with your microSD card can read your Gmail password.
+====
+
+==== Discussion
+((("bulk email")))Be careful about putting this into a loop.  Gmail presently limits you to http://group-mail.com/email-marketing/how-to-send-bulk-emails-using-gmail/[500 emails per day and 10 MB per message].
+
+=== Sending an SMS Message
+
+==== Problem
+((("networking", "sending SMS messages")))((("SMS messages")))((("text messages")))((("Twilio")))You want to send a text message from BeagleBone Black.
+
+==== Solution
+There are a number of SMS services out there. This recipe uses Twilio because you can use it for free, but you will need to http://bit.ly/1MrHBBF[verify the number] to which you are texting. First, go to https://www.twilio.com/[Twilio's home page] and set up an account. Note your account SID and authorization token. If you are using the free version, be sure to http://bit.ly/19c7GZ7[verify your numbers].
+
+Next, install Trilio by using the following command:
+
+++++
+<pre data-type="programlisting">
+bone# <strong>npm install -g twilio</strong>
+</pre>
+++++
+
+Finally, add the code in <<networking_twilio_code>> to a file named _twilio-test.js_ and run it. Your text will be sent.
+
+[[networking_twilio_code]]
+.Sending SMS messages using Twilio (_twilio-test.js_)
+====
+[source, js]
+----
+
+include::images/networking/twilio-test.js[nodemailer-test.js]
+
+----
+====
+
+==== Discussion
+Twilio allows a small number of free text messages, enough to test your code and to play around some.
+
+=== Displaying the Current Weather Conditions
+
+==== Problem
+((("networking", "displaying weather conditions")))((("current weather conditions")))((("weather APIs")))You want to display the current weather conditions.
+
+==== Solution
+Because your Bone is on the network, it's not hard to access the current weather conditions from a weather API. First, install a JavaScript module:
+
+++++
+<pre data-type="programlisting">
+bone# <strong>npm install -g weather-js</strong>  (Took about 4 minutes on a slow connection)
+</pre>
+++++
+
+Then add the code in <<networking_weather_code>> to a file named _weather.js_.
+
+[[networking_weather_code]]
+.Code for getting current weather conditions (_weather.js_)
+====
+[source, js]
+----
+
+include::images/networking/weather.js[]
+
+----
+====
+<1> Prints everything returned by the weather site.
+
+<2> Prints only the current weather conditions.
+
+<3> Prints the forecast for the next day.
+
+Run this by using the following commands:
+
+++++
+<pre data-type="programlisting">
+bone# <strong>chmod +x weather.js</strong>
+bone# <strong>./weather.js</strong>
+...
+{
+  "temperature": "74",
+  "skycode": "28",
+  "skytext": "Mostly Cloudy",
+  "date": "2014-07-28",
+  "observationtime": "14:53:00",
+  "observationpoint": "Terre Haute, Terre Haute International Airport - 
+      Hulman Field",
+  "feelslike": "74",
+  "humidity": "53",
+  "winddisplay": "15 mph NW",
+  "day": "Monday",
+  "shortday": "Mon",
+  "windspeed": "15",
+  "imageUrl": "http://wst.s-msn.com/i/en-us/law/28.gif"
+}
+</pre>
+++++
+
+==== Discussion
+The weather API returns lots of information. Use JavaScript to extract the information you want.
+
+=== Sending and Receiving Tweets
+
+==== Problem
+((("networking", "sending/receiving Twitter posts")))((("tweets, sending/receiving")))((("Twitter posts")))You want to send and receive tweets (Twitter posts) with your Bone.
+
+==== Solution
+First, install the Twitter node package:
+
+++++
+<pre data-type="programlisting">
+bone# <strong>npm install node-twitter</strong>
+</pre>
+++++
+Before creating a Twitter app, you need to authenticate with Twitter:  
+
+. Go to https://apps.twitter.com/[the Twitter Application Management page] and click Create New App. 
+. Fill in the requested information and click "Create your Twitter application." You can leave the Callback URL blank. 
+. Click the API Keys tab. If you plan to have the Bone send tweets, click "modify app permissions" to the right of "Access level." 
+. Select "Read and Write" and click "Update settings."  
+. Click the API Keys tab.
+. Near the bottom of the page, click "Create my access token."
+. Create a file called _twitterKeys.js_ and add the following code to it, substituting your keys for _xxx_:
+
+[source, js]
+----
+exports.API_KEY      = 'xxx';
+exports.API_SECRET   = 'xxx';
+exports.TOKEN        = 'xxx';
+exports.TOKEN_SECRET = 'xxx';
+----
+
+Add the code in <<networking_timeline_code>> to a file called _twitterTimeLine.js_ and run it to see your timeline.
+
+[[networking_timeline_code]]
+.Code to display your Twitter timeline (twitterTimeLine.js)
+====
+[source, js]
+----
+
+include::images/networking/twitterTimeLine.js[]
+
+----
+====
+
+Use the code in <<networking_send_code>> to send a tweet with a picture.
+
+[[networking_send_code]]
+.Code to send a tweet with a picture (twitterUpload.js)
+====
+[source, js]
+----
+
+include::images/networking/twitterUpload.js[]
+
+----
+====
+
+The code in <<networking_pushbutton_code>> sends a tweet whenever a button is pushed.
+
+[[networking_pushbutton_code]]
+.Tweet when a button is pushed (twitterPushbutton.js)
+====
+[source, js]
+----
+
+include::images/networking/twitterPushbutton.js[]
+
+----
+====
+
+To see many other examples, go to http://bit.ly/18AvSTW[iStrategyLabs' node-twitter GitHub page].
+
+==== Discussion
+This opens up many new possibilities. You can read a temperature sensor and tweet its value whenever it changes, or you can turn on an LED whenever a certain hashtag is used. What are you going to tweet?
+
+[[networking_node_red]]
+=== Wiring the IoT with Node-RED
+
+==== Problem
+((("networking", "graphical programing via Node-RED")))((("Node-RED")))((("Internet", "interactions via Node-RED")))You want BeagleBone to interact with the Internet, but you want to program it graphically.
+
+==== Solution
+http://nodered.org/[Node-RED] is a visual tool for wiring the IoT. It makes it easy to turn on a light when a certain hashtag is tweeted, or spin a motor if the forecast is for hot weather.
+
+===== Installing Node-RED
+To install Node-RED, run the following commands:
+
+++++
+<pre data-type="programlisting">
+bone# <strong>cd</strong>          # Change to home directory
+bone# <strong>git clone https://github.com/node-red/node-red.git</strong>
+bone# <strong>cd node-red/</strong>
+bone# <strong>npm install --production</strong>    # almost 6 minutes
+bone# <strong>cd nodes</strong>
+bone# <strong>git clone https://github.com/node-red/node-red-nodes.git</strong> # 2 seconds
+bone# <strong>cd ~/node-red</strong>
+</pre>
+++++
+
+To run Node-RED, use the following commands:
+
+++++
+<pre data-type="programlisting">
+bone# <strong>cd ~/node-red</strong>
+bone# <strong>node red.js</strong>
+Welcome to Node-RED
+===================
+
+18 Aug 16:31:43 - [red] Version: 0.8.1.git
+18 Aug 16:31:43 - [red] Loading palette nodes
+18 Aug 16:31:49 - [26-rawserial.js] Info : only really needed for 
+                  Windows boxes without serialport npm module installed.
+18 Aug 16:31:56 - ------------------------------------------
+18 Aug 16:31:56 - [red] Failed to register 44 node types
+18 Aug 16:31:56 - [red] Run with -v for details
+18 Aug 16:31:56 - ------------------------------------------
+18 Aug 16:31:56 - [red] Server now running at http://127.0.0.1:1880/
+18 Aug 16:31:56 - [red] Loading flows : flows_yoder-debian-bone.json
+</pre>
+++++
+
+The second-to-last line informs you that Node-RED is listening on part +1880+. Point your browser to http://192.168.7.2:1880, and you will see the screen shown in <<networking_node_red_fig>>.
+
+[[networking_node_red_fig]]
+.The Node-RED web page
+image::images/bglb_0607.png[node-red]
+
+===== Building a Node-RED Flow
+The example in this recipe builds a Node-RED flow that will toggle an LED whenever a certain hashtag is tweeted. But first, you need to set up the Node-RED flow with the +twitter+ node:
+
+. On the Node-RED web page, scroll down until you see the +social+ nodes on the left side of the page.
+. Drag the +twitter+ node to the canvas, as shown in <<networking_node_twitter_fig>>.
+
+[[networking_node_twitter_fig]]
+.Node-RED twitter node
+image::images/bglb_0608.png[node-red]
+
+[start=3]
+. Authorize Twitter by double-clicking the +twitter+ node. You'll see the screen shown in <<networking_node_twitter_auth_fig>>.
+
+[[networking_node_twitter_auth_fig]]
+.Node-RED Twitter authorization, step 1
+image::images/bglb_0609.png[node-red authentication]
+
+[start=4]
+. Click the pencil button to bring up the dialog box shown in <<networking_node_twitter_auth2_fig>>.
+
+[[networking_node_twitter_auth2_fig]]
+.Node-RED twitter authorization, step 2
+image::images/bglb_0610.png[node-red authentication2]
+
+[start=5]
+. Click the "here" link, as shown in <<networking_node_twitter_auth2_fig>>, and you'll be taken to Twitter to authorize Node-RED.
+
+. Log in to Twitter and click the "Authorize app" button (<<networking_node_twitter_auth3_fig>>).
+
+[[networking_node_twitter_auth3_fig]]
+.Node-RED Twitter site authorization
+image::images/bglb_0611.png[node-red authentication3]
+
+[start=7]
+. When you're back to Node-RED, click the Add button, add your Twitter credentials, enter the hashtags to respond to (<<networking_node_twitter_beagle_fig>>), and then click the Ok pass:[<span class="keep-together">button</span>].
+
+[[networking_node_twitter_beagle_fig]]
+.Node-RED adding the #BeagleBone hashtag
+image::images/bglb_0612.png[node-red beagle hash]
+
+[start=8]
+. Go back to the left panel, scroll up to the top, and then drag the +debug+ node to the canvas. (+debug+ is in the +output+ section.)((("debugging", "in node-RED")))
+. Connect the two nodes by clicking and dragging (<<networking_node_twitter_debug_fig>>).
+
+[[networking_node_twitter_debug_fig]]
+.Node-RED Twitter adding +debug+ node and connecting
+image::images/bglb_0613.png[node-red debug]
+
+[start=10]
+. In the right panel, in the upper-right corner, click the "debug" tab.
+. Finally, click the Deploy button above the "debug" tab.
+
+Your Node-RED flow is now running on the Bone. Test it by going to Twitter and tweeting something with the hashtag +#BeagleBone+. Your Bone is now responding to events happening out in the world.
+
+===== Adding an LED Toggle
+((("LEDs", "toggling with Node-RED")))Now, we're ready to add the LED toggle:
+
+. Wire up an LED as shown in <<displays_externalLED>>. Mine is wired to +P9_14+.  
+. Scroll to the bottom of the left panel and drag the +bbb-discrete-out+ node (second from the bottom of the +bbb+ nodes) to the canvas and wire it (<<networking_node_bbb_out_fig>>).
+
+[[networking_node_bbb_out_fig]]
+.Node-RED adding bbb-discrete-out node
+image::images/bglb_0614.png[node-red discrete out node]
+
+[start=3]
+. Double-click the node, select your GPIO pin and "Toggle state," and then set "Startup as" to +1+ (<<networking_node_bbb_out_setup_fig>>).
+
+[[networking_node_bbb_out_setup_fig]]
+.Node-RED adding bbb-discrete-out configuration
+image::images/bglb_0615.png[node-red discrete out setup]
+
+[start=4]
+. Click Ok and then Deploy.
+
+Test again. The LED will toggle every time the hashtag +#BeagleBone+ is tweeted. With a little more exploring, you should be able to have your Bone ringing a bell or spinning a motor in response to tweets.
+
+==== Discussion
+
+
+[[networking_apache]]
+=== Serving Web Pages from the Bone by Using Apache
+
+==== Problem
+((("networking", "serving web pages")))((("web servers", "using BeagleBone as")))((("Apache web servers")))You want to use BeagleBone Black as an Apache web server.
+
+==== Solution
+https://httpd.apache.org/[Apache] (the most popular web server on the Internet since 1996) is already running on the Bone. Point your browser to _http://192.168.7.2:8080/_, and you'll see a screen that looks like <<networking_apacheNoFiles>>.
+
+[[networking_apacheNoFiles]]
+.Apache running on the Bone with no files to view
+image::images/bglb_0616.png[Apache with no files]
+
+What you are seeing is a listing of the files in Apache's root directory (_/var/www/_).  In this case, there are no files to show. Add the HTML in <<networking_index_html>> to a file called _/var/www/test.html_ and refresh your browser. You will see the screen shown in <<networking_apacheTest_html>>.
+
+[[networking_apacheTest_html]]
+.The test.html file appears
+image::images/bglb_0617.png[Apache with test.html]
+
+Click the _test.html_ link to display the screen in <<networking_apacheIndex>>.
+
+[[networking_apacheIndex]]
+.Apache running on the Bone showing test.html
+image::images/bglb_0618.png[Apache with index.html]
+
+You can place any number of files in _/var/www/_ and access them with Apache.
+
+==== Discussion
+
+
+=== Communicating over a Serial Connection to an Arduino or LaunchPad
+
+==== Problem
+((("networking", "interaction over serial connection")))((("serial ports", "interaction via")))((("UARTs (serial ports)")))((("Arduino")))((("LaunchPad")))You would like your Bone to talk to an Arduino or LaunchPad.
+
+==== Solution
+The common serial port (also know as a UART) is the simplest way to talk between the two.  Wire it up as shown in <<networking_launchPad_fig>>.
+
+[WARNING]
+====
+BeagleBone Black runs at 3.3 V. When wiring other devices to it, ensure that they are also 3.3 V. The LaunchPad I'm using is 3.3 V, but many Arduinos are 5.0 V and thus won't work. Or worse, they might damage your Bone.
+====
+
+[[networking_launchPad_fig]]
+.Wiring a LaunchPad to a Bone via the common serial port
+image::images/bglb_0619.png[MSP430 LaunchPad]
+
+Add the code (or _sketch_, as it's called in Arduino-speak) in <<js_launchPad_code>> to a file called _launchPad.ino_ and run it on your LaunchPad.
+
+[[js_launchPad_code]]
+.LaunchPad code for communicating via the UART (launchPad.ino)
+====
+[source, c]
+----
+
+include::images/networking/launchPad/launchPad.ino[]
+
+----
+====
+<1> Set the mode for the built-in red and green LEDs.
+
+<2> Start the serial port at 9600 baud.
+
+<3> Prompt the user, which in this case is the Bone.
+
+<4> Set the LEDs to the current values of the +red+ and +green+ variables.
+
+<5> Wait for characters to arrive on the serial port.
+
+<6> After the characters are received, read it and respond to it.
+
+On the Bone, add the script in <<js_launchPadBeagle_code>> to a file called _launchPad.js_ and run it.
+
+[[js_launchPadBeagle_code]]
+.Code for communicating via the UART (launchPad.js)
+====
+[source, c]
+----
+
+include::images/networking/launchPad.js[]
+
+----
+====
+<1> Select which serial port to use. <<networking_cape-headers-serial_fig>> shows what's available. We've wired +P9_24+ and +P9_26+, so we are using serial port +/dev/ttyO1+. (Note that's the letter _O_ and not the number _zero_.)
+
+<2> Set the baudrate to 9600, which matches the setting on the LaunchPad.
+
+<3> Read one line at a time up to the newline character (+\n+).
+
+<4> Open the serial port and call +onSerial()+ whenever there is data available.
+
+<5> Determine what event has happened on the serial port and respond to it.
+
+<6> If the serial port has been ++open++ed, start calling +sendCommand()+ every 1000 ms.
+
+<7> These are the two commands to send.
+
+<8> Write the character out to the serial port and to the LaunchPad.
+
+<9> Move to the next command.
+
+[[networking_cape-headers-serial_fig]]
+.Table of UART outputs
+image::images/bglb_0217.png[UART outputs]
+
+==== Discussion
+When you run the script in <<js_launchPadBeagle_code>>, the Bone opens up the serial port and every second sends a new command, either +r+ or +g+. The LaunchPad waits for the command and, when it arrives, responds by toggling the corresponding LED.

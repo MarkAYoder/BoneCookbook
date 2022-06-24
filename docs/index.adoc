@@ -84,3 +84,20 @@ A cookbook for programming Beagles
   ** [ ]Installing Additional Node.js Packages
   ** [ ]Using Python to Interact with the Physical World
   ** [ ]Using C to Interact with the Physical World
+
+. link:056iot/tiot.html[Internet of Things]
+  ** [ ]Introduction
+  ** [ ]Accessing Your Host Computer's Files on the Bone
+  ** [ ]Serving Web Pages from the Bone
+  ** [ ]Interacting with the Bone via a Web Browser
+  ** [ ]Displaying GPIO Status in a Web Browser
+  ** [ ]Continuously Displaying the GPIO Value via jsfiddle
+  ** [ ]Continuously Displaying the GPIO Value
+  ** [ ]Plotting Data
+  ** [ ]Sending an Email
+  ** [ ]Sending an SMS Message
+  ** [ ]Displaying the Current Weather Conditions
+  ** [ ]Sending and Receiving Tweets
+  ** [ ]Wiring the IoT with Node-RED
+  ** [ ]Serving Web Pages from the Bone by Using Apache
+  ** [ ]Communicating over a Serial Connection to an Arduino or LaunchPad
