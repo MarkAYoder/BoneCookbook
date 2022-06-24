@@ -672,7 +672,7 @@ image::figures/wicdConnected.png[Connected to a network via wicd]
 [source, javascript]
 ----
 
-include::images/tips/ipMasquerade.sh[IP masquerade]
+include::code/ipMasquerade.sh[IP masquerade]
 
 ----
 ====
@@ -696,7 +696,7 @@ Now let's set up your host to instruct the Bone what to do. Add the code in <<ti
 [source, javascript]
 ----
 
-include::images/tips/setDNS.sh[Set DNS]
+include::code/setDNS.sh[Set DNS]
 
 ----
 ====
@@ -861,7 +861,7 @@ Do you want to continue [Y/n]? <strong>y</strong>
 ++++
 
 ==== Discussion
-(
+
 
 === Copying Files Between the Onboard Flash and the MicroSD Card
 
@@ -1116,7 +1116,7 @@ Cleaning up...
 [source, python]
 ----
 
-include::images/tips/blinkLED.py[]
+include::code/blinkLED.py[]
 
 ----
 ====
@@ -1163,7 +1163,7 @@ This installs the +libsoc+ library in _/usr/local/lib_. Add the code in <<misc_c
 [source, c]
 ----
 
-include::images/tips/blinkLED.c[]
+include::code/blinkLED.c[]
 
 ----
 ====
@@ -1175,7 +1175,7 @@ include::images/tips/blinkLED.c[]
 
 [[tips_cape_headers_digital]]
 .Mapping from header pin to internal GPIO number
-image::figures/bglb_0518.png[cape headers digital]
+image::figures/cape-headers-digital.png[cape headers digital]
 
 Compile and run the code:
 
