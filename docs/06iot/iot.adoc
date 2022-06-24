@@ -83,7 +83,7 @@ When you point your browser to _192.168.7.2_, you are using the Node.js web serv
 [source, html]
 ----
 
-include::images/networking/test.html[Sample html]
+include::code/test.html[Sample html]
 
 ----
 ====
@@ -92,7 +92,7 @@ You will see the web page shown in <<networking_node_page>>.
 
 [[networking_node_page]]
 .test.html as served by Node.js
-image::images/bglb_0601.png[test.html served by Node.js]
+image::figures/apacheIndex.png[test.html served by Node.js]
 
 ==== Discussion
 
@@ -123,7 +123,7 @@ Add the code in <<networking_nodeServer_code>> to a file called _server.js_ in t
 [source, js]
 ----
 
-include::images/networking/server.js[simple Node.js-based web server]
+include::code/server.js[simple Node.js-based web server]
 
 ----
 ====
@@ -154,7 +154,7 @@ Now, navigate to _192.168.7.2:9090/test.html_ on your host computer (or the Bone
 
 [[networking_nodeServer]]
 .Test page served by our custom node-based server
-image::images/bglb_0602.png[Test page]
+image::figures/nodeServer.png[Test page]
 
 Note that the only difference between <<networking_nodeServer>> and <<networking_node_page>> is that the first uses port +9090+.
 
@@ -182,7 +182,7 @@ Wire your pushbutton as shown in <<js_pushbutton_fig>>. Add the code in <<networ
 [source, js]
 ----
 
-include::images/networking/GPIOserver.js[]
+include::code/GPIOserver.js[]
 
 ----
 ====
@@ -209,7 +209,7 @@ Point your browser to _http://192.168.7.2:9090/gpio_, and the page will look lik
 
 [[networking_GPIOserver_fig]]
 .Status of a GPIO pin on a web page
-image::images/bglb_0603.png[GPIO status]
+image::figures/GPIOWebPage.png[GPIO status]
 
 Currently, the +0+ shows that the button isn't pressed. Try refreshing the page while pushing the button, and you will see +1+ displayed.
 
@@ -235,7 +235,7 @@ http://jsfiddle.net/[jsfiddle] is a website that lets you fiddle with JavaScript
 
 [[networking_jQuery_jsfiddle]]
 .jsfiddle example of GPIO
-image::images/bglb_0604.png[jsfiddle example of GPIO]
+image::figures/jQueryFiddle.png[jsfiddle example of GPIO]
 
 The page has four panels. The upper-left panel shows your HTML code. The lower-left panel shows the JavaScript that animates the HTML. The upper-right panel shows the CSS code that formats your HTML (not used here), and the lower-right panel shows what your rendered page looks like.
 
@@ -319,7 +319,7 @@ Go to http://bit.ly/1E5DW85[jsfiddle Flot Demo] for a nice quick demo. You will 
 
 [[networking_flot_demo]]
 .jsfiddle Flot Demo
-image::images/bglb_0606.png[Flot Demo]
+image::figures/flotDemo.png[Flot Demo]
 
 See <<networking_jsfiddle>> for a description of the jsfiddle panels. In <<networking_flot_demo>>, the lower-right panel displays a live scrolling chart of the values being read from the variable resistor.
 
@@ -335,7 +335,7 @@ The HTML panel in <<networking_flot_demo>> simply creates an area called +myplot
 [source, js]
 ----
 
-include::images/networking/flotDemo.js[]
+include::code/flotDemo.js[]
 
 ----
 ====
@@ -374,7 +374,7 @@ You can do plotting locally by following the process in <<networking_jQuery_loca
 [source, html]
 ----
 
-include::images/networking/flotDemo.html[]
+include::code/flotDemo.html[]
 
 ----
 ====
@@ -408,7 +408,7 @@ Then add the code in <<networking_nodemailer_code>> to a file named _nodemailer-
 [source, js]
 ----
 
-include::images/networking/nodemailer-test.js[nodemailer-test.js]
+include::code/nodemailer-test.js[nodemailer-test.js]
 
 ----
 ====
@@ -454,7 +454,7 @@ Finally, add the code in <<networking_twilio_code>> to a file named _twilio-test
 [source, js]
 ----
 
-include::images/networking/twilio-test.js[nodemailer-test.js]
+include::code/twilio-test.js[nodemailer-test.js]
 
 ----
 ====
@@ -484,7 +484,7 @@ Then add the code in <<networking_weather_code>> to a file named _weather.js_.
 [source, js]
 ----
 
-include::images/networking/weather.js[]
+include::code/weather.js[]
 
 ----
 ====
@@ -562,7 +562,7 @@ Add the code in <<networking_timeline_code>> to a file called _twitterTimeLine.j
 [source, js]
 ----
 
-include::images/networking/twitterTimeLine.js[]
+include::code/twitterTimeLine.js[]
 
 ----
 ====
@@ -575,7 +575,7 @@ Use the code in <<networking_send_code>> to send a tweet with a picture.
 [source, js]
 ----
 
-include::images/networking/twitterUpload.js[]
+include::code/twitterUpload.js[]
 
 ----
 ====
@@ -588,7 +588,7 @@ The code in <<networking_pushbutton_code>> sends a tweet whenever a button is pu
 [source, js]
 ----
 
-include::images/networking/twitterPushbutton.js[]
+include::code/twitterPushbutton.js[]
 
 ----
 ====
@@ -648,7 +648,7 @@ The second-to-last line informs you that Node-RED is listening on part +1880+. P
 
 [[networking_node_red_fig]]
 .The Node-RED web page
-image::images/bglb_0607.png[node-red]
+image::figures/node-red.png[node-red]
 
 ===== Building a Node-RED Flow
 The example in this recipe builds a Node-RED flow that will toggle an LED whenever a certain hashtag is tweeted. But first, you need to set up the Node-RED flow with the +twitter+ node:
@@ -658,21 +658,21 @@ The example in this recipe builds a Node-RED flow that will toggle an LED whenev
 
 [[networking_node_twitter_fig]]
 .Node-RED twitter node
-image::images/bglb_0608.png[node-red]
+image::figures/node-twitter.png[node-red]
 
 [start=3]
 . Authorize Twitter by double-clicking the +twitter+ node. You'll see the screen shown in <<networking_node_twitter_auth_fig>>.
 
 [[networking_node_twitter_auth_fig]]
 .Node-RED Twitter authorization, step 1
-image::images/bglb_0609.png[node-red authentication]
+image::figures/node-twitter-auth.png[node-red authentication]
 
 [start=4]
 . Click the pencil button to bring up the dialog box shown in <<networking_node_twitter_auth2_fig>>.
 
 [[networking_node_twitter_auth2_fig]]
 .Node-RED twitter authorization, step 2
-image::images/bglb_0610.png[node-red authentication2]
+image::figures/node-twitter-auth2.png[node-red authentication2]
 
 [start=5]
 . Click the "here" link, as shown in <<networking_node_twitter_auth2_fig>>, and you'll be taken to Twitter to authorize Node-RED.
@@ -681,14 +681,14 @@ image::images/bglb_0610.png[node-red authentication2]
 
 [[networking_node_twitter_auth3_fig]]
 .Node-RED Twitter site authorization
-image::images/bglb_0611.png[node-red authentication3]
+image::figures/node-twitter-auth3.png[node-red authentication3]
 
 [start=7]
 . When you're back to Node-RED, click the Add button, add your Twitter credentials, enter the hashtags to respond to (<<networking_node_twitter_beagle_fig>>), and then click the Ok pass:[<span class="keep-together">button</span>].
 
 [[networking_node_twitter_beagle_fig]]
 .Node-RED adding the #BeagleBone hashtag
-image::images/bglb_0612.png[node-red beagle hash]
+image::figures/node-twitter-beagle.png[node-red beagle hash]
 
 [start=8]
 . Go back to the left panel, scroll up to the top, and then drag the +debug+ node to the canvas. (+debug+ is in the +output+ section.)((("debugging", "in node-RED")))
@@ -696,7 +696,7 @@ image::images/bglb_0612.png[node-red beagle hash]
 
 [[networking_node_twitter_debug_fig]]
 .Node-RED Twitter adding +debug+ node and connecting
-image::images/bglb_0613.png[node-red debug]
+image::figures/node-twitter-debug.png[node-red debug]
 
 [start=10]
 . In the right panel, in the upper-right corner, click the "debug" tab.
@@ -712,14 +712,14 @@ Your Node-RED flow is now running on the Bone. Test it by going to Twitter and t
 
 [[networking_node_bbb_out_fig]]
 .Node-RED adding bbb-discrete-out node
-image::images/bglb_0614.png[node-red discrete out node]
+image::figures/node-disc-out.png[node-red discrete out node]
 
 [start=3]
 . Double-click the node, select your GPIO pin and "Toggle state," and then set "Startup as" to +1+ (<<networking_node_bbb_out_setup_fig>>).
 
 [[networking_node_bbb_out_setup_fig]]
 .Node-RED adding bbb-discrete-out configuration
-image::images/bglb_0615.png[node-red discrete out setup]
+image::figures/node-disc-out-setup.png[node-red discrete out setup]
 
 [start=4]
 . Click Ok and then Deploy.
@@ -740,19 +740,19 @@ https://httpd.apache.org/[Apache] (the most popular web server on the Internet s
 
 [[networking_apacheNoFiles]]
 .Apache running on the Bone with no files to view
-image::images/bglb_0616.png[Apache with no files]
+image::figures/apacheNoFiles.png[Apache with no files]
 
 What you are seeing is a listing of the files in Apache's root directory (_/var/www/_).  In this case, there are no files to show. Add the HTML in <<networking_index_html>> to a file called _/var/www/test.html_ and refresh your browser. You will see the screen shown in <<networking_apacheTest_html>>.
 
 [[networking_apacheTest_html]]
 .The test.html file appears
-image::images/bglb_0617.png[Apache with test.html]
+image::figures/apacheTest.png[Apache with test.html]
 
 Click the _test.html_ link to display the screen in <<networking_apacheIndex>>.
 
 [[networking_apacheIndex]]
 .Apache running on the Bone showing test.html
-image::images/bglb_0618.png[Apache with index.html]
+image::figures/apacheIndex.png[Apache with index.html]
 
 You can place any number of files in _/var/www/_ and access them with Apache.
 
@@ -774,7 +774,7 @@ BeagleBone Black runs at 3.3 V. When wiring other devices to it, ensure that the
 
 [[networking_launchPad_fig]]
 .Wiring a LaunchPad to a Bone via the common serial port
-image::images/bglb_0619.png[MSP430 LaunchPad]
+image::figures/launchPad_bb.png[MSP430 LaunchPad]
 
 Add the code (or _sketch_, as it's called in Arduino-speak) in <<js_launchPad_code>> to a file called _launchPad.ino_ and run it on your LaunchPad.
 
@@ -784,7 +784,7 @@ Add the code (or _sketch_, as it's called in Arduino-speak) in <<js_launchPad_co
 [source, c]
 ----
 
-include::images/networking/launchPad/launchPad.ino[]
+include::code/launchPad/launchPad.ino[]
 
 ----
 ====
@@ -808,7 +808,7 @@ On the Bone, add the script in <<js_launchPadBeagle_code>> to a file called _lau
 [source, c]
 ----
 
-include::images/networking/launchPad.js[]
+include::code/launchPad.js[]
 
 ----
 ====
@@ -832,7 +832,7 @@ include::images/networking/launchPad.js[]
 
 [[networking_cape-headers-serial_fig]]
 .Table of UART outputs
-image::images/bglb_0217.png[UART outputs]
+image::figures/cape-headers-serial.png[UART outputs]
 
 ==== Discussion
 When you run the script in <<js_launchPadBeagle_code>>, the Bone opens up the serial port and every second sends a new command, either +r+ or +g+. The LaunchPad waits for the command and, when it arrives, responds by toggling the corresponding LED.
