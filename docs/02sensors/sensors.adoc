@@ -13,7 +13,7 @@ image::figures/black_hardware_details.png[USB Host Port]
 
 [[sensors_P8P9_fig]]
 .The P8 and P9 cape headers
-image::images/bglb_0202.png[Cape Headers P8 and P9]
+image::figures/P8P9_bb.png[Cape Headers P8 and P9]
 
 ((("GPIO pins", "for sensor connections")))((("analog-to-digital converter (ADC) inputs")))((("input mode")))The simplest kind of sensor provides a single digital status, such as off or on, 
 and can be handled by an _input mode_ of one of the Bone's 65 general-purpose input/output (GPIO) pins. More complex sensors can be connected by using one of the Bone's seven analog-to-digital converter (ADC) inputs or several I^2^C buses. 
@@ -34,7 +34,7 @@ All these examples assume that you know how to edit a file (<<basics_cloud9>>) a
 
 [[sensors_cape_headers]]
 .Some of the many sensor connection options on the Bone
-image::images/bglb_0203.png[Sensor Connection Modes]
+image::figures/cape-headers.png[Sensor Connection Modes]
 
 Choosing the simplest solution available enables you to move on quickly to addressing other system aspects. By exploring each connection type, you can make more informed decisions as you seek to optimize and troubleshoot your design.
 
@@ -63,7 +63,7 @@ root@beaglebone:~#
 
 [[sensors_cloud9_bash]]
 .Entering commands in the Cloud9 bash tab
-image::images/bglb_0204.png[Cloud9 bash tab]
+image::figures/cloud9-bash-tab.png[Cloud9 bash tab]
 
 ((("cd (change directory) command")))((("commands", "cd (change directory)")))((("~ character")))((("directories", "changing")))Here, we issued the _change directory_ (+cd+) command without specifying a target directory. By default, it takes you to your home directory. Notice that the prompt has changed to reflect the change. The path changed from +/var/lib/cloud9+ to +&#x7E;+. The +&#x7E;+ is a shorthand for your home directory.
 
@@ -139,7 +139,7 @@ You can wire up either a pushbutton, a magnetic reed switch, or both on the Bone
 
 [[js_pushbutton_fig]]
 .Diagram for wiring a pushbutton and magnetic reed switch input
-image::images/bglb_0121.png[Bone with pushbutton]
+image::figures/pushbutton_bb.png[Bone with pushbutton]
 
 The code in <<js_pushbutton_code>> reads GPIO port +P9_42+, which is attached to the pass:[<span class="keep-together">pushbutton</span>]. 
 
@@ -149,7 +149,7 @@ The code in <<js_pushbutton_code>> reads GPIO port +P9_42+, which is attached to
 [source, javascript]
 ----
 
-include::images/sensors/pushbutton.js[]
+include::code/pushbutton.js[]
 
 ----
 ====
@@ -192,7 +192,7 @@ The Bone has seven built-in analog inputs that can easily read a resistive value
 
 [[sensors_cape_headers_analog]]
 .Seven analog inputs on the +P9+ header
-image::images/bglb_0207.png[Seven analog inputs on P9 header]
+image::figures/cape-headers-analog.png[Seven analog inputs on P9 header]
 
 To make this recipe, you will need:
 
@@ -208,7 +208,7 @@ or
 
 [[sensors_analogIn_fig]]
 .Wiring a 10k&#8486; variable resistor (trimpot) to an ADC port
-image::images/bglb_0208.png[Analog]
+image::figures/analogIn_bb.png[Analog]
 
 <<sensors_analogIn_code>> shows the BoneScript code used to read the variable resistor.  
 Add the code to a file called _analogIn.js_ and run it; then change the resistor and run it again. The voltage read will change.
@@ -219,7 +219,7 @@ Add the code to a file called _analogIn.js_ and run it; then change the resistor
 [source, js]
 ----
 
-include::images/sensors/analogIn.js[]
+include::code/analogIn.js[]
 
 ----
 ====
@@ -239,7 +239,7 @@ across the flex sensor.
 
 [[sensors_flexResistor_fig]]
 .Reading a two-terminal flex resistor
-image::images/bglb_0209.png[Flex Resistor]
+image::figures/flexResistor_bb.png[Flex Resistor]
 
 The code in <<sensors_analogIn_code>> also works for this setup.
 
@@ -268,7 +268,7 @@ Make sure not to apply more than 1.8 V to the Bone's _analog-in_ pins, or you wi
 
 [[sensors_ultrasonic_fig]]
 .Wiring the LV-MaxSonar-EZ1 Sonar Range Finder to the +P9_33+ analog-in port
-image::images/bglb_0211.png[Analog]
+image::figures/ultrasonicRange_bb.png[Analog]
 
 <<sensors_ultrasonicRange_code>> shows the code that reads the sensor at a fixed interval.
 
@@ -278,7 +278,7 @@ image::images/bglb_0211.png[Analog]
 [source, js]
 ----
 
-include::images/sensors/ultrasonicRange.js[]
+include::code/ultrasonicRange.js[]
 
 ----
 ====
@@ -297,7 +297,7 @@ include::images/sensors/ultrasonicRange.js[]
 
 [[sensors_hc_sr04_image_fig]]
 .HC-SR04 Ultrasonic range sensor
-image::images/bglb_0212.png["HC-SR04 Ultrasonic Sensor"]
+image::figures/hc-sr04.jpg["HC-SR04 Ultrasonic Sensor"]
 
 To make this recipe, you will need:
 
@@ -310,7 +310,7 @@ device, so the _banded_ wire (running from +P9_7+ on the Bone to VCC on the rang
 
 [[sensors_hc-sr04_fig]]
 .Wiring an HC-SR04 ultrasonic sensor
-image::images/bglb_0213.png["Wiring an HC-SR04 Ultrasonic Sensor"]
+image::figures/hc-sr04-ultraSonic_bb.png["Wiring an HC-SR04 Ultrasonic Sensor"]
 
 <<sensors_hc-sr04_code>> shows BoneScript code used to drive the HC-SR04.  
 
@@ -320,7 +320,7 @@ image::images/bglb_0213.png["Wiring an HC-SR04 Ultrasonic Sensor"]
 [source, js]
 ----
 
-include::images/sensors/hc-sr04-ultraSonic.js[]
+include::code/hc-sr04-ultraSonic.js[]
 
 ----
 ====
@@ -340,7 +340,7 @@ This code is more complex than others in this chapter, because we have to tell t
 
 [[digital_rotaryEncoder_fig]]
 .Wiring a rotary encoder using eQEP2
-image::images/bglb_0214.png[rotaryEncoder]
+image::figures/rotaryEncoder_bb.png[rotaryEncoder]
 
 To make this recipe, you will need:
 
@@ -360,7 +360,7 @@ Here, we'll use the _eQEP2_ encoder. To enable it, put the code from <<digital_b
 [source,c,subs="-callouts"]
 ----
 
-include::images/sensors/bone_eqep2b.dts[]
+include::code/bone_eqep2b.dts[]
 
 ----
 ====
@@ -385,7 +385,7 @@ Finally, add the code in <<digital_rotaryEncoder_js>> to a file named _rotaryEnc
 [source, js]
 ----
 
-include::images/sensors/rotaryEncoder.js[]
+include::code/rotaryEncoder.js[]
 
 ----
 ====
@@ -441,7 +441,7 @@ Wire your GPS, as shown in <<digital_GPS_fig>>.
 
 [[digital_GPS_fig]]
 .Wiring a GPS to UART 4
-image::images/bglb_0216.png[GPS]
+image::figures/GPS_bb.png[GPS]
 
 ((("National Marine Electronics Association (NMEA)")))The GPS will produce raw National Marine Electronics Association (NMEA) data that's easy for a computer to read, but not for a human. 
 There are many utilities to help convert such sensor data into a human-readable form. For this GPS, run the following command to load a NMEA parser:
@@ -460,7 +460,7 @@ Running the code in <<digital_GPS_code>> will print the current location every t
 [source, javascript]
 ----
 
-include::images/sensors/GPS.js[]
+include::code/GPS.js[]
 
 ----
 ====
@@ -482,7 +482,7 @@ add this line to the end of file _/usr/local/lib/node_modules/bonescript/serial.
 
 [[cape-headers-serial_fig]]
 .Table of UART outputs
-image::images/bglb_0217.png[UART outputs]
+image::figures/cape-headers-serial.png[UART outputs]
 
 [[sensors_i2c_temp]]
 === Measuring a Temperature
@@ -505,13 +505,13 @@ Wire the TMP102, as shown in <<sensors_i2cTemp_fig>>.
 
 [[sensors_i2cTemp_fig]]
 .Wiring an I^2^C TMP102 temperature sensor
-image::images/bglb_0218.png[I^2^C  Temp]
+image::figures/i2cTemp_bb.png[I^2^C  Temp]
 
 There are two I^2^C buses brought out to the headers. <<sensors_cape_headers_i2c>> shows that you have wired your device to I^2^C bus +2+, but watch out: the buses aren't always numbered the same. When you work with BoneScript, they are numbered +1+ and +2+, but if you work from the Linux command line, they are numbered +0+ and +1+. Confusing, huh?
 
 [[sensors_cape_headers_i2c]]
 .Table of I^2^C outputs
-image::images/bglb_0219.png[I^2^C  Temp]
+image::figures/cape-headers-i2c.png[I^2^C  Temp]
 
 
 Once the I^2^C  device is wired up, you can use a couple handy I^2^C tools to test the device. Because these are Linux command-line tools, you have to use +1+ as the bus number. +i2cdetect+, shown in <<js_i2cTools>>, shows which I^2^C  devices are on the bus. The +-r+ flag indicates which bus to use. Our TMP102 is appearing at address +0x49+. You can use the +i2cget+ command to read the value. It returns the temperature in hexidecimal and degrees C. In this example, 0x18 = 24{deg}C, which is 75.2{deg}F. (Hmmm, the office is a bit warm today.) Try warming up the TMP102 with your finger and running +i2cget+ again.
@@ -546,7 +546,7 @@ bone# <strong>i2cget -y 1 0x49</strong>
 [source, js]
 ----
 
-include::images/sensors/i2cTemp.js[]
+include::code/i2cTemp.js[]
 
 ----
 ====
@@ -603,7 +603,7 @@ Wire up as shown in <<sensors_1-wire_fig>>.
 
 [[sensors_1-wire_fig]]
 .Wiring a Dallas 1-Wire temperature sensor footnote:[This solution, written by Elias Bakken (@AgentBrum), originally appeared on http://bit.ly/1FaRbbK[Hipstercircuits].]
-image::images/bglb_0220.png[1-wire]
+image::figures/onewire_bb.png[1-wire]
 
 Add the code in <<sensors_onewire_dts_code>> to a file called _BB-W1-00A0.dts_.
 
@@ -613,7 +613,7 @@ Add the code in <<sensors_onewire_dts_code>> to a file called _BB-W1-00A0.dts_.
 [source, js]
 ----
 
-include::images/sensors/BB-W1-00A0.dts[]
+include::code/BB-W1-00A0.dts[]
 
 ----
 ====
@@ -647,7 +647,7 @@ Finally, add the code in <<sensors_onewire__code>> in to a file named _onewire.j
 [source, js]
 ----
 
-include::images/sensors/onewire.js[]
+include::code/onewire.js[]
 
 ----
 ====
@@ -667,7 +667,7 @@ TI's http://bit.ly/1C58WIN[SensorTag] (shown in <<sensors_sensortag_fig>>) combi
 
 [[sensors_sensortag_fig]]
 .SensorTag
-image::images/bglb_0221.png[SensorTag]
+image::figures/sensorTag.jpg[SensorTag]
 
 To make this recipe, you will need:
 
@@ -694,7 +694,7 @@ Add the code in <<sensors_sensorTag_code>> to a file called _sensorTag.js_ and r
 [source, js]
 ----
 
-include::images/sensors/sensorTag.js[sensorTag.js]
+include::code/sensorTag.js[sensorTag.js]
 
 ----
 ====
@@ -781,7 +781,7 @@ such as the one shown in <<usb_audio_dongle>>. Some adapters that I've tested ar
 
 [[usb_audio_dongle]]
 .A USB audio dongle
-image::images/bglb_0222.png[Audio Dongle]
+image::figures/audioDongle.jpg[Audio Dongle]
 
 ((("Advanced Linus Sound Architecture (ALSA)")))Drivers for the http://bit.ly/1MrAJUR[Advanced Linux Sound Architecture] (ALSA) are already installed on the Bone. You can list the recording and playing devices on your Bone by using +aplay+ and +arecord+, as shown in <<sensors_alsa>>. BeagleBone Black has audio-out on the HDMI interface. It's listed as +card 0+ in <<sensors_alsa>>. +card 1+ is my USB audio adapter's audio out.
 
@@ -816,7 +816,7 @@ In the +aplay+ output shown in <<sensors_alsa>>, you can see the USB adapter's a
 [source, js]
 ----
 
-include::images/sensors/audio.asoundrc[]
+include::code/audio.asoundrc[]
 
 ----
 ====

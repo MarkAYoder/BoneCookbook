@@ -10,32 +10,45 @@ A cookbook for programming Beagles
 
 // * link:notes.html[Notes]
 
-. link:01case/case.html[Case Studies]
-  ** [x] Robotics Control Library
-  ** [x] BeagleLogic
-  ** [x] LEDscape
-  ** [x] Falcon Player
-//  ** [ ] MachineKit
-//  ** [ ] ArduPilot
-//  ** [ ] BeagleScope
+. link:01basics/basics.html[Basics]
+  ** [ ]Introduction
+  ** [ ]Picking Your Beagle
+  ** [ ]Getting Started, Out of the Box
+  ** [ ]Verifying You Have the Latest Version of the OS on Your Bone
+  ** [ ]Running the BoneScript API Tutorials
+  ** [ ]Wiring a Breadboard
+  ** [ ]Editing Code Using the Cloud9 IDE
+  ** [ ]Running JavaScript Applications from the Cloud9 IDE
+  ** [ ]Running Applications Automatically
+  ** [ ]Finding the Latest Version of the OS for Your Bone
+  ** [ ]Running the Latest Version of the OS on Your Bone
+  ** [ ]Updating the OS on Your Bone
+  ** [ ]Backing Up the Onboard Flash
+  ** [ ]Updating the Onboard Flash
   
-. link:02start/start.html[Getting started]
-  ** [x] Selecting a Beagle
-  ** [x] Installing the Latest OS on Your Bone
-  ** [x] Flashing a Micro SD Card
-  ** [x] Cloud9 IDE
-  ** [x] Getting Example Code
-  ** [x] Blinking an LED
+. link:02sensors/sensors.html[Sensors]
+  ** [ ]Introduction
+  ** [ ]Choosing a Method to Connect Your Sensor
+  ** [ ]Input and Run a JavaScript Application for Talking to Sensors
+  ** [ ]Reading the Status of a Pushbutton or Magnetic Switch (Passive On/Off Sensor)
+  ** [ ]Reading a Position, Light, or Force Sensor (Variable Resistance Sensor)
+  ** [ ]Reading a Distance Sensor (Analog or Variable Voltage Sensor)
+  ** [ ]Reading a Distance Sensor (Variable Pulse Width Sensor)
+  ** [ ]Accurately Reading the Position of a Motor or Dial
+  ** [ ]Acquiring Data by Using a Smart Sensor over a Serial Connection
+  ** [ ]Measuring a Temperature
+  ** [ ]Reading Temperature via a Dallas 1-Wire Device
+  ** [ ]Sensing All Sorts of Things with SensorTag via Bluetooth v4.0
+  ** [ ]Playing and Recording Audio
   
-. link:03displays/displays.html[Interfacing with displays]
-  ** [x] Getting Code Example Files
-  ** [x] Compiling with clpru and lnkpru
-  ** [x] Making sure the PRUs are configured
-  ** [x] Compiling and Running
-  ** [x] Stopping and Starting the PRU
-  ** [x] The Standard Makefile
-  ** [x] The Linker Command File - AM335x_PRU.cmd
-  ** [x] Loading Firmware
-  ** [x] Configuring Pins for Controlling Servos
-  ** [x] Configuring Pins for Controlling Encoders
-  
+. link:03displays/displays.html[Displays]
+  ** [ ] Introduction
+  ** [ ] Toggling an Onboard LED
+  ** [ ] Toggling an External LED
+  ** [ ] Toggling a High-Voltage External Device
+  ** [ ] Fading an External LED
+  ** [ ] Writing to an LED Matrix
+  ** [ ] Driving a 5 V Device
+  ** [ ] Writing to a NeoPixel LED String
+  ** [ ] Using a Nokia 5510 LCD Display
+  ** [ ] Making Your Bone Speak
