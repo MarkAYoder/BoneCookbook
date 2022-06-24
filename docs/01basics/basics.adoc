@@ -1,0 +1,573 @@
+[[basics]]
+[role="pagenumrestart"]
+== Basics
+
+=== Introduction
+
+When you buy BeagleBone Black, pretty much everything you need to get going comes with it. You can just plug it into the USB of a host computer, and it works. The goal of this chapter is to show what you can do with your Bone, right out of the box. It has enough information to carry through the next three chapters on sensors (<<sensors>>), displays (<<displays>>), and motors (<<motors>>).
+
+=== Picking Your Beagle
+
+==== Problem
+((("BeagleBoards", "selecting")))((("BeagleBones", "selecting")))((("basic operations", "BeagleBone/BeagleBoard selection")))There are five different BeagleBoards. How do you pick which one to use?
+
+==== Solution
+For someone new to the BeagleBoard.org boards, the BeagleBone Black is the obvious choice.  It’s the newest and cheapest (~$55 USD) of the inexpensive Bones, and there are nearly a quarter-million units out there. Many of the recipes in this book will work on the other Beagles, too, but the Black is where to begin. If you already have BeagleBone Black, you can move on to the next recipe. If you have another Beagle, your mileage may vary.
+
+==== Discussion
+
+
+[[basics_out_of_the_box]]
+=== Getting Started, Out of the Box
+
+==== Problem
+((("basic operations", "getting started")))You just got your Bone, and you want to know what to do with it.
+
+==== Solution
+Fortunately, you have all you need to get running: your Bone and a USB cable. 
+Plug the USB cable into your host computer (Mac, Windows, or Linux) and plug the mini-USB connector side into the USB connector near the Ethernet connector on the Bone, as shown in <<basics_pluggingIn_fig>>.
+
+[[basics_pluggingIn_fig]]
+.Plugging BeagleBone Black into a USB port
+image::images/bglb_0110.png[Plugging In]
+
+((("USER LEDs")))((("LEDs", "USER LEDs", seealso="input/output (I/O)")))The four blue +USER+ LEDs will begin to blink, and in 10 or 15 seconds, you'll see a new USB drive appear on your host computer. <<basics_01gettingStarted_fig>> shows how it will appear on a Windows host, and Linux and Mac hosts will look similar. The Bone acting like a USB drive and the files you see are located on the Bone.
+
+[[basics_01gettingStarted_fig]]
+.The Bone appears as a USB drive
+image::images/bglb_0111.png[A new USB drive]
+
+((("START.htm")))Open the drive and open _START.htm_ using http://www.google.com/chrome/[Google Chrome] or https://www.mozilla.org/en-US/firefox/new/[Firefox] (<<basics_02gettingStarted_fig>>).
+
+[TIP]
+====
+((("web browsers", "selecting")))((("Internet Explorer")))((("Chrome")))((("Firefox")))Some users have reported problems when using Internet Explorer with the web pages served up by the Bone, so make sure to use Chrome or Firefox.
+====
+
+[[basics_02gettingStarted_fig]]
+.Open START.htm
+image::images/bglb_0112.png[Open START.htm]
+
+((("START.htm")))((("host computer", "installing USB drivers for")))((("USB drivers, installing")))((("drivers", "installing USB")))Follow the instructions (<<basics_03gettingStarted_fig>>) for installing the USB drivers for your host computer's operating system (OS).  
+
+[[basics_03gettingStarted_fig]]
+.Install the USB drivers
+image::images/bglb_0113.png[Install USB drivers]
+
+On your host, browse to http://192.168.7.2 (<<basics_04gettingStarted_fig>>).  
+
+[[basics_04gettingStarted_fig]]
+.Open http://192.168.7.2 on your host computer
+image::images/bglb_0114.png[Open START.htm]
+
+((("beagleboard.org web page")))You are now ready to explore your Bone. Look around. There's lots of information on the page. 
+
+[TIP]
+====
+((("BoneScript", "interactive guide")))The green banner at the top of the page means the browser is talking to the Bone, and code on the page can be edited and run on the Bone. Try scrolling down to the code in "BoneScript interactive guide" and running it. Then try editing the code and running it again. Take five minutes and try it! Watch out, though, because you can't save your edits. You need Cloud9 for that, as discussed next.
+====
+
+[[basics_openCloud9]]
+((("Cloud9", "web page for")))((("integrated development environment (IDE)", seealso="Cloud9")))Also be sure to browse to http://192.168.7.2:3000 from your host computer (<<basics_05gettingStarted_fig>>).
+
+[[basics_05gettingStarted_fig]]
+.Cloud9
+image::images/bglb_0115.png[Cloud9]
+
+Here, you'll find _Cloud9_, a web-based integrated development environment (IDE) that lets you edit and run code on your Bone!  See <<basics_cloud9>> for more details.
+
+[NOTE]
+====
+((("Cloud9", "themes")))Cloud9 can have different themes.  If you see a white background, you can match the cookbook’s figures by clicking on the _Main Theme_ drop-down menu and selecting _Cloud9 Classic Dark Theme_.
+====
+
+[WARNING]
+====
+((("basic operations", "shut-down")))((("halt command")))((("shut down")))Make sure you turn off your Bone properly. It's best to run the +halt+ command:
+
+++++
+<pre data-type="programlisting">
+bone# <strong>halt</strong>
+The system is going down for system halt NOW! (pts/0)
+</pre>
+++++
+
+This will ensure that the Bone shuts down correctly. If you just pull the power, it's possible that open files won't close properly and might become corrupt.
+
+====
+
+==== Discussion
+The rest of this book goes into the details behind this quick out-of-the-box demo.  Explore your Bone and then start exploring the book.
+
+[[basics_latest_os]]
+=== Verifying You Have the Latest Version of the OS on Your Bone
+
+==== Problem
+
+((("operating system (OS)", "updating")))((("Debian", "determining version")))((("Linux", "Debian")))((("ID.txt")))((("software", "OS updates")))((("basic operations", "OS updates")))You just got BeagleBone Black, and you want to know which version of the operating system it's running.
+
+==== Solution
+
+This book uses https://www.debian.org[Debian], the Linux distribution that currently ships on the Bone. However this book is based on a newer version (2014-11-11 image) than what is shipping at the time of this writing. You can see which version your Bone is running by following the instructions in <<basics_out_of_the_box>> to open the USB drive that comes from the Bone, as shown in <<basics_02gettingStarted_fig>>. But instead of opening _START.html_, open _ID.txt_ (shown with the dashed arrow in <<basics_02gettingStarted_fig>>). You'll see something like <<basics_ID>>, in which +2014-11-11+ is the date of the image.
+
+////
+Note to update image reference in previous paragraph when new version ships.
+////
+
+[[basics_ID]]
+.Contents of ID.txt
+image::images/bglb_0116.png[Contents of ID.txt]
+
+==== Discussion
+
+
+=== Running the BoneScript API Tutorials
+
+==== Problem
+
+((("basic operations", "BoneScript API tutorials")))((("BoneScript", "tutorials for")))((("JavaScript", "tutorials for")))You'd like to learn JavaScript and the BoneScript API to perform physical computing tasks without first learning Linux.
+
+==== Solution
+
+Plug your board into the USB of your host computer and browse to http://192.168.7.2/Support/bone101/ using Google Chrome or Firefox (as shown in <<basics_out_of_the_box>>). In the left column, click the BoneScript title, which will take you to http://192.168.7.2/Support/BoneScript/ (<<basics_bonescript>>).
+
+[[basics_bonescript]]
+.The BoneScript API examples page
+image::images/bglb_0117.png[The BoneScript examples page]
+
+[TIP]
+====
+((("BoneScript", "API examples page")))Explore the various demonstrations of the BoneScript API. The http://192.168.7.2/Support/BoneScript[BoneScript examples page] lists several places to learn more about JavaScript and BoneScript (<<basics_bonescript>>).
+====
+
+If the banner is green, the examples are live. Clicking the "run" button will make them run on your Bone. 
+
+[TIP]
+====
+Here's yet another place to explore. In the left column of <<basics_bonescript>>, click the function names. Take five minutes and see what you can find. 
+====
+
+[WARNING]
+====
+You can edit the JavaScript on the BoneScript API examples page, but you can't save it for later. If you want to edit and save it for later, fire up Cloud9 (<<basics_cloud9>>) and look in the _examples_ folder.
+====
+
+==== Discussion
+
+
+[[basics_wire_breadboard]]
+=== Wiring a Breadboard
+
+==== Problem
+
+((("basic operations", "wiring a breadboard")))((("breadboards", "wiring")))You would like to use a breadboard to wire things to the Bone.
+
+==== Solution
+
+Many of the projects in this book involve interfacing things to the Bone. Some plug in directly, like the USB port.  Others need to be wired. If it's simple, you might be able to plug the wires directly into the +P8+ or +P9+ headers. Nevertheless, many require a breadboard for the fastest and simplest wiring. 
+
+To make this recipe, you will need:
+
+* Breadboard and jumper wires (see <<app_proto>>)
+
+<<basics_breadboard_template>> shows a breadboard wired to the Bone. All the diagrams in this book assume that the ground pin (+P9_1+ on the Bone) is wired to the negative rail and 3.3 V (+P9_3+) is wired to the positive rail.
+
+[[basics_breadboard_template]]
+.Breadboard wired to BeagleBone Black
+image::images/bglb_0001.png[Breadboad]
+
+==== Discussion
+
+
+[[basics_cloud9]]
+=== Editing Code Using the Cloud9 IDE
+
+==== Problem
+((("Cloud9", "editing code using")))((("code", "editing with Cloud9")))((("host computer", "editing code using Cloud9")))((("blinked.js")))((("Workspace file tree")))((("basic operations", "editing code with Cloud9")))((("debugging", "using Cloud9")))((("editors", "web-based")))You want to edit and debug files on the Bone.
+
+==== Solution
+Plug your Bone into a host computer via the USB cable. Open a browser (either Google Chrome or FireFox will work) on your host computer (as shown in <<basics_out_of_the_box>>). After the Bone has booted up, browse to http://192.168.7.2:3000 on your host. You will see something like <<basics_05gettingStarted_fig>>.
+
+Click the _examples_ folder on the left and then double-click _blinkled.js_.
+You can now edit the file. If you would like to edit files in your home directory, on the left of the Cloud9 screen, go to the Preferences wheel in the Workspace browser and 
+select Add Home to Favorites (<<basics_addHome_fig>>). Now, your home directory will show up in the Workspace file tree.
+
+[[basics_addHome_fig]]
+.Making your home folder appear in Cloud9
+image::images/bglb_0122.png[add home]
+
+[NOTE]
+====
+If you edit line 13 of the _blinkled.js_ file (+setInterval(toggle, 1000);+), changing +1000+ to +500+, you must save the file before running it for the change to take effect. The blue LED next to the Ethernet port on your Bone will flash roughly twice as fast.
+====
+
+<<basics_addHome_fig>> shows _/root_ has been added under _FAVORITES_. 
+
+[NOTE]
+====
+The _cloud9_ folder that appears under _FILE SYSTEM_ is located in _/var/lib/cloud9_ on your Bone.
+====
+
+==== Discussion
+
+
+[[basics_cloud9_IDE]]
+=== Running JavaScript Applications from the Cloud9 IDE
+
+==== Problem
+((("basic operations", "running JavaScript applications from Cloud9")))((("Cloud9", "running JavaScript applications from")))((("JavaScript", "running applications from Cloud9")))((("applications", "running from Cloud9")))You have a file edited in Cloud9, and you want to run it.
+
+==== Solution
+((("bash command window")))Cloud9 has a +bash+ command window built in at the bottom of the window. You can run your code from this window. To do so, add +#!/usr/bin/env node+ at the top of the file that you want to run and save.
+
+[TIP]
+====
+((("Python")))If you are running Python, replace the word +node+ in the line with +python+.
+====
+
+At the bottom of the Cloud9 window are a series of tabs (<<basics_cloud9Bash_fig>>). 
+Click the +bash+ tab (it should be the leftmost tab). Here, you have a command prompt. In my case, it's +root@yoder-debian-bone:/var/lib/cloud9#+. Yours will be slighly different, but it should end with a +#+.
+
+[[basics_cloud9Bash_fig]]
+.Cloud9 debugger
+image::images/bglb_0123.png[cloud9 bash]
+
+((("directories", "changing")))((("cd (change directory) command")))((("commands", "cd (change directory)")))((("chmod (change mode) command")))((("commands", "chmod (change mode)")))((("debugging", "using Cloud9")))Change to the directory that contains your file, make it executable, and then run it:
+
+++++
+<pre data-type="programlisting">
+root@bone:/var/lib/cloud9# <strong>cd examples</strong>
+root@bone:/var/lib/cloud9/examples# <strong>chmod +x blinkled.js</strong>
+root@bone:/var/lib/cloud9/examples# <strong>./blinkled.js</strong>
+</pre>
+++++
+
+The +cd+ is the change directory command. After you +cd+, you are in a new directory, and the prompt reflects that change. The +chmod+ command changes the mode of the file. The ++x+ indicates that you want to add execute permission. 
+You need to use the +chmod +x+ command only once. Finally, +./blinkled.js+ instructs the JavaScript to run. You will need to press ^C (Ctrl-C) to stop your program.
+
+==== Discussion
+
+
+[[basics_autorun]]
+=== Running Applications Automatically
+
+==== Problem
+((("basic operations", "running applications automatically")))((("applications", "running automatically")))((("BoneScript", "running applications automatically")))((("Cloud9", "running BoneScript applications from")))You have a BoneScript application that you would like to run every time the Bone starts.
+
+==== Solution
+((("autorun folder")))This is an easy one.  In Cloud9, notice the folder called _autorun_ (<<basics_autoRun_fig>>). Place any BoneScript files you want to run at boot time in this folder. The script will begin execution immediately and will stop execution when you remove the file from this folder.
+
+[[basics_autoRun_fig]]
+.Making applications autorun at boot-up time
+image::images/bglb_0124.png[autorun]
+
+You can drag and drop the script into the _autorun_ folder using the Cloud9 IDE workspace view, or you can move it using the bash prompt:
+
+++++
+<pre data-type="programlisting">
+bone# <strong>mv myApp.js autorun</strong>
+</pre>
+++++
+
+==== Discussion
+
+=== Finding the Latest Version of the OS for Your Bone
+
+==== Problem
+((("Debian", "finding latest version of")))((("Linux", "Debian")))((("basic operations", "OS updates")))((("operating system (OS)", "updating")))((("software", "OS updates")))You want to find out the latest version of Debian that is available for your Bone.
+
+==== Solution
+
+[NOTE]
+====
+At the time they were written, these instructions were up-to-date.  Go to http://beagleboard.org/latest-images for the latest instructions.
+====
+
+On your host computer, open a browser and go to http://rcn-ee.net/deb/testing/.  This shows you a list of dates of the most recent Debian images (<<basics_deb1>>).
+
+[[basics_deb1]]
+.Latest Debian images
+image::images/bglb_0125.png[Latest Debian images]
+
+Clicking a date will show you several variations for that particular date. <<basics_deb2>> shows the results of clicking _2014-11-11_.
+
+[[basics_deb2]]
+.Latest Debian images for a given date
+image::images/bglb_0126.png[Latest Debian images for given date]
+
+Clicking _lxde-4gb/_ shows a list of 4 GB images (<<basics_deb3>>). 
+
+[[basics_deb3]]
+.Latest 4 GB Debian images for a given date
+image::images/bglb_0127.png[Latest 4 GB Debian images for given date]
+
+These are the images you want to use if you are flashing a Rev C BeagleBone Black onboard flash, or flashing a 4 GB or bigger miscroSD card. The image beginning with _bone-debian-7.7-lxde_ is used for programming the microSD card. The one beginning with _BBB-eMMC-flasher-deb_ is for programming the onboard flash memory.
+
+[NOTE]
+====
+((("onboard flash", "programming")))The onboard flash is often called the _eMMC_ memory. We just call it _onboard flash_, but you'll often see _eMMC_ appearing in filenames of images used to update the onboard flash.((("eMMC memory", see="onboard flash")))
+====
+
+==== Discussion
+
+
+[[basics_install_os]]
+=== Running the Latest Version of the OS on Your Bone
+
+==== Problem
+
+((("operating system (OS)", "running the latest")))((("basic operations", "running latest OS version")))You want to run the latest version of the operating system on your Bone without changing the onboard flash.
+
+==== Solution
+((("microSD card", "booting from")))((("SD cards", "booting from")))This solution is to flash an external microSD card and run the Bone from it. If you boot the Bone with a microSD card inserted with a valid boot image, it will boot from the microSD card. If you boot without the microSD card installed, it will boot from the onboard flash.  
+
+[TIP]
+====
+If you want to reflash the onboard flash memory, see <<basics_onboard_flash>>.
+====
+
+[NOTE]
+====
+I instruct my students to use the microSD for booting. I suggest they keep an extra microSD flashed with the current OS. If they mess up the one on the Bone, it takes only a moment to swap in the extra microSD, boot up, and continue running. If they are running off the onboard flash, it will take much longer to reflash and boot from it.
+====
+
+===== Windows
+((("host computer", "Windows OS")))((("operating system (OS)", "Windows ")))If you are using a host computer running Windows, go to http://rcn-ee.net/deb/testing/2014-11-11/lxde-4gb/, and download _bone-debian-7.7-lxde-4gb-armhf-2014-11-11-4gb.img.xz_. It's more than 500 MB, so be sure to have a fast Internet connection. Then go to http://beagleboard.org/getting-started#update and 
+follow the instructions there to install the image you downloaded.
+
+===== Linux
+((("operating system (OS)", "Linux")))((("Linux", "running latest version of")))((("host computer", "Linux OS")))If you are running a Linux host, plug a 4 GB byte or bigger microSD card into a reader on your host and run +Disks+.
+
+Select the microSD Drive and unmount (<<basics_disks_fig>>) any partitions that have mounted. Note the path to the device (shown with an arrow in <<basics_disks_fig>>) at the top of the Disks window. In my case, it's _/dev/sdb_.  We'll use this path in a moment.
+
+[[basics_disks_fig]]
+.Unmounting the microSD card via the Disks application
+image::images/bglb_0128.png[Disks]
+
+Run the following command to download the 2014-11-11 image (be sure that you have a fast Internet connection; it's more than 500 MB in size):
+
+++++
+<pre data-type="programlisting">
+host$ <strong>wget http://rcn-ee.net/deb/testing/2014-11-11/lxde-4gb/\
+bone-debian-7.7-lxde-4gb-armhf-2014-11-11-4gb.img.xz</strong>
+</pre>
+++++
+
+This will copy the disk image to the current directory the command was run from to your host computer. This will take a couple minutes on a fast connection.
+
+The downloaded file is compressed. Uncompress it by using the following command:
+
+++++
+<pre data-type="programlisting">
+host$ <strong>unxz bone-debian-7.7-lxde-4gb-armhf-2014-11-11-4gb.img.xz</strong>
+</pre>
+++++
+
+After a minute or so, the compressed _.imgxz_ file will be replaced by the uncompressed _.img_ file. Then write it to the microSD card by using the following command, substituting your device path noted earlier (+/dev/sdb+, in my case) for the device path given in the +dd+ command:
+
+++++
+<pre data-type="programlisting">
+host$ <strong>sudo dd if=bone-debian-7.7-lxde-4gb-armhf-2014-11-11-4gb.img \
+            of=/dev/sdb bs=8M</strong>
+</pre>
+++++
+
+((("dd command")))((("commands", "dd")))The +dd+ command takes 5 to 10 minutes.
+
+[WARNING]
+====
+This operation will wipe out everything on the microSD card. It might be worth plugging in your card, noting the path,  removing the card, noting it has disappeared, and then plugging it in again and checking the path. You can really mess up your host if you have selected the wrong disk and used the wrong path. Be careful.
+====
+
+[NOTE]
+====
+((("SD cards", "formatting")))((("bootable partitions")))((("partitions")))When formatting SD cards, you often need to be sure to have a _bootable partition_. Because you are completly rewriting the card, it doesn't matter how the card is configured before writing. The +dd+ command writes everything the way it needs to be.
+====
+
+When you have your microSD card flashed, put it in the Bone and power it up. The USB drive and other devices should appear as before. Open Cloud9 (<<basics_cloud9>>) and, in the +bash+ tab, enter:
+
+++++
+<pre data-type="programlisting">
+root@beaglebone:/var/lib/cloud9# <strong>df -h</strong>
+Filesystem      Size  Used Avail Use% Mounted on
+rootfs          3.2G  2.0G  1.0G  29% /
+udev             10M     0   10M   0% /dev
+tmpfs           100M  676K   99M   1% /run
+/dev/mmcblk0p2  7.2G  2.0G  5.0G  29% /
+tmpfs           249M     0  249M   0% /dev/shm
+tmpfs           249M     0  249M   0% /sys/fs/cgroup
+tmpfs           5.0M     0  5.0M   0% /run/lock
+tmpfs           100M     0  100M   0% /run/user
+/dev/mmcblk0p1   96M   62M   35M  65% /media/BEAGLEBONE
+/dev/mmcblk1p2  1.8G  290M  1.4G  18% /media/rootfs
+/dev/mmcblk1p1   16M  520K   16M   4% /media/BEAGLEBONE_
+</pre>
+++++
+
+((("disk space, determining")))This prints out how much of the disk is free.  The first line is the one we're interested in. If the +Size+ is much smaller than the size of your microSD card, you'll need to resize your partition.  Just enter the following:
+
+++++
+<pre data-type="programlisting">
+root@beaglebone:/var/lib/cloud9# <strong>cd /opt/scripts/tools/</strong>
+root@beaglebone:/opt/scripts/tools# <strong>./grow_partition.sh</strong>
+root@beaglebone:/opt/scripts/tools# <strong>reboot</strong>
+root@beaglebone:/var/lib/cloud9# <strong>df -h</strong>
+Filesystem      Size  Used Avail Use% Mounted on
+rootfs          7.2G  2.0G  5.0G  29% /
+udev             10M     0   10M   0% /dev
+tmpfs           100M  676K   99M   1% /run
+/dev/mmcblk0p2  7.2G  2.0G  5.0G  29% /
+tmpfs           249M     0  249M   0% /dev/shm
+tmpfs           249M     0  249M   0% /sys/fs/cgroup
+tmpfs           5.0M     0  5.0M   0% /run/lock
+tmpfs           100M     0  100M   0% /run/user
+/dev/mmcblk0p1   96M   62M   35M  65% /media/BEAGLEBONE
+/dev/mmcblk1p2  1.8G  290M  1.4G  18% /media/rootfs
+/dev/mmcblk1p1   16M  520K   16M   4% /media/BEAGLEBONE_</pre>
+++++
+
+This clever script will figure out how big the partition can be and grow it to that size. A reboot is necessary. 
+
+Here, I started by putting a 4 GB image on an 8 GB microSD card. Initially, only pass:[<span class="keep-together">3.2 GB</span>] were usable. After growing the partition, most of the card (7.2 GB) is available.
+
+===== Mac
+((("host computer", "Mac OS")))((("operating system (OS)", "Mac")))If you are running from a Mac host, the steps are fairly similar to running on a Linux host, except that you won't be able to view the Linux partition on the created microSD card.
+
+Begin by plugging a 4 GB or bigger microSD card into a reader on your host and then run Disk Utility. Select the disk and click Info. In <<basics_diskutility_fig>>, you can see the Disk Identifier is +disk1s1+.
+
+[[basics_diskutility_fig]]
+.Examining the microSD card via the Disk Utility application
+image::images/bglb_0129.png[Disk Utility]
+
+The important part of the Disk Identifier is the number immediately following +disk+ (a +1+ in <<basics_diskutility_fig>>). We'll use this identifier to overwrite the microSD contents. 
+
+From your Mac's Terminal, run the following command to download the _2014-11-11_ image (again, be sure that you have a fast Internet connection, because it's more than 500 MB):
+
+++++
+<pre data-type="programlisting">
+mac$ <strong>curl -O http://rcn-ee.net/deb/testing/2014-11-11/lxde-4gb/\
+bone-debian-7.7-lxde-4gb-armhf-2014-11-11-4gb.img.xz</strong>
+</pre>
+++++
+
+((("xz utility")))((("Tukaani Project")))You'll need to have the +xz+ utility installed (download from The Tukaani Project [http://tukaani.org/xz/]). Uncompress the image by using the following command (this will take a minute or so):
+
+++++
+<pre data-type="programlisting">
+mac$ <strong>unxz bone-debian-7.7-lxde-4gb-armhf-2014-11-11-4gb.img.xz</strong>
+</pre>
+++++
+
+Then write it to the microSD card, substituting your device path noted earlier (+/dev/rdisk1+, in my case) for the device path given in the +dd+ command:
+
+++++
+<pre data-type="programlisting">
+mac$ <strong>sudo dd if=bone-debian-7.7-lxde-4gb-armhf-2014-11-11-4gb.img of=/dev/rdisk1</strong>
+</pre>
+++++
+
+You'll need to type in your password. The +dd+ command takes 5 to 10 minutes.
+
+[WARNING]
+====
+This operation will wipe out everything on the microSD card. It might be worth plugging in your card, noting the path,  removing the card, noting it has disappeared, and then plugging it in again and checking the path. You can really mess up your host if you have selected the wrong disk and used the wrong path. Be careful.
+====
+
+[NOTE]
+====
+Note that I used +rdisk1+ rather than +disk1+. According to http://bit.ly/1BqOxwW[the eLinux wiki], doing so will speed up writing quite a bit.
+====
+
+==== Discussion
+
+=== Updating the OS on Your Bone
+
+==== Problem
+((("operating system (OS)", "updating")))((("software", "OS updates")))You've installed the latest version of Debian on your Bone (<<basics_install_os>>), and you want to be sure it's up-to-date.
+
+==== Solution
+Ensure that your Bone is on the network and then run the following command on the Bone:
+
+++++
+<pre data-type="programlisting">
+bone# <strong>apt-get update</strong>
+bone# <strong>apt-get upgrade</strong>
+</pre>
+++++
+
+If there are any new updates, they will be installed.
+
+[NOTE]
+====
+If you get the error +The following signatures were invalid: KEYEXPIRED 1418840246+, see http://bit.ly/1EXocb6[eLinux support page] for advice on how to fix it.
+====
+
+==== Discussion
+After you have a current image running on the Bone, it's not at all difficult to keep it upgraded.
+
+=== Backing Up the Onboard Flash
+
+==== Problem
+
+((("onboard flash", "backing up")))((("backups, onboard flash")))((("basic operations", "backups")))((("onboard flash", "extracting")))You've modified the state of your Bone in a way that you'd like to preserve or share.
+
+==== Solution
+
+The http://elinux.org/[eLinux] page on http://bit.ly/1C57I0a[BeagleBone Black Extracting eMMC contents] provides some simple steps for copying the contents of the onboard flash to a file on a microSD card:
+
+. Get a 4 GB or larger microSD card that is FAT formatted.
+. If you create a FAT-formatted microSD card, you must edit the partition and ensure that it is a bootable partition.
+. Download http://bit.ly/1wtXwNP[beagleboneblack-save-emmc.zip] and uncompress and copy the contents onto your microSD card.
+. Eject the microSD card from your computer, insert it into the powered-off pass:[<span class="keep-together">BeagleBone</span>] Black, and apply power to your board.
+. You'll notice +USER0+ (the LED closest to the S1 button in the corner) will (after about 20 seconds) begin to blink steadily, rather than the double-pulse "heartbeat" pattern that is typical when your BeagleBone Black is running the standard Linux kernel configuration.
+. It will run for a bit under 10 minutes and then +USER0+ will stay on steady. That's your cue to remove power, remove the microSD card, and put it back into your computer.
+. You will see a file called _BeagleBoneBlack-eMMC-image-XXXXX.img_, where _XXXXX_ is a set of random numbers. Save this file to use for restoring your image later.
+
+[NOTE]
+====
+Because the date won't be set on your board, you might want to adjust the date on the file to remember when you made it. For storage on your computer, these images will typically compress very well, so use your favorite compression tool.
+====
+
+[TIP]
+====
+The http://elinux.org/Beagleboard[eLinux wiki] is the definitive place for the BeagleBoard.org community to share information about the Beagles. Spend some time looking around for other helpful information.
+====
+
+==== Discussion
+
+
+[[basics_onboard_flash]]
+=== Updating the Onboard Flash
+
+==== Problem
+((("onboard flash", "updating")))((("basic operations", "updating onboard flash")))You want to update the onboard flash rather than boot from the microSD card.
+
+==== Solution
+
+[NOTE]
+====
+At the time of this writing, these instructions were up-to-date. Go to http://beagleboard.org/latest-images for the latest instructions.
+====
+
+If you want to use the onboard flash, you need to repeat the steps in <<basics_install_os>>, substituting +BBB-eMMC-flasher-debian-7.7-lxde-4gb-armhf-2014-11-11-4gb.img.xz+ for +lxde-4gb/bone-debian-7.7-lxde-4gb-armhf-2014-11-11-4gb.img.xz+. 
+
+That is, download, uncompress, and copy to a microSD card by using the following commands:
+
+++++
+<pre data-type="programlisting">
+host$ <strong>wget http://rcn-ee.net/deb/testing/2014-11-11/\
+BBB-eMMC-flasher-debian-7.7-lxde-4gb-armhf-2014-11-11-4gb.img.xz</strong>
+host$ <strong>unxz BBB-eMMC-flasher-debian-7.7-lxde-4gb-armhf-2014-11-11-4gb.img.xz</strong>
+host$ <strong>sudo dd if=BBB-eMMC-flasher-debian-7.7-lxde-4gb-armhf-2014-11-11-4gb.img \
+      of=/dev/sdb bs=8M</strong>
+</pre>
+++++
+
+Again, you'll put the microSD card in the Bone and boot. However, there is one important difference: _you must be powered from an external 5 V source_. The flashing process requires more current than what typically can be pulled from USB.
+
+[WARNING]
+====
+If you write the onboard flash, _be sure to power the Bone from an external 5 V source_. The USB might not supply enough current. 
+====
+
+When you boot from the microSD card, it will copy the image to the onboard flash. When all four +USER+ LEDs turn off (in some versions, they all turn on), you can power down the Bone and remove the microSD card. The next time you power up, the Bone will boot from the onboard flash.
