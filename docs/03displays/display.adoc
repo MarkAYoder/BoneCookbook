@@ -8,7 +8,7 @@ BeagleBone Black's general-purpose input/output (GPIO) pins. The Bone has 65 GPI
 
 [[js_P8P9_fig]]
 .The P8 and P9 GPIO headers
-image::figures/p8p9headers.png["Headers P8 and P9"]
+image::figures/P8P9_bb.png["Headers P8 and P9"]
 
 The purpose of this chapter is to give simple examples that show how to use various methods of output. Most solutions require a breadboard and some jumper wires.
 
@@ -25,7 +25,7 @@ Locate the four onboard LEDs shown in <<js_internLED_fig>>. They are labeled +US
 
 [[js_internLED_fig]]
 .The four +USER+ LEDs
-image::figures/USERLEDs.png["USER LEDs"]
+image::figures/internLED.png["USER LEDs"]
 
 Place the code shown in <<js_internLED_code>> in a file called _internLED.js_. You can do this using Cloud9 to edit files (as shown in <<basics_cloud9>>) or with a more traditional editor (as shown in <<tips_editing_files>>).
 
@@ -76,7 +76,7 @@ The value of the current limiting resistor depends on the LED you are using. The
 
 [[displays_externLED_fig]]
 .Diagram for using an external LED
-image::figures/externalLED.png["External LED"]
+image::figures/externLED_bb.png["External LED"]
 
 After you've wired it, start Cloud9 (see <<basics_cloud9>>) and enter the code shown in <<js_externLED_code>> in a file called _externLED.js_.
 
@@ -111,7 +111,7 @@ To make this recipe, you will need:
 
 [[displays_powerSwitch_fig]]
 .Diagram for wiring PowerSwitch Tail II
-image::images/bglb_0304.png[Power Switch Tail II]
+image::figures/powerSwitch_bb.png[Power Switch Tail II]
 
 After you've wired it, because this uses the same output pin as <<displays_externalLED>>, you can run the same code (<<js_externLED_code>>).
 
@@ -134,7 +134,7 @@ After you've wired it, because this uses the same output pin as <<displays_exter
 [source, javascript]
 ----
 
-include::images/displays/fadeLED.js[]
+include::code/fadeLED.js[]
 
 ----
 ====
@@ -143,7 +143,7 @@ include::images/displays/fadeLED.js[]
 
 [[cape-headers-pwm_fig]]
 .Table of PWM outputs
-image::images/bglb_0305.png["PWM outputs"]
+image::figures/cape-headers-pwm.png["PWM outputs"]
 
 === Writing to an LED Matrix
 
@@ -163,7 +163,7 @@ The LED matrix is a 5 V device, but you can drive it from 3.3 V. Wire, as shown 
 
 [[displays_i2cMatrix_fig]]
 .Wiring an i2c LED matrix
-image::images/bglb_0306.png["i2c LED matrix"]
+image::figures/i2cMatrix_bb.png["i2c LED matrix"]
 
 <<sensors_i2c_temp>> shows how to use +i2cdetect+ to discover the address of an I^2^C device. It also describes the difference between how Linux numbers the I^2^C buses (+0+ and +1+) versus how BoneScript numbers them (+1+ and +2+). Let's see how your display shows up. 
 
@@ -211,7 +211,7 @@ bone# <strong>./matrixLEDi2c.js</strong>
 [source, c]
 ----
 
-include::images/displays/matrixLEDi2c.js[]
+include::code/matrixLEDi2c.js[]
 
 ----
 ====
