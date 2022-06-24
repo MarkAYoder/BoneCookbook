@@ -251,7 +251,7 @@ The PCA9306  translates signals at 3.3 V to 5 V in both directions. It's meant t
 
 [[displays_i2cMatrixLevelTrans_fig]]
 .Wiring a PCA9306 level translator to an LED matrix
-image::images/bglb_0307.png[PCA9306 level translator]
+image::figures/i2cMatrixLevelTrans_bb.png[PCA9306 level translator]
 
 [NOTE]
 ====
@@ -271,7 +271,7 @@ Wire up an Adafruit NeoPixel LED 8-by-8 matrix as shown in <<js_neoPixelMatrix_f
 
 [[js_neoPixelMatrix_fig]]
 .Wiring an Adafruit NeoPixel LED matrix to +P8_30+
-image::images/bglb_0308.png["NeoPixel Matrix"]
+image::figures/neoPixelMatrix_bb.png["NeoPixel Matrix"]
 
 <<js_neoPixel_code>> shows how to install LEDscape and run the LEDs.
 
@@ -281,7 +281,7 @@ image::images/bglb_0308.png["NeoPixel Matrix"]
 [source, bash]
 ----
 
-include::images/displays/neoPixel.sh[]
+include::code/neoPixel.sh[]
 
 ----
 ====
@@ -304,7 +304,7 @@ The Nokia 5110 LCD runs off of 3.3 V, so you can wire it directly to the Bone (<
 
 [[displays_nokia_fig]]
 .Wiring a Nokia 5110 LCD display
-image::images/bglb_0309.png["Nokia 5110"]
+image::figures/nokia5110_bb.png["Nokia 5110"]
 
 The drivers for the 5110 are in the Node Packaged Modules repository. Get and install them by running the following commands:
 
@@ -328,7 +328,7 @@ Edit _nokia5110Test.js_ so that the first few lines specify how it's wired (as s
 [source, javascript]
 ----
 
-include::images/displays/nokia5110.js[]
+include::code/nokia5110.js[]
 
 ----
 ====
@@ -357,7 +357,7 @@ Then add the code from <<speak_code>> in a file called _speak.js_ and run.
 [source, javascript]
 ----
 
-include::images/displays/speak.js[]
+include::code/speak.js[]
 
 ----
 ====
