@@ -1,0 +1,256 @@
+[[motors]]
+== Motors
+
+=== Introduction
+
+((("motors", "types of")))One of the many fun things about embedded computers is that you can move physical things with motors.
+But there are so many different kinds of motors (_servo_, _stepper_, _DC_), so how do you select the right one?
+
+The type of motor you use depends on the type of motion you want:
+
+R/C or hobby servo motor::
+ Can be quickly positioned at various absolute angles, but some don't spin. In fact, many can turn only about 180{deg}.((("R/C motors", see="servo motors")))((("hobby servo motors", see="servo motors")))((("servo motors", "motions available")))
+Stepper motor::
+ Spins and can also rotate in precise relative angles, such as turning 45{deg}. Stepper motors come in two types: _bipolar_ (which has four wires) and _unipolar_ (which has five or six wires).((("stepper motors", "types of")))((("stepper motors", "motions available")))((("bipolar stepper motors")))((("unipolar stepper motors")))
+DC motor::
+ Spins either clockwise or counter-clockwise and can have the greatest speed of the three. But a DC motor can't easily be made to turn to a given angle.((("DC motors", "motions available")))
+
+When you know which type of motor to use, interfacing is easy. This chapter shows how to interface with each of these motors.
+
+[NOTE]
+====
+Motors come in many sizes and types. This chapter presents some of the more popular types and shows how they can interface easily to the Bone. If you need to turn on and off a 120 V motor, consider using something like the PowerSwitch presented in <<displays_powerSwitch>>.
+====
+
+[NOTE]
+====
+The Bone has built-in 3.3 V and 5 V supplies, which can supply enough current to drive some small motors. Many motors, however, draw enough current that an external power supply is needed. Therefore, an external 5 V power supply is listed as optional in many of the recipes.
+====
+
+[[motors_servo]]
+=== Controlling a Servo Motor
+
+==== Problem
+
+((("motors", "servo motor control")))((("analogWrite()")))((("pulse width modulation (PWM)")))((("servo motors", "controlling")))((("b.analogWrite()")))You want to use BeagleBone to control the absolute position of a servo motor.
+
+==== Solution
+
+We'll use the pulse width modulation (PWM) hardware of the Bone and control a 
+servo motor with the +analogWrite()+ function.
+
+To make the recipe, you will need:
+
+* Servo motor (see <<app_misc>>)
+* Breadboard and jumper wires (see <<app_proto>>)
+* 1 k&#8486; resistor (optional, see <<app_resistor>>)
+* 5 V power supply (optional, see <<app_misc>>)
+
+The 1 k&#8486; resistor isn't required, but it provides some protection to the general-purpose input/output (GPIO) pin in case the servo fails and draws a large current. 
+
+Wire up your servo, as shown in <<motors_servoMotor>>.  
+
+[NOTE]
+=====================================================================
+There is no standard for how servo motor wires are colored. One of my servos is wired like <<motors_servoMotor>>: red is 3.3 V, black is ground, and yellow is the control line. I have another servo that has red as 3.3 V and ground is brown, with the control line being orange. Generally, though, the 3.3 V is in the middle. Check the datasheet for your servo before wiring.
+=====================================================================
+
+[[motors_servoMotor]]
+.Driving a servo motor with the 3.3 V power supply
+image::images/bglb_0401.png[Servo Motor]
+
+The code for controlling the servo motor is in _servoMotor.js_, shown in <<motors_servoMotor_code>>.
+
+[role="pagebreak-before"]
+[[motors_servoMotor_code]]
+.Code for driving a servo motor (servoMotor.js)
+====
+[source, javascript]
+----
+
+include::images/motors/servoMotor.js[]
+
+----
+====
+Running the code causes the motor to move back and forth, progressing to successive  positions between the two extremes.  You will need to press ^C (Ctrl-C) to stop the script.
+
+==== Discussion
+
+[[motors_dcSpeed]]
+=== Controlling the Speed of a DC Motor
+
+==== Problem
+
+((("motors", "DC motor speed control")))((("DC motors", "controlling speed of")))((("solenoids", seealso="DC motors")))You have a DC motor (or a solenoid) and want a simple way to control its speed, but not the direction.
+
+==== Solution
+
+It would be nice if you could just wire the DC motor to BeagleBone Black and have it work, but it won't.  Most motors require more current than the GPIO ports on the Bone can supply. Our solution is to use a transistor to control the current to the bone.  
+
+[role="pagebreak-before"]
+Here's what you will need:
+
+* 3 V to 5 V DC motor
+* Breadboard and jumper wires (see <<app_proto>>)
+* 1 k&#8486; resistor (see <<app_resistor>>)
+* Transistor 2N3904 (see <<app_transistor>>)
+* Diode 1N4001 (see <<app_transistor>>)
+* Power supply for the motor (optional)
+
+If you are using a larger motor (more current), you will need to use a larger transistor.
+
+Wire your breadboard as shown in <<motors_dcMotor_fig>>.
+
+[[motors_dcMotor_fig]]
+.Wiring a DC motor to spin one direction
+image::images/bglb_0403.png[DC Motor]
+
+Use the code in <<motors_dcMotor_code>> (_dcMotor.js_) to run the motor.
+
+[role="pagebreak-before"]
+[[motors_dcMotor_code]]
+.Driving a DC motor in one direction (dcMotor.js)
+====
+[source, javascript]
+----
+
+include::images/motors/dcMotor.js[]
+
+----
+====
+
+==== Discussion
+
+
+==== See Also
+
+How do you change the direction of the motor? See <<motors_dcDirection>>.
+
+[[motors_dcDirection]]
+=== Controlling the Speed and Direction of a DC Motor
+
+==== Problem
+
+((("motors", "DC motor direction control")))((("DC motors", "controlling direction of")))((("H-bridges")))((("L293D H-Bridge IC")))You would like your DC motor to go forward and backward.
+
+==== Solution
+
+Use an H-bridge to switch the terminals on the motor so that it will run both backward and forward. We'll use the _L293D_: a common, single-chip H-bridge.
+
+Here's what you will need:
+
+* 3 V to 5 V motor (see <<app_misc>>)
+* Breadboard and jumper wires (see <<app_proto>>)
+* L293D H-Bridge IC (see <<app_ic>>)
+* Power supply for the motor (optional)
+
+Lay out your breadboard as shown in <<motors_h-bridge_fig>>. Ensure that the L293D is positioned correctly.  There is a notch on one end that should be pointed up.
+
+[[motors_h-bridge_fig]]
+.Driving a DC motor with an H-bridge
+image::images/bglb_0404.png[H-bridge Motor]
+
+The code in <<motors_h-bridge_code>> (_h-bridgeMotor.js_) looks much like the code for driving the DC motor with a transistor (<<motors_dcMotor_code>>). 
+The additional code specifies which direction to spin the motor.
+
+[[motors_h-bridge_code]]
+.Code for driving a DC motor with an H-bridge (h-bridgeMotor.js)
+====
+[source, javascript]
+----
+include::images/motors/h-bridgeMotor.js[]
+----
+====
+
+==== Discussion
+
+
+=== Driving a Bipolar Stepper Motor
+
+==== Problem
+
+((("motors", "bipolar stepper control")))((("bipolar stepper motors")))((("stepper motors", "controlling bipolar")))((("H-bridges")))((("L293D H-Bridge IC")))You want to drive a stepper motor that has four wires.
+
+==== Solution
+
+Use an L293D H-bridge. The bipolar stepper motor requires us to reverse the coils, so we need to use an H-bridge.
+
+Here's what you will need:
+
+* Breadboard and jumper wires (see <<app_proto>>)
+* 3 V to 5 V bipolar stepper motor (see <<app_misc>>)
+* L293D H-Bridge IC (see <<app_ic>>)
+
+Wire as shown in <<motors_bipolar_fig>>.
+
+[[motors_bipolar_fig]]
+.Bipolar stepper motor wiring
+image::images/bglb_0408.png[Bipolar Stepper Motor]
+
+Use the code in <<motors_stepperMotor_code>> (_bipolarStepperMotor.js_) to drive the motor.
+
+[[motors_stepperMotor_code]]
+.Driving a bipolar stepper motor (bipolarStepperMotor.js)
+====
+[source, js]
+----
+
+include::images/motors/bipolarStepperMotor.js[]
+
+----
+====
+
+When you run the code, the stepper motor will rotate back and forth.
+
+==== Discussion
+
+
+=== Driving a Unipolar Stepper Motor
+
+==== Problem
+
+((("motors", "unipolar stepper control", seealso="input/output (I/O)")))((("unipolar stepper motors")))((("stepper motors", "controlling unipolar")))((("ULN2003 Darlington Transistor Array IC")))You want to drive a stepper motor that has five or six wires.
+
+==== Solution
+
+If your stepper motor has five or six wires, it's a _unipolar_ stepper and is wired differently than the bipolar. Here, we'll use a _ULN2003 Darlington Transistor Array IC_ to drive the motor.
+
+Here's what you will need:
+
+* Breadboard and jumper wires (see <<app_proto>>)
+* 3 V to 5 V unipolar stepper motor (see <<app_misc>>)
+* ULN2003 Darlington Transistor Array IC (see <<app_ic>>)
+
+Wire, as shown in <<motors_unipolar_fig>>. 
+
+[NOTE]
+=====================================================================
+The IC in <<motors_unipolar_fig>> is illustrated upside down from the way it is usually displayed. 
+That is, the notch for pin 1 is on the bottom. This made drawing the diagram much cleaner.
+
+Also, notice the _banded_ wire running the +P9_7+ (5 V) to the UL2003A. 
+The stepper motor I'm using runs better at 5 V, so I'm using the Bone's 5 V power supply. The signal coming from the GPIO pins is 3.3 V, but the U2003A will step them up to 5 V to drive the motor.
+=====================================================================
+
+[[motors_unipolar_fig]]
+.Unipolar stepper motor wiring
+image::images/bglb_0411.png[Unipolar Stepper Motor]
+
+The code for driving the motor is in _unipolarStepperMotor.js_; however, it is almost identical to the bipolar stepper code (<<motors_stepperMotor_code>>), so <<motors_unistepperMotor_code>> shows only the lines that you need to change.
+
+[[motors_unistepperMotor_code]]
+.Changes to bipolar code to drive a unipolar stepper motor (unipolarStepperMotor.diff)
+====
+[source, js]
+----
+include::images/motors/unipolarStepperMotor.diff[]
+----
+====
+[role="pagebreak-before"]
+The code in this example makes the following changes:
+
+* +controller+ is attached to the _even_-numbered pins on the +P9+ header rather than the _odd_ that the bipolar stepper used. (Doing this allows you to run both types of stepper motors at the same time!)
+* The +states+ are different. Here, we have two pins high at a time.
+* The time between steps (+ms+) is shorter, and the number of steps per direction (+max+) is bigger. The unipolar stepper I'm using has many more steps per rotation, so I need more steps to make it go around.
+
+==== Discussion

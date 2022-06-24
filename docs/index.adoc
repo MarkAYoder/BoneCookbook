@@ -52,3 +52,11 @@ A cookbook for programming Beagles
   ** [ ] Writing to a NeoPixel LED String
   ** [ ] Using a Nokia 5510 LCD Display
   ** [ ] Making Your Bone Speak
+
+ . link:04motors/motors.html[Motors]
+  ** [ ]Introduction
+  ** [ ]Controlling a Servo Motor
+  ** [ ]Controlling the Speed of a DC Motor
+  ** [ ]Controlling the Speed and Direction of a DC Motor
+  ** [ ]Driving a Bipolar Stepper Motor
+  ** [ ]Driving a Unipolar Stepper Motor
