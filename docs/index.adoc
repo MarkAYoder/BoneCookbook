@@ -85,7 +85,7 @@ A cookbook for programming Beagles
   ** [ ]Using Python to Interact with the Physical World
   ** [ ]Using C to Interact with the Physical World
 
-. link:056iot/tiot.html[Internet of Things]
+. link:06iot/iot.html[Internet of Things]
   ** [ ]Introduction
   ** [ ]Accessing Your Host Computer's Files on the Bone
   ** [ ]Serving Web Pages from the Bone
@@ -101,3 +101,14 @@ A cookbook for programming Beagles
   ** [ ]Wiring the IoT with Node-RED
   ** [ ]Serving Web Pages from the Bone by Using Apache
   ** [ ]Communicating over a Serial Connection to an Arduino or LaunchPad
+
+. link:07kernel/kernel.html[The Kernel]
+  ** [ ]Introduction
+  ** [ ]Updating the Kernel
+  ** [ ]Building and Installing Kernel Modules
+  ** [ ]Controlling LEDs by Using SYSFS Entries
+  ** [ ]Controlling GPIOs by Using SYSFS Entries
+  ** [ ]Compiling the Kernel
+  ** [ ]Using the Installed Cross Compiler
+  ** [ ]Applying Patches
+  ** [ ]Creating Your Own Patch File
