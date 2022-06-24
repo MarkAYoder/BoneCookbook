@@ -37,7 +37,7 @@ The adapter looks something like <<tips_HDMI_adaptor_fig>>.
 
 [[tips_HDMI_adaptor_fig]]
 .Female HDMI-to-male microHDMI adapter
-image::images/bglb_0501.png[HDMI Adaptor]
+image::figures/hdmiConverter.jpg[HDMI Adaptor]
 
 Plug the small end into the microHDMI input on the Bone and plug your HDMI cable into the other end of the adapter and your monitor. If nothing displays on your Bone, reboot.
 
@@ -218,20 +218,20 @@ The Bone's Serial Debug J1 connector has Pin 1 connected to ground, Pin 4 to rec
 
 [[tips_FTDIcable_fig]]
 .FTDI cable
-image::images/bglb_0502.png[FTDI Cable]
+image::figures/FTDIcable.jpg[FTDI Cable]
 
 Look for a small triangle at the end of the FTDI cable (<<tips_FTDIconnector_fig>>).  It's often connected to the black wire. 
 
 [[tips_FTDIconnector_fig]]
 .FTDI connector
-image::images/bglb_0503.png[FTDI Connector]
+image::figures/FTDIconnector.jpg[FTDI Connector]
 
 Next, look for the FTDI pins of the Bone (labeled +J1+ on the Bone), shown in <<tips_black_hardware_details_fig>>.  
 They are next to the P9 header and begin near pin 20. There is a white dot near P9_20. 
 
 [[tips_black_hardware_details_fig]]
 .FTDI pins for the FTDI connector footnote:[<<tips_black_hardware_details_fig>> was originally posted by Jason Kridner at http://beagleboard.org/media under a http://creativecommons.org/licenses/by-sa/3.0/[Creative Commons Attribution-ShareAlike 3.0 Unported License].]
-image::images/bglb_0504.png[Serial Debug Pins]
+image::figures/FTDIPins.png[Serial Debug Pins]
 
 Plug the FTDI connector into the FTDI pins, being sure to connect the _triangle_ pin on the connector to the _white dot_ pin of the +FTDI+ connector.
 
@@ -319,19 +319,19 @@ I fixed the wording here to better match the software.
 ////
 [[tips_vnc1_fig]]
 .Creating a new remote desktop file in Remmina Remote Desktop Client
-image::images/bglb_0505.png[Create a new remote desktop]
+image::figures/vnc1.png[Create a new remote desktop]
 
 Give your connection a name, being sure to select "VNC - Virtual Network Computing." Also, be sure to add +:1+ after the server address, as shown in <<tips_vnc2_fig>>. This should match the +:1+ that was displayed when you started +vncserver+.
 
 [[tips_vnc2_fig]]
 .Configuring the Remmina Remote Desktop Client
-image::images/bglb_0506.png[Configuring]
+image::figures/vnc2.png[Configuring]
 
 Click Connect to start graphical access to your Bone, as shown in <<tips_vnc3_fig>>.
 
 [[tips_vnc3_fig]]
 .The Remmina Remote Desktop Client showing the BeagleBone desktop
-image::images/bglb_0507.png[Desktop]
+image::figures/vnc3.png[Desktop]
 
 [TIP]
 ====
@@ -410,7 +410,7 @@ You are now in nano (<<tips_nano_fig>>). You can't move around the screen using 
 
 [[tips_nano_fig]]
 .Editing a file with nano
-image::images/bglb_0508.png[nano]
+image::figures/nano.png[nano]
 
 [TIP]
 ====
@@ -440,7 +440,7 @@ Notice the +-X+ on the +ssh+ command. This instructs SSH to pass the graphics fr
 
 [[tips_leafpad_fig]]
 .Editing a file with leafpad
-image::images/bglb_0509.png[leafpad]
+image::figures/leafpad.png[leafpad]
 
 Now, you can use your mouse to move around and copy and paste as usual.
 
@@ -455,7 +455,7 @@ Now, you can use your mouse to move around and copy and paste as usual.
 
 [[networking_rj45]]
 .The RJ45 port on the Bone
-image::images/bglb_0510.png[RJ45]
+image::figures/internLED.png[RJ45]
 
 ((("DHCP (Dynamical Host Configuration Protocol)")))If your router is already configured to run DHCP (Dynamical Host Configuration Protocol), it will automatically assign an IP address to the Bone. 
 
@@ -617,13 +617,13 @@ In <<tips_wicd_opening_view_fig>>, you see one wireless network, my home wireles
 
 [[tips_wicd_opening_view_fig]]
 .Using wicd to display available wireless networks
-image::images/bglb_0511.png[wicd opening view]
+image::figures/wicd.png[wicd opening view]
 
 If nothing appears, press P and make sure the Wireless Interface matches the device name you noted from +ifconfig+. If it doesn't match, press the down arrow and enter the device name, as shown in <<tips_wicd_prefs_fig>>.  
 
 [[tips_wicd_prefs_fig]]
 .Setting preferences in wicd
-image::images/bglb_0512.png[Setting preferences in wicd]
+image::figures/wicdPrefs.png[Setting preferences in wicd]
 
 After you enter a name, press F10 to save and then press R to refresh the list. You'll now see the available access points.
 
@@ -631,23 +631,23 @@ Use the down arrow to select which network to use and then press the right arrow
 
 [[tips_wicd_config_fig]]
 .Configuring a network in wicd
-image::images/bglb_0513.png[Configuring a network in wicd]
+image::figures/wicdConfig.png[Configuring a network in wicd]
 
 Press the down arrow until you are near the bottom of the screen and then press Enter. Use the up/down arrows to select the type of authentication (as shown in <<tips_wicd_auth_fig>>) and then press Enter. My home system uses WPA 1/2 (Passphrase) (<<tips_wicd_password_fig>>). 
 
 [[tips_wicd_auth_fig]]
 .Configuring authentication in wicd
-image::images/bglb_0514.png[Configuring authentication in wicd]
+image::figures/wicdSecure.png[Configuring authentication in wicd]
 
 [[tips_wicd_password_fig]]
 .Entering password in wicd
-image::images/bglb_0515.png[Entering password in wicd]
+image::figures/wicdPassword.png[Entering password in wicd]
 
 Press F10 and select the network again; then press C to connect. You'll be connected in a moment, as shown in <<tips_wicd_connected_fig>>.
 
 [[tips_wicd_connected_fig]]
 .Connected to a network via wicd
-image::images/bglb_0516.png[Connected to a network via wicd]
+image::figures/wicdConnected.png[Connected to a network via wicd]
 
 ==== Discussion
 
@@ -1175,7 +1175,7 @@ include::images/tips/blinkLED.c[]
 
 [[tips_cape_headers_digital]]
 .Mapping from header pin to internal GPIO number
-image::images/bglb_0518.png[cape headers digital]
+image::figures/bglb_0518.png[cape headers digital]
 
 Compile and run the code:
 
