@@ -293,13 +293,13 @@ Clicking a date will show you several variations for that particular date. <<bas
 
 [[basics_deb2]]
 .Latest Debian images for a given date
-image::images/bglb_0126.png[Latest Debian images for given date]
+image::figures/deb2.png[Latest Debian images for given date]
 
 Clicking _lxde-4gb/_ shows a list of 4 GB images (<<basics_deb3>>). 
 
 [[basics_deb3]]
 .Latest 4 GB Debian images for a given date
-image::images/bglb_0127.png[Latest 4 GB Debian images for given date]
+image::figures/deb3.png[Latest 4 GB Debian images for given date]
 
 These are the images you want to use if you are flashing a Rev C BeagleBone Black onboard flash, or flashing a 4 GB or bigger miscroSD card. The image beginning with _bone-debian-7.7-lxde_ is used for programming the microSD card. The one beginning with _BBB-eMMC-flasher-deb_ is for programming the onboard flash memory.
 
@@ -342,7 +342,7 @@ Select the microSD Drive and unmount (<<basics_disks_fig>>) any partitions that 
 
 [[basics_disks_fig]]
 .Unmounting the microSD card via the Disks application
-image::images/bglb_0128.png[Disks]
+image::figures/disks.png[Disks]
 
 Run the following command to download the 2014-11-11 image (be sure that you have a fast Internet connection; it's more than 500 MB in size):
 
@@ -437,7 +437,7 @@ Begin by plugging a 4 GB or bigger microSD card into a reader on your host and t
 
 [[basics_diskutility_fig]]
 .Examining the microSD card via the Disk Utility application
-image::images/bglb_0129.png[Disk Utility]
+image::figures/diskutility.png[Disk Utility]
 
 The important part of the Disk Identifier is the number immediately following +disk+ (a +1+ in <<basics_diskutility_fig>>). We'll use this identifier to overwrite the microSD contents. 
 
