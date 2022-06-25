@@ -878,13 +878,13 @@ After the design is uploaded, you'll need to review the parts to verify that Cir
 
 [[capes_circuithub_parts]]
 .CircuitHub part matching
-image::figures/bglb_0933.png[]
+image::figures/circuithub_part_matching.png[]
 
 When you've selected all of your parts, a quote tool appears at the bottom of the page, as shown in <<capes_circuithub_quote>>.
 
 [[capes_circuithub_quote]]
 .CircuitHub quote generation
-image::figures/bglb_0934.png[]
+image::figures/circuithub_quote.png[]
 
 Checking out the pricing on the MiniDisplay Cape (without including the LCD itself) in <<capes_circuithub_pricing_table>>, you can get a quick idea of how increased volume can dramatically impact the per-unit costs.
 
