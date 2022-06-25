@@ -5,36 +5,44 @@
 Mark A. Yoder <Mark.A.Yoder@Rose-Hulman.edu>
 v2.0 beta
 <<<
-:imagesdir: ./01case
-include::01case/case.adoc[]
+:imagesdir: ./01basics
+include::01basics/basics.adoc[]
 
 <<<
-:imagesdir: ./02start
-include::02start/start.adoc[]
+:imagesdir: ./02sensors
+include::02sensors/sensors.adoc[]
 
 <<<
-:imagesdir: ./03details
-include::03details/details.adoc[]
+:imagesdir: ./03displays
+include::03displays/displays.adoc[]
 
 <<<
-:imagesdir: ./04debug
-include::04debug/debug.adoc[]
+:imagesdir: ./04motors
+include::04motors/motors.adoc[]
 
 <<<
-:imagesdir: ./05blocks
-include::05blocks/blocks.adoc[]
+:imagesdir: ./05tips
+include::05tips/tips.adoc[]
 
 <<<
-:imagesdir: ./06io
-include::06io/io.adoc[]
+:imagesdir: ./0iot
+include::06iot/iot.adoc[]
 
 <<<
-:imagesdir: ./07more
-include::07more/more.adoc[]
+:imagesdir: ./07kernel
+include::07kernel/kernel.adoc[]
 
 <<<
-:imagesdir: ./08ai
-include::08ai/ai.adoc[]
+:imagesdir: ./08realtime
+include::08realtime/realtime.adoc[]
+
+<<<
+:imagesdir: ./09capes
+include::09capes/capes.adoc[]
+
+<<<
+:imagesdir: ./10parts
+include::10parts/parts.adoc[]
 
 
 <<<
