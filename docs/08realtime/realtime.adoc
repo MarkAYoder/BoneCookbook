@@ -33,7 +33,7 @@ Wire up the pushbutton and LED as shown in <<realtime_pushLED_fig>>.
 
 [[realtime_pushLED_fig]]
 .Diagram for wiring a pushbutton and LED with the LED attached to P9_12
-image::images/bglb_0801.png[Bone with pushbutton and LED]
+image::figures/pushLED_bb.png[Bone with pushbutton and LED]
 
 The code in <<realtime_pushLED_code>> reads GPIO port +P9_42+, which is attached to the pass:[<span class="keep-together">pushbutton</span>], and turns on the LED attached to +P9_12+ when the button is pushed.
 
@@ -43,7 +43,7 @@ The code in <<realtime_pushLED_code>> reads GPIO port +P9_42+, which is attached
 [source, javascript]
 ----
 
-include::images/realtime/pushLED.js[]
+include::code/pushLED.js[]
 
 ----
 ====
@@ -78,7 +78,7 @@ Wire up the pushbutton and LED as shown in <<realtime_pushLED_fig>>. Follow the 
 [source, c]
 ----
 
-include::images/realtime/pushLED.c[]
+include::code/pushLED.c[]
 
 ----
 ====
@@ -147,7 +147,7 @@ This solution will read a pushbutton attached to +P9_42+ and flash an LED attach
 
 [[realtime_pushLEDmmap_fig]]
 .Diagram for wiring a pushbutton and LED with the LED attached to P9_13
-image::images/bglb_0802.png[Bone with pushbutton and LED wired to P9_13]
+image::figures/pushLEDmmap_bb.png[Bone with pushbutton and LED wired to P9_13]
 
 Now, flash the LED attached to +P9_13+ using the Linux +sysfs+ interface (<<kernel_gpio_sysfs>>). To do this, first look up which GPIO number +P9_13+ is attached to by referring to <<tips_cape_headers_digital>>. Finding +P9_13+ at GPIO 31, export GPIO 31 and make it an output:
 
@@ -240,7 +240,7 @@ Add the code in <<realtime_pushLEDmmap_h>> to a file named _pushLEDmmap.h_.
 [source, c]
 ----
 
-include::images/realtime/pushLEDmmap.h[pushLEDmmap.h]
+include::code/pushLEDmmap.h[pushLEDmmap.h]
 
 ----
 ====
@@ -253,7 +253,7 @@ Add the code in <<realtime_pushLEDmmap_c>> to a file named _pushLEDmmap.c_.
 [source, c]
 ----
 
-include::images/realtime/pushLEDmmap.c[pushLEDmmap.c]
+include::code/pushLEDmmap.c[pushLEDmmap.c]
 
 ----
 ====
@@ -364,7 +364,7 @@ Then get one more patch from http://bit.ly/1Mti9gQ[Xenomai's website]. Add the c
 [source, js]
 ----
 
-include::images/realtime/thumb.patch[]
+include::code/thumb.patch[]
 
 ----
 ====
@@ -402,7 +402,7 @@ When the configuration menu displays (as shown in <<realtime_xenomai_config>>), 
 
 [[realtime_xenomai_config]]
 .Configuing Xenomai
-image::images/bglb_0803.png[HDMI Adaptor]
+image::figures/xenomaiConfig.png[Configuring Xenomai]
 
 Then sit back and wait awhile. After the new kernel is built, install it following the instructions in <<kernel_install>>.
 
@@ -632,7 +632,7 @@ The PRU is now ready to run code. Add the code in <<realtime_pruSpeak_code>> to 
 [source, c]
 ----
 
-include::images/realtime/pruSpeak.py[]
+include::code/pruSpeak.py[]
 
 ----
 ====
@@ -661,7 +661,7 @@ The PRU has quick access to only a subset of GPIO pins. This example reads GPIO 
 
 [[realtime_pushLEDpru_fig]]
 .Diagram for wiring a pushbutton and LED for the PRU
-image::images/bglb_0804.png[Bone with pushbutton and LED for PRU]
+image::figures/pushLEDpru_bb.png[Bone with pushbutton and LED for PRU]
 
 Now, when you push the button, the LED should respond.
 
