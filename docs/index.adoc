@@ -112,3 +112,12 @@ A cookbook for programming Beagles
   ** [ ]Using the Installed Cross Compiler
   ** [ ]Applying Patches
   ** [ ]Creating Your Own Patch File
+
+. link:06realtime/realtime.html[Real-Time I/O]
+  ** [ ]Introduction
+  ** [ ]I/O with BoneScript
+  ** [ ]I/O with C and libsoc
+  ** [ ]I/O with devmem2
+  ** [ ]I/O with C and mmap()
+  ** [ ]Modifying the Linux Kernel to Use Xenomai
+  ** [ ]I/O with PRU Speak
