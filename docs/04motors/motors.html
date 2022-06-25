@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.12">
-<title>BeagleBone Cookbook</title>
+<title>Motors</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -440,461 +440,638 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </head>
 <body class="article">
 <div id="header">
-<div id="toc" class="toc">
-<div id="toctitle">Table of Contents</div>
-<ul class="sectlevel1">
-<li><a href="#_beaglebone_cookbook">1. BeagleBone Cookbook</a></li>
-<li><a href="#_outline">2. Outline</a></li>
-</ul>
-</div>
 </div>
 <div id="content">
-<div class="paragraph">
-<p><a href="../index.html">Outline</a></p>
-</div>
 <div class="sect1">
-<h2 id="_beaglebone_cookbook"><a class="link" href="#_beaglebone_cookbook">1. BeagleBone Cookbook</a></h2>
+<h2 id="motors">Motors</h2>
 <div class="sectionbody">
+<div class="sect2">
+<h3 id="_introduction">Introduction</h3>
 <div class="paragraph">
-<p>Mark A. Yoder &lt;<a href="mailto:Mark.A.Yoder@Rose-Hulman.edu">Mark.A.Yoder@Rose-Hulman.edu</a>&gt;
-v2.0 beta</p>
+<p>One of the many fun things about embedded computers is that you can move physical things with motors.
+But there are so many different kinds of motors (<em>servo</em>, <em>stepper</em>, <em>DC</em>), so how do you select the right one?</p>
 </div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_outline"><a class="link" href="#_outline">2. Outline</a></h2>
-<div class="sectionbody">
 <div class="paragraph">
-<p>A cookbook for programming Beagles</p>
+<p>The type of motor you use depends on the type of motion you want:</p>
 </div>
-<div class="olist arabic">
-<ol class="arabic">
+<div class="dlist">
+<dl>
+<dt class="hdlist1">R/C or hobby servo motor</dt>
+<dd>
+<p>Can be quickly positioned at various absolute angles, but some don&#8217;t spin. In fact, many can turn only about 180&#176;.</p>
+</dd>
+<dt class="hdlist1">Stepper motor</dt>
+<dd>
+<p>Spins and can also rotate in precise relative angles, such as turning 45&#176;. Stepper motors come in two types: <em>bipolar</em> (which has four wires) and <em>unipolar</em> (which has five or six wires).</p>
+</dd>
+<dt class="hdlist1">DC motor</dt>
+<dd>
+<p>Spins either clockwise or counter-clockwise and can have the greatest speed of the three. But a DC motor can&#8217;t easily be made to turn to a given angle.</p>
+</dd>
+</dl>
+</div>
+<div class="paragraph">
+<p>When you know which type of motor to use, interfacing is easy. This chapter shows how to interface with each of these motors.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Motors come in many sizes and types. This chapter presents some of the more popular types and shows how they can interface easily to the Bone. If you need to turn on and off a 120 V motor, consider using something like the PowerSwitch presented in <a href="#displays_powerSwitch">[displays_powerSwitch]</a>.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>The Bone has built-in 3.3 V and 5 V supplies, which can supply enough current to drive some small motors. Many motors, however, draw enough current that an external power supply is needed. Therefore, an external 5 V power supply is listed as optional in many of the recipes.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="motors_servo">Controlling a Servo Motor</h3>
+<div class="sect3">
+<h4 id="_problem">Problem</h4>
+<div class="paragraph">
+<p>You want to use BeagleBone to control the absolute position of a servo motor.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_solution">Solution</h4>
+<div class="paragraph">
+<p>We&#8217;ll use the pulse width modulation (PWM) hardware of the Bone and control a
+servo motor with the analogWrite() function.</p>
+</div>
+<div class="paragraph">
+<p>To make the recipe, you will need:</p>
+</div>
+<div class="ulist">
+<ul>
 <li>
-<p><a href="01basics/basics.html">Basics</a></p>
-<div class="ulist checklist">
-<ul class="checklist">
-<li>
-<p>&#10063; Introduction</p>
+<p>Servo motor (see <a href="#app_misc">[app_misc]</a>)</p>
 </li>
 <li>
-<p>&#10063; Picking Your Beagle</p>
+<p>Breadboard and jumper wires (see <a href="#app_proto">[app_proto]</a>)</p>
 </li>
 <li>
-<p>&#10063; Getting Started, Out of the Box</p>
+<p>1 k&#8486; resistor (optional, see <a href="#app_resistor">[app_resistor]</a>)</p>
 </li>
 <li>
-<p>&#10063; Verifying You Have the Latest Version of the OS on Your Bone</p>
-</li>
-<li>
-<p>&#10063; Running the BoneScript API Tutorials</p>
-</li>
-<li>
-<p>&#10063; Wiring a Breadboard</p>
-</li>
-<li>
-<p>&#10063; Editing Code Using the Cloud9 IDE</p>
-</li>
-<li>
-<p>&#10063; Running JavaScript Applications from the Cloud9 IDE</p>
-</li>
-<li>
-<p>&#10063; Running Applications Automatically</p>
-</li>
-<li>
-<p>&#10063; Finding the Latest Version of the OS for Your Bone</p>
-</li>
-<li>
-<p>&#10063; Running the Latest Version of the OS on Your Bone</p>
-</li>
-<li>
-<p>&#10063; Updating the OS on Your Bone</p>
-</li>
-<li>
-<p>&#10063; Backing Up the Onboard Flash</p>
-</li>
-<li>
-<p>&#10063; Updating the Onboard Flash</p>
+<p>5 V power supply (optional, see <a href="#app_misc">[app_misc]</a>)</p>
 </li>
 </ul>
 </div>
+<div class="paragraph">
+<p>The 1 k&#8486; resistor isn&#8217;t required, but it provides some protection to the general-purpose input/output (GPIO) pin in case the servo fails and draws a large current.</p>
+</div>
+<div class="paragraph">
+<p>Wire up your servo, as shown in <a href="#motors_servoMotor">Driving a servo motor with the 3.3 V power supply</a>.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>There is no standard for how servo motor wires are colored. One of my servos is wired like <a href="#motors_servoMotor">Driving a servo motor with the 3.3 V power supply</a>: red is 3.3 V, black is ground, and yellow is the control line. I have another servo that has red as 3.3 V and ground is brown, with the control line being orange. Generally, though, the 3.3 V is in the middle. Check the datasheet for your servo before wiring.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="motors_servoMotor" class="paragraph">
+<div class="title">Driving a servo motor with the 3.3 V power supply</div>
+<p><span class="image"><img src="figures/servoMotor_bb.png" alt="Servo Motor"></span></p>
+</div>
+<div class="paragraph">
+<p>The code for controlling the servo motor is in <em>servoMotor.js</em>, shown in <a href="#motors_servoMotor_code">Code for driving a servo motor (servoMotor.js)</a>.</p>
+</div>
+<div id="motors_servoMotor_code" class="exampleblock pagebreak-before">
+<div class="title">Example 1. Code for driving a servo motor (servoMotor.js)</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-javascript" data-lang="javascript">#!/usr/bin/env node
+
+// Drive a simple servo motor back and forth
+
+var b = require('bonescript');
+
+var motor = 'P9_21', // Pin to control servo
+    freq = 50,  // Servo frequency (20 ms)
+    min  = 0.8, // Smallest angle (in ms)
+    max  = 2.5, // Largest angle (in ms)
+    ms  = 250,  // How often to change position, in ms
+    pos = 1.5,  // Current position, about middle
+    step = 0.1; // Step size to next position
+
+console.log('Hit ^C to stop');
+b.pinMode(motor, b.ANALOG_OUTPUT, 6, 0, 0, doInterval);
+
+function doInterval(x) {
+    if(x.err) {
+        console.log('x.err = ' + x.err);
+        return;
+    }
+    timer = setInterval(sweep, ms);
+}
+
+move(pos);      // Start in the middle
+
+// Sweep from min to max position and back again
+function sweep() {
+    pos += step;    // Take a step
+    if(pos &gt; max || pos &lt; min) {
+        step *= -1;
+    }
+    move(pos);
+}
+
+function move(pos) {
+    var dutyCycle = pos/1000*freq;
+    b.analogWrite(motor, dutyCycle, freq);
+    console.log('pos = ' + pos + ' duty cycle = ' + dutyCycle);
+}
+
+process.on('SIGINT', function() {
+    console.log('Got SIGINT, turning motor off');
+    clearInterval(timer);             // Stop the timer
+    b.analogWrite(motor, 0, freq);    // Turn motor off
+});</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Running the code causes the motor to move back and forth, progressing to successive  positions between the two extremes.  You will need to press ^C (Ctrl-C) to stop the script.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_discussion">Discussion</h4>
+
+</div>
+</div>
+<div class="sect2">
+<h3 id="motors_dcSpeed">Controlling the Speed of a DC Motor</h3>
+<div class="sect3">
+<h4 id="_problem_2">Problem</h4>
+<div class="paragraph">
+<p>You have a DC motor (or a solenoid) and want a simple way to control its speed, but not the direction.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_solution_2">Solution</h4>
+<div class="paragraph">
+<p>It would be nice if you could just wire the DC motor to BeagleBone Black and have it work, but it won&#8217;t.  Most motors require more current than the GPIO ports on the Bone can supply. Our solution is to use a transistor to control the current to the bone.</p>
+</div>
+<div class="paragraph pagebreak-before">
+<p>Here&#8217;s what you will need:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>3 V to 5 V DC motor</p>
 </li>
 <li>
-<p><a href="02sensors/sensors.html">Sensors</a></p>
-<div class="ulist checklist">
-<ul class="checklist">
-<li>
-<p>&#10063; Introduction</p>
+<p>Breadboard and jumper wires (see <a href="#app_proto">[app_proto]</a>)</p>
 </li>
 <li>
-<p>&#10063; Choosing a Method to Connect Your Sensor</p>
+<p>1 k&#8486; resistor (see <a href="#app_resistor">[app_resistor]</a>)</p>
 </li>
 <li>
-<p>&#10063; Input and Run a JavaScript Application for Talking to Sensors</p>
+<p>Transistor 2N3904 (see <a href="#app_transistor">[app_transistor]</a>)</p>
 </li>
 <li>
-<p>&#10063; Reading the Status of a Pushbutton or Magnetic Switch (Passive On/Off Sensor)</p>
+<p>Diode 1N4001 (see <a href="#app_transistor">[app_transistor]</a>)</p>
 </li>
 <li>
-<p>&#10063; Reading a Position, Light, or Force Sensor (Variable Resistance Sensor)</p>
-</li>
-<li>
-<p>&#10063; Reading a Distance Sensor (Analog or Variable Voltage Sensor)</p>
-</li>
-<li>
-<p>&#10063; Reading a Distance Sensor (Variable Pulse Width Sensor)</p>
-</li>
-<li>
-<p>&#10063; Accurately Reading the Position of a Motor or Dial</p>
-</li>
-<li>
-<p>&#10063; Acquiring Data by Using a Smart Sensor over a Serial Connection</p>
-</li>
-<li>
-<p>&#10063; Measuring a Temperature</p>
-</li>
-<li>
-<p>&#10063; Reading Temperature via a Dallas 1-Wire Device</p>
-</li>
-<li>
-<p>&#10063; Sensing All Sorts of Things with SensorTag via Bluetooth v4.0</p>
-</li>
-<li>
-<p>&#10063; Playing and Recording Audio</p>
+<p>Power supply for the motor (optional)</p>
 </li>
 </ul>
 </div>
+<div class="paragraph">
+<p>If you are using a larger motor (more current), you will need to use a larger transistor.</p>
+</div>
+<div class="paragraph">
+<p>Wire your breadboard as shown in <a href="#motors_dcMotor_fig">Wiring a DC motor to spin one direction</a>.</p>
+</div>
+<div id="motors_dcMotor_fig" class="paragraph">
+<div class="title">Wiring a DC motor to spin one direction</div>
+<p><span class="image"><img src="figures/dcMotor_bb.png" alt="DC Motor"></span></p>
+</div>
+<div class="paragraph">
+<p>Use the code in <a href="#motors_dcMotor_code">Driving a DC motor in one direction (dcMotor.js)</a> (<em>dcMotor.js</em>) to run the motor.</p>
+</div>
+<div id="motors_dcMotor_code" class="exampleblock pagebreak-before">
+<div class="title">Example 2. Driving a DC motor in one direction (dcMotor.js)</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-javascript" data-lang="javascript">#!/usr/bin/env node
+
+// This is an example of driving a DC motor
+
+var b = require('bonescript');
+
+var motor = 'P9_16',// Pin to drive transistor
+    min = 0.05,     // Slowest speed (duty cycle)
+    max = 1,        // Fastest (always on)
+    ms = 100,       // How often to change speed, in ms
+    speed = 0.5,    // Current speed;
+    step = 0.05;    // Change in speed
+
+b.pinMode(motor, b.ANALOG_OUTPUT, 6, 0, 0, doInterval);
+
+function doInterval(x) {
+    if(x.err) {
+        console.log('x.err = ' + x.err);
+        return;
+    }
+    var timer = setInterval(sweep, ms);
+}
+
+function sweep() {
+    speed += step;
+    if(speed &gt; max || speed &lt; min) {
+        step *= -1;
+    }
+    b.analogWrite(motor, speed);
+    console.log('speed = ' + speed);
+}
+
+process.on('SIGINT', function() {
+    console.log('Got SIGINT, turning motor off');
+    clearInterval(timer);       // Stop the timer
+    b.analogWrite(motor, 0);    // Turn motor off
+});</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_discussion_2">Discussion</h4>
+
+</div>
+<div class="sect3">
+<h4 id="_see_also">See Also</h4>
+<div class="paragraph">
+<p>How do you change the direction of the motor? See <a href="#motors_dcDirection">Controlling the Speed and Direction of a DC Motor</a>.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="motors_dcDirection">Controlling the Speed and Direction of a DC Motor</h3>
+<div class="sect3">
+<h4 id="_problem_3">Problem</h4>
+<div class="paragraph">
+<p>You would like your DC motor to go forward and backward.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_solution_3">Solution</h4>
+<div class="paragraph">
+<p>Use an H-bridge to switch the terminals on the motor so that it will run both backward and forward. We&#8217;ll use the <em>L293D</em>: a common, single-chip H-bridge.</p>
+</div>
+<div class="paragraph">
+<p>Here&#8217;s what you will need:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>3 V to 5 V motor (see <a href="#app_misc">[app_misc]</a>)</p>
 </li>
 <li>
-<p><a href="03displays/displays.html">Displays</a></p>
-<div class="ulist checklist">
-<ul class="checklist">
-<li>
-<p>&#10063; Introduction</p>
+<p>Breadboard and jumper wires (see <a href="#app_proto">[app_proto]</a>)</p>
 </li>
 <li>
-<p>&#10063; Toggling an Onboard LED</p>
+<p>L293D H-Bridge IC (see <a href="#app_ic">[app_ic]</a>)</p>
 </li>
 <li>
-<p>&#10063; Toggling an External LED</p>
-</li>
-<li>
-<p>&#10063; Toggling a High-Voltage External Device</p>
-</li>
-<li>
-<p>&#10063; Fading an External LED</p>
-</li>
-<li>
-<p>&#10063; Writing to an LED Matrix</p>
-</li>
-<li>
-<p>&#10063; Driving a 5 V Device</p>
-</li>
-<li>
-<p>&#10063; Writing to a NeoPixel LED String</p>
-</li>
-<li>
-<p>&#10063; Using a Nokia 5510 LCD Display</p>
-</li>
-<li>
-<p>&#10063; Making Your Bone Speak</p>
+<p>Power supply for the motor (optional)</p>
 </li>
 </ul>
 </div>
+<div class="paragraph">
+<p>Lay out your breadboard as shown in <a href="#motors_h-bridge_fig">Driving a DC motor with an H-bridge</a>. Ensure that the L293D is positioned correctly.  There is a notch on one end that should be pointed up.</p>
+</div>
+<div id="motors_h-bridge_fig" class="paragraph">
+<div class="title">Driving a DC motor with an H-bridge</div>
+<p><span class="image"><img src="figures/h-bridgeMotor_bb.png" alt="H-bridge Motor"></span></p>
+</div>
+<div class="paragraph">
+<p>The code in <a href="#motors_h-bridge_code">Code for driving a DC motor with an H-bridge (h-bridgeMotor.js)</a> (<em>h-bridgeMotor.js</em>) looks much like the code for driving the DC motor with a transistor (<a href="#motors_dcMotor_code">Driving a DC motor in one direction (dcMotor.js)</a>).
+The additional code specifies which direction to spin the motor.</p>
+</div>
+<div id="motors_h-bridge_code" class="exampleblock">
+<div class="title">Example 3. Code for driving a DC motor with an H-bridge (h-bridgeMotor.js)</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-javascript" data-lang="javascript">#!/usr/bin/env node
+
+// This example uses an H-bridge to drive a DC motor in two directions
+
+var b = require('bonescript');
+
+var enable = 'P9_21';    // Pin to use for PWM speed control
+    in1    = 'P9_15',
+    in2    = 'P9_16',
+    step = 0.05,    // Change in speed
+    min  = 0.05,    // Min duty cycle
+    max  = 1.0,     // Max duty cycle
+    ms   = 100,     // Update time, in ms
+    speed = min;    // Current speed;
+
+b.pinMode(enable, b.ANALOG_OUTPUT, 6, 0, 0, doInterval);
+b.pinMode(in1, b.OUTPUT);
+b.pinMode(in2, b.OUTPUT);
+
+function doInterval(x) {
+    if(x.err) {
+        console.log('x.err = ' + x.err);
+        return;
+    }
+    timer = setInterval(sweep, ms);
+}
+
+clockwise();        // Start by going clockwise
+
+function sweep() {
+    speed += step;
+    if(speed &gt; max || speed &lt; min) {
+        step *= -1;
+        step&gt;0 ? clockwise() : counterClockwise();
+    }
+    b.analogWrite(enable, speed);
+    console.log('speed = ' + speed);
+}
+
+function clockwise() {
+    b.digitalWrite(in1, b.HIGH);
+    b.digitalWrite(in2, b.LOW);
+}
+
+function counterClockwise() {
+    b.digitalWrite(in1, b.LOW);
+    b.digitalWrite(in2, b.HIGH);
+}
+
+process.on('SIGINT', function() {
+    console.log('Got SIGINT, turning motor off');
+    clearInterval(timer);         // Stop the timer
+    b.analogWrite(enable, 0);     // Turn motor off
+});</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_discussion_3">Discussion</h4>
+
+</div>
+</div>
+<div class="sect2">
+<h3 id="_driving_a_bipolar_stepper_motor">Driving a Bipolar Stepper Motor</h3>
+<div class="sect3">
+<h4 id="_problem_4">Problem</h4>
+<div class="paragraph">
+<p>You want to drive a stepper motor that has four wires.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_solution_4">Solution</h4>
+<div class="paragraph">
+<p>Use an L293D H-bridge. The bipolar stepper motor requires us to reverse the coils, so we need to use an H-bridge.</p>
+</div>
+<div class="paragraph">
+<p>Here&#8217;s what you will need:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Breadboard and jumper wires (see <a href="#app_proto">[app_proto]</a>)</p>
 </li>
 <li>
-<p><a href="04motors/motors.html">Motors</a></p>
-<div class="ulist checklist">
-<ul class="checklist">
-<li>
-<p>&#10063; Introduction</p>
+<p>3 V to 5 V bipolar stepper motor (see <a href="#app_misc">[app_misc]</a>)</p>
 </li>
 <li>
-<p>&#10063; Controlling a Servo Motor</p>
-</li>
-<li>
-<p>&#10063; Controlling the Speed of a DC Motor</p>
-</li>
-<li>
-<p>&#10063; Controlling the Speed and Direction of a DC Motor</p>
-</li>
-<li>
-<p>&#10063; Driving a Bipolar Stepper Motor</p>
-</li>
-<li>
-<p>&#10063; Driving a Unipolar Stepper Motor</p>
+<p>L293D H-Bridge IC (see <a href="#app_ic">[app_ic]</a>)</p>
 </li>
 </ul>
 </div>
+<div class="paragraph">
+<p>Wire as shown in <a href="#motors_bipolar_fig">Bipolar stepper motor wiring</a>.</p>
+</div>
+<div id="motors_bipolar_fig" class="paragraph">
+<div class="title">Bipolar stepper motor wiring</div>
+<p><span class="image"><img src="figures/bipolarStepperMotor_bb.png" alt="Bipolar Stepper Motor"></span></p>
+</div>
+<div class="paragraph">
+<p>Use the code in <a href="#motors_stepperMotor_code">Driving a bipolar stepper motor (bipolarStepperMotor.js)</a> (<em>bipolarStepperMotor.js</em>) to drive the motor.</p>
+</div>
+<div id="motors_stepperMotor_code" class="exampleblock">
+<div class="title">Example 4. Driving a bipolar stepper motor (bipolarStepperMotor.js)</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-js" data-lang="js">#!/usr/bin/env node
+var b = require('bonescript');
+
+// Motor is attached here
+var controller = ["P9_11", "P9_13", "P9_15", "P9_17"]; 
+var states = [[1,0,0,0], [0,1,0,0], [0,0,1,0], [0,0,0,1]];
+var statesHiTorque = [[1,1,0,0], [0,1,1,0], [0,0,1,1], [1,0,0,1]];
+var statesHalfStep = [[1,0,0,0], [1,1,0,0], [0,1,0,0], [0,1,1,0],
+                      [0,0,1,0], [0,0,1,1], [0,0,0,1], [1,0,0,1]];
+
+var curState = 0;   // Current state
+var ms = 100,       // Time between steps, in ms
+    max = 22,       // Number of steps to turn before turning around
+    min = 0;        // Minimum step to turn back around on
+
+var CW  =  1,       // Clockwise
+    CCW = -1,
+    pos = 0,        // current position and direction
+    direction = CW;
+
+// Initialize motor control pins to be OUTPUTs
+var i;
+for(i=0; i&lt;controller.length; i++) {
+    b.pinMode(controller[i], b.OUTPUT);
+}
+
+// Put the motor into a known state
+updateState(states[0]);
+rotate(direction);
+
+var timer = setInterval(move, ms);
+
+// Rotate back and forth once
+function move() {
+    pos += direction;
+    console.log("pos: " + pos);
+    // Switch directions if at end.
+    if (pos &gt;= max || pos &lt;= min) {
+        direction *= -1;
+    }
+    rotate(direction);
+}
+
+// This is the general rotate
+function rotate(direction) {
+	// console.log("rotate(%d)", direction);
+    // Rotate the state acording to the direction of rotation
+	curState +=  direction;
+	if(curState &gt;= states.length) {
+	    curState = 0;
+	} else if(curState&lt;0) {
+		    curState = states.length-1;
+	}
+	updateState(states[curState]);
+}
+
+// Write the current input state to the controller
+function updateState(state) {
+    console.log("state: " + state);
+	for (i=0; i&lt;controller.length; i++) {
+		b.digitalWrite(controller[i], state[i]);
+	}
+}
+
+process.on('exit', function() {
+    updateState([0,0,0,0]);    // Turn motor off
+});</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>When you run the code, the stepper motor will rotate back and forth.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_discussion_4">Discussion</h4>
+
+</div>
+</div>
+<div class="sect2">
+<h3 id="_driving_a_unipolar_stepper_motor">Driving a Unipolar Stepper Motor</h3>
+<div class="sect3">
+<h4 id="_problem_5">Problem</h4>
+<div class="paragraph">
+<p>You want to drive a stepper motor that has five or six wires.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_solution_5">Solution</h4>
+<div class="paragraph">
+<p>If your stepper motor has five or six wires, it&#8217;s a <em>unipolar</em> stepper and is wired differently than the bipolar. Here, we&#8217;ll use a <em>ULN2003 Darlington Transistor Array IC</em> to drive the motor.</p>
+</div>
+<div class="paragraph">
+<p>Here&#8217;s what you will need:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Breadboard and jumper wires (see <a href="#app_proto">[app_proto]</a>)</p>
 </li>
 <li>
-<p><a href="05tips/tips.html">Beyond Basics</a></p>
-<div class="ulist checklist">
-<ul class="checklist">
-<li>
-<p>&#10063; Introduction</p>
+<p>3 V to 5 V unipolar stepper motor (see <a href="#app_misc">[app_misc]</a>)</p>
 </li>
 <li>
-<p>&#10063; Running Your Bone Standalone</p>
-</li>
-<li>
-<p>&#10063; Selecting an OS for Your Development Host Computer</p>
-</li>
-<li>
-<p>&#10063; Getting to the Command Shell via SSH</p>
-</li>
-<li>
-<p>&#10063; Getting to the Command Shell via the Virtual Serial Port</p>
-</li>
-<li>
-<p>&#10063; Viewing and Debugging the Kernel and u-boot Messages at Boot Time</p>
-</li>
-<li>
-<p>&#10063; Verifying You Have the Latest Version of the OS on Your Bone from the Shell</p>
-</li>
-<li>
-<p>&#10063; Controlling the Bone Remotely with VNC</p>
-</li>
-<li>
-<p>&#10063; Learning Typical GNU/Linux Commands</p>
-</li>
-<li>
-<p>&#10063; Editing a Text File from the GNU/Linux Command Shell</p>
-</li>
-<li>
-<p>&#10063; Using a Graphical Editor</p>
-</li>
-<li>
-<p>&#10063; Establishing an Ethernet-Based Internet Connection</p>
-</li>
-<li>
-<p>&#10063; Establishing a WiFi-Based Internet Connection</p>
-</li>
-<li>
-<p>&#10063; Sharing the Host&#8217;s Internet Connection over USB</p>
-</li>
-<li>
-<p>&#10063; Setting Up a Firewall</p>
-</li>
-<li>
-<p>&#10063; Installing Additional Packages from the Debian Package Feed</p>
-</li>
-<li>
-<p>&#10063; Removing Packages Installed with apt-get</p>
-</li>
-<li>
-<p>&#10063; Copying Files Between the Onboard Flash and the MicroSD Card</p>
-</li>
-<li>
-<p>&#10063; Freeing Space on the Onboard Flash or MicroSD Card</p>
-</li>
-<li>
-<p>&#10063; Installing Additional Node.js Packages</p>
-</li>
-<li>
-<p>&#10063; Using Python to Interact with the Physical World</p>
-</li>
-<li>
-<p>&#10063; Using C to Interact with the Physical World</p>
+<p>ULN2003 Darlington Transistor Array IC (see <a href="#app_ic">[app_ic]</a>)</p>
 </li>
 </ul>
 </div>
+<div class="paragraph">
+<p>Wire, as shown in <a href="#motors_unipolar_fig">Unipolar stepper motor wiring</a>.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>The IC in <a href="#motors_unipolar_fig">Unipolar stepper motor wiring</a> is illustrated upside down from the way it is usually displayed.
+That is, the notch for pin 1 is on the bottom. This made drawing the diagram much cleaner.</p>
+</div>
+<div class="paragraph">
+<p>Also, notice the <em>banded</em> wire running the P9_7 (5 V) to the UL2003A.
+The stepper motor I&#8217;m using runs better at 5 V, so I&#8217;m using the Bone&#8217;s 5 V power supply. The signal coming from the GPIO pins is 3.3 V, but the U2003A will step them up to 5 V to drive the motor.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="motors_unipolar_fig" class="paragraph">
+<div class="title">Unipolar stepper motor wiring</div>
+<p><span class="image"><img src="figures/unipolarStepperMotor_bb.png" alt="Unipolar Stepper Motor"></span></p>
+</div>
+<div class="paragraph">
+<p>The code for driving the motor is in <em>unipolarStepperMotor.js</em>; however, it is almost identical to the bipolar stepper code (<a href="#motors_stepperMotor_code">Driving a bipolar stepper motor (bipolarStepperMotor.js)</a>), so <a href="#motors_unistepperMotor_code">Changes to bipolar code to drive a unipolar stepper motor (unipolarStepperMotor.diff)</a> shows only the lines that you need to change.</p>
+</div>
+<div id="motors_unistepperMotor_code" class="exampleblock">
+<div class="title">Example 5. Changes to bipolar code to drive a unipolar stepper motor (unipolarStepperMotor.diff)</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-js" data-lang="js">var controller = ["P9_11", "P9_13", "P9_15", "P9_17"];
+var states = [[1,1,0,0], [0,1,1,0], [0,0,1,1], [1,0,0,1]];
+var curState = 0;   // Current state
+var ms = 100,       // Time between steps, in ms
+    max = 22,       // Number of steps to turn before turning around</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="paragraph pagebreak-before">
+<p>The code in this example makes the following changes:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>controller is attached to the <em>even</em>-numbered pins on the P9 header rather than the <em>odd</em> that the bipolar stepper used. (Doing this allows you to run both types of stepper motors at the same time!)</p>
 </li>
 <li>
-<p><a href="06iot/iot.html">Internet of Things</a></p>
-<div class="ulist checklist">
-<ul class="checklist">
-<li>
-<p>&#10063; Introduction</p>
+<p>The states are different. Here, we have two pins high at a time.</p>
 </li>
 <li>
-<p>&#10063; Accessing Your Host Computer&#8217;s Files on the Bone</p>
-</li>
-<li>
-<p>&#10063; Serving Web Pages from the Bone</p>
-</li>
-<li>
-<p>&#10063; Interacting with the Bone via a Web Browser</p>
-</li>
-<li>
-<p>&#10063; Displaying GPIO Status in a Web Browser</p>
-</li>
-<li>
-<p>&#10063; Continuously Displaying the GPIO Value via jsfiddle</p>
-</li>
-<li>
-<p>&#10063; Continuously Displaying the GPIO Value</p>
-</li>
-<li>
-<p>&#10063; Plotting Data</p>
-</li>
-<li>
-<p>&#10063; Sending an Email</p>
-</li>
-<li>
-<p>&#10063; Sending an SMS Message</p>
-</li>
-<li>
-<p>&#10063; Displaying the Current Weather Conditions</p>
-</li>
-<li>
-<p>&#10063; Sending and Receiving Tweets</p>
-</li>
-<li>
-<p>&#10063; Wiring the IoT with Node-RED</p>
-</li>
-<li>
-<p>&#10063; Serving Web Pages from the Bone by Using Apache</p>
-</li>
-<li>
-<p>&#10063; Communicating over a Serial Connection to an Arduino or LaunchPad</p>
+<p>The time between steps (ms) is shorter, and the number of steps per direction (max) is bigger. The unipolar stepper I&#8217;m using has many more steps per rotation, so I need more steps to make it go around.</p>
 </li>
 </ul>
 </div>
-</li>
-<li>
-<p><a href="07kernel/kernel.html">The Kernel</a></p>
-<div class="ulist checklist">
-<ul class="checklist">
-<li>
-<p>&#10063; Introduction</p>
-</li>
-<li>
-<p>&#10063; Updating the Kernel</p>
-</li>
-<li>
-<p>&#10063; Building and Installing Kernel Modules</p>
-</li>
-<li>
-<p>&#10063; Controlling LEDs by Using SYSFS Entries</p>
-</li>
-<li>
-<p>&#10063; Controlling GPIOs by Using SYSFS Entries</p>
-</li>
-<li>
-<p>&#10063; Compiling the Kernel</p>
-</li>
-<li>
-<p>&#10063; Using the Installed Cross Compiler</p>
-</li>
-<li>
-<p>&#10063; Applying Patches</p>
-</li>
-<li>
-<p>&#10063; Creating Your Own Patch File</p>
-</li>
-</ul>
 </div>
-</li>
-<li>
-<p><a href="08realtime/realtime.html">Real-Time I/O</a></p>
-<div class="ulist checklist">
-<ul class="checklist">
-<li>
-<p>&#10063; Introduction</p>
-</li>
-<li>
-<p>&#10063; I/O with BoneScript</p>
-</li>
-<li>
-<p>&#10063; I/O with C and libsoc</p>
-</li>
-<li>
-<p>&#10063; I/O with devmem2</p>
-</li>
-<li>
-<p>&#10063; I/O with C and mmap()</p>
-</li>
-<li>
-<p>&#10063; Modifying the Linux Kernel to Use Xenomai</p>
-</li>
-<li>
-<p>&#10063; I/O with PRU Speak</p>
-</li>
-</ul>
+<div class="sect3">
+<h4 id="_discussion_5">Discussion</h4>
+
 </div>
-</li>
-<li>
-<p><a href="09capes/capes.html">Capes</a></p>
-<div class="ulist checklist">
-<ul class="checklist">
-<li>
-<p>&#10063; Introduction</p>
-</li>
-<li>
-<p>&#10063; Using a Seven-Inch LCD Cape</p>
-</li>
-<li>
-<p>&#10063; Using a 128 x 128-Pixel LCD Cape</p>
-</li>
-<li>
-<p>&#10063; Connecting Multiple Capes</p>
-</li>
-<li>
-<p>&#10063; Moving from a Breadboard to a Protoboard</p>
-</li>
-<li>
-<p>&#10063; Creating a Prototype Schematic</p>
-</li>
-<li>
-<p>&#10063; Verifying Your Cape Design</p>
-</li>
-<li>
-<p>&#10063; Laying Out Your Cape PCB</p>
-</li>
-<li>
-<p>&#10063; Migrating a Fritzing Schematic to Another Tool</p>
-</li>
-<li>
-<p>&#10063; Producing a Prototype</p>
-</li>
-<li>
-<p>&#10063; Creating Contents for Your Cape Configuration EEPROM</p>
-</li>
-<li>
-<p>&#10063; Putting Your Cape Design into Production</p>
-</li>
-</ul>
-</div>
-</li>
-<li>
-<p><a href="10parts/parts.html">Parts and Supppliers</a></p>
-<div class="ulist checklist">
-<ul class="checklist">
-<li>
-<p>&#10063; Parts</p>
-</li>
-<li>
-<p>&#10063; Prototyping Equipment</p>
-</li>
-<li>
-<p>&#10063; Resistors</p>
-</li>
-<li>
-<p>&#10063; Transistors and Diodes</p>
-</li>
-<li>
-<p>&#10063; Integrated Circuits</p>
-</li>
-<li>
-<p>&#10063; Opto-Electronics</p>
-</li>
-<li>
-<p>&#10063; Capes</p>
-</li>
-<li>
-<p>&#10063; Miscellaneous</p>
-</li>
-</ul>
-</div>
-</li>
-</ol>
 </div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2022-06-25 13:14:11 -0400
+Last updated 2022-06-25 13:14:09 -0400
 </div>
 </div>
 </body>

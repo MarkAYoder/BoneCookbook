@@ -1,0 +1,2133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.12">
+<title>Internet of Things</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
+<style>
+/* Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
+/* Uncomment @import statement to use as custom stylesheet */
+/*@import "https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700";*/
+article,aside,details,figcaption,figure,footer,header,hgroup,main,nav,section{display:block}
+audio,video{display:inline-block}
+audio:not([controls]){display:none;height:0}
+html{font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}
+a{background:none}
+a:focus{outline:thin dotted}
+a:active,a:hover{outline:0}
+h1{font-size:2em;margin:.67em 0}
+abbr[title]{border-bottom:1px dotted}
+b,strong{font-weight:bold}
+dfn{font-style:italic}
+hr{-moz-box-sizing:content-box;box-sizing:content-box;height:0}
+mark{background:#ff0;color:#000}
+code,kbd,pre,samp{font-family:monospace;font-size:1em}
+pre{white-space:pre-wrap}
+q{quotes:"\201C" "\201D" "\2018" "\2019"}
+small{font-size:80%}
+sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}
+sup{top:-.5em}
+sub{bottom:-.25em}
+img{border:0}
+svg:not(:root){overflow:hidden}
+figure{margin:0}
+fieldset{border:1px solid silver;margin:0 2px;padding:.35em .625em .75em}
+legend{border:0;padding:0}
+button,input,select,textarea{font-family:inherit;font-size:100%;margin:0}
+button,input{line-height:normal}
+button,select{text-transform:none}
+button,html input[type="button"],input[type="reset"],input[type="submit"]{-webkit-appearance:button;cursor:pointer}
+button[disabled],html input[disabled]{cursor:default}
+input[type="checkbox"],input[type="radio"]{box-sizing:border-box;padding:0}
+button::-moz-focus-inner,input::-moz-focus-inner{border:0;padding:0}
+textarea{overflow:auto;vertical-align:top}
+table{border-collapse:collapse;border-spacing:0}
+*,*::before,*::after{-moz-box-sizing:border-box;-webkit-box-sizing:border-box;box-sizing:border-box}
+html,body{font-size:100%}
+body{background:#fff;color:rgba(0,0,0,.8);padding:0;margin:0;font-family:"Noto Serif","DejaVu Serif",serif;font-weight:400;font-style:normal;line-height:1;position:relative;cursor:auto;tab-size:4;word-wrap:anywhere;-moz-osx-font-smoothing:grayscale;-webkit-font-smoothing:antialiased}
+a:hover{cursor:pointer}
+img,object,embed{max-width:100%;height:auto}
+object,embed{height:100%}
+img{-ms-interpolation-mode:bicubic}
+.left{float:left!important}
+.right{float:right!important}
+.text-left{text-align:left!important}
+.text-right{text-align:right!important}
+.text-center{text-align:center!important}
+.text-justify{text-align:justify!important}
+.hide{display:none}
+img,object,svg{display:inline-block;vertical-align:middle}
+textarea{height:auto;min-height:50px}
+select{width:100%}
+.subheader,.admonitionblock td.content>.title,.audioblock>.title,.exampleblock>.title,.imageblock>.title,.listingblock>.title,.literalblock>.title,.stemblock>.title,.openblock>.title,.paragraph>.title,.quoteblock>.title,table.tableblock>.title,.verseblock>.title,.videoblock>.title,.dlist>.title,.olist>.title,.ulist>.title,.qlist>.title,.hdlist>.title{line-height:1.45;color:#7a2518;font-weight:400;margin-top:0;margin-bottom:.25em}
+div,dl,dt,dd,ul,ol,li,h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6,pre,form,p,blockquote,th,td{margin:0;padding:0}
+a{color:#2156a5;text-decoration:underline;line-height:inherit}
+a:hover,a:focus{color:#1d4b8f}
+a img{border:0}
+p{font-family:inherit;font-weight:400;font-size:1em;line-height:1.6;margin-bottom:1.25em;text-rendering:optimizeLegibility}
+p aside{font-size:.875em;line-height:1.35;font-style:italic}
+h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6{font-family:"Open Sans","DejaVu Sans",sans-serif;font-weight:300;font-style:normal;color:#ba3925;text-rendering:optimizeLegibility;margin-top:1em;margin-bottom:.5em;line-height:1.0125em}
+h1 small,h2 small,h3 small,#toctitle small,.sidebarblock>.content>.title small,h4 small,h5 small,h6 small{font-size:60%;color:#e99b8f;line-height:0}
+h1{font-size:2.125em}
+h2{font-size:1.6875em}
+h3,#toctitle,.sidebarblock>.content>.title{font-size:1.375em}
+h4,h5{font-size:1.125em}
+h6{font-size:1em}
+hr{border:solid #dddddf;border-width:1px 0 0;clear:both;margin:1.25em 0 1.1875em;height:0}
+em,i{font-style:italic;line-height:inherit}
+strong,b{font-weight:bold;line-height:inherit}
+small{font-size:60%;line-height:inherit}
+code{font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;font-weight:400;color:rgba(0,0,0,.9)}
+ul,ol,dl{font-size:1em;line-height:1.6;margin-bottom:1.25em;list-style-position:outside;font-family:inherit}
+ul,ol{margin-left:1.5em}
+ul li ul,ul li ol{margin-left:1.25em;margin-bottom:0;font-size:1em}
+ul.square li ul,ul.circle li ul,ul.disc li ul{list-style:inherit}
+ul.square{list-style-type:square}
+ul.circle{list-style-type:circle}
+ul.disc{list-style-type:disc}
+ol li ul,ol li ol{margin-left:1.25em;margin-bottom:0}
+dl dt{margin-bottom:.3125em;font-weight:bold}
+dl dd{margin-bottom:1.25em}
+abbr,acronym{text-transform:uppercase;font-size:90%;color:rgba(0,0,0,.8);border-bottom:1px dotted #ddd;cursor:help}
+abbr{text-transform:none}
+blockquote{margin:0 0 1.25em;padding:.5625em 1.25em 0 1.1875em;border-left:1px solid #ddd}
+blockquote cite{display:block;font-size:.9375em;color:rgba(0,0,0,.6)}
+blockquote cite::before{content:"\2014 \0020"}
+blockquote cite a,blockquote cite a:visited{color:rgba(0,0,0,.6)}
+blockquote,blockquote p{line-height:1.6;color:rgba(0,0,0,.85)}
+@media screen and (min-width:768px){h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6{line-height:1.2}
+h1{font-size:2.75em}
+h2{font-size:2.3125em}
+h3,#toctitle,.sidebarblock>.content>.title{font-size:1.6875em}
+h4{font-size:1.4375em}}
+table{background:#fff;margin-bottom:1.25em;border:solid 1px #dedede;word-wrap:normal}
+table thead,table tfoot{background:#f7f8f7}
+table thead tr th,table thead tr td,table tfoot tr th,table tfoot tr td{padding:.5em .625em .625em;font-size:inherit;color:rgba(0,0,0,.8);text-align:left}
+table tr th,table tr td{padding:.5625em .625em;font-size:inherit;color:rgba(0,0,0,.8)}
+table tr.even,table tr.alt{background:#f8f8f7}
+table thead tr th,table tfoot tr th,table tbody tr td,table tr td,table tfoot tr td{line-height:1.6}
+h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6{line-height:1.2;word-spacing:-.05em}
+h1 strong,h2 strong,h3 strong,#toctitle strong,.sidebarblock>.content>.title strong,h4 strong,h5 strong,h6 strong{font-weight:400}
+.center{margin-left:auto;margin-right:auto}
+.stretch{width:100%}
+.clearfix::before,.clearfix::after,.float-group::before,.float-group::after{content:" ";display:table}
+.clearfix::after,.float-group::after{clear:both}
+:not(pre).nobreak{word-wrap:normal}
+:not(pre).nowrap{white-space:nowrap}
+:not(pre).pre-wrap{white-space:pre-wrap}
+:not(pre):not([class^=L])>code{font-size:.9375em;font-style:normal!important;letter-spacing:0;padding:.1em .5ex;word-spacing:-.15em;background:#f7f7f8;-webkit-border-radius:4px;border-radius:4px;line-height:1.45;text-rendering:optimizeSpeed}
+pre{color:rgba(0,0,0,.9);font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;line-height:1.45;text-rendering:optimizeSpeed}
+pre code,pre pre{color:inherit;font-size:inherit;line-height:inherit}
+pre>code{display:block}
+pre.nowrap,pre.nowrap pre{white-space:pre;word-wrap:normal}
+em em{font-style:normal}
+strong strong{font-weight:400}
+.keyseq{color:rgba(51,51,51,.8)}
+kbd{font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;display:inline-block;color:rgba(0,0,0,.8);font-size:.65em;line-height:1.45;background:#f7f7f7;border:1px solid #ccc;-webkit-border-radius:3px;border-radius:3px;-webkit-box-shadow:0 1px 0 rgba(0,0,0,.2),0 0 0 .1em white inset;box-shadow:0 1px 0 rgba(0,0,0,.2),0 0 0 .1em #fff inset;margin:0 .15em;padding:.2em .5em;vertical-align:middle;position:relative;top:-.1em;white-space:nowrap}
+.keyseq kbd:first-child{margin-left:0}
+.keyseq kbd:last-child{margin-right:0}
+.menuseq,.menuref{color:#000}
+.menuseq b:not(.caret),.menuref{font-weight:inherit}
+.menuseq{word-spacing:-.02em}
+.menuseq b.caret{font-size:1.25em;line-height:.8}
+.menuseq i.caret{font-weight:bold;text-align:center;width:.45em}
+b.button::before,b.button::after{position:relative;top:-1px;font-weight:400}
+b.button::before{content:"[";padding:0 3px 0 2px}
+b.button::after{content:"]";padding:0 2px 0 3px}
+p a>code:hover{color:rgba(0,0,0,.9)}
+#header,#content,#footnotes,#footer{width:100%;margin-left:auto;margin-right:auto;margin-top:0;margin-bottom:0;max-width:62.5em;*zoom:1;position:relative;padding-left:.9375em;padding-right:.9375em}
+#header::before,#header::after,#content::before,#content::after,#footnotes::before,#footnotes::after,#footer::before,#footer::after{content:" ";display:table}
+#header::after,#content::after,#footnotes::after,#footer::after{clear:both}
+#content{margin-top:1.25em}
+#content::before{content:none}
+#header>h1:first-child{color:rgba(0,0,0,.85);margin-top:2.25rem;margin-bottom:0}
+#header>h1:first-child+#toc{margin-top:8px;border-top:1px solid #dddddf}
+#header>h1:only-child,body.toc2 #header>h1:nth-last-child(2){border-bottom:1px solid #dddddf;padding-bottom:8px}
+#header .details{border-bottom:1px solid #dddddf;line-height:1.45;padding-top:.25em;padding-bottom:.25em;padding-left:.25em;color:rgba(0,0,0,.6);display:-ms-flexbox;display:-webkit-flex;display:flex;-ms-flex-flow:row wrap;-webkit-flex-flow:row wrap;flex-flow:row wrap}
+#header .details span:first-child{margin-left:-.125em}
+#header .details span.email a{color:rgba(0,0,0,.85)}
+#header .details br{display:none}
+#header .details br+span::before{content:"\00a0\2013\00a0"}
+#header .details br+span.author::before{content:"\00a0\22c5\00a0";color:rgba(0,0,0,.85)}
+#header .details br+span#revremark::before{content:"\00a0|\00a0"}
+#header #revnumber{text-transform:capitalize}
+#header #revnumber::after{content:"\00a0"}
+#content>h1:first-child:not([class]){color:rgba(0,0,0,.85);border-bottom:1px solid #dddddf;padding-bottom:8px;margin-top:0;padding-top:1rem;margin-bottom:1.25rem}
+#toc{border-bottom:1px solid #e7e7e9;padding-bottom:.5em}
+#toc>ul{margin-left:.125em}
+#toc ul.sectlevel0>li>a{font-style:italic}
+#toc ul.sectlevel0 ul.sectlevel1{margin:.5em 0}
+#toc ul{font-family:"Open Sans","DejaVu Sans",sans-serif;list-style-type:none}
+#toc li{line-height:1.3334;margin-top:.3334em}
+#toc a{text-decoration:none}
+#toc a:active{text-decoration:underline}
+#toctitle{color:#7a2518;font-size:1.2em}
+@media screen and (min-width:768px){#toctitle{font-size:1.375em}
+body.toc2{padding-left:15em;padding-right:0}
+#toc.toc2{margin-top:0!important;background:#f8f8f7;position:fixed;width:15em;left:0;top:0;border-right:1px solid #e7e7e9;border-top-width:0!important;border-bottom-width:0!important;z-index:1000;padding:1.25em 1em;height:100%;overflow:auto}
+#toc.toc2 #toctitle{margin-top:0;margin-bottom:.8rem;font-size:1.2em}
+#toc.toc2>ul{font-size:.9em;margin-bottom:0}
+#toc.toc2 ul ul{margin-left:0;padding-left:1em}
+#toc.toc2 ul.sectlevel0 ul.sectlevel1{padding-left:0;margin-top:.5em;margin-bottom:.5em}
+body.toc2.toc-right{padding-left:0;padding-right:15em}
+body.toc2.toc-right #toc.toc2{border-right-width:0;border-left:1px solid #e7e7e9;left:auto;right:0}}
+@media screen and (min-width:1280px){body.toc2{padding-left:20em;padding-right:0}
+#toc.toc2{width:20em}
+#toc.toc2 #toctitle{font-size:1.375em}
+#toc.toc2>ul{font-size:.95em}
+#toc.toc2 ul ul{padding-left:1.25em}
+body.toc2.toc-right{padding-left:0;padding-right:20em}}
+#content #toc{border-style:solid;border-width:1px;border-color:#e0e0dc;margin-bottom:1.25em;padding:1.25em;background:#f8f8f7;-webkit-border-radius:4px;border-radius:4px}
+#content #toc>:first-child{margin-top:0}
+#content #toc>:last-child{margin-bottom:0}
+#footer{max-width:none;background:rgba(0,0,0,.8);padding:1.25em}
+#footer-text{color:rgba(255,255,255,.8);line-height:1.44}
+#content{margin-bottom:.625em}
+.sect1{padding-bottom:.625em}
+@media screen and (min-width:768px){#content{margin-bottom:1.25em}
+.sect1{padding-bottom:1.25em}}
+.sect1:last-child{padding-bottom:0}
+.sect1+.sect1{border-top:1px solid #e7e7e9}
+#content h1>a.anchor,h2>a.anchor,h3>a.anchor,#toctitle>a.anchor,.sidebarblock>.content>.title>a.anchor,h4>a.anchor,h5>a.anchor,h6>a.anchor{position:absolute;z-index:1001;width:1.5ex;margin-left:-1.5ex;display:block;text-decoration:none!important;visibility:hidden;text-align:center;font-weight:400}
+#content h1>a.anchor::before,h2>a.anchor::before,h3>a.anchor::before,#toctitle>a.anchor::before,.sidebarblock>.content>.title>a.anchor::before,h4>a.anchor::before,h5>a.anchor::before,h6>a.anchor::before{content:"\00A7";font-size:.85em;display:block;padding-top:.1em}
+#content h1:hover>a.anchor,#content h1>a.anchor:hover,h2:hover>a.anchor,h2>a.anchor:hover,h3:hover>a.anchor,#toctitle:hover>a.anchor,.sidebarblock>.content>.title:hover>a.anchor,h3>a.anchor:hover,#toctitle>a.anchor:hover,.sidebarblock>.content>.title>a.anchor:hover,h4:hover>a.anchor,h4>a.anchor:hover,h5:hover>a.anchor,h5>a.anchor:hover,h6:hover>a.anchor,h6>a.anchor:hover{visibility:visible}
+#content h1>a.link,h2>a.link,h3>a.link,#toctitle>a.link,.sidebarblock>.content>.title>a.link,h4>a.link,h5>a.link,h6>a.link{color:#ba3925;text-decoration:none}
+#content h1>a.link:hover,h2>a.link:hover,h3>a.link:hover,#toctitle>a.link:hover,.sidebarblock>.content>.title>a.link:hover,h4>a.link:hover,h5>a.link:hover,h6>a.link:hover{color:#a53221}
+details,.audioblock,.imageblock,.literalblock,.listingblock,.stemblock,.videoblock{margin-bottom:1.25em}
+details>summary:first-of-type{cursor:pointer;display:list-item;outline:none;margin-bottom:.75em}
+.admonitionblock td.content>.title,.audioblock>.title,.exampleblock>.title,.imageblock>.title,.listingblock>.title,.literalblock>.title,.stemblock>.title,.openblock>.title,.paragraph>.title,.quoteblock>.title,table.tableblock>.title,.verseblock>.title,.videoblock>.title,.dlist>.title,.olist>.title,.ulist>.title,.qlist>.title,.hdlist>.title{text-rendering:optimizeLegibility;text-align:left;font-family:"Noto Serif","DejaVu Serif",serif;font-size:1rem;font-style:italic}
+table.tableblock.fit-content>caption.title{white-space:nowrap;width:0}
+.paragraph.lead>p,#preamble>.sectionbody>[class="paragraph"]:first-of-type p{font-size:1.21875em;line-height:1.6;color:rgba(0,0,0,.85)}
+table.tableblock #preamble>.sectionbody>[class="paragraph"]:first-of-type p{font-size:inherit}
+.admonitionblock>table{border-collapse:separate;border:0;background:none;width:100%}
+.admonitionblock>table td.icon{text-align:center;width:80px}
+.admonitionblock>table td.icon img{max-width:none}
+.admonitionblock>table td.icon .title{font-weight:bold;font-family:"Open Sans","DejaVu Sans",sans-serif;text-transform:uppercase}
+.admonitionblock>table td.content{padding-left:1.125em;padding-right:1.25em;border-left:1px solid #dddddf;color:rgba(0,0,0,.6);word-wrap:anywhere}
+.admonitionblock>table td.content>:last-child>:last-child{margin-bottom:0}
+.exampleblock>.content{border-style:solid;border-width:1px;border-color:#e6e6e6;margin-bottom:1.25em;padding:1.25em;background:#fff;-webkit-border-radius:4px;border-radius:4px}
+.exampleblock>.content>:first-child{margin-top:0}
+.exampleblock>.content>:last-child{margin-bottom:0}
+.sidebarblock{border-style:solid;border-width:1px;border-color:#dbdbd6;margin-bottom:1.25em;padding:1.25em;background:#f3f3f2;-webkit-border-radius:4px;border-radius:4px}
+.sidebarblock>:first-child{margin-top:0}
+.sidebarblock>:last-child{margin-bottom:0}
+.sidebarblock>.content>.title{color:#7a2518;margin-top:0;text-align:center}
+.exampleblock>.content>:last-child>:last-child,.exampleblock>.content .olist>ol>li:last-child>:last-child,.exampleblock>.content .ulist>ul>li:last-child>:last-child,.exampleblock>.content .qlist>ol>li:last-child>:last-child,.sidebarblock>.content>:last-child>:last-child,.sidebarblock>.content .olist>ol>li:last-child>:last-child,.sidebarblock>.content .ulist>ul>li:last-child>:last-child,.sidebarblock>.content .qlist>ol>li:last-child>:last-child{margin-bottom:0}
+.literalblock pre,.listingblock>.content>pre{-webkit-border-radius:4px;border-radius:4px;overflow-x:auto;padding:1em;font-size:.8125em}
+@media screen and (min-width:768px){.literalblock pre,.listingblock>.content>pre{font-size:.90625em}}
+@media screen and (min-width:1280px){.literalblock pre,.listingblock>.content>pre{font-size:1em}}
+.literalblock pre,.listingblock>.content>pre:not(.highlight),.listingblock>.content>pre[class="highlight"],.listingblock>.content>pre[class^="highlight "]{background:#f7f7f8}
+.literalblock.output pre{color:#f7f7f8;background:rgba(0,0,0,.9)}
+.listingblock>.content{position:relative}
+.listingblock code[data-lang]::before{display:none;content:attr(data-lang);position:absolute;font-size:.75em;top:.425rem;right:.5rem;line-height:1;text-transform:uppercase;color:inherit;opacity:.5}
+.listingblock:hover code[data-lang]::before{display:block}
+.listingblock.terminal pre .command::before{content:attr(data-prompt);padding-right:.5em;color:inherit;opacity:.5}
+.listingblock.terminal pre .command:not([data-prompt])::before{content:"$"}
+.listingblock pre.highlightjs{padding:0}
+.listingblock pre.highlightjs>code{padding:1em;-webkit-border-radius:4px;border-radius:4px}
+.listingblock pre.prettyprint{border-width:0}
+.prettyprint{background:#f7f7f8}
+pre.prettyprint .linenums{line-height:1.45;margin-left:2em}
+pre.prettyprint li{background:none;list-style-type:inherit;padding-left:0}
+pre.prettyprint li code[data-lang]::before{opacity:1}
+pre.prettyprint li:not(:first-child) code[data-lang]::before{display:none}
+table.linenotable{border-collapse:separate;border:0;margin-bottom:0;background:none}
+table.linenotable td[class]{color:inherit;vertical-align:top;padding:0;line-height:inherit;white-space:normal}
+table.linenotable td.code{padding-left:.75em}
+table.linenotable td.linenos{border-right:1px solid currentColor;opacity:.35;padding-right:.5em}
+pre.pygments .lineno{border-right:1px solid currentColor;opacity:.35;display:inline-block;margin-right:.75em}
+pre.pygments .lineno::before{content:"";margin-right:-.125em}
+.quoteblock{margin:0 1em 1.25em 1.5em;display:table}
+.quoteblock:not(.excerpt)>.title{margin-left:-1.5em;margin-bottom:.75em}
+.quoteblock blockquote,.quoteblock p{color:rgba(0,0,0,.85);font-size:1.15rem;line-height:1.75;word-spacing:.1em;letter-spacing:0;font-style:italic;text-align:justify}
+.quoteblock blockquote{margin:0;padding:0;border:0}
+.quoteblock blockquote::before{content:"\201c";float:left;font-size:2.75em;font-weight:bold;line-height:.6em;margin-left:-.6em;color:#7a2518;text-shadow:0 1px 2px rgba(0,0,0,.1)}
+.quoteblock blockquote>.paragraph:last-child p{margin-bottom:0}
+.quoteblock .attribution{margin-top:.75em;margin-right:.5ex;text-align:right}
+.verseblock{margin:0 1em 1.25em}
+.verseblock pre{font-family:"Open Sans","DejaVu Sans",sans;font-size:1.15rem;color:rgba(0,0,0,.85);font-weight:300;text-rendering:optimizeLegibility}
+.verseblock pre strong{font-weight:400}
+.verseblock .attribution{margin-top:1.25rem;margin-left:.5ex}
+.quoteblock .attribution,.verseblock .attribution{font-size:.9375em;line-height:1.45;font-style:italic}
+.quoteblock .attribution br,.verseblock .attribution br{display:none}
+.quoteblock .attribution cite,.verseblock .attribution cite{display:block;letter-spacing:-.025em;color:rgba(0,0,0,.6)}
+.quoteblock.abstract blockquote::before,.quoteblock.excerpt blockquote::before,.quoteblock .quoteblock blockquote::before{display:none}
+.quoteblock.abstract blockquote,.quoteblock.abstract p,.quoteblock.excerpt blockquote,.quoteblock.excerpt p,.quoteblock .quoteblock blockquote,.quoteblock .quoteblock p{line-height:1.6;word-spacing:0}
+.quoteblock.abstract{margin:0 1em 1.25em;display:block}
+.quoteblock.abstract>.title{margin:0 0 .375em;font-size:1.15em;text-align:center}
+.quoteblock.excerpt>blockquote,.quoteblock .quoteblock{padding:0 0 .25em 1em;border-left:.25em solid #dddddf}
+.quoteblock.excerpt,.quoteblock .quoteblock{margin-left:0}
+.quoteblock.excerpt blockquote,.quoteblock.excerpt p,.quoteblock .quoteblock blockquote,.quoteblock .quoteblock p{color:inherit;font-size:1.0625rem}
+.quoteblock.excerpt .attribution,.quoteblock .quoteblock .attribution{color:inherit;text-align:left;margin-right:0}
+p.tableblock:last-child{margin-bottom:0}
+td.tableblock>.content{margin-bottom:1.25em;word-wrap:anywhere}
+td.tableblock>.content>:last-child{margin-bottom:-1.25em}
+table.tableblock,th.tableblock,td.tableblock{border:0 solid #dedede}
+table.grid-all>*>tr>*{border-width:1px}
+table.grid-cols>*>tr>*{border-width:0 1px}
+table.grid-rows>*>tr>*{border-width:1px 0}
+table.frame-all{border-width:1px}
+table.frame-ends{border-width:1px 0}
+table.frame-sides{border-width:0 1px}
+table.frame-none>colgroup+*>:first-child>*,table.frame-sides>colgroup+*>:first-child>*{border-top-width:0}
+table.frame-none>:last-child>:last-child>*,table.frame-sides>:last-child>:last-child>*{border-bottom-width:0}
+table.frame-none>*>tr>:first-child,table.frame-ends>*>tr>:first-child{border-left-width:0}
+table.frame-none>*>tr>:last-child,table.frame-ends>*>tr>:last-child{border-right-width:0}
+table.stripes-all tr,table.stripes-odd tr:nth-of-type(odd),table.stripes-even tr:nth-of-type(even),table.stripes-hover tr:hover{background:#f8f8f7}
+th.halign-left,td.halign-left{text-align:left}
+th.halign-right,td.halign-right{text-align:right}
+th.halign-center,td.halign-center{text-align:center}
+th.valign-top,td.valign-top{vertical-align:top}
+th.valign-bottom,td.valign-bottom{vertical-align:bottom}
+th.valign-middle,td.valign-middle{vertical-align:middle}
+table thead th,table tfoot th{font-weight:bold}
+tbody tr th{background:#f7f8f7}
+tbody tr th,tbody tr th p,tfoot tr th,tfoot tr th p{color:rgba(0,0,0,.8);font-weight:bold}
+p.tableblock>code:only-child{background:none;padding:0}
+p.tableblock{font-size:1em}
+ol{margin-left:1.75em}
+ul li ol{margin-left:1.5em}
+dl dd{margin-left:1.125em}
+dl dd:last-child,dl dd:last-child>:last-child{margin-bottom:0}
+ol>li p,ul>li p,ul dd,ol dd,.olist .olist,.ulist .ulist,.ulist .olist,.olist .ulist{margin-bottom:.625em}
+ul.checklist,ul.none,ol.none,ul.no-bullet,ol.no-bullet,ol.unnumbered,ul.unstyled,ol.unstyled{list-style-type:none}
+ul.no-bullet,ol.no-bullet,ol.unnumbered{margin-left:.625em}
+ul.unstyled,ol.unstyled{margin-left:0}
+ul.checklist{margin-left:.625em}
+ul.checklist li>p:first-child>.fa-square-o:first-child,ul.checklist li>p:first-child>.fa-check-square-o:first-child{width:1.25em;font-size:.8em;position:relative;bottom:.125em}
+ul.checklist li>p:first-child>input[type="checkbox"]:first-child{margin-right:.25em}
+ul.inline{display:-ms-flexbox;display:-webkit-box;display:flex;-ms-flex-flow:row wrap;-webkit-flex-flow:row wrap;flex-flow:row wrap;list-style:none;margin:0 0 .625em -1.25em}
+ul.inline>li{margin-left:1.25em}
+.unstyled dl dt{font-weight:400;font-style:normal}
+ol.arabic{list-style-type:decimal}
+ol.decimal{list-style-type:decimal-leading-zero}
+ol.loweralpha{list-style-type:lower-alpha}
+ol.upperalpha{list-style-type:upper-alpha}
+ol.lowerroman{list-style-type:lower-roman}
+ol.upperroman{list-style-type:upper-roman}
+ol.lowergreek{list-style-type:lower-greek}
+.hdlist>table,.colist>table{border:0;background:none}
+.hdlist>table>tbody>tr,.colist>table>tbody>tr{background:none}
+td.hdlist1,td.hdlist2{vertical-align:top;padding:0 .625em}
+td.hdlist1{font-weight:bold;padding-bottom:1.25em}
+td.hdlist2{word-wrap:anywhere}
+.literalblock+.colist,.listingblock+.colist{margin-top:-.5em}
+.colist td:not([class]):first-child{padding:.4em .75em 0;line-height:1;vertical-align:top}
+.colist td:not([class]):first-child img{max-width:none}
+.colist td:not([class]):last-child{padding:.25em 0}
+.thumb,.th{line-height:0;display:inline-block;border:solid 4px #fff;-webkit-box-shadow:0 0 0 1px #ddd;box-shadow:0 0 0 1px #ddd}
+.imageblock.left{margin:.25em .625em 1.25em 0}
+.imageblock.right{margin:.25em 0 1.25em .625em}
+.imageblock>.title{margin-bottom:0}
+.imageblock.thumb,.imageblock.th{border-width:6px}
+.imageblock.thumb>.title,.imageblock.th>.title{padding:0 .125em}
+.image.left,.image.right{margin-top:.25em;margin-bottom:.25em;display:inline-block;line-height:0}
+.image.left{margin-right:.625em}
+.image.right{margin-left:.625em}
+a.image{text-decoration:none;display:inline-block}
+a.image object{pointer-events:none}
+sup.footnote,sup.footnoteref{font-size:.875em;position:static;vertical-align:super}
+sup.footnote a,sup.footnoteref a{text-decoration:none}
+sup.footnote a:active,sup.footnoteref a:active{text-decoration:underline}
+#footnotes{padding-top:.75em;padding-bottom:.75em;margin-bottom:.625em}
+#footnotes hr{width:20%;min-width:6.25em;margin:-.25em 0 .75em;border-width:1px 0 0}
+#footnotes .footnote{padding:0 .375em 0 .225em;line-height:1.3334;font-size:.875em;margin-left:1.2em;margin-bottom:.2em}
+#footnotes .footnote a:first-of-type{font-weight:bold;text-decoration:none;margin-left:-1.05em}
+#footnotes .footnote:last-of-type{margin-bottom:0}
+#content #footnotes{margin-top:-.625em;margin-bottom:0;padding:.75em 0}
+.gist .file-data>table{border:0;background:#fff;width:100%;margin-bottom:0}
+.gist .file-data>table td.line-data{width:99%}
+div.unbreakable{page-break-inside:avoid}
+.big{font-size:larger}
+.small{font-size:smaller}
+.underline{text-decoration:underline}
+.overline{text-decoration:overline}
+.line-through{text-decoration:line-through}
+.aqua{color:#00bfbf}
+.aqua-background{background:#00fafa}
+.black{color:#000}
+.black-background{background:#000}
+.blue{color:#0000bf}
+.blue-background{background:#0000fa}
+.fuchsia{color:#bf00bf}
+.fuchsia-background{background:#fa00fa}
+.gray{color:#606060}
+.gray-background{background:#7d7d7d}
+.green{color:#006000}
+.green-background{background:#007d00}
+.lime{color:#00bf00}
+.lime-background{background:#00fa00}
+.maroon{color:#600000}
+.maroon-background{background:#7d0000}
+.navy{color:#000060}
+.navy-background{background:#00007d}
+.olive{color:#606000}
+.olive-background{background:#7d7d00}
+.purple{color:#600060}
+.purple-background{background:#7d007d}
+.red{color:#bf0000}
+.red-background{background:#fa0000}
+.silver{color:#909090}
+.silver-background{background:#bcbcbc}
+.teal{color:#006060}
+.teal-background{background:#007d7d}
+.white{color:#bfbfbf}
+.white-background{background:#fafafa}
+.yellow{color:#bfbf00}
+.yellow-background{background:#fafa00}
+span.icon>.fa{cursor:default}
+a span.icon>.fa{cursor:inherit}
+.admonitionblock td.icon [class^="fa icon-"]{font-size:2.5em;text-shadow:1px 1px 2px rgba(0,0,0,.5);cursor:default}
+.admonitionblock td.icon .icon-note::before{content:"\f05a";color:#19407c}
+.admonitionblock td.icon .icon-tip::before{content:"\f0eb";text-shadow:1px 1px 2px rgba(155,155,0,.8);color:#111}
+.admonitionblock td.icon .icon-warning::before{content:"\f071";color:#bf6900}
+.admonitionblock td.icon .icon-caution::before{content:"\f06d";color:#bf3400}
+.admonitionblock td.icon .icon-important::before{content:"\f06a";color:#bf0000}
+.conum[data-value]{display:inline-block;color:#fff!important;background:rgba(0,0,0,.8);-webkit-border-radius:50%;border-radius:50%;text-align:center;font-size:.75em;width:1.67em;height:1.67em;line-height:1.67em;font-family:"Open Sans","DejaVu Sans",sans-serif;font-style:normal;font-weight:bold}
+.conum[data-value] *{color:#fff!important}
+.conum[data-value]+b{display:none}
+.conum[data-value]::after{content:attr(data-value)}
+pre .conum[data-value]{position:relative;top:-.125em}
+b.conum *{color:inherit!important}
+.conum:not([data-value]):empty{display:none}
+dt,th.tableblock,td.content,div.footnote{text-rendering:optimizeLegibility}
+h1,h2,p,td.content,span.alt{letter-spacing:-.01em}
+p strong,td.content strong,div.footnote strong{letter-spacing:-.005em}
+p,blockquote,dt,td.content,span.alt{font-size:1.0625rem}
+p{margin-bottom:1.25rem}
+.sidebarblock p,.sidebarblock dt,.sidebarblock td.content,p.tableblock{font-size:1em}
+.exampleblock>.content{background:#fffef7;border-color:#e0e0dc;-webkit-box-shadow:0 1px 4px #e0e0dc;box-shadow:0 1px 4px #e0e0dc}
+.print-only{display:none!important}
+@page{margin:1.25cm .75cm}
+@media print{*{-webkit-box-shadow:none!important;box-shadow:none!important;text-shadow:none!important}
+html{font-size:80%}
+a{color:inherit!important;text-decoration:underline!important}
+a.bare,a[href^="#"],a[href^="mailto:"]{text-decoration:none!important}
+a[href^="http:"]:not(.bare)::after,a[href^="https:"]:not(.bare)::after{content:"(" attr(href) ")";display:inline-block;font-size:.875em;padding-left:.25em}
+abbr[title]::after{content:" (" attr(title) ")"}
+pre,blockquote,tr,img,object,svg{page-break-inside:avoid}
+thead{display:table-header-group}
+svg{max-width:100%}
+p,blockquote,dt,td.content{font-size:1em;orphans:3;widows:3}
+h2,h3,#toctitle,.sidebarblock>.content>.title{page-break-after:avoid}
+#header,#content,#footnotes,#footer{max-width:none}
+#toc,.sidebarblock,.exampleblock>.content{background:none!important}
+#toc{border-bottom:1px solid #dddddf!important;padding-bottom:0!important}
+body.book #header{text-align:center}
+body.book #header>h1:first-child{border:0!important;margin:2.5em 0 1em}
+body.book #header .details{border:0!important;display:block;padding:0!important}
+body.book #header .details span:first-child{margin-left:0!important}
+body.book #header .details br{display:block}
+body.book #header .details br+span::before{content:none!important}
+body.book #toc{border:0!important;text-align:left!important;padding:0!important;margin:0!important}
+body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-break-before:always}
+.listingblock code[data-lang]::before{display:block}
+#footer{padding:0 .9375em}
+.hide-on-print{display:none!important}
+.print-only{display:block!important}
+.hide-for-print{display:none!important}
+.show-for-print{display:inherit!important}}
+@media print,amzn-kf8{#header>h1:first-child{margin-top:1.25rem}
+.sect1{padding:0!important}
+.sect1+.sect1{border:0}
+#footer{background:none}
+#footer-text{color:rgba(0,0,0,.6);font-size:.9em}}
+@media amzn-kf8{#header,#content,#footnotes,#footer{padding:0}}
+</style>
+</head>
+<body class="article">
+<div id="header">
+</div>
+<div id="content">
+<div class="sect1">
+<h2 id="networking">Internet of Things</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_introduction">Introduction</h3>
+<div class="paragraph">
+<p>You can easily connect BeagleBone Black to the Internet via a wire (<a href="#networking_wired">[networking_wired]</a>), wirelessly (<a href="#networking_wireless">[networking_wireless]</a>), or through the USB to a host and then to the Internet (<a href="#networking_usb">[networking_usb]</a>). Either way, it opens up a world of possibilities for the "Internet of Things" (IoT).</p>
+</div>
+<div class="paragraph">
+<p>Now that you&#8217;re online, this chapter offers various things to do with your connection.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_accessing_your_host_computers_files_on_the_bone">Accessing Your Host Computer&#8217;s Files on the Bone</h3>
+<div class="sect3">
+<h4 id="_problem">Problem</h4>
+<div class="paragraph">
+<p>You want to access a file on a Linux host computer that&#8217;s attached to the Bone.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_solution">Solution</h4>
+<div class="paragraph">
+<p>If you are running Linux on a host computer attached to BeagleBone Black, it&#8217;s not hard to mount the Bone&#8217;s files on the host or the host&#8217;s files on the Bone by using sshfs. Suppose that you want to access files on the host from the Bone. First, install sshfs:</p>
+</div>
+<pre data-type="programlisting">
+bone# <strong>apt-get install sshfs</strong>
+</pre>
+<div class="paragraph">
+<p>Now, mount the files to an empty directory (substitute your username on the host computer for username and the IP address of the host for 192.168.7.1):</p>
+</div>
+<pre data-type="programlisting">
+bone# <strong>mkdir host</strong>
+bone# <strong>sshfs username@$192.168.7.1:. host</strong>
+bone# <strong>cd host</strong>
+bone# <strong>ls</strong>
+</pre>
+<div class="paragraph">
+<p>The ls command will now list the files in your home directory on your host computer.  You can edit them as if they were local to the Bone.  You can access all the files by substituting :/ for the :. following the IP address.</p>
+</div>
+<div class="paragraph">
+<p>You can go the other way, too. Suppose that you are on your Linux host computer and want to access files on your Bone. Install sshfs:</p>
+</div>
+<pre data-type="programlisting">
+host$ <strong>sudo apt-get install sshfs</strong>
+</pre>
+<div class="paragraph">
+<p>and then access:</p>
+</div>
+<pre data-type="programlisting">
+host$ <strong>mkdir /mnt/bone</strong>
+host$ <strong>sshfs root@$192.168.7.2:/ /mnt/bone</strong>
+host$ <strong>cd /mnt/bone</strong>
+host$ <strong>ls</strong>
+</pre>
+<div class="paragraph">
+<p>Here, we are accessing the files on the Bone as root. We’ve mounted the entire file system, starting with /, so you can access any file. Of course, with great power comes great responsibility, so be careful.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_discussion">Discussion</h4>
+<div class="paragraph">
+<p>The sshfs command gives you easy access from one computer to another. When you are done, you can unmount the files by using the following commands:</p>
+</div>
+<pre data-type="programlisting">
+host$ <strong>umount /mnt/bone</strong>
+bone# <strong>umount home</strong>
+</pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="networking_builtin_server">Serving Web Pages from the Bone</h3>
+<div class="sect3">
+<h4 id="_problem_2">Problem</h4>
+<div class="paragraph">
+<p>You want to use BeagleBone Black as a web server.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_solution_2">Solution</h4>
+<div class="paragraph">
+<p>BeagleBone Black already has a couple of web servers running. This recipe shows how to use the Node.js-based server. <a href="#networking_apache">Serving Web Pages from the Bone by Using Apache</a> shows how to use <em>Apache</em>.</p>
+</div>
+<div class="paragraph">
+<p>When you point your browser to <em>192.168.7.2</em>, you are using the Node.js web server The web pages are served from <em>/var/lib/cloud9</em>. Add the HTML in <a href="#networking_index_html">A sample web page (test.html)</a> to a file called <em>/var/lib/cloud9/test.html</em>, and then point your browser to <em>192.168.7.2:test.html</em>.</p>
+</div>
+<div id="networking_index_html" class="exampleblock pagebreak-before">
+<div class="title">Example 1. A sample web page (test.html)</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-html" data-lang="html">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;body&gt;
+
+&lt;h1&gt;My First Heading&lt;/h1&gt;
+
+&lt;p&gt;My first paragraph.&lt;/p&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>You will see the web page shown in <a href="#networking_node_page">test.html as served by Node.js</a>.</p>
+</div>
+<div id="networking_node_page" class="imageblock">
+<div class="content">
+<img src="figures/apacheIndex.png" alt="test.html served by Node.js">
+</div>
+<div class="title">Figure 1. test.html as served by Node.js</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_discussion_2">Discussion</h4>
+
+</div>
+</div>
+<div class="sect2">
+<h3 id="networking_nodejs">Interacting with the Bone via a Web Browser</h3>
+<div class="sect3">
+<h4 id="_problem_3">Problem</h4>
+<div class="paragraph">
+<p>BeagleBone Black is interacting with the physical world nicely via BoneScript, and you want to display that information on a web browser.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_solution_3">Solution</h4>
+<div class="paragraph">
+<p><a href="http://nodejs.org/">Node.js</a> is a platform built on <a href="http://code.google.com/p/v8/">Chrome&#8217;s JavaScript runtime</a> for easily building fast, scalable network applications. <a href="#networking_builtin_server">Serving Web Pages from the Bone</a> shows how to use the node server that&#8217;s already running. This recipe shows how easy it is to build your own server.</p>
+</div>
+<div class="paragraph">
+<p>First, create a directory for this recipe:</p>
+</div>
+<pre data-type="programlisting">
+bone# <strong>mkdir serverExample</strong>
+bone# <strong>cd serverExample</strong>
+</pre>
+<div class="paragraph">
+<p>Add the code in <a href="#networking_nodeServer_code">Javascript code for a simple Node.js-based web server (server.js)</a> to a file called <em>server.js</em> in the <em>serverExample</em> directory.</p>
+</div>
+<div id="networking_nodeServer_code" class="exampleblock">
+<div class="title">Example 2. Javascript code for a simple Node.js-based web server (server.js)</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-js" data-lang="js">#!/usr/bin/env node
+// Initial idea from Getting Started With node.js and socket.io
+// by Constantine Aaron Cois, Ph.D. (www.codehenge.net)
+// http://codehenge.net/blog/2011/12/getting-started-with-node-js-and-socket-io-
+//   v0-7-part-2/
+// This is a simple server for the various web frontends
+"use strict";
+
+var port = 9090,            // Port on which to listen
+    http = require('http'),
+    url = require('url'),
+    fs = require('fs'),
+    b = require('bonescript');
+
+var server = http.createServer(servePage);  // <b class="conum">(1)</b>
+
+server.listen(port);                        // <b class="conum">(2)</b>
+console.log("Listening on " + port);
+
+function servePage(req, res) {
+    var path = url.parse(req.url).pathname;             // <b class="conum">(3)</b>
+    console.log("path: " + path);
+
+    fs.readFile(__dirname + path, function (err, data) {// <b class="conum">(4)</b>
+        if (err) {                                      // <b class="conum">(5)</b>
+            return send404(res); 
+        }
+        res.write(data, 'utf8');                        // <b class="conum">(6)</b>
+        res.end();
+    });   
+}
+
+function send404(res) {
+    res.writeHead(404);
+    res.write('404 - page not found');
+    res.end();
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="colist arabic">
+<ol>
+<li>
+<p>Creates the server. Whenever a browser requests a page from port 9090, the function servepage is called.</p>
+</li>
+<li>
+<p>Instructs the server to begin listening on port 9090.</p>
+</li>
+<li>
+<p>When servepage is called, req contains the path to the page being requested. This code extracts the path to the page.</p>
+</li>
+<li>
+<p>readFile reads the entire page being requested.</p>
+</li>
+<li>
+<p>Be sure the page is there; if not, send the famous 404 error.</p>
+</li>
+<li>
+<p>Write the page to the web browser.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Add the HTML in <a href="#networking_index_html">A sample web page (test.html)</a> to a file called <em>test.html</em> in the <em>serverExample</em> directory, and then run this:</p>
+</div>
+<pre data-type="programlisting">
+bone# <strong>cd serverExample</strong>
+bone# <strong>chmod +x server.js</strong>
+bone# <strong>./server.js</strong>
+Listening on 9090
+</pre>
+<div class="paragraph">
+<p>Now, navigate to <em>192.168.7.2:9090/test.html</em> on your host computer (or the Bone) browser, and you will see something like <a href="#networking_nodeServer">Test page served by our custom node-based server</a>.</p>
+</div>
+<div id="networking_nodeServer" class="imageblock">
+<div class="content">
+<img src="figures/nodeServer.png" alt="Test page">
+</div>
+<div class="title">Figure 2. Test page served by our custom node-based server</div>
+</div>
+<div class="paragraph">
+<p>Note that the only difference between <a href="#networking_nodeServer">Test page served by our custom node-based server</a> and <a href="#networking_node_page">test.html as served by Node.js</a> is that the first uses port 9090.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_discussion_3">Discussion</h4>
+
+</div>
+</div>
+<div class="sect2">
+<h3 id="_displaying_gpio_status_in_a_web_browser">Displaying GPIO Status in a Web Browser</h3>
+<div class="sect3">
+<h4 id="_problem_4">Problem</h4>
+<div class="paragraph">
+<p>You want a web page to display the status of a GPIO pin.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_solution_4">Solution</h4>
+<div class="paragraph">
+<p>This solution builds on the Node.js-based web server solution in <a href="#networking_nodejs">Interacting with the Bone via a Web Browser</a>.</p>
+</div>
+<div class="paragraph">
+<p>To make this recipe, you will need:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Breadboard and jumper wires (see <a href="#app_proto">[app_proto]</a>)</p>
+</li>
+<li>
+<p>Pushbutton switch (see <a href="#app_misc">[app_misc]</a>)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Wire your pushbutton as shown in <a href="#js_pushbutton_fig">[js_pushbutton_fig]</a>. Add the code in <a href="#networking_gpioServer_code">A simple Node.js-based web server to read a GPIO (GPIOserver.js)</a> to a file called <em>GPIOserver.js</em> in the <em>serverExample</em> directory.</p>
+</div>
+<div id="networking_gpioServer_code" class="exampleblock">
+<div class="title">Example 3. A simple Node.js-based web server to read a GPIO (GPIOserver.js)</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-js" data-lang="js">#!/usr/bin/env node
+// Initial idea from Getting Started With node.js and socket.io 
+// http://codehenge.net/blog/2011/12/getting-started-with-node-js-and-socket-io-
+//   v0-7-part-2/
+// This is a simple server for the various web frontends
+// Display status of P9_42
+"use strict";
+
+var port = 9090,            // Port on which to listen
+    http = require('http'),
+    url = require('url'),
+    fs = require('fs'),
+    b = require('bonescript'),
+    gpio = 'P9_42';         // gpio port to read
+
+            // <b class="conum">(1)</b>
+var htmlStart = "\
+&lt;!DOCTYPE html&gt;\
+&lt;html&gt;\
+&lt;body&gt;\
+\
+&lt;h1&gt;" + gpio + "&lt;/h1&gt;\
+data = ";
+
+            // <b class="conum">(2)</b>
+var htmlEnd = "\
+&lt;/body&gt;\
+&lt;/html&gt;";
+
+var server = http.createServer(servePage);
+
+b.pinMode(gpio, b.INPUT, 7, 'pulldown');
+
+server.listen(port);
+console.log("Listening on " + port);
+
+function servePage(req, res) {
+    var path = url.parse(req.url).pathname;
+    console.log("path: " + path);
+    if (path === '/gpio') {                             // <b class="conum">(3)</b>
+        var data = b.digitalRead(gpio);                 // <b class="conum">(4)</b>
+        res.write(htmlStart + data + htmlEnd, 'utf8');  // <b class="conum">(5)</b>
+        res.end();
+    } else {
+        fs.readFile(__dirname + path, function (err, data) {
+            if (err) {
+                return send404(res); 
+            }
+            res.write(data, 'utf8');
+            res.end();
+        });   
+    }
+}
+
+function send404(res) {
+    res.writeHead(404);
+    res.write('404 - page not found');
+    res.end();
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="colist arabic">
+<ol>
+<li>
+<p>This the the HTML to send to the server before the data value.</p>
+</li>
+<li>
+<p>This is the HTML for after the data.</p>
+</li>
+<li>
+<p>Normally, we&#8217;d send a file, but if /gpio is requested, we&#8217;ll build our own page and include the value of the GPIO pin.</p>
+</li>
+<li>
+<p>Read the value of the GPIO pin.</p>
+</li>
+<li>
+<p>Concatenate the HTML code with the data and send it to the browser.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Now, run the following command:</p>
+</div>
+<pre data-type="programlisting">
+bone# <strong>./GPIOserver.js</strong>
+Listening on 9090
+</pre>
+<div class="paragraph">
+<p>Point your browser to <em><a href="http://192.168.7.2:9090/gpio" class="bare">http://192.168.7.2:9090/gpio</a></em>, and the page will look like <a href="#networking_GPIOserver_fig">Status of a GPIO pin on a web page</a>.</p>
+</div>
+<div id="networking_GPIOserver_fig" class="imageblock">
+<div class="content">
+<img src="figures/GPIOWebPage.png" alt="GPIO status">
+</div>
+<div class="title">Figure 3. Status of a GPIO pin on a web page</div>
+</div>
+<div class="paragraph">
+<p>Currently, the 0 shows that the button isn&#8217;t pressed. Try refreshing the page while pushing the button, and you will see 1 displayed.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_discussion_4">Discussion</h4>
+<div class="paragraph">
+<p>It&#8217;s not hard to assemble your own HTML with the GPIO data. It&#8217;s an easy extension to write a program to display the status of all the GPIO pins.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="networking_jsfiddle">Continuously Displaying the GPIO Value via jsfiddle</h3>
+<div class="sect3">
+<h4 id="_problem_5">Problem</h4>
+<div class="paragraph">
+<p>The value of your GPIO port keeps changing, and you want your web page to always show the current value.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_solution_5">Solution</h4>
+<div class="paragraph">
+<p>We&#8217;ll attack this problem in two steps. This recipe will show how to use an external website (jsfiddle [<a href="http://jsfiddle.net/" class="bare">http://jsfiddle.net/</a>]) to read a GPIO pin on the Bone (yup, an external site can read the GPIO pins on the Bone). <a href="#networking_jQuery_local">Continuously Displaying the GPIO Value</a> will show how to move the code to run locally on the Bone.</p>
+</div>
+<div class="paragraph">
+<p>To make this recipe, you will need:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Breadboard and jumper wires (see <a href="#app_proto">[app_proto]</a>)</p>
+</li>
+<li>
+<p>Pushbutton switch (see <a href="#app_misc">[app_misc]</a>)</p>
+</li>
+<li>
+<p>10 k&#8486; trimpot (variable resistor) (see <a href="#app_resistor">[app_resistor]</a>)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a href="http://jsfiddle.net/">jsfiddle</a> is a website that lets you fiddle with JavaScript. It&#8217;s best introduced by an example. Point your browser to <a href="http://bit.ly/19c75ql">jQuery example</a>, and you will see the screen shown in <a href="#networking_jQuery_jsfiddle">jsfiddle example of GPIO</a>.</p>
+</div>
+<div id="networking_jQuery_jsfiddle" class="imageblock">
+<div class="content">
+<img src="figures/jQueryFiddle.png" alt="jsfiddle example of GPIO">
+</div>
+<div class="title">Figure 4. jsfiddle example of GPIO</div>
+</div>
+<div class="paragraph">
+<p>The page has four panels. The upper-left panel shows your HTML code. The lower-left panel shows the JavaScript that animates the HTML. The upper-right panel shows the CSS code that formats your HTML (not used here), and the lower-right panel shows what your rendered page looks like.</p>
+</div>
+<div class="paragraph">
+<p>Wire your pushbutton switch to P8_19 (use <a href="#js_pushbutton_fig">[js_pushbutton_fig]</a> as an example, but note that the pushbutton in that figure is wired to P9_42, instead) and the variable resistor to P9_36, as shown in <a href="#sensors_analogIn_fig">[sensors_analogIn_fig]</a>.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>You can use any GPIO pin and any analog-in pin; just edit the code to match your setup.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Press the Run button on the jsfiddle page. The values in the lower-right panel will track your button and variable resistor in real time.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_discussion_5">Discussion</h4>
+
+</div>
+<div class="sect3">
+<h4 id="_see_also">See Also</h4>
+<div class="paragraph">
+<p>jsfiddle is great for experimenting with your code, but what if want everything to be served from your Bone and not use an external site? Check out <a href="#networking_jQuery_local">Continuously Displaying the GPIO Value</a>.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="networking_jQuery_local">Continuously Displaying the GPIO Value</h3>
+<div class="sect3">
+<h4 id="_problem_6">Problem</h4>
+<div class="paragraph">
+<p>The value of your GPIO port keeps changing, and you want your web page to always show the current value, but you don&#8217;t want to use an external site.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_solution_6">Solution</h4>
+<div class="paragraph">
+<p><a href="#networking_jsfiddle">Continuously Displaying the GPIO Value via jsfiddle</a> shows how to use BoneScript in a browser to read GPIO pins on the Bone, but it requires the use of an external website. This recipe shows how to move from jsfiddle to the Bone, with a few simple steps.</p>
+</div>
+<div class="paragraph">
+<p>Go to a working jsfiddle page (such as the one shown in <a href="#networking_jQuery_jsfiddle">jsfiddle example of GPIO</a>) and do the <span class="keep-together">following</span>:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>In the lower-left panel, select all the BoneScript code and copy it to a file. In this case, call it <em>jQueryDemo.js</em>. Save it in the <em>serverExample</em> directory.</p>
+</li>
+<li>
+<p>From the upper-left panel, select all the HTML code and copy it to <em>jQueryDemo.html</em> in the <em>serverExample</em> directory.</p>
+</li>
+<li>
+<p>We need to add code to inform the browser where to find the external libraries we are using. Edit <em>jQueryDemo.html</em> and <em>before</em> your HTML, add the following lines:</p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-html" data-lang="html">&lt;html&gt;
+    &lt;head&gt;
+        &lt;title&gt;BoneScript jQuery Demo&lt;/title&gt;
+        &lt;script src="static/jquery.js"&gt;&lt;/script&gt;
+        &lt;script src="static/bonescript.js"&gt;&lt;/script&gt;
+        &lt;script src="jQueryDemo.js"&gt;&lt;/script&gt;
+    &lt;/head&gt;
+&lt;body&gt;</code></pre>
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic" start="4">
+<li>
+<p>Add the following lines <em>after</em> your HTML:</p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-html" data-lang="html">&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic" start="5">
+<li>
+<p>Open <em><a href="http://192.168.7.2/serverExample/jQueryDemo.html" class="bare">http://192.168.7.2/serverExample/jQueryDemo.html</a></em>, and you&#8217;ll now see your values in your own web page.</p>
+</li>
+</ol>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>There are several useful JavaScript libraries already located in <em>/var/lib/cloud9/static</em>, and this recipe makes use of a couple of them here.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_discussion_6">Discussion</h4>
+
+</div>
+</div>
+<div class="sect2">
+<h3 id="_plotting_data">Plotting Data</h3>
+<div class="sect3">
+<h4 id="_problem_7">Problem</h4>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>You have live data coming into your Bone, and you want to plot it.</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_solution_7">Solution</h4>
+<div class="paragraph">
+<p>There are a number of <a href="http://bit.ly/1MrHm9L">JavaScript-based plotting packages</a> out there. This recipe uses <a href="http://www.flotcharts.org/">flot</a> because it strikes a nice balance between ease-of-use and power.</p>
+</div>
+<div class="paragraph">
+<p>To make this recipe, you will need:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Breadboard and jumper wires (see <a href="#app_proto">[app_proto]</a>)</p>
+</li>
+<li>
+<p>10 k&#8486; trimpot (variable resistor) (see <a href="#app_resistor">[app_resistor]</a>)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Wire your variable resistor to P9_36, as shown in <a href="#sensors_analogIn_fig">[sensors_analogIn_fig]</a>.
+Go to <a href="http://bit.ly/1E5DW85">jsfiddle Flot Demo</a> for a nice quick demo. You will the screen shown in <a href="#networking_flot_demo">jsfiddle Flot Demo</a>. Try changing the variable resistor, and watch the plot respond in real time.</p>
+</div>
+<div id="networking_flot_demo" class="imageblock">
+<div class="content">
+<img src="figures/flotDemo.png" alt="Flot Demo">
+</div>
+<div class="title">Figure 5. jsfiddle Flot Demo</div>
+</div>
+<div class="paragraph">
+<p>See <a href="#networking_jsfiddle">Continuously Displaying the GPIO Value via jsfiddle</a> for a description of the jsfiddle panels. In <a href="#networking_flot_demo">jsfiddle Flot Demo</a>, the lower-right panel displays a live scrolling chart of the values being read from the variable resistor.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_discussion_7">Discussion</h4>
+<div class="paragraph">
+<p>You can perform plotting externally, via the <a href="http://jsfiddle.net/">jsfiddle</a> site, or locally.</p>
+</div>
+<div class="sect4">
+<h5 id="_plotting_with_jsfiddle">Plotting with jsfiddle</h5>
+<div class="paragraph">
+<p>The HTML panel in <a href="#networking_flot_demo">jsfiddle Flot Demo</a> simply creates an area called myplot in which to draw the plot. The JavaScript code in <a href="#networking_flot_js">Code for plotting data with Flot (flotDemo.js)</a> then reads the analog in and creates the plot to display.</p>
+</div>
+<div id="networking_flot_js" class="exampleblock">
+<div class="title">Example 4. Code for plotting data with Flot (flotDemo.js)</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-js" data-lang="js">setTargetAddress('192.168.7.2', {                           // <b class="conum">(1)</b>
+    initialized: run
+});
+
+function run() {
+    var b = require('bonescript');                          // <b class="conum">(2)</b>
+    var POT = 'P9_36';                                      // <b class="conum">(3)</b>
+
+    var container = $("#myplot");                           // <b class="conum">(4)</b>
+    var totalPoints = container.outerWidth() / 2 || 250;    // <b class="conum">(5)</b>
+    var data = [];
+    var plotOptions = {                                     // <b class="conum">(6)</b>
+        series: {
+            shadowSize: 0
+        },
+        yaxis: {
+            min: 0,
+            max: 1
+        },
+        xaxis: {
+            min: 0,
+            max: totalPoints,
+            show: false
+        }
+    };
+    var plot = $.plot(container, getData(), plotOptions);   // <b class="conum">(7)</b>
+
+    drawGraph();                                            // <b class="conum">(8)</b>
+
+    function drawGraph() {                                  // <b class="conum">(9)</b>
+        plot.setData(getData());
+        plot.draw();
+        b.analogRead(POT, onAnalogRead);
+    }
+
+    // Handle data back from potentiometer
+    function onAnalogRead(x) {                              
+        if (!x.err &amp;&amp; typeof x.value == 'number') {
+            pushData(x.value);                              // <b class="conum">(10)</b>
+        }
+        setTimeout(drawGraph, 20);                          // <b class="conum">(11)</b>
+    }
+
+    function pushData(y) {
+        if (data.length &amp;&amp; (data.length + 1) &gt; totalPoints) {
+            data = data.slice(1);
+        }
+        if (data.length &lt; totalPoints) {
+            data.push(y);
+        }
+    }
+
+    function getData() {
+        var res = [];
+        for (var i = 0; i &lt; data.length; ++i) {
+            res.push([i, data[i]]);
+        }
+        var series = [{
+            data: res,
+            lines: {
+                fill: true
+            }
+        }];
+        return series;
+    }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="colist arabic">
+<ol>
+<li>
+<p>Direct the browser where to find the Bone.  After it is initialized, it calls run to get things going.</p>
+</li>
+<li>
+<p>Read in the BoneScript library.</p>
+</li>
+<li>
+<p>Pick which analog-in to use.</p>
+</li>
+<li>
+<p>Pick where on the web page to draw the plot.  In this case, the code defines only one place, myplot.</p>
+</li>
+<li>
+<p>Decide how many points can be plotted.</p>
+</li>
+<li>
+<p>Set various plotting options.</p>
+</li>
+<li>
+<p>Initialize the plot.</p>
+</li>
+<li>
+<p>Draw the graph on the web page.</p>
+</li>
+<li>
+<p>Set the data and draw. Then read the next value and call onAnalogRead when it&#8217;s ready.</p>
+</li>
+<li>
+<p>If no error, add newest value to the data array.</p>
+</li>
+<li>
+<p>Do it all over again in 20 ms.</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_plotting_locally">Plotting locally</h5>
+<div class="paragraph">
+<p>You can do plotting locally by following the process in <a href="#networking_jQuery_local">Continuously Displaying the GPIO Value</a>:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Copy the JavaScript code in the lower-left panel and save it in a file called <em><span class="keep-together">flotDemo.js</span></em>.</p>
+</li>
+<li>
+<p>Copy the HTML in the upper-left panel and add the header material. <a href="#networking_flotDemo">flotDemo.html (flotDemo.html)</a> loads the flot library in addition to jquery and our own code.</p>
+</li>
+</ol>
+</div>
+<div id="networking_flotDemo" class="exampleblock">
+<div class="title">Example 5. flotDemo.html (flotDemo.html)</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-html" data-lang="html">&lt;html&gt;
+    &lt;head&gt;
+        &lt;title&gt;BoneScript Flot Demo&lt;/title&gt;
+        &lt;script src="/static/flot/jquery.min.js"&gt;&lt;/script&gt;
+        &lt;script src="/static/flot/jquery.flot.min.js"&gt;&lt;/script&gt;
+        &lt;script src="/static/bonescript.js"&gt;&lt;/script&gt;
+        &lt;script src="flotDemo.js"&gt;&lt;/script&gt;
+    &lt;/head&gt;
+&lt;body&gt;
+
+&lt;h1&gt;BoneScript Flot Demo&lt;/h1&gt; 
+&lt;div id="myplot" style="width:500px;height:300px;"&gt;&lt;/div&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic" start="3">
+<li>
+<p>Put both files in the <em>serverExample</em> subdirectory under the Cloud9 IDE (<em>/var/lib/cloud9</em>).</p>
+</li>
+<li>
+<p>Browse to <em><a href="http://192.168.7.2/serverExample/flotDemo.html" class="bare">http://192.168.7.2/serverExample/flotDemo.html</a></em>, and you&#8217;ll have a local version of your demo running.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Go explore the <a href="http://www.flotcharts.org/">Flot site</a> and see what other plots you <span class="keep-together">can do</span>.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_sending_an_email">Sending an Email</h3>
+<div class="sect3">
+<h4 id="_problem_8">Problem</h4>
+<div class="paragraph">
+<p>You want to send an email via Gmail from the Bone.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_solution_8">Solution</h4>
+<div class="paragraph">
+<p>First, you need to <a href="https://mail.google.com">set up a Gmail account</a>, if you don&#8217;t already have one. Next, install nodemailer:</p>
+</div>
+<pre data-type="programlisting">
+bone# <strong>npm install -g nodemailer</strong>
+</pre>
+<div class="paragraph">
+<p>Then add the code in <a href="#networking_nodemailer_code">Sending email using nodemailer (nodemailer-test.js)</a> to a file named <em>nodemailer-test.js</em> in the <em>serverExample</em> directory. Be sure to substitute your own Gmail username and password for user and pass.</p>
+</div>
+<div id="networking_nodemailer_code" class="exampleblock">
+<div class="title">Example 6. Sending email using nodemailer (nodemailer-test.js)</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-js" data-lang="js">#!/usr/bin/env node
+// From: https://github.com/andris9/Nodemailer
+
+var nodemailer = require('nodemailer');
+
+// create reusable transporter object using SMTP transport
+var transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: 'yourUser@gmail.com',
+        pass: 'yourPass'
+    }
+});
+
+// NB! No need to re-create the transporter object. You can use
+// the same transporter object for all e-mails
+
+// set up e-mail data with unicode symbols
+var mailOptions = {
+    from: 'Your User &lt;yourUser@gmail.edu&gt;', // sender address
+    to: 'anotherUser@gmail.edu', // list of receivers
+    subject: 'Test of nodemail', // Subject line
+    text: 'Hello world from modemailer', // plaintext body
+    html: '&lt;b&gt;Hello world&lt;/b&gt;&lt;p&gt;Way to go!&lt;/p&gt;' // html body
+};
+
+// send mail with defined transport object
+transporter.sendMail(mailOptions, function(error, info){
+    if(error){
+        console.log(error);
+    }else{
+        console.log('Message sent: ' + info.response);
+    }
+});
+
+// Nodemailer is licensed under MIT license 
+// (https://github.com/andris9/Nodemailer/blob/master/LICENSE). 
+// Basically you can do whatever you want to with it</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Then run the script to send the email:</p>
+</div>
+<pre data-type="programlisting">
+bone# <strong>chmod +x nodemailer-test.js</strong>
+bone# <strong>.\nodemailer-test.js</strong>
+</pre>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Warning</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>This solution requires your Gmail password to be in plain text in a file, which is a security problem. Make sure you know who has access to your Bone. Also, if you remove the microSD card, make sure you know who has access to it. Anyone with your microSD card can read your Gmail password.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_discussion_8">Discussion</h4>
+<div class="paragraph">
+<p>Be careful about putting this into a loop.  Gmail presently limits you to <a href="http://group-mail.com/email-marketing/how-to-send-bulk-emails-using-gmail/">500 emails per day and 10 MB per message</a>.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_sending_an_sms_message">Sending an SMS Message</h3>
+<div class="sect3">
+<h4 id="_problem_9">Problem</h4>
+<div class="paragraph">
+<p>You want to send a text message from BeagleBone Black.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_solution_9">Solution</h4>
+<div class="paragraph">
+<p>There are a number of SMS services out there. This recipe uses Twilio because you can use it for free, but you will need to <a href="http://bit.ly/1MrHBBF">verify the number</a> to which you are texting. First, go to <a href="https://www.twilio.com/">Twilio&#8217;s home page</a> and set up an account. Note your account SID and authorization token. If you are using the free version, be sure to <a href="http://bit.ly/19c7GZ7">verify your numbers</a>.</p>
+</div>
+<div class="paragraph">
+<p>Next, install Trilio by using the following command:</p>
+</div>
+<pre data-type="programlisting">
+bone# <strong>npm install -g twilio</strong>
+</pre>
+<div class="paragraph">
+<p>Finally, add the code in <a href="#networking_twilio_code">Sending SMS messages using Twilio (<em>twilio-test.js</em>)</a> to a file named <em>twilio-test.js</em> and run it. Your text will be sent.</p>
+</div>
+<div id="networking_twilio_code" class="exampleblock">
+<div class="title">Example 7. Sending SMS messages using Twilio (<em>twilio-test.js</em>)</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-js" data-lang="js">#!/usr/bin/env node
+// From: http://twilio.github.io/twilio-node/
+// Twilio Credentials 
+var accountSid = ''; 
+var authToken = ''; 
+ 
+//require the Twilio module and create a REST client 
+var client = require('twilio')(accountSid, authToken); 
+ 
+client.messages.create({ 
+	to: "812555121", 
+	from: "+2605551212", 
+	body: "This is a test",   
+}, function(err, message) { 
+	console.log(message.sid); 
+});
+
+// https://github.com/twilio/twilio-node/blob/master/LICENSE
+// The MIT License (MIT)
+// Copyright (c) 2010 Stephen Walters
+// Copyright (c) 2012 Twilio Inc.
+
+// Permission is hereby granted, free of charge, to any person obtaining a copy of 
+// this software and associated documentation files (the "Software"), to deal in 
+// the Software without restriction, including without limitation the rights to 
+// use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies 
+// of the Software, and to permit persons to whom the Software is furnished to do 
+// so, subject to the following conditions:
+
+// The above copyright notice and this permission notice shall be included in 
+// all copies or substantial portions of the Software.
+
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL 
+// THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING 
+// FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
+// DEALINGS IN THE SOFTWARE.</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_discussion_9">Discussion</h4>
+<div class="paragraph">
+<p>Twilio allows a small number of free text messages, enough to test your code and to play around some.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_displaying_the_current_weather_conditions">Displaying the Current Weather Conditions</h3>
+<div class="sect3">
+<h4 id="_problem_10">Problem</h4>
+<div class="paragraph">
+<p>You want to display the current weather conditions.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_solution_10">Solution</h4>
+<div class="paragraph">
+<p>Because your Bone is on the network, it&#8217;s not hard to access the current weather conditions from a weather API. First, install a JavaScript module:</p>
+</div>
+<pre data-type="programlisting">
+bone# <strong>npm install -g weather-js</strong>  (Took about 4 minutes on a slow connection)
+</pre>
+<div class="paragraph">
+<p>Then add the code in <a href="#networking_weather_code">Code for getting current weather conditions (<em>weather.js</em>)</a> to a file named <em>weather.js</em>.</p>
+</div>
+<div id="networking_weather_code" class="exampleblock">
+<div class="title">Example 8. Code for getting current weather conditions (<em>weather.js</em>)</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-js" data-lang="js">#!/usr/bin/env node
+// Install with npm install weather-js
+var weather = require('weather-js');
+
+// Options:
+// search:     location name or zipcode
+// degreeType: F or C
+
+weather.find({search: 'Terre Haute, IN', degreeType: 'F'}, 
+  function(err, result) {
+    if (err) {
+      console.log(err);
+    }
+    console.log(JSON.stringify(result, null, 2));             // <b class="conum">(1)</b>
+    console.log(JSON.stringify(result[0].current, null, 2));  // <b class="conum">(2)</b>
+    console.log(JSON.stringify(result[0].forecast[0], null, 2));  // <b class="conum">(3)</b>
+  });</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="colist arabic">
+<ol>
+<li>
+<p>Prints everything returned by the weather site.</p>
+</li>
+<li>
+<p>Prints only the current weather conditions.</p>
+</li>
+<li>
+<p>Prints the forecast for the next day.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Run this by using the following commands:</p>
+</div>
+<pre data-type="programlisting">
+bone# <strong>chmod +x weather.js</strong>
+bone# <strong>./weather.js</strong>
+...
+{
+  "temperature": "74",
+  "skycode": "28",
+  "skytext": "Mostly Cloudy",
+  "date": "2014-07-28",
+  "observationtime": "14:53:00",
+  "observationpoint": "Terre Haute, Terre Haute International Airport -
+      Hulman Field",
+  "feelslike": "74",
+  "humidity": "53",
+  "winddisplay": "15 mph NW",
+  "day": "Monday",
+  "shortday": "Mon",
+  "windspeed": "15",
+  "imageUrl": "http://wst.s-msn.com/i/en-us/law/28.gif"
+}
+</pre>
+</div>
+<div class="sect3">
+<h4 id="_discussion_10">Discussion</h4>
+<div class="paragraph">
+<p>The weather API returns lots of information. Use JavaScript to extract the information you want.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_sending_and_receiving_tweets">Sending and Receiving Tweets</h3>
+<div class="sect3">
+<h4 id="_problem_11">Problem</h4>
+<div class="paragraph">
+<p>You want to send and receive tweets (Twitter posts) with your Bone.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_solution_11">Solution</h4>
+<div class="paragraph">
+<p>First, install the Twitter node package:</p>
+</div>
+<pre data-type="programlisting">
+bone# <strong>npm install node-twitter</strong>
+</pre>
+<div class="paragraph">
+<p>Before creating a Twitter app, you need to authenticate with Twitter:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Go to <a href="https://apps.twitter.com/">the Twitter Application Management page</a> and click Create New App.</p>
+</li>
+<li>
+<p>Fill in the requested information and click "Create your Twitter application." You can leave the Callback URL blank.</p>
+</li>
+<li>
+<p>Click the API Keys tab. If you plan to have the Bone send tweets, click "modify app permissions" to the right of "Access level."</p>
+</li>
+<li>
+<p>Select "Read and Write" and click "Update settings."</p>
+</li>
+<li>
+<p>Click the API Keys tab.</p>
+</li>
+<li>
+<p>Near the bottom of the page, click "Create my access token."</p>
+</li>
+<li>
+<p>Create a file called <em>twitterKeys.js</em> and add the following code to it, substituting your keys for <em>xxx</em>:</p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-js" data-lang="js">exports.API_KEY      = 'xxx';
+exports.API_SECRET   = 'xxx';
+exports.TOKEN        = 'xxx';
+exports.TOKEN_SECRET = 'xxx';</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Add the code in <a href="#networking_timeline_code">Code to display your Twitter timeline (twitterTimeLine.js)</a> to a file called <em>twitterTimeLine.js</em> and run it to see your timeline.</p>
+</div>
+<div id="networking_timeline_code" class="exampleblock">
+<div class="title">Example 9. Code to display your Twitter timeline (twitterTimeLine.js)</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-js" data-lang="js">#!/usr/bin/env node
+// From: https://www.npmjs.org/package/node-twitter
+// The Twitter REST API can be accessed using Twitter.RestClient. The following 
+// code example shows how to retrieve tweets from the authenticated user's timeline.
+var Twitter = require('node-twitter');
+var key = require('./twitterKeys');
+
+var twitterRestClient = new Twitter.RestClient(
+    key.API_KEY, key.API_SECRET,
+    key.TOKEN,   key.TOKEN_SECRET
+);
+
+twitterRestClient.statusesHomeTimeline({}, function(error, result) {
+    if (error) {
+        console.log('Error: ' + 
+            (error.code ? error.code + ' ' + error.message : error.message));
+    }
+
+    if (result) {
+        console.log(result);
+    }
+});
+
+// node-twitter is made available under terms of the BSD 3-Clause License.
+// http://www.opensource.org/licenses/BSD-3-Clause</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Use the code in <a href="#networking_send_code">Code to send a tweet with a picture (twitterUpload.js)</a> to send a tweet with a picture.</p>
+</div>
+<div id="networking_send_code" class="exampleblock">
+<div class="title">Example 10. Code to send a tweet with a picture (twitterUpload.js)</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-js" data-lang="js">#!/usr/bin/env node
+// From: https://www.npmjs.org/package/node-twitter
+// Tweets with attached image media (JPG, PNG or GIF) can be posted 
+// using the upload API endpoint.
+var Twitter = require('node-twitter');
+var b = require('bonescript');
+var key = require('./twitterKeys');
+
+var twitterRestClient = new Twitter.RestClient(
+    key.API_KEY, key.API_SECRET,
+    key.TOKEN,   key.TOKEN_SECRET
+);
+
+twitterRestClient.statusesUpdateWithMedia(
+    {
+        'status': 'Posting a tweet w/ attached media.',
+        'media[]': '/root/cookbook-atlas/images/cover.png'
+    },
+    function(error, result) {
+        if (error)  {
+            console.log('Error: ' + 
+                (error.code ? error.code + ' ' + error.message : error.message));
+        }
+
+        if (result)  {
+            console.log(result);
+        }
+    }
+);
+
+// node-twitter is made available under terms of the BSD 3-Clause License.
+// http://www.opensource.org/licenses/BSD-3-Clause</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>The code in <a href="#networking_pushbutton_code">Tweet when a button is pushed (twitterPushbutton.js)</a> sends a tweet whenever a button is pushed.</p>
+</div>
+<div id="networking_pushbutton_code" class="exampleblock">
+<div class="title">Example 11. Tweet when a button is pushed (twitterPushbutton.js)</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-js" data-lang="js">#!/usr/bin/env node
+// From: https://www.npmjs.org/package/node-twitter
+// Tweets with attached image media (JPG, PNG or GIF) can be posted 
+// using the upload API endpoint.
+var Twitter = require('node-twitter');
+var b = require('bonescript');
+var key = require('./twitterKeys');
+var gpio = "P9_42";
+var count = 0;
+
+b.pinMode(gpio, b.INPUT);
+b.attachInterrupt(gpio, sendTweet, b.FALLING);
+
+var twitterRestClient = new Twitter.RestClient(
+    key.API_KEY, key.API_SECRET,
+    key.TOKEN,   key.TOKEN_SECRET
+);
+
+function sendTweet() {
+    console.log("Sending...");
+    count++;
+
+    twitterRestClient.statusesUpdate(
+        {'status': 'Posting tweet ' + count + ' via my BeagleBone Black', },
+        function(error, result) {
+            if (error) {
+                console.log('Error: ' + 
+                    (error.code ? error.code + ' ' + error.message : error.message));
+            }
+    
+            if (result) {
+                console.log(result);
+            }
+        }
+    );
+}
+
+// node-twitter is made available under terms of the BSD 3-Clause License.
+// http://www.opensource.org/licenses/BSD-3-Clause</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>To see many other examples, go to <a href="http://bit.ly/18AvSTW">iStrategyLabs' node-twitter GitHub page</a>.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_discussion_11">Discussion</h4>
+<div class="paragraph">
+<p>This opens up many new possibilities. You can read a temperature sensor and tweet its value whenever it changes, or you can turn on an LED whenever a certain hashtag is used. What are you going to tweet?</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="networking_node_red">Wiring the IoT with Node-RED</h3>
+<div class="sect3">
+<h4 id="_problem_12">Problem</h4>
+<div class="paragraph">
+<p>You want BeagleBone to interact with the Internet, but you want to program it graphically.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_solution_12">Solution</h4>
+<div class="paragraph">
+<p><a href="http://nodered.org/">Node-RED</a> is a visual tool for wiring the IoT. It makes it easy to turn on a light when a certain hashtag is tweeted, or spin a motor if the forecast is for hot weather.</p>
+</div>
+<div class="sect4">
+<h5 id="_installing_node_red">Installing Node-RED</h5>
+<div class="paragraph">
+<p>To install Node-RED, run the following commands:</p>
+</div>
+<pre data-type="programlisting">
+bone# <strong>cd</strong>          # Change to home directory
+bone# <strong>git clone https://github.com/node-red/node-red.git</strong>
+bone# <strong>cd node-red/</strong>
+bone# <strong>npm install --production</strong>    # almost 6 minutes
+bone# <strong>cd nodes</strong>
+bone# <strong>git clone https://github.com/node-red/node-red-nodes.git</strong> # 2 seconds
+bone# <strong>cd ~/node-red</strong>
+</pre>
+<div class="paragraph">
+<p>To run Node-RED, use the following commands:</p>
+</div>
+<pre data-type="programlisting">
+bone# <strong>cd ~/node-red</strong>
+bone# <strong>node red.js</strong>
+Welcome to Node-RED
+===================
+
+18 Aug 16:31:43 - [red] Version: 0.8.1.git
+18 Aug 16:31:43 - [red] Loading palette nodes
+18 Aug 16:31:49 - [26-rawserial.js] Info : only really needed for
+                  Windows boxes without serialport npm module installed.
+18 Aug 16:31:56 - ------------------------------------------
+18 Aug 16:31:56 - [red] Failed to register 44 node types
+18 Aug 16:31:56 - [red] Run with -v for details
+18 Aug 16:31:56 - ------------------------------------------
+18 Aug 16:31:56 - [red] Server now running at http://127.0.0.1:1880/
+18 Aug 16:31:56 - [red] Loading flows : flows_yoder-debian-bone.json
+</pre>
+<div class="paragraph">
+<p>The second-to-last line informs you that Node-RED is listening on part 1880. Point your browser to <a href="http://192.168.7.2:1880" class="bare">http://192.168.7.2:1880</a>, and you will see the screen shown in <a href="#networking_node_red_fig">The Node-RED web page</a>.</p>
+</div>
+<div id="networking_node_red_fig" class="imageblock">
+<div class="content">
+<img src="figures/node-red.png" alt="node-red">
+</div>
+<div class="title">Figure 6. The Node-RED web page</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_building_a_node_red_flow">Building a Node-RED Flow</h5>
+<div class="paragraph">
+<p>The example in this recipe builds a Node-RED flow that will toggle an LED whenever a certain hashtag is tweeted. But first, you need to set up the Node-RED flow with the twitter node:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>On the Node-RED web page, scroll down until you see the social nodes on the left side of the page.</p>
+</li>
+<li>
+<p>Drag the twitter node to the canvas, as shown in <a href="#networking_node_twitter_fig">Node-RED twitter node</a>.</p>
+</li>
+</ol>
+</div>
+<div id="networking_node_twitter_fig" class="imageblock">
+<div class="content">
+<img src="figures/node-twitter.png" alt="node-red">
+</div>
+<div class="title">Figure 7. Node-RED twitter node</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic" start="3">
+<li>
+<p>Authorize Twitter by double-clicking the twitter node. You&#8217;ll see the screen shown in <a href="#networking_node_twitter_auth_fig">Node-RED Twitter authorization, step 1</a>.</p>
+</li>
+</ol>
+</div>
+<div id="networking_node_twitter_auth_fig" class="imageblock">
+<div class="content">
+<img src="figures/node-twitter-auth.png" alt="node-red authentication">
+</div>
+<div class="title">Figure 8. Node-RED Twitter authorization, step 1</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic" start="4">
+<li>
+<p>Click the pencil button to bring up the dialog box shown in <a href="#networking_node_twitter_auth2_fig">Node-RED twitter authorization, step 2</a>.</p>
+</li>
+</ol>
+</div>
+<div id="networking_node_twitter_auth2_fig" class="imageblock">
+<div class="content">
+<img src="figures/node-twitter-auth2.png" alt="node-red authentication2">
+</div>
+<div class="title">Figure 9. Node-RED twitter authorization, step 2</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic" start="5">
+<li>
+<p>Click the "here" link, as shown in <a href="#networking_node_twitter_auth2_fig">Node-RED twitter authorization, step 2</a>, and you&#8217;ll be taken to Twitter to authorize Node-RED.</p>
+</li>
+<li>
+<p>Log in to Twitter and click the "Authorize app" button (<a href="#networking_node_twitter_auth3_fig">Node-RED Twitter site authorization</a>).</p>
+</li>
+</ol>
+</div>
+<div id="networking_node_twitter_auth3_fig" class="imageblock">
+<div class="content">
+<img src="figures/node-twitter-auth3.png" alt="node-red authentication3">
+</div>
+<div class="title">Figure 10. Node-RED Twitter site authorization</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic" start="7">
+<li>
+<p>When you&#8217;re back to Node-RED, click the Add button, add your Twitter credentials, enter the hashtags to respond to (<a href="#networking_node_twitter_beagle_fig">Node-RED adding the #BeagleBone hashtag</a>), and then click the Ok <span class="keep-together">button</span>.</p>
+</li>
+</ol>
+</div>
+<div id="networking_node_twitter_beagle_fig" class="imageblock">
+<div class="content">
+<img src="figures/node-twitter-beagle.png" alt="node-red beagle hash">
+</div>
+<div class="title">Figure 11. Node-RED adding the #BeagleBone hashtag</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic" start="8">
+<li>
+<p>Go back to the left panel, scroll up to the top, and then drag the debug node to the canvas. (debug is in the output section.)</p>
+</li>
+<li>
+<p>Connect the two nodes by clicking and dragging (<a href="#networking_node_twitter_debug_fig">Node-RED Twitter adding debug node and connecting</a>).</p>
+</li>
+</ol>
+</div>
+<div id="networking_node_twitter_debug_fig" class="imageblock">
+<div class="content">
+<img src="figures/node-twitter-debug.png" alt="node-red debug">
+</div>
+<div class="title">Figure 12. Node-RED Twitter adding debug node and connecting</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic" start="10">
+<li>
+<p>In the right panel, in the upper-right corner, click the "debug" tab.</p>
+</li>
+<li>
+<p>Finally, click the Deploy button above the "debug" tab.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Your Node-RED flow is now running on the Bone. Test it by going to Twitter and tweeting something with the hashtag #BeagleBone. Your Bone is now responding to events happening out in the world.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_adding_an_led_toggle">Adding an LED Toggle</h5>
+<div class="paragraph">
+<p>Now, we&#8217;re ready to add the LED toggle:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Wire up an LED as shown in <a href="#displays_externalLED">[displays_externalLED]</a>. Mine is wired to P9_14.</p>
+</li>
+<li>
+<p>Scroll to the bottom of the left panel and drag the bbb-discrete-out node (second from the bottom of the bbb nodes) to the canvas and wire it (<a href="#networking_node_bbb_out_fig">Node-RED adding bbb-discrete-out node</a>).</p>
+</li>
+</ol>
+</div>
+<div id="networking_node_bbb_out_fig" class="imageblock">
+<div class="content">
+<img src="figures/node-disc-out.png" alt="node-red discrete out node">
+</div>
+<div class="title">Figure 13. Node-RED adding bbb-discrete-out node</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic" start="3">
+<li>
+<p>Double-click the node, select your GPIO pin and "Toggle state," and then set "Startup as" to 1 (<a href="#networking_node_bbb_out_setup_fig">Node-RED adding bbb-discrete-out configuration</a>).</p>
+</li>
+</ol>
+</div>
+<div id="networking_node_bbb_out_setup_fig" class="imageblock">
+<div class="content">
+<img src="figures/node-disc-out-setup.png" alt="node-red discrete out setup">
+</div>
+<div class="title">Figure 14. Node-RED adding bbb-discrete-out configuration</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic" start="4">
+<li>
+<p>Click Ok and then Deploy.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Test again. The LED will toggle every time the hashtag #BeagleBone is tweeted. With a little more exploring, you should be able to have your Bone ringing a bell or spinning a motor in response to tweets.</p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_discussion_12">Discussion</h4>
+
+</div>
+</div>
+<div class="sect2">
+<h3 id="networking_apache">Serving Web Pages from the Bone by Using Apache</h3>
+<div class="sect3">
+<h4 id="_problem_13">Problem</h4>
+<div class="paragraph">
+<p>You want to use BeagleBone Black as an Apache web server.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_solution_13">Solution</h4>
+<div class="paragraph">
+<p><a href="https://httpd.apache.org/">Apache</a> (the most popular web server on the Internet since 1996) is already running on the Bone. Point your browser to <em><a href="http://192.168.7.2:8080/" class="bare">http://192.168.7.2:8080/</a></em>, and you&#8217;ll see a screen that looks like <a href="#networking_apacheNoFiles">Apache running on the Bone with no files to view</a>.</p>
+</div>
+<div id="networking_apacheNoFiles" class="imageblock">
+<div class="content">
+<img src="figures/apacheNoFiles.png" alt="Apache with no files">
+</div>
+<div class="title">Figure 15. Apache running on the Bone with no files to view</div>
+</div>
+<div class="paragraph">
+<p>What you are seeing is a listing of the files in Apache&#8217;s root directory (<em>/var/www/</em>).  In this case, there are no files to show. Add the HTML in <a href="#networking_index_html">A sample web page (test.html)</a> to a file called <em>/var/www/test.html</em> and refresh your browser. You will see the screen shown in <a href="#networking_apacheTest_html">The test.html file appears</a>.</p>
+</div>
+<div id="networking_apacheTest_html" class="imageblock">
+<div class="content">
+<img src="figures/apacheTest.png" alt="Apache with test.html">
+</div>
+<div class="title">Figure 16. The test.html file appears</div>
+</div>
+<div class="paragraph">
+<p>Click the <em>test.html</em> link to display the screen in <a href="#networking_apacheIndex">Apache running on the Bone showing test.html</a>.</p>
+</div>
+<div id="networking_apacheIndex" class="imageblock">
+<div class="content">
+<img src="figures/apacheIndex.png" alt="Apache with index.html">
+</div>
+<div class="title">Figure 17. Apache running on the Bone showing test.html</div>
+</div>
+<div class="paragraph">
+<p>You can place any number of files in <em>/var/www/</em> and access them with Apache.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_discussion_13">Discussion</h4>
+
+</div>
+</div>
+<div class="sect2">
+<h3 id="_communicating_over_a_serial_connection_to_an_arduino_or_launchpad">Communicating over a Serial Connection to an Arduino or LaunchPad</h3>
+<div class="sect3">
+<h4 id="_problem_14">Problem</h4>
+<div class="paragraph">
+<p>You would like your Bone to talk to an Arduino or LaunchPad.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_solution_14">Solution</h4>
+<div class="paragraph">
+<p>The common serial port (also know as a UART) is the simplest way to talk between the two.  Wire it up as shown in <a href="#networking_launchPad_fig">Wiring a LaunchPad to a Bone via the common serial port</a>.</p>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Warning</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>BeagleBone Black runs at 3.3 V. When wiring other devices to it, ensure that they are also 3.3 V. The LaunchPad I&#8217;m using is 3.3 V, but many Arduinos are 5.0 V and thus won&#8217;t work. Or worse, they might damage your Bone.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="networking_launchPad_fig" class="imageblock">
+<div class="content">
+<img src="figures/launchPad_bb.png" alt="MSP430 LaunchPad">
+</div>
+<div class="title">Figure 18. Wiring a LaunchPad to a Bone via the common serial port</div>
+</div>
+<div class="paragraph">
+<p>Add the code (or <em>sketch</em>, as it&#8217;s called in Arduino-speak) in <a href="#js_launchPad_code">LaunchPad code for communicating via the UART (launchPad.ino)</a> to a file called <em>launchPad.ino</em> and run it on your LaunchPad.</p>
+</div>
+<div id="js_launchPad_code" class="exampleblock">
+<div class="title">Example 12. LaunchPad code for communicating via the UART (launchPad.ino)</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-c" data-lang="c">/*
+  Tests connection to a BeagleBone
+  Mark A. Yoder
+  Waits for input on Serial Port
+  g - Green toggle
+  r - Red toggle
+*/
+char inChar = 0; // incoming serial byte
+int red = 0;
+int green = 0;
+
+void setup()
+{
+  // initialize the digital pin as an output.
+  pinMode(RED_LED, OUTPUT);           // <b class="conum">(1)</b>
+  pinMode(GREEN_LED, OUTPUT);  
+  // start serial port at 9600 bps:
+  Serial.begin(9600);                 // <b class="conum">(2)</b>
+  Serial.print("Command (r, g): ");   // <b class="conum">(3)</b>
+  
+  digitalWrite(GREEN_LED, green);     // <b class="conum">(4)</b>
+  digitalWrite(  RED_LED, red);
+}
+
+void loop()
+{
+  if(Serial.available() &gt; 0 ) {       // <b class="conum">(5)</b>
+    inChar = Serial.read();
+    switch(inChar) {                  // <b class="conum">(6)</b>
+      case 'g':
+        green = ~green;
+        digitalWrite(GREEN_LED, green);
+        Serial.println("Green");
+        break;
+      case 'r':
+        red = ~red;
+        digitalWrite(RED_LED, red);
+        Serial.println("Red");
+        break;
+    }
+    Serial.print("Command (r, g): ");
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="colist arabic">
+<ol>
+<li>
+<p>Set the mode for the built-in red and green LEDs.</p>
+</li>
+<li>
+<p>Start the serial port at 9600 baud.</p>
+</li>
+<li>
+<p>Prompt the user, which in this case is the Bone.</p>
+</li>
+<li>
+<p>Set the LEDs to the current values of the red and green variables.</p>
+</li>
+<li>
+<p>Wait for characters to arrive on the serial port.</p>
+</li>
+<li>
+<p>After the characters are received, read it and respond to it.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>On the Bone, add the script in <a href="#js_launchPadBeagle_code">Code for communicating via the UART (launchPad.js)</a> to a file called <em>launchPad.js</em> and run it.</p>
+</div>
+<div id="js_launchPadBeagle_code" class="exampleblock">
+<div class="title">Example 13. Code for communicating via the UART (launchPad.js)</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-c" data-lang="c">#!/usr/bin/env node
+// Need to add exports.serialParsers = m.module.parsers;
+// to /usr/local/lib/node_modules/bonescript/serial.js
+var b = require('bonescript');
+
+var port = '/dev/ttyO1';                    // <b class="conum">(1)</b>
+var options = {
+    baudrate: 9600,                         // <b class="conum">(2)</b>
+    parser: b.serialParsers.readline("\n")  // <b class="conum">(3)</b>
+};
+
+b.serialOpen(port, options, onSerial);      // <b class="conum">(4)</b>
+
+function onSerial(x) {                      // <b class="conum">(5)</b>
+    console.log(x.event);
+    if (x.err) {
+        console.log('***ERROR*** ' + JSON.stringify(x));
+    }
+    if (x.event == 'open') {
+        console.log('***OPENED***');
+        setInterval(sendCommand, 1000);     // <b class="conum">(6)</b>
+    }
+    if (x.event == 'data') {
+        console.log(String(x.data));
+    }
+}
+
+var command = ['r', 'g'];                   // <b class="conum">(7)</b>
+var commIdx = 1;
+
+function sendCommand() {
+    // console.log('Command: ' + command[commIdx]);
+    b.serialWrite(port, command[commIdx++]); // <b class="conum">(8)</b>
+    if(commIdx &gt;= command.length) {         // <b class="conum">(9)</b>
+        commIdx = 0;
+    }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="colist arabic">
+<ol>
+<li>
+<p>Select which serial port to use. <a href="#networking_cape-headers-serial_fig">Table of UART outputs</a> shows what&#8217;s available. We&#8217;ve wired P9_24 and P9_26, so we are using serial port /dev/ttyO1. (Note that&#8217;s the letter <em>O</em> and not the number <em>zero</em>.)</p>
+</li>
+<li>
+<p>Set the baudrate to 9600, which matches the setting on the LaunchPad.</p>
+</li>
+<li>
+<p>Read one line at a time up to the newline character (\n).</p>
+</li>
+<li>
+<p>Open the serial port and call onSerial() whenever there is data available.</p>
+</li>
+<li>
+<p>Determine what event has happened on the serial port and respond to it.</p>
+</li>
+<li>
+<p>If the serial port has been opened, start calling sendCommand() every 1000 ms.</p>
+</li>
+<li>
+<p>These are the two commands to send.</p>
+</li>
+<li>
+<p>Write the character out to the serial port and to the LaunchPad.</p>
+</li>
+<li>
+<p>Move to the next command.</p>
+</li>
+</ol>
+</div>
+<div id="networking_cape-headers-serial_fig" class="imageblock">
+<div class="content">
+<img src="figures/cape-headers-serial.png" alt="UART outputs">
+</div>
+<div class="title">Figure 19. Table of UART outputs</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_discussion_14">Discussion</h4>
+<div class="paragraph">
+<p>When you run the script in <a href="#js_launchPadBeagle_code">Code for communicating via the UART (launchPad.js)</a>, the Bone opens up the serial port and every second sends a new command, either r or g. The LaunchPad waits for the command and, when it arrives, responds by toggling the corresponding LED.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2022-06-25 13:14:10 -0400
+</div>
+</div>
+</body>
+</html>

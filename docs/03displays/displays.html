@@ -453,7 +453,7 @@ BeagleBone Black&#8217;s general-purpose input/output (GPIO) pins. The Bone has 
 </div>
 <div id="js_P8P9_fig" class="imageblock">
 <div class="content">
-<img src="figures/p8p9headers.png" alt="Headers P8 and P9">
+<img src="figures/P8P9_bb.png" alt="Headers P8 and P9">
 </div>
 <div class="title">Figure 1. The P8 and P9 GPIO headers</div>
 </div>
@@ -479,7 +479,7 @@ BeagleBone Black&#8217;s general-purpose input/output (GPIO) pins. The Bone has 
 </div>
 <div id="js_internLED_fig" class="imageblock">
 <div class="content">
-<img src="figures/USERLEDs.png" alt="USER LEDs">
+<img src="figures/internLED.png" alt="USER LEDs">
 </div>
 <div class="title">Figure 2. The four USER LEDs</div>
 </div>
@@ -572,7 +572,7 @@ bone# <strong>./internLED.js</strong>
 </div>
 <div id="displays_externLED_fig" class="imageblock">
 <div class="content">
-<img src="figures/externalLED.png" alt="External LED">
+<img src="figures/externLED_bb.png" alt="External LED">
 </div>
 <div class="title">Figure 3. Diagram for using an external LED</div>
 </div>
@@ -641,7 +641,7 @@ function flash() {
 </div>
 <div id="displays_powerSwitch_fig" class="imageblock">
 <div class="content">
-<img src="images/bglb_0304.png" alt="Power Switch Tail II">
+<img src="figures/powerSwitch_bb.png" alt="Power Switch Tail II">
 </div>
 <div class="title">Figure 4. Diagram for wiring PowerSwitch Tail II</div>
 </div>
@@ -672,7 +672,31 @@ function flash() {
 <div class="content">
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-javascript" data-lang="javascript">Unresolved directive in display.adoc - include::images/displays/fadeLED.js[]</code></pre>
+<pre class="highlight"><code class="language-javascript" data-lang="javascript">#!/usr/bin/env node
+var b = require('bonescript');
+var LED = 'P9_14';  // Pin to use
+var step = 0.02,    // Step size
+    min = 0.02,     // dimmest value
+    max = 1,        // brightest value
+    brightness = min; // Current brightness;
+
+b.pinMode(LED, b.ANALOG_OUTPUT, 6, 0, 0, doInterval);
+
+function doInterval(x) {
+    if(x.err) {
+        console.log('x.err = ' + x.err);
+        return;
+    }
+    setInterval(fade, 20);      // Step every 20 ms
+}
+
+function fade() {
+    b.analogWrite(LED, brightness);
+    brightness += step;
+    if(brightness &gt;= max || brightness &lt;= min) {
+        step = -1 * step;
+    }
+}</code></pre>
 </div>
 </div>
 </div>
@@ -682,7 +706,7 @@ function flash() {
 <h4 id="_discussion_4">Discussion</h4>
 <div id="cape-headers-pwm_fig" class="imageblock">
 <div class="content">
-<img src="images/bglb_0305.png" alt="PWM outputs">
+<img src="figures/cape-headers-pwm.png" alt="PWM outputs">
 </div>
 <div class="title">Figure 5. Table of PWM outputs</div>
 </div>
@@ -722,7 +746,7 @@ function flash() {
 </div>
 <div id="displays_i2cMatrix_fig" class="imageblock">
 <div class="content">
-<img src="images/bglb_0306.png" alt="i2c LED matrix">
+<img src="figures/i2cMatrix_bb.png" alt="i2c LED matrix">
 </div>
 <div class="title">Figure 6. Wiring an i2c LED matrix</div>
 </div>
@@ -778,7 +802,51 @@ bone# <strong>./matrixLEDi2c.js</strong>
 <div class="content">
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-c" data-lang="c">Unresolved directive in display.adoc - include::images/displays/matrixLEDi2c.js[]</code></pre>
+<pre class="highlight"><code class="language-c" data-lang="c">#!/usr/bin/env node
+// npm install -g sleep
+
+var b = require('bonescript');
+var sleep = require('sleep');
+var port = '/dev/i2c-2'				// <b class="conum">(1)</b>
+var matrix = 0x70;					// <b class="conum">(2)</b>
+var time = 1000000; // Delay between images in us
+
+// The first btye is GREEN, the second is RED.		<b class="conum">(3)</b>
+var smile =
+	[0x00, 0x3c, 0x00, 0x42, 0x28, 0x89, 0x04, 0x85, 
+	 0x04, 0x85, 0x28, 0x89, 0x00, 0x42, 0x00, 0x3c];
+var frown =
+	[0x3c, 0x00, 0x42, 0x00, 0x85, 0x20, 0x89, 0x00, 
+	 0x89, 0x00, 0x85, 0x20, 0x42, 0x00, 0x3c, 0x00];
+var neutral =
+	[0x3c, 0x3c, 0x42, 0x42, 0xa9, 0xa9, 0x89, 0x89,
+	 0x89, 0x89, 0xa9, 0xa9, 0x42, 0x42, 0x3c, 0x3c];
+var blank = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+
+b.i2cOpen(port, matrix);			// <b class="conum">(4)</b>
+
+b.i2cWriteByte(port,  0x21); // Start oscillator (p10)		<b class="conum">(5)</b>
+b.i2cWriteByte(port,  0x81); // Disp on, blink off (p11)
+b.i2cWriteByte(port,  0xe7); // Full brightness (page 15)
+
+b.i2cWriteBytes(port, 0x00, frown);			// <b class="conum">(6)</b>
+sleep.usleep(time);
+
+b.i2cWriteBytes(port, 0x00, neutral);
+sleep.usleep(time);
+
+b.i2cWriteBytes(port, 0x00, smile);
+// Fade the display
+var fade;
+for(fade = 0xef; fade &gt;= 0xe0; fade--) {		// <b class="conum">(7)</b>
+    b.i2cWriteByte(port,  fade);
+    sleep.usleep(time/10);
+}
+for(fade = 0xe1; fade &lt;= 0xef; fade++) {
+    b.i2cWriteByte(port,  fade);
+    sleep.usleep(time/10);
+}
+b.i2cWriteBytes(port, 0x04, [0xff]);</code></pre>
 </div>
 </div>
 </div>
@@ -848,7 +916,7 @@ bone# <strong>./matrixLEDi2c.js</strong>
 </div>
 <div id="displays_i2cMatrixLevelTrans_fig" class="imageblock">
 <div class="content">
-<img src="images/bglb_0307.png" alt="PCA9306 level translator">
+<img src="figures/i2cMatrixLevelTrans_bb.png" alt="PCA9306 level translator">
 </div>
 <div class="title">Figure 7. Wiring a PCA9306 level translator to an LED matrix</div>
 </div>
@@ -887,7 +955,7 @@ bone# <strong>./matrixLEDi2c.js</strong>
 </div>
 <div id="js_neoPixelMatrix_fig" class="imageblock">
 <div class="content">
-<img src="images/bglb_0308.png" alt="NeoPixel Matrix">
+<img src="figures/neoPixelMatrix_bb.png" alt="NeoPixel Matrix">
 </div>
 <div class="title">Figure 8. Wiring an Adafruit NeoPixel LED matrix to P8_30</div>
 </div>
@@ -899,7 +967,25 @@ bone# <strong>./matrixLEDi2c.js</strong>
 <div class="content">
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-bash" data-lang="bash">Unresolved directive in display.adoc - include::images/displays/neoPixel.sh[]</code></pre>
+<pre class="highlight"><code class="language-bash" data-lang="bash">#!/bin/sh
+# Here's what you do to install the neoPixel driver
+# Disable the HDMI to gain access to the PRU pins
+sed -i '/cape_disable=capemgr.disable_partno=BB-BONELT-HDMI,BB-BONELT-HDMIN$/ \
+            s/^#//' /boot/uEnv.txt
+reboot
+# Clone and build the code
+cd
+git clone -b opc-server https://github.com/jadonk/LEDscape.git
+cd LEDscape
+make
+cd
+git clone https://github.com/jadonk/openpixelcontrol.git
+# Load and configure the kernel module, pins and LEDscape daemon
+config-pin overlay BB-OPC-EX
+modprobe uio_pruss
+./LEDscape/run-ledscape &amp;
+# Run an example Python script
+./openpixelcontrol/python_clients/example.py</code></pre>
 </div>
 </div>
 </div>
@@ -941,7 +1027,7 @@ bone# <strong>./matrixLEDi2c.js</strong>
 </div>
 <div id="displays_nokia_fig" class="imageblock">
 <div class="content">
-<img src="images/bglb_0309.png" alt="Nokia 5110">
+<img src="figures/nokia5110_bb.png" alt="Nokia 5110">
 </div>
 <div class="title">Figure 9. Wiring a Nokia 5110 LCD display</div>
 </div>
@@ -964,7 +1050,24 @@ bone# <strong>mv /tmp/lcdTest.js nokia5110Test.js</strong>
 <div class="content">
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-javascript" data-lang="javascript">Unresolved directive in display.adoc - include::images/displays/nokia5110.js[]</code></pre>
+<pre class="highlight"><code class="language-javascript" data-lang="javascript">#!/usr/bin/env node
+//
+// Copyright (C) 2012 - Cabin Programs, Ken Keller 
+//
+
+var lcd = require('nokia5110');
+var b = require('bonescript');
+var timeout = 0;
+var inverseIndex;
+
+//
+//  Must define the following outputs
+//
+lcd.PIN_SDIN = "P9_17";
+lcd.PIN_SCLK = "P9_21";
+lcd.PIN_SCE  = "P9_11";
+lcd.PIN_DC   = "P9_15";
+lcd.PIN_RESET= "P9_13";</code></pre>
 </div>
 </div>
 </div>
@@ -999,7 +1102,33 @@ bone# <strong>apt-get install flite</strong>
 <div class="content">
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-javascript" data-lang="javascript">Unresolved directive in display.adoc - include::images/displays/speak.js[]</code></pre>
+<pre class="highlight"><code class="language-javascript" data-lang="javascript">#!/usr/bin/env node
+
+var exec = require('child_process').exec;
+
+function speakForSelf(phrase) {
+{
+	exec('flite -t "' + phrase + '"', function (error, stdout, stderr) {
+        console.log(stdout);
+        if(error) { 
+            console.log('error: ' + error); 
+        }
+        if(stderr) {
+            console.log('stderr: ' + stderr); 
+        }
+        });
+}
+
+speakForSelf("Hello, My name is Borris. " +
+    "I am a BeagleBone Black, " +
+    "a true open hardware, " +
+    "community-supported embedded computer for developers and hobbyists. " +
+    "I am powered by a 1 Giga Hertz Sitara™ ARM® Cortex-A8 processor. " +
+    "I boot Linux in under 10 seconds. " +
+    "You can get started on development in " +
+    "less than 5 minutes with just a single USB cable." +
+    "Bark, bark!"
+    );</code></pre>
 </div>
 </div>
 </div>
@@ -1018,7 +1147,7 @@ bone# <strong>apt-get install flite</strong>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2022-06-23 14:49:58 -0400
+Last updated 2022-06-25 13:14:09 -0400
 </div>
 </div>
 </body>
