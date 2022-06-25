@@ -1,0 +1,140 @@
+[[partsSuppliers]]
+[appendix]
+== Parts and Suppliers
+
+// Do we really need this?
+
+=== Parts
+
+((("parts, sources for")))((("suppliers, websites for")))The following tables list where you can find the parts used in this book. We have listed only one or two sources here, but you can often find a given part in many places.
+
+.United States suppliers
+[options="header"]
+|=======
+|Supplier|Website|Notes
+|Adafruit |http://www.adafruit.com |Good for modules and parts
+|Amazon | http://www.amazon.com/ | Carries everything
+|Digikey |http://www.digikey.com/ |Wide range of components
+|MakerShed |http://www.makershed.com/ |Good for modules, kits, and tools
+|RadioShack |http://www.radioshack.com/ |Walk-in stores
+|SeeedStudio |http://www.seeedstudio.com/depot/ |Low-cost modules
+|SparkFun |http://www.sparkfun.com |Good for modules and parts
+|=======
+
+.Other suppliers
+[options="header"]
+|=======
+|Supplier|Website|Notes
+|Element14 |http://element14.com/BeagleBone |World-wide BeagleBoard.org-compliant clone of BeagleBone Black, carries many accessories
+|=======
+
+[[app_proto]]
+=== Prototyping Equipment
+((("prototypes", "equipment for")))Many of the hardware projects in this book use jumper wires and a breadboard. We prefer the preformed wires that lie flat on the board. <<parts_jumper>> lists places with jumper wires, and <<parts_breadboard>> shows where you can get breadboards.((("jumper wires")))((("breadboards", "suppliers for")))
+
+[[parts_jumper]]
+.Jumper wires
+[options="header"]
+|=======
+|Supplier|Website
+|Amazon | http://www.amazon.com/Elenco-Piece-Pre-formed-Jumper-Wire/dp/B0002H7AIG
+|Digikey | http://www.digikey.com/product-detail/en/TW-E012-000/438-1049-ND/643115
+|RadioShack | http://www.radioshack.com/solderless-breadboard-jumper-wire-kit/2760173.html#.VG5i1PnF8fA
+|SparkFun | https://www.sparkfun.com/products/124
+|=======
+
+[[parts_breadboard]]
+.Breadboards
+[options="header"]
+|=======
+|Supplier|Website
+|Amazon | http://www.amazon.com/s/ref=nb_sb_noss_1?url=search-alias%3Dtoys-and-games&field-keywords=breadboards&sprefix=breadboards%2Ctoys-and-games
+|Digikey |http://www.digikey.com/product-search/en/prototyping-products/solderless-breadboards/2359510?k=breadboard
+|RadioShack | http://www.radioshack.com/search?q=breadboard
+|SparkFun | https://www.sparkfun.com/search/results?term=breadboard
+|CircuitCo | http://elinux.org/CircuitCo:BeagleBone_Breadboard
+|=======
+
+If you want something more permanent, try https://www.adafruit.com/product/1609[Adafruit's Perma-Proto Breadboard], laid out like a breadboard.
+
+[[app_resistor]]
+=== Resistors
+((("resistors", "suppliers for")))We use 220 &#8486;, 1 k&#8486;, 4.7 k&#8486;, 10 k&#8486;, 20 k&#8486;, and 22 k&#8486; resistors in this book. All are 0.25 W.  The easiest way to get all these, and many more, is to order http://bit.ly/1EXREh8[SparkFun's Resistor Kit].  It's a great way to be ready for future projects, because it has 500 resistors. http://shack.net/1B4Io4V[RadioShack's 500-piece Resistor Assortment] is a bit more expensive, but it has a wider variety of resistors.
+
+If you don't need an entire kit of resistors, you can order a la carte from a number of places. http://shack.net/1E5NoIC[RadioShack has 5-packs], and DigiKey has more than a quarter million http://bit.ly/1C6WQjZ[through-hole resistors] at good prices, but make sure you are ordering the right one.
+
+You can find the 10 k&#8486; trimpot (or variable resistor) at http://bit.ly/18ACvpm[SparkFun],  http://bit.ly/1NKg1Tv[Adafruit], or http://shack.net/1Ag286e[RadioShack].
+
+Flex resistors (sometimes called _flex sensors_ or _bend sensors_) are available at http://bit.ly/1Br7HD2[SparkFun] and http://bit.ly/1HCGoql[Adafruit].
+
+[[app_transistor]]
+=== Transistors and Diodes
+((("transistors, suppliers for")))((("diodes, suppliers for")))The http://bit.ly/1B4J8H4[2N3904] is a common NPN transistor that you can get almost anywhere. Even http://amzn.to/1AjvcsD[Amazon] has it. http://bit.ly/1b2dgxT[Adafruit] has a nice 10-pack. http://bit.ly/1GrZj5P[SparkFun] lets you buy them one at a time.  http://bit.ly/1GF8H9K[DigiKey] will gladly sell you 100,000.
+
+The http://bit.ly/1EbRzF6[1N4001] is a popular 1A diode. Buy one at http://bit.ly/1Ajw54G[SparkFun], 10 at http://bit.ly/1Gs05zP[Adafruit], 25 at http://shack.net/1E5OTXi[RadioShack], or 40,000 at http://bit.ly/18ADlT2[DigiKey].
+
+[[app_ic]]
+=== Integrated Circuits
+
+((("Integrated Circuits (ICs), suppliers for")))The PCA9306 is a small integrated circuit (IC) that converts voltage levels between 3.3 V and 5 V. You can get it cheaply in large quantities from http://bit.ly/1Fb8REd[DigiKey], but it's in a very small, hard-to-use, surface-mount package. Instead, you can get it from http://bit.ly/19ceTsd[SparkFun on a Breakout board], which plugs into a breadboard.
+
+The L293D is an http://bit.ly/1wujQqk[H-bridge IC] with which you can control large loads (such as motors) in both directions.  http://bit.ly/18bXChR[SparkFun], http://bit.ly/1xd43Yh[Adafruit], and http://bit.ly/18bXKOk[DigiKey] all have it in a DIP package that easily plugs into a breadboard.
+
+The ULN2003 is a 7 darlington NPN transistor IC array used to drive motors one way. You can get it from  http://bit.ly/1D5UQIB[DigiKey]. A possible substitution is ULN2803 available from http://bit.ly/1xd4oKy[SparkFun] and http://bit.ly/1EXWhaU[Adafruit].
+
+The TMP102 is an I^2^C-based digital temperature sensor. You can buy them in bulk from http://bit.ly/1EA02Vx[DigiKey], but it's too small for a breadboard. http://bit.ly/1GFafAE[SparkFun] sells it on a breakout board that works well with a breadboard.
+
+The DS18B20 is a one-wire digital temperature sensor that looks like a three-terminal transistor. Both http://bit.ly/1Fba7Hv[SparkFun] and http://bit.ly/1EbSYvC[Adafruit] carry it.
+
+[[app_opto]]
+=== Opto-Electronics
+
+((("opto-electronics, suppliers for")))((("LEDs", "suppliers for")))http://bit.ly/1BwZvQj[LEDs] are _light-emitting diodes_. LEDs come in a wide range of colors, brightnesses, and styles. You can get a basic red LED at http://bit.ly/1GFaHPi[SparkFun], http://bit.ly/1GFaH1M[Adafuit], http://shack.net/1KWVVGE[RadioShack], and http://bit.ly/1b2f2PD[DigiKey].  
+
+Many places carry bicolor LED matrices, but be sure to get one with an I^2^C interface.  http://bit.ly/18AENVn[Adafruit] is where I got mine.
+
+[[app_capes]]
+=== Capes
+((("capes", "sources of")))There are a number of sources for capes for BeagleBone Black.  http://bit.ly/1AjlXJ9[BeagleBoard.org] keeps a current list.
+
+
+[[app_misc]]
+=== Miscellaneous
+Here are some things that don't fit in the other categories.
+
+.Miscellaneous
+|=======
+|3.3 V FTDI cable | http://bit.ly/1FMeXsG[SparkFun], http://bit.ly/18AF1Mm[Adafruit]
+|USB WiFi adapter | http://www.adafruit.com/products/814[Adafruit]
+|Female HDMI to male microHDMI adapter | http://amzn.to/1C5BcLp[Amazon] 
+|HDMI cable | https://www.sparkfun.com/products/11572[SparkFun]
+|Micro HDMI to HDMI cable | http://www.adafruit.com/products/1322[Adafruit]
+|HDMI to DVI Cable | https://www.sparkfun.com/products/12612[SparkFun]
+|HDMI monitor | http://amzn.to/1B4MABD[Amazon]
+|Powered USB hub| http://amzn.to/1NKm2zB[Amazon], http://www.adafruit.com/products/961[Adafruit]
+|Keyboard with USB hub|http://amzn.to/1FbblSX[Amazon]
+|Soldering iron | http://bit.ly/1FMfUkP[SparkFun], http://bit.ly/1EXZ6J1[Adafruit] 
+|Oscilloscope | https://www.adafruit.com/products/468[Adafruit] 
+|Multimeter | http://bit.ly/1C5BUbu[SparkFun], http://bit.ly/1wXX3np[Adafruit]
+|PowerSwitch Tail II | http://bit.ly/1Ag5bLP[SparkFun], http://bit.ly/1wXX8aF[Adafruit] 
+|Servo motor | http://bit.ly/1C72cvw[SparkFun], http://bit.ly/1HCPQdl[Adafruit] 
+|5 V power supply | http://bit.ly/1C72q5C[SparkFun], http://bit.ly/18c0n2D[Adafruit] 
+|3 V to 5 V motor | http://bit.ly/1b2g65Y[SparkFun], http://bit.ly/1C72DWF[Adafruit] 
+|3 V to 5 V bipolar stepper motor | http://bit.ly/1Bx2hVU[SparkFun], http://bit.ly/18c0HhV[Adafruit] 
+|3 V to 5 V unipolar stepper motor |  http://www.adafruit.com/products/858[Adafruit] 
+|Pushbutton switch | http://bit.ly/1AjDf90[SparkFun], http://bit.ly/1b2glhw[Adafruit] 
+|Magnetic reed switch | https://www.sparkfun.com/products/8642[SparkFun] 
+|LV-MaxSonar-EZ1 Sonar Range Finder | http://bit.ly/1C73dDH[SparkFun],  http://amzn.to/1wXXvlP[Amazon] 
+|HC-SR04 Ultrsonic Range Sensor | http://amzn.to/1FbcPNa[Amazon] 
+|Rotary encoder | http://bit.ly/1D5ZypK[SparkFun], http://bit.ly/1D5ZGp3[Adafruit] 
+|GPS receiver | http://bit.ly/1EA2sn0[SparkFun], http://bit.ly/1MrS2VV[Adafruit] 
+|BLE USB dongle | http://www.adafruit.com/products/1327[Adafruit]
+|SensorTag | http://bit.ly/18AGPVt[DigiKey], http://amzn.to/1EA2B9U[Amazon], 
+https://store.ti.com/CC2541-SensorTag-Development-Kit-P3192.aspx[TI] 
+|Syba SD-CM-UAUD USB Stereo Audio Adapter | http://amzn.to/1EA2GdI[Amazon]
+|Sabrent External Sound Box USB-SBCV | http://amzn.to/1C74kTU[Amazon]
+|Vantec USB External 7.1 Channel Audio Adapter | http://amzn.to/19cinev[Amazon]
+|Nokia 5110 LCD | http://bit.ly/1Ag6LgG[Adafruit], http://bit.ly/19cizdu[SparkFun]
+|BeagleBone LCD7 | http://elinux.org/CircuitCo:BeagleBone_LCD7#Distributors[eLinux]
+|MiniDisplay Cape | http://elinux.org/CircuitCo:MiniDisplay_Cape[eLinux]
+|=======
