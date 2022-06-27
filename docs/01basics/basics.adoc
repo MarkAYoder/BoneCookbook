@@ -87,7 +87,7 @@ Here, you'll find _Cloud9_, a web-based integrated development environment (IDE)
 
 ++++
 <pre data-type="programlisting">
-bone# <strong>halt</strong>
+bone$ <strong>sudo halt</strong>
 The system is going down for system halt NOW! (pts/0)
 </pre>
 ++++
@@ -257,6 +257,10 @@ You need to use the +chmod +x+ command only once. Finally, +./blinkled.js+ instr
 ==== Solution
 ((("autorun folder")))This is an easy one.  In Cloud9, notice the folder called _autorun_ (<<basics_autoRun_fig>>). Place any BoneScript files you want to run at boot time in this folder. The script will begin execution immediately and will stop execution when you remove the file from this folder.
 
+////
+To Do - is there an autorun?
+////
+
 [[basics_autoRun_fig]]
 .Making applications autorun at boot-up time
 image::figures/autoRun.png[autorun]
@@ -265,7 +269,7 @@ You can drag and drop the script into the _autorun_ folder using the Cloud9 IDE 
 
 ++++
 <pre data-type="programlisting">
-bone# <strong>mv myApp.js autorun</strong>
+bone$ <strong>mv myApp.js autorun</strong>
 </pre>
 ++++
 
@@ -490,8 +494,8 @@ Ensure that your Bone is on the network and then run the following command on th
 
 ++++
 <pre data-type="programlisting">
-bone# <strong>apt-get update</strong>
-bone# <strong>apt-get upgrade</strong>
+bone$ <strong>sudo apt update</strong>
+bone$ <strong>sudo apt upgrade</strong>
 </pre>
 ++++
 

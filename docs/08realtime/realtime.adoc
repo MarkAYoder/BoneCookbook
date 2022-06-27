@@ -12,7 +12,7 @@ This chapter shows several ways to do real-time input/output (I/O), starting wit
 
 [NOTE]
 ====
-In this chapter, as in the others, we assume that you are logged in as +root+ (as indicated by the +bone#+ prompt). This gives you quick access to the general-purpose input/output (GPIO) ports without having to use +sudo+ each time.
+In this chapter, as in the others, we assume that you are logged in as +root+ (as indicated by the +bone$+ prompt). This gives you quick access to the general-purpose input/output (GPIO) ports without having to use +sudo+ each time.
 ====
 
 [[realtime_BoneScript]]
@@ -52,8 +52,8 @@ Add the code to a file named _pushLED.js_ and run it by using the following comm
 
 ++++
 <pre data-type="programlisting">
-bone# <strong>chmod +x pushLED.js</strong>
-bone# <strong>./pushLED.js</strong>
+bone$ <strong>chmod +x pushLED.js</strong>
+bone$ <strong>./pushLED.js</strong>
 </pre>
 ++++
 
@@ -87,8 +87,8 @@ Compile and run the code:
 
 ++++
 <pre data-type="programlisting">
-bone# <strong>gcc -o pushLED pushLED.c /usr/local/lib/libsoc.so</strong>
-bone# <strong>./pushLED</strong>
+bone$ <strong>gcc -o pushLED pushLED.c /usr/local/lib/libsoc.so</strong>
+bone$ <strong>./pushLED</strong>
 libsoc-debug: debug enabled (libsoc_set_debug)
 libsoc-gpio-debug: requested gpio (60, libsoc_gpio_request)
 libsoc-gpio-debug: GPIO already exported (60, libsoc_gpio_request)
@@ -137,9 +137,9 @@ First, download and install +devmem2+:
 
 ++++
 <pre data-type="programlisting">
-bone# <strong>wget http://free-electrons.com/pub/mirror/devmem2.c</strong>
-bone# <strong>gcc -o devmem2 devmem2.c</strong>
-bone# <strong>mv devmem2 /usr/bin</strong>
+bone$ <strong>wget http://free-electrons.com/pub/mirror/devmem2.c</strong>
+bone$ <strong>gcc -o devmem2 devmem2.c</strong>
+bone$ <strong>mv devmem2 /usr/bin</strong>
 </pre>
 ++++
 
@@ -153,12 +153,12 @@ Now, flash the LED attached to +P9_13+ using the Linux +sysfs+ interface (<<kern
 
 ++++
 <pre data-type="programlisting">
-bone# <strong>cd cd /sys/class/gpio/</strong>
-bone# <strong>echo 31 > export</strong>
-bone# <strong>cd gpio31</strong>
-bone# <strong>echo out > direction</strong>
-bone# <strong>echo 1 > value</strong>
-bone# <strong>echo 0 > value</strong>
+bone$ <strong>cd cd /sys/class/gpio/</strong>
+bone$ <strong>echo 31 > export</strong>
+bone$ <strong>cd gpio31</strong>
+bone$ <strong>echo out > direction</strong>
+bone$ <strong>echo 1 > value</strong>
+bone$ <strong>echo 0 > value</strong>
 </pre>
 ++++
 
@@ -170,7 +170,7 @@ This means you read from address +0x44E0_7000+ + +0x138+ = +0x44E0_7138+ to see 
 
 ++++
 <pre data-type="programlisting">
-bone# <strong>devmem2 0x44E07138</strong>
+bone$ <strong>devmem2 0x44E07138</strong>
 /dev/mem opened.
 Memory mapped at address 0xb6f8e000.
 Value at address 0x44E07138 (0xb6f8e138): 0xC000C404
@@ -182,7 +182,7 @@ The returned value +0xC000C404+ (+1100 0000 0000 0000 1100 0100 0000 0100+ in bi
 
 ++++
 <pre data-type="programlisting">
-bone# <strong>devmem2 0x44E07190 w 0x80000000</strong>
+bone$ <strong>devmem2 0x44E07190 w 0x80000000</strong>
 /dev/mem opened.
 Memory mapped at address 0xb6fd7000.
 Value at address 0x44E07190 (0xb6fd7190): 0x80000000
@@ -196,7 +196,7 @@ You read the pushbutton switch in a similar way. <<tips_cape_headers_digital>> s
 
 ++++
 <pre data-type="programlisting">
-bone# <strong>devmem2 0x44e07138</strong>
+bone$ <strong>devmem2 0x44e07138</strong>
 /dev/mem opened.
 Memory mapped at address 0xb6fe2000.
 Value at address 0x44E07138 (0xb6fe2138): 0x4000C484
@@ -262,8 +262,8 @@ Now, compile and run the code:
 
 ++++
 <pre data-type="programlisting">
-bone# <strong>gcc -O3 pushLEDmmap.c -o pushLEDmmap</strong>
-bone# <strong>./pushLEDmmap</strong>
+bone$ <strong>gcc -O3 pushLEDmmap.c -o pushLEDmmap</strong>
+bone$ <strong>./pushLEDmmap</strong>
 Mapping 44E07000 - 44E08000 (size: 1000)
 GPIO mapped to 0xb6fac000
 GPIO SETDATAOUTADDR mapped to 0xb6fac194
@@ -295,7 +295,7 @@ http://xenomai.org/[Xenomai] is a set of kernel patches that allow the Bone to r
 
 [NOTE]
 ====
-The Xenomai kernel is now available in the BeagleBoard.org Debian package feeds, and you can install it by using +apt-get install xenomai-runtime+. Nevertheless, we find it useful to include the details of building the Xenomai kernel.
+The Xenomai kernel is now available in the BeagleBoard.org Debian package feeds, and you can install it by using +sudo apt install xenomai-runtime+. Nevertheless, we find it useful to include the details of building the Xenomai kernel.
 ====
 
 [WARNING]
@@ -424,11 +424,11 @@ Run the following commands on the Bone:
 
 ++++
 <pre data-type="programlisting">
-bone# <strong>cd ~/xenomai-2.6.4</strong>
-bone# <strong>./configure CFLAGS="-march=armv7-a -mfpu=vfp3" LDFLAGS="-march=armv7-a \
+bone$ <strong>cd ~/xenomai-2.6.4</strong>
+bone$ <strong>./configure CFLAGS="-march=armv7-a -mfpu=vfp3" LDFLAGS="-march=armv7-a \
         -mfpu=vfp3"</strong>
-bone# <strong>make</strong>
-bone# <strong>make install</strong>
+bone$ <strong>make</strong>
+bone$ <strong>make install</strong>
 </pre>
 ++++
 
@@ -438,12 +438,12 @@ Next, copy the drivers:
 
 ++++
 <pre data-type="programlisting">
-bone# <strong>cd; mkdir xenomai_drivers; cd xenomai_drivers</strong>
+bone$ <strong>cd; mkdir xenomai_drivers; cd xenomai_drivers</strong>
 
 host$ <strong>cd bb-kernel/KERNEL/drivers/xenomai/testing</strong>
 host$ <strong>scp *.ko 192.168.7.2:xenomai_drivers</strong>
 
-bone# <strong>insmode xeno_klat.ko</strong>
+bone$ <strong>sudo insmode xeno_klat.ko</strong>
 </pre>
 ++++
 
@@ -452,7 +452,7 @@ Go ahead and run some tests:
 
 ++++
 <pre data-type="programlisting">
-bone# <strong>usr/xenomai/bin/latency</strong>
+bone$ <strong>usr/xenomai/bin/latency</strong>
 == Sampling period: 1000 us
 == Test mode: periodic user-mode task
 == All results in microseconds
@@ -496,10 +496,10 @@ Many of the pins easily accessible by the PRU are taken up by the HDMI interface
 
 ++++
 <pre data-type="programlisting">
-bone# <strong>sed -i \
+bone$ <strong>sed -i \
  '/cape_disable=capemgr.disable_partno=BB-BONELT-HDMI,BB-BONELT-HDMIN$/ \
       \s/^#//' /boot/uEnv.txt</strong>
-bone# <strong>shutdown -r now</strong>
+bone$ <strong>sudo reboot</strong>
 </pre>
 ++++
 
@@ -507,8 +507,8 @@ To build the firmware files, you first need to install the TI PRU C compiler:
 
 ++++
 <pre data-type="programlisting">
-bone# <strong>apt-get update</strong>
-bone# <strong>apt-get install ti-pru-cgt-installer</strong>
+bone$ <strong>sudo apt update</strong>
+bone$ <strong>sudo apt install ti-pru-cgt-installer</strong>
 Reading package lists... Done
 Building dependency tree       
 Reading state information... Done
@@ -553,10 +553,10 @@ Clone the PRU Speak repository and run the _install.sh_ shell script:
 
 ++++
 <pre data-type="programlisting">
-bone# <strong>git clone git://github.com/jadonk/pruspeak.git</strong>
-bone# <strong>cd pruspeak</strong>
-bone# <strong>./install.sh</strong>
-if [ ! -d "/lib/modules/3.8.13-bone68/build" ]; then apt-get install \
+bone$ <strong>git clone git://github.com/jadonk/pruspeak.git</strong>
+bone$ <strong>cd pruspeak</strong>
+bone$ <strong>./install.sh</strong>
+if [ ! -d "/lib/modules/3.8.13-bone68/build" ]; then apt install \
         linux-headers-3.8.13-bone68; fi
 make -C /lib/modules/3.8.13-bone68/build M=/root/pruspeak/src/driver modules
 make[1]: Entering directory `/usr/src/linux-headers-3.8.13-bone68'
@@ -615,8 +615,8 @@ Use the +modprobe+ command to load the kernel module and +config-pin+ to load th
 
 ++++
 <pre data-type="programlisting">
-bone# <strong>modprobe pru_speak</strong>
-bone# <strong>config-pin overlay BB-PRUSPEAK</strong>
+bone$ <strong>modprobe pru_speak</strong>
+bone$ <strong>config-pin overlay BB-PRUSPEAK</strong>
 </pre>
 ++++
 
@@ -641,7 +641,7 @@ Then run the code by using the following command:
 
 ++++
 <pre data-type="programlisting">
-bone# <strong>./pruSpeak.py</strong>
+bone$ <strong>./pruSpeak.py</strong>
 Generating LALR tables
 Initializing PRU Speak
 0       0x110000FF      SET var1, DIO[14]
@@ -673,7 +673,7 @@ To invoke a shell interface to PRU Speak, run _bs_shell.py_:
 
 ++++
 <pre data-type="programlisting">
-bone# <strong>bs_shell.py</strong>
+bone$ <strong>bs_shell.py</strong>
 Generating LALR tables
 Initializing PRU Speak
 ps&gt;<strong>SCRIPT</strong>
@@ -708,7 +708,7 @@ Running the interpreter over a TCP socket enables tools like Labview to communic
 
 ++++
 <pre data-type="programlisting">
-bone# <strong>bs_tcp_server.py 2&amp;&gt;1 &gt; /var/log/pruspeak.log &amp;</strong>
+bone$ <strong>bs_tcp_server.py 2&amp;&gt;1 &gt; /var/log/pruspeak.log &amp;</strong>
 [1] 2594
 bone # <strong>nc localhost 6060</strong>
 <strong>SCRIPT</strong>

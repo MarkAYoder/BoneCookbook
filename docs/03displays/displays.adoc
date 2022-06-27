@@ -44,8 +44,8 @@ In the +bash+ command window, enter the following commands:
 
 ++++
 <pre data-type="programlisting">
-bone# <strong>chmod +x internLED.js</strong>
-bone# <strong>./internLED.js</strong>
+bone$ <strong>chmod +x internLED.js</strong>
+bone$ <strong>./internLED.js</strong>
 </pre>
 ++++
 
@@ -180,7 +180,7 @@ Run the +i2cdetect -y -r 1+ command to discover the address of the display, as s
 ====
 ++++
 <pre data-type="programlisting">
-bone# <strong>i2cdetect -y -r 1</strong>
+bone$ <strong>i2cdetect -y -r 1</strong>
      0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f
 00:          -- -- -- -- -- -- -- -- -- -- -- -- -- 
 10: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 
@@ -200,8 +200,8 @@ Add the code in <<displays_matrix_i2c>> to a file called _matrixLEDi2c.js_ and r
 
 ++++
 <pre data-type="programlisting">
-bone# <strong>npm install -g sleep</strong>
-bone# <strong>./matrixLEDi2c.js</strong>
+bone$ <strong>npm install -g sleep</strong>
+bone$ <strong>./matrixLEDi2c.js</strong>
 </pre>
 ++++
 
@@ -310,12 +310,12 @@ The drivers for the 5110 are in the Node Packaged Modules repository. Get and in
 
 ++++
 <pre data-type="programlisting">
-bone# <strong>npm install -g nokia5110</strong>
-bone# <strong>cd /usr/local/lib/node_modules/nokia5110</strong>
-bone# <strong>ln -s LCD_5110.js nokia5110.js</strong>
-bone# <strong>cp lcdTest.js /tmp</strong>
-bone# <strong>cd -</strong>
-bone# <strong>mv /tmp/lcdTest.js nokia5110Test.js</strong>
+bone$ <strong>npm install -g nokia5110</strong>
+bone$ <strong>cd /usr/local/lib/node_modules/nokia5110</strong>
+bone$ <strong>ln -s LCD_5110.js nokia5110.js</strong>
+bone$ <strong>cp lcdTest.js /tmp</strong>
+bone$ <strong>cd -</strong>
+bone$ <strong>mv /tmp/lcdTest.js nokia5110Test.js</strong>
 </pre>
 ++++
 
@@ -345,7 +345,7 @@ Just install the _flite_ text-to-speech program:
 
 ++++
 <pre data-type="programlisting">
-bone# <strong>apt-get install flite</strong>
+bone$ <strong>sudo apt install flite</strong>
 </pre>
 ++++
 

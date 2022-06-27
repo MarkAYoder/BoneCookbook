@@ -17,7 +17,7 @@ If you are running Linux on a host computer attached to BeagleBone Black, it's n
 
 ++++
 <pre data-type="programlisting">
-bone# <strong>apt-get install sshfs</strong>
+bone$ <strong>sudo apt install sshfs</strong>
 </pre>
 ++++
 
@@ -25,10 +25,10 @@ Now, mount the files to an empty directory (substitute your username on the host
 
 ++++
 <pre data-type="programlisting">
-bone# <strong>mkdir host</strong>
-bone# <strong>sshfs username@$192.168.7.1:. host</strong>
-bone# <strong>cd host</strong>
-bone# <strong>ls</strong>
+bone$ <strong>mkdir host</strong>
+bone$ <strong>sshfs username@$192.168.7.1:. host</strong>
+bone$ <strong>cd host</strong>
+bone$ <strong>ls</strong>
 </pre>
 ++++
 
@@ -38,7 +38,7 @@ You can go the other way, too. Suppose that you are on your Linux host computer 
 
 ++++
 <pre data-type="programlisting">
-host$ <strong>sudo apt-get install sshfs</strong>
+host$ <strong>sudo apt install sshfs</strong>
 </pre>
 ++++
 
@@ -61,7 +61,7 @@ The +sshfs+ command gives you easy access from one computer to another. When you
 ++++
 <pre data-type="programlisting">
 host$ <strong>umount /mnt/bone</strong>
-bone# <strong>umount home</strong>
+bone$ <strong>umount home</strong>
 </pre>
 ++++
 
@@ -110,8 +110,8 @@ First, create a directory for this recipe:
 
 ++++
 <pre data-type="programlisting">
-bone# <strong>mkdir serverExample</strong>
-bone# <strong>cd serverExample</strong>
+bone$ <strong>mkdir serverExample</strong>
+bone$ <strong>cd serverExample</strong>
 </pre>
 ++++
 
@@ -143,9 +143,9 @@ Add the HTML in <<networking_index_html>> to a file called _test.html_ in the _s
 
 ++++
 <pre data-type="programlisting">
-bone# <strong>cd serverExample</strong>
-bone# <strong>chmod +x server.js</strong>
-bone# <strong>./server.js</strong>
+bone$ <strong>cd serverExample</strong>
+bone$ <strong>chmod +x server.js</strong>
+bone$ <strong>./server.js</strong>
 Listening on 9090
 </pre>
 ++++
@@ -200,7 +200,7 @@ Now, run the following command:
 
 ++++
 <pre data-type="programlisting">
-bone# <strong>./GPIOserver.js</strong>
+bone$ <strong>./GPIOserver.js</strong>
 Listening on 9090
 </pre>
 ++++
@@ -396,7 +396,7 @@ First, you need to https://mail.google.com[set up a Gmail account], if you don't
 
 ++++
 <pre data-type="programlisting">
-bone# <strong>npm install -g nodemailer</strong>
+bone$ <strong>npm install -g nodemailer</strong>
 </pre>
 ++++
 
@@ -417,8 +417,8 @@ Then run the script to send the email:
 
 ++++
 <pre data-type="programlisting">
-bone# <strong>chmod +x nodemailer-test.js</strong>
-bone# <strong>.\nodemailer-test.js</strong>
+bone$ <strong>chmod +x nodemailer-test.js</strong>
+bone$ <strong>.\nodemailer-test.js</strong>
 </pre>
 ++++
 
@@ -442,7 +442,7 @@ Next, install Trilio by using the following command:
 
 ++++
 <pre data-type="programlisting">
-bone# <strong>npm install -g twilio</strong>
+bone$ <strong>npm install -g twilio</strong>
 </pre>
 ++++
 
@@ -472,7 +472,7 @@ Because your Bone is on the network, it's not hard to access the current weather
 
 ++++
 <pre data-type="programlisting">
-bone# <strong>npm install -g weather-js</strong>  (Took about 4 minutes on a slow connection)
+bone$ <strong>npm install -g weather-js</strong>  (Took about 4 minutes on a slow connection)
 </pre>
 ++++
 
@@ -498,8 +498,8 @@ Run this by using the following commands:
 
 ++++
 <pre data-type="programlisting">
-bone# <strong>chmod +x weather.js</strong>
-bone# <strong>./weather.js</strong>
+bone$ <strong>chmod +x weather.js</strong>
+bone$ <strong>./weather.js</strong>
 ...
 {
   "temperature": "74",
@@ -533,7 +533,7 @@ First, install the Twitter node package:
 
 ++++
 <pre data-type="programlisting">
-bone# <strong>npm install node-twitter</strong>
+bone$ <strong>npm install node-twitter</strong>
 </pre>
 ++++
 Before creating a Twitter app, you need to authenticate with Twitter:  
@@ -612,13 +612,13 @@ To install Node-RED, run the following commands:
 
 ++++
 <pre data-type="programlisting">
-bone# <strong>cd</strong>          # Change to home directory
-bone# <strong>git clone https://github.com/node-red/node-red.git</strong>
-bone# <strong>cd node-red/</strong>
-bone# <strong>npm install --production</strong>    # almost 6 minutes
-bone# <strong>cd nodes</strong>
-bone# <strong>git clone https://github.com/node-red/node-red-nodes.git</strong> # 2 seconds
-bone# <strong>cd ~/node-red</strong>
+bone$ <strong>cd</strong>          # Change to home directory
+bone$ <strong>git clone https://github.com/node-red/node-red.git</strong>
+bone$ <strong>cd node-red/</strong>
+bone$ <strong>npm install --production</strong>    # almost 6 minutes
+bone$ <strong>cd nodes</strong>
+bone$ <strong>git clone https://github.com/node-red/node-red-nodes.git</strong> # 2 seconds
+bone$ <strong>cd ~/node-red</strong>
 </pre>
 ++++
 
@@ -626,8 +626,8 @@ To run Node-RED, use the following commands:
 
 ++++
 <pre data-type="programlisting">
-bone# <strong>cd ~/node-red</strong>
-bone# <strong>node red.js</strong>
+bone$ <strong>cd ~/node-red</strong>
+bone$ <strong>node red.js</strong>
 Welcome to Node-RED
 ===================
 

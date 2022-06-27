@@ -62,11 +62,11 @@ Attach to the Bone and apply power. Then run the following commands:
 # From http://elinux.org/CircuitCo:MiniDisplay_Cape
 # Datasheet:
 # https://www.crystalfontz.com/products/document/3277/ST7735_V2.1_20100505.pdf
-bone# <strong>wget http://elinux.org/images/e/e4/Minidisplay-example.tar.gz</strong>
-bone# <strong>tar zmxvf Minidisplay-example.tar.gz</strong>
-bone# <strong>cd minidisplay-example</strong>
-bone# <strong>make</strong>
-bone# <strong>./minidisplay-test</strong>
+bone$ <strong>wget http://elinux.org/images/e/e4/Minidisplay-example.tar.gz</strong>
+bone$ <strong>tar zmxvf Minidisplay-example.tar.gz</strong>
+bone$ <strong>cd minidisplay-example</strong>
+bone$ <strong>make</strong>
+bone$ <strong>./minidisplay-test</strong>
 Unable to initialize SPI: No such file or directory
 Aborted
 </pre>
@@ -81,8 +81,8 @@ You might get a compiler warning, but the code should run fine.
 
 ++++
 <pre data-type="programlisting">
-bone# <strong>export SLOTS=/sys/devices/bone_capemgr.*/slots</strong>
-bone# <strong>echo BB-SPIDEV0 &gt; $SLOTS</strong>
+bone$ <strong>export SLOTS=/sys/devices/bone_capemgr.*/slots</strong>
+bone$ <strong>echo BB-SPIDEV0 &gt; $SLOTS</strong>
 </pre>
 ++++
 
@@ -90,7 +90,7 @@ Hmmm, something isn't working here. Here's how to see what happened:
 
 ++++
 <pre data-type="programlisting">
-bone# <strong>dmesg | tail</strong>
+bone$ <strong>dmesg | tail</strong>
 [  625.334497] bone_capemgr.9: part_number 'BB-SPIDEV0', version 'N/A'
 [  625.334673] bone_capemgr.9: slot #11: generic override
 [  625.334720] bone_capemgr.9: bone: Using override eeprom data at slot 11
@@ -120,7 +120,7 @@ Here's how to see what's already configured:
 
 ++++
 <pre data-type="programlisting">
-bone# <strong>cat $SLOTS</strong>
+bone$ <strong>cat $SLOTS</strong>
  0: 54:PF--- 
  1: 55:PF--- 
  2: 56:PF--- 
@@ -144,8 +144,8 @@ You can unconfigure it by using the following commands:
 
 ++++
 <pre data-type="programlisting">
-bone# <strong>echo -10 &gt; $SLOTS</strong>
-bone# <strong>cat $SLOTS</strong>
+bone$ <strong>echo -10 &gt; $SLOTS</strong>
+bone$ <strong>cat $SLOTS</strong>
  0: 54:PF--- 
  1: 55:PF--- 
  2: 56:PF--- 
@@ -168,8 +168,8 @@ Now, configure it for the MiniDisplay and run a test:
 
 ++++
 <pre data-type="programlisting">
-bone# <strong>echo BB-SPIDEV0 &gt; $SLOTS</strong>
-bone# <strong>./minidisplay-test</strong>
+bone$ <strong>echo BB-SPIDEV0 &gt; $SLOTS</strong>
+bone$ <strong>./minidisplay-test</strong>
 </pre>
 ++++
 
@@ -595,7 +595,7 @@ You can install Eagle PCB on your Linux host by using the following command:
 
 ++++
 <pre data-type="programlisting">
-host$ <strong>sudo apt-get install eagle</strong>
+host$ <strong>sudo apt install eagle</strong>
 Reading package lists... Done
 Building dependency tree       
 Reading state information... Done
@@ -683,7 +683,7 @@ I found it necessary to install +libfreetype6+ and +freetype-py+ onto my system,
 
 ++++
 <pre data-type="programlisting">
-host$ <strong>sudo apt-get install libfreetype6</strong>
+host$ <strong>sudo apt install libfreetype6</strong>
 Reading package lists... Done
 Building dependency tree       
 Reading state information... Done

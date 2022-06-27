@@ -111,7 +111,7 @@ For projects that require a host computer, we assume that you are running http:/
 host$ <strong>ssh root@192.168.7.2</strong>
 Warning: Permanently added 'bone,192.168.7.2' (ECDSA) to the list of known hosts.
 Last login: Mon Dec 22 07:53:06 2014 from yoder-linux.local
-bone# 
+bone$ 
 </pre>
 ++++
 
@@ -174,7 +174,7 @@ host$ sudo adduser $USER dialout
 
 ++++
 <pre data-type="programlisting">
-host$ <strong>sudo apt-get install screen</strong>
+host$ <strong>sudo apt install screen</strong>
 host$ <strong>screen /dev/ttyACM0 115200</strong>
 Debian GNU/Linux 7 beaglebone ttyGS0
 
@@ -272,7 +272,7 @@ Log in to your Bone and enter the following command:
 
 ++++
 <pre data-type="programlisting">
-bone# <strong>cat /etc/dogtag</strong>
+bone$ <strong>cat /etc/dogtag</strong>
 BeagleBoard.org BeagleBone Debian Image 2014-11-11
 </pre>
 ++++
@@ -290,7 +290,7 @@ Run the installed Virtual Network Computing (VNC) server:
 
 ++++
 <pre data-type="programlisting">
-bone# <strong>sudo -u debian tightvncserver</strong>
+bone$ <strong>sudo -u debian tightvncserver</strong>
 
 You will require a password to access your desktops.
 
@@ -402,7 +402,7 @@ The Bone comes with a number of editors. The simplest to learn is +nano+. Just e
 
 ++++
 <pre data-type="programlisting">
-bone# <strong>nano file</strong>
+bone$ <strong>nano file</strong>
 </pre>
 ++++
 
@@ -419,7 +419,7 @@ By default, the file you create will be saved in the directory from which you op
 
 ==== Discussion
 
-Many other text editors will run on the Bone. +vi+, +vim+, +emacs+, and  even +eclipse+ are all supported. See <<tips_apt-get>> to learn if your favorite is one of them.
+Many other text editors will run on the Bone. +vi+, +vim+, +emacs+, and  even +eclipse+ are all supported. See <<tips_apt>> to learn if your favorite is one of them.
 
 === Using a Graphical Editor
 
@@ -432,7 +432,7 @@ Many other text editors will run on the Bone. +vi+, +vim+, +emacs+, and  even +e
 ++++
 <pre data-type="programlisting">
 host$ <strong>ssh -X root@192.168.7.2</strong>
-bone# <strong>leafpad file.txt</strong>
+bone$ <strong>leafpad file.txt</strong>
 </pre>
 ++++
 
@@ -468,7 +468,7 @@ It might take a minute or two for your router to detect the Bone and assign the 
 
 ++++
 <pre data-type="programlisting">
-bone# ifconfig
+bone$ ifconfig
 eth0      Link encap:Ethernet  HWaddr c8:a0:30:b7:f9:6f  
           inet addr:137.112.41.36  Bcast:137.112.41.255  Mask:255.255.255.0
           inet6 addr: fe80::caa0:30ff:feb7:f96f/64 Scope:Link
@@ -541,7 +541,7 @@ Then run +lsusb+ to ensure that your Bone found the adapter:
 
 ++++
 <pre data-type="programlisting">
-bone# <strong>lsusb</strong>
+bone$ <strong>lsusb</strong>
 Bus 001 Device 002: ID 0bda:8176 Realtek Semiconductor Corp. RTL8188CUS 802.11n 
 WLAN Adapter
 Bus 001 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
@@ -558,7 +558,7 @@ Bus 002 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
 
 ++++
 <pre data-type="programlisting">
-bone# <strong>iwconfig</strong>
+bone$ <strong>iwconfig</strong>
 wlan0     unassociated  Nickname:"WIFI@REALTEK"
           Mode:Auto  Frequency=2.412 GHz  Access Point: Not-Associated   
           Sensitivity:0/0  
@@ -582,7 +582,7 @@ usb0      no wireless extensions.
 
 ++++
 <pre data-type="programlisting">
-bone# <strong>ifconfig -a</strong>
+bone$ <strong>ifconfig -a</strong>
 ...
 usb0      Link encap:Ethernet  HWaddr 92:84:3f:a2:12:0f  
           inet addr:192.168.7.2  Bcast:192.168.7.3  Mask:255.255.255.252
@@ -609,7 +609,7 @@ When you find the WiFi device name (mine is +wlan0+), remember it for later.
 
 ++++
 <pre data-type="programlisting">
-bone# <strong>wicd-curses</strong>
+bone$ <strong>wicd-curses</strong>
 </pre>
 ++++
 
@@ -708,7 +708,7 @@ Then, on your host, run the following commands:
 host$ <strong>chmod +x setDNS.sh</strong>
 host$ <strong>./setDNS.sh</strong>
 host$ <strong>ssh -X root@192.168.7.2</strong>
-bone# <strong>ping -c2 google.com</strong>
+bone$ <strong>ping -c2 google.com</strong>
 PING google.com (216.58.216.96) 56(84) bytes of data.
 64 bytes from ord30s22....net (216.58.216.96): icmp_req=1 ttl=55 time=7.49 ms
 64 bytes from ord30s22....net (216.58.216.96): icmp_req=2 ttl=55 time=7.62 ms
@@ -775,8 +775,8 @@ The Bone already has a firewall installed. Just run the following command:
 
 ++++
 <pre data-type="programlisting">
-bone# <strong>iptables --policy INPUT DROP</strong>
-bone# <strong>iptables -A INPUT -s 137.112.0.0/16 -j ACCEPT</strong>
+bone$ <strong>iptables --policy INPUT DROP</strong>
+bone$ <strong>iptables -A INPUT -s 137.112.0.0/16 -j ACCEPT</strong>
 </pre>
 ++++
 
@@ -785,7 +785,7 @@ In this case, only users from my campus (IP addresses beginning with +137.112+) 
 ==== Discussion
 
 
-[[tips_apt-get]]
+[[tips_apt]]
 === Installing Additional Packages from the Debian Package Feed
 
 ==== Problem
@@ -797,12 +797,12 @@ In this case, only users from my campus (IP addresses beginning with +137.112+) 
 Your Bone needs to be on the network for this to work. See <<networking_wired>>, <<networking_wireless>>, or <<networking_usb>>.
 ====
 
-((("apt-get", "installing packages with")))The easiest way to install more software is to use +apt-get+:
+((("apt", "installing packages with")))The easiest way to install more software is to use +apt+:
 
 ++++
 <pre data-type="programlisting">
-bone# <strong>apt-get update</strong>
-bone# <strong>apt-get install "name of software"</strong>
+bone$ <strong>sudo apt update</strong>
+bone$ <strong>sudo apt install "name of software"</strong>
 </pre>
 ++++
 
@@ -812,20 +812,20 @@ How do you find out what software you can install?  Try running this:
 
 ++++
 <pre data-type="programlisting">
-bone# <strong>apt-cache pkgnames | sort > /tmp/list</strong>
-bone# <strong>wc /tmp/list</strong>
+bone$ <strong>apt-cache pkgnames | sort > /tmp/list</strong>
+bone$ <strong>wc /tmp/list</strong>
  32121  32121 502707 /tmp/list
-bone# <strong>less /tmp/list</strong>
+bone$ <strong>less /tmp/list</strong>
 </pre>
 ++++
 
-The first command lists all the packages that +apt-get+ knows about and sorts them and stores them in _/tmp/list_. The second command shows why you want to put the list in a file. The +wc+ command counts the number of lines, words, and characters in a file. In our case, there are over 32,000 packages from which we can choose! The +less+ command displays the sorted list, one page at a time. Press the space bar to go to the next page. Press Q to quit.  
+The first command lists all the packages that +apt+ knows about and sorts them and stores them in _/tmp/list_. The second command shows why you want to put the list in a file. The +wc+ command counts the number of lines, words, and characters in a file. In our case, there are over 32,000 packages from which we can choose! The +less+ command displays the sorted list, one page at a time. Press the space bar to go to the next page. Press Q to quit.  
 
 ((("dictionary, installing")))((("online dictionary, installing")))Suppose that you would like to install an online dictionary (+dict+). Just run the following command:
 
 ++++
 <pre data-type="programlisting">
-bone# <strong>apt-get install dict</strong>
+bone$ <strong>sudo apt install dict</strong>
 </pre>
 ++++
 
@@ -834,24 +834,24 @@ Now you can run +dict+.
 ==== Discussion
 
 
-[[tips_apt-get_remove]]
-=== Removing Packages Installed with apt-get
+[[tips_apt_remove]]
+=== Removing Packages Installed with apt
 
 ==== Problem
-((("software", "removing packages")))((("advanced operations", "removing packages")))((("apt-get", "removing packages installed with")))((("programs", "removing")))You've been playing around and installing all sorts of things with +apt-get+ and now you want to clean things up a bit.
+((("software", "removing packages")))((("advanced operations", "removing packages")))((("apt", "removing packages installed with")))((("programs", "removing")))You've been playing around and installing all sorts of things with +apt+ and now you want to clean things up a bit.
 
 ==== Solution
-((("remove option")))+apt-get+ has a +remove+ option, so you can run the following command:
+((("remove option")))+apt+ has a +remove+ option, so you can run the following command:
 
 ++++
 <pre data-type="programlisting">
-bone# <strong>apt-get remove dict</strong>
+bone$ <strong>sudo apt remove dict</strong>
 Reading package lists... Done
 Building dependency tree       
 Reading state information... Done
 The following packages were automatically installed and are no longer required:
   libmaa3 librecode0 recode
-Use 'apt-get autoremove' to remove them.
+Use 'apt autoremove' to remove them.
 The following packages will be REMOVED:
   dict
 0 upgraded, 0 newly installed, 1 to remove and 27 not upgraded.
@@ -873,7 +873,7 @@ If you booted from the microSD card, run the following command:
 
 ++++
 <pre data-type="programlisting">
-bone# <strong>df -h</strong>
+bone$ <strong>df -h</strong>
 Filesystem      Size  Used Avail Use% Mounted on
 rootfs          7.2G  2.0G  4.9G  29% /
 udev             10M     0   10M   0% /dev
@@ -883,7 +883,7 @@ tmpfs           249M     0  249M   0% /dev/shm
 tmpfs           249M     0  249M   0% /sys/fs/cgroup
 tmpfs           5.0M     0  5.0M   0% /run/lock
 tmpfs           100M     0  100M   0% /run/user
-bone# <strong>ls /dev/mmcblk*</strong>
+bone$ <strong>ls /dev/mmcblk*</strong>
 /dev/mmcblk0    /dev/mmcblk0p2  /dev/mmcblk1boot0  /dev/mmcblk1p1
 /dev/mmcblk0p1  /dev/mmcblk1    /dev/mmcblk1boot1
 </pre>
@@ -895,11 +895,11 @@ bone# <strong>ls /dev/mmcblk*</strong>
 
 ++++
 <pre data-type="programlisting">
-bone# <strong>cd /mnt</strong>
-bone# <strong>mkdir onboard</strong>
-bone# <strong>ls onboard</strong>
-bone# <strong>mount /dev/mmcblk1p1 onboard/</strong>
-bone# <strong>ls onboard</strong>
+bone$ <strong>cd /mnt</strong>
+bone$ <strong>mkdir onboard</strong>
+bone$ <strong>ls onboard</strong>
+bone$ <strong>mount /dev/mmcblk1p1 onboard/</strong>
+bone$ <strong>ls onboard</strong>
 bin   etc     lib         mnt           proc  sbin     sys  var
 boot  home    lost+found  nfs-uEnv.txt  root  selinux  tmp
 dev   ID.txt  media       opt           run   srv      usr
@@ -913,14 +913,14 @@ This same process should also work if you have booted from the onboard flash. Wh
 
 ++++
 <pre data-type="programlisting">
-bone# <strong>umount /mnt/onboard</strong>
+bone$ <strong>umount /mnt/onboard</strong>
 </pre>
 ++++
 
 === Freeing Space on the Onboard Flash or MicroSD Card
 
 ==== Problem
-((("advanced operations", "freeing memory space")))((("onboard flash", "freeing space on")))((("microSD card", "freeing space on")))((("SD cards", "freeing space on")))((("software", "removing preinstalled")))You are starting to run out of room on your microSD card (or onboard flash) and have removed several packages you had previously installed (<<tips_apt-get_remove>>), but you still need to free up more space.
+((("advanced operations", "freeing memory space")))((("onboard flash", "freeing space on")))((("microSD card", "freeing space on")))((("SD cards", "freeing space on")))((("software", "removing preinstalled")))You are starting to run out of room on your microSD card (or onboard flash) and have removed several packages you had previously installed (<<tips_apt_remove>>), but you still need to free up more space.
 
 ==== Solution 
 
@@ -941,13 +941,13 @@ Here's how you can remove these:
 
 ++++
 <pre data-type="programlisting">
-bone# <strong>apt-get autoremove opencv*</strong>          (83M)
-bone# <strong>apt-get remove libopencv-* --purge</strong>  (41M)
-bone# <strong>apt-get autoremove</strong>                  (42M)
-bone# <strong>rm -rf /usr/lib/chromium</strong>            (95M)
-bone# <strong>rm -f  /usr/bin/chromium</strong>
-bone# <strong>rm -rf /usr/share/doc</strong>               (101M)
-bone# <strong>rm -rf /usr/share/man</strong>               (27M)
+bone$ <strong>sudo apt autoremove opencv*</strong>          (83M)
+bone$ <strong>sudo apt remove libopencv-* --purge</strong>  (41M)
+bone$ <strong>sudo apt autoremove</strong>                  (42M)
+bone$ <strong>rm -rf /usr/lib/chromium</strong>            (95M)
+bone$ <strong>rm -f  /usr/bin/chromium</strong>
+bone$ <strong>rm -rf /usr/share/doc</strong>               (101M)
+bone$ <strong>rm -rf /usr/share/man</strong>               (27M)
 </pre>
 ++++
 
@@ -962,7 +962,7 @@ These packages and sizes to remove were found in a http://bit.ly/1HC96aI[BeagleB
 
 ++++
 <pre data-type="programlisting">
-bone# <strong>du -shx /*</strong>
+bone$ <strong>du -shx /*</strong>
 5.6M	/bin
 11M	/boot
 0	/dev
@@ -1003,7 +1003,7 @@ The _/usr_ directory appears to be the biggest user of space at 1.2 GB. You can 
 
 ++++
 <pre data-type="programlisting">
-bone# <strong>du -sh /usr/*</strong>
+bone$ <strong>du -sh /usr/*</strong>
 46M	/usr/bin
 4.0K	/usr/games
 36M	/usr/include
@@ -1019,8 +1019,8 @@ A more interactive way to explore your disk usage is by installing +ncdu+ (ncurs
 
 ++++
 <pre data-type="programlisting">
-bone# <strong>apt-get install ncdu</strong>
-bone# <strong>ncdu /</strong>
+bone$ <strong>sudo apt install ncdu</strong>
+bone$ <strong>ncdu /</strong>
 </pre>
 ++++
 
@@ -1074,7 +1074,7 @@ e   4.0KiB [          ] /mnt
 
 ++++
 <pre data-type="programlisting">
-bone# <strong>npm install -g nmea</strong>
+bone$ <strong>npm install -g nmea</strong>
 npm http GET https://registry.npmjs.org/nmea
 npm http 200 https://registry.npmjs.org/nmea
 npm http GET https://registry.npmjs.org/nmea/-/nmea-0.0.7.tgz
@@ -1100,7 +1100,7 @@ So far, we've focused on using JavaScript and the BoneScript API for interfacing
 
 ++++
 <pre data-type="programlisting">
-bone# <strong>pip install Adafruit_BBIO</strong>
+bone$ <strong>pip install Adafruit_BBIO</strong>
 Requirement already satisfied (use --upgrade to upgrade): 
     Adafruit-BBIO in /usr/local/lib/python2.7/dist-packages
 Cleaning up...
@@ -1125,8 +1125,8 @@ Wire your LED as shown in <<displays_externalLED>> and run it with the following
 
 ++++
 <pre data-type="programlisting">
-bone# <strong>chmod +x blinkLED.py</strong>.
-bone# <strong>./blinkLED.py</strong>.
+bone$ <strong>chmod +x blinkLED.py</strong>.
+bone$ <strong>./blinkLED.py</strong>.
 </pre>
 ++++
 
@@ -1146,12 +1146,12 @@ The C solution isn't as simple as the BoneScript or Python solution (<<using_pyt
 
 ++++
 <pre data-type="programlisting">
-bone# <strong>git clone https://github.com/jackmitch/libsoc.git</strong>
-bone# <strong>cd libsoc</strong>
-bone# <strong>./autogen.sh</strong>       # Takes about a minute
-bone# <strong>./configure</strong>        # Another  minute
-bone# <strong>make</strong>               # 30 seconds
-bone# <strong>make install</strong>
+bone$ <strong>git clone https://github.com/jackmitch/libsoc.git</strong>
+bone$ <strong>cd libsoc</strong>
+bone$ <strong>./autogen.sh</strong>       # Takes about a minute
+bone$ <strong>./configure</strong>        # Another  minute
+bone$ <strong>make</strong>               # 30 seconds
+bone$ <strong>make install</strong>
 </pre>
 ++++
 
@@ -1181,8 +1181,8 @@ Compile and run the code:
 
 ++++
 <pre data-type="programlisting">
-bone# <strong>gcc -o blinkLED blinkLED.c -lsoc</strong>
-bone# <strong>./blinkLED</strong>
+bone$ <strong>gcc -o blinkLED blinkLED.c -lsoc</strong>
+bone$ <strong>./blinkLED</strong>
 libsoc-debug: debug enabled (libsoc_set_debug)
 libsoc-gpio-debug: requested gpio (50, libsoc_gpio_request)
 libsoc-gpio-debug: GPIO already exported (50, libsoc_gpio_request)
@@ -1193,7 +1193,7 @@ libsoc-debug: debug disabled (libsoc_set_debug)
 
 [NOTE]
 ====
-If you have an older image, you might need to install the +libsoc+ library. You can do that with +apt-get+ if you have network access and the right feeds on your Bone. Install +libsoc2+ for the library and +libsoc-dev+ for the header files.
+If you have an older image, you might need to install the +libsoc+ library. You can do that with +apt+ if you have network access and the right feeds on your Bone. Install +libsoc2+ for the library and +libsoc-dev+ for the header files.
 ====
 
 ==== Discussion

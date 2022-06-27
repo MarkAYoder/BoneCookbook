@@ -158,8 +158,8 @@ include::code/pushbutton.js[]
 
 ++++
 <pre data-type="programlisting">
-bone# <strong>chmod +x ./pushbutton.js</strong>
-bone# <strong>./pushbutton.js</strong>
+bone$ <strong>chmod +x ./pushbutton.js</strong>
+bone$ <strong>./pushbutton.js</strong>
 Interrupt handler attached
 x.value = 1
 x.err   = undefined
@@ -366,12 +366,15 @@ include::code/bone_eqep2b.dts[]
 ====
 
 Then run the following commands:
+////
+To Do: slots needs updating
+////
 
 ++++
 <pre data-type="programlisting">
-bone# <strong>dtc -O dtb -o bone_eqep2b-00A0.dtbo -b 0 -@ bone_eqep2b.dts</strong>
-bone# <strong>cp bone_eqep2b-00A0.dtbo /lib/firmware</strong>
-bone# <strong>echo bone_eqep2b > /sys/devices/bone_capemgr.*/slots</strong>
+bone$ <strong>dtc -O dtb -o bone_eqep2b-00A0.dtbo -b 0 -@ bone_eqep2b.dts</strong>
+bone$ <strong>sudo cp bone_eqep2b-00A0.dtbo /lib/firmware</strong>
+bone$ <strong>echo bone_eqep2b > /sys/devices/bone_capemgr.*/slots</strong>
 </pre>
 ++++
 
@@ -448,7 +451,7 @@ There are many utilities to help convert such sensor data into a human-readable 
 
 ++++
 <pre data-type="programlisting">
-bone# <strong>npm install -g nmea</strong>
+bone$ <strong>npm install -g nmea</strong>
 </pre>
 ++++
 
@@ -521,7 +524,7 @@ Once the I^2^C  device is wired up, you can use a couple handy I^2^C tools to te
 ====
 ++++
 <pre data-type="programlisting">
-bone# <strong>i2cdetect -y -r 1</strong>
+bone$ <strong>i2cdetect -y -r 1</strong>
      0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f
 00:          -- -- -- -- -- -- -- -- -- -- -- -- -- 
 10: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 
@@ -532,7 +535,7 @@ bone# <strong>i2cdetect -y -r 1</strong>
 60: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 
 70: -- -- -- -- -- -- -- --
 
-bone# <strong>i2cget -y 1 0x49</strong>
+bone$ <strong>i2cget -y 1 0x49</strong>
 0x18
 </pre>
 ++++
@@ -568,7 +571,7 @@ Run the code by using the following command:
 
 ++++
 <pre data-type="programlisting">
-bone# <strong>./i2cTemp.js</strong>
+bone$ <strong>./i2cTemp.js</strong>
 onReadByte: {"err":null,"res":24,"event":"callback"}
 75.2F
 </pre>
@@ -619,12 +622,15 @@ include::code/BB-W1-00A0.dts[]
 ====
 
 Then run the following commands:
+////
+To DO: update slotes
+////
 
 ++++
 <pre data-type="programlisting">
-bone# <strong>dtc -O dtb -o BB-W1-00A0.dtbo -b 0 -@ BB-W1-00A0.dts</strong>
-bone# <strong>cp BB-W1-00A0.dtbo /lib/firmware/</strong>
-bone# <strong>echo BB-W1 > /sys/devices/bone_capemgr.*/slots</strong>
+bone$ <strong>dtc -O dtb -o BB-W1-00A0.dtbo -b 0 -@ BB-W1-00A0.dts</strong>
+bone$ <strong>sudo cp BB-W1-00A0.dtbo /lib/firmware/</strong>
+bone$ <strong>echo BB-W1 > /sys/devices/bone_capemgr.*/slots</strong>
 </pre>
 ++++
 
@@ -632,7 +638,7 @@ Now run the following command to discover the serial number on your device:
 
 ++++
 <pre data-type="programlisting">
-bone# <strong>ls /sys/bus/w1/devices/</strong>
+bone$ <strong>ls /sys/bus/w1/devices/</strong>
 28-00000114ef1b  28-00000128197d  w1_bus_master1
 </pre>
 ++++
@@ -679,8 +685,8 @@ Power up your Bone using the 5 V adapter. You need the adapter because the BLE d
 
 ++++
 <pre data-type="programlisting">
-bone# <strong>apt-get install libbluetooth-dev</strong>
-bone# <strong>npm install -g sensortag</strong>
+bone$ <strong>sudo apt install libbluetooth-dev</strong>
+bone$ <strong>npm install -g sensortag</strong>
 </pre>
 ++++
 
@@ -790,7 +796,7 @@ image::figures/audioDongle.jpg[Audio Dongle]
 ====
 ++++
 <pre data-type="programlisting">
-bone# <strong>aplay -l</strong>
+bone$ <strong>aplay -l</strong>
 **** List of PLAYBACK Hardware Devices ****
 card 0: Black [TI BeagleBone Black], device 0: HDMI nxp-hdmi-hifi-0 []
   Subdevices: 1/1
@@ -799,7 +805,7 @@ card 1: Device [C-Media USB Audio Device], device 0: USB Audio [USB Audio]
   Subdevices: 1/1
   Subdevice #0: subdevice #0
 
-bone# <strong>arecord -l</strong>
+bone$ <strong>arecord -l</strong>
 **** List of CAPTURE Hardware Devices ****
 card 1: Device [C-Media USB Audio Device], device 0: USB Audio [USB Audio]
   Subdevices: 1/1
@@ -825,7 +831,7 @@ You can easily play _.wav_ files with +aplay+:
 
 ++++
 <pre data-type="programlisting">
-bone# <strong>aplay test.wav</strong>
+bone$ <strong>aplay test.wav</strong>
 </pre>
 ++++
 
@@ -833,9 +839,9 @@ You can play other files in other formats by installing +mplayer+:
 
 ++++
 <pre data-type="programlisting">
-bone# <strong>apt-get update</strong>
-bone# <strong>apt-get install mplayer</strong>
-bone# <strong>mplayer test.mp3</strong>
+bone$ <strong>sudo apt update</strong>
+bone$ <strong>sudo apt install mplayer</strong>
+bone$ <strong>mplayer test.mp3</strong>
 </pre>
 ++++
 
