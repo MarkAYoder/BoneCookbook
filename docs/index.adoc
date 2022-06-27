@@ -11,7 +11,8 @@ A cookbook for programming Beagles
 // * link:notes.html[Notes]
 
 . link:01basics/basics.html[Basics]
-  ** [ ] Introduction
+  * Done Update Remove
+  ** [ ] [ ] [ ] Introduction
   ** [ ] Picking Your Beagle
   ** [ ] Getting Started, Out of the Box
   ** [ ] Verifying You Have the Latest Version of the OS on Your Bone
