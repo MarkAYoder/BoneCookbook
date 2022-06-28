@@ -33,48 +33,20 @@ image::figures/pluggingIn.jpg[Plugging In]
 
 ((("USER LEDs")))((("LEDs", "USER LEDs", seealso="input/output (I/O)")))The four blue +USER+ LEDs will begin to blink, and in 10 or 15 seconds, you'll see a new USB drive appear on your host computer. <<basics_01gettingStarted_fig>> shows how it will appear on a Windows host, and Linux and Mac hosts will look similar. The Bone acting like a USB drive and the files you see are located on the Bone.
 
+// To Do Update
 [[basics_01gettingStarted_fig]]
 .The Bone appears as a USB drive
 image::figures/01GettingStarted.png[A new USB drive]
 
-((("START.htm")))Open the drive and open _START.htm_ using http://www.google.com/chrome/[Google Chrome] or https://www.mozilla.org/en-US/firefox/new/[Firefox] (<<basics_02gettingStarted_fig>>).
-
-[TIP]
-====
-((("web browsers", "selecting")))((("Internet Explorer")))((("Chrome")))((("Firefox")))Some users have reported problems when using Internet Explorer with the web pages served up by the Bone, so make sure to use Chrome or Firefox.
-====
-
-[[basics_02gettingStarted_fig]]
-.Open START.htm
-image::figures/02GettingStarted.png[Open START.htm]
-
-((("START.htm")))((("host computer", "installing USB drivers for")))((("USB drivers, installing")))((("drivers", "installing USB")))Follow the instructions (<<basics_03gettingStarted_fig>>) for installing the USB drivers for your host computer's operating system (OS).  
-
-[[basics_03gettingStarted_fig]]
-.Install the USB drivers
-image::figures/03GettingStarted.png[Install USB drivers]
-
-On your host, browse to http://192.168.7.2 (<<basics_04gettingStarted_fig>>).  
-
-[[basics_04gettingStarted_fig]]
-.Open http://192.168.7.2 on your host computer
-image::figures/04GettingStarted.png[Open START.htm]
-
-((("beagleboard.org web page")))You are now ready to explore your Bone. Look around. There's lots of information on the page. 
-
-[TIP]
-====
-((("BoneScript", "interactive guide")))The green banner at the top of the page means the browser is talking to the Bone, and code on the page can be edited and run on the Bone. Try scrolling down to the code in "BoneScript interactive guide" and running it. Then try editing the code and running it again. Take five minutes and try it! Watch out, though, because you can't save your edits. You need Cloud9 for that, as discussed next.
-====
 
 [[basics_openCloud9]]
-((("Cloud9", "web page for")))((("integrated development environment (IDE)", seealso="Cloud9")))Also be sure to browse to http://192.168.7.2:3000 from your host computer (<<basics_05gettingStarted_fig>>).
+((("Cloud9", "web page for")))((("integrated development environment (IDE)", seealso="Cloud9")))Browse to http://192.168.7.2:3000 from your host computer (<<basics_05gettingStarted_fig>>).
 
 [[basics_05gettingStarted_fig]]
-.Cloud9
-image::figures/05GettingStarted.png[Cloud9]
+.Visual Studio Code
+image::figures/05GettingStartedVScode.png[Cloud9]
 
-Here, you'll find _Cloud9_, a web-based integrated development environment (IDE) that lets you edit and run code on your Bone!  See <<basics_cloud9>> for more details.
+Here, you'll find _Visual Studio Code_, a web-based integrated development environment (IDE) that lets you edit and run code on your Bone!  See <<basics_cloud9>> for more details.
 
 [NOTE]
 ====
@@ -284,28 +256,28 @@ bone$ <strong>mv myApp.js autorun</strong>
 
 [NOTE]
 ====
-At the time they were written, these instructions were up-to-date.  Go to http://beagleboard.org/latest-images for the latest instructions.
+At the time they were written, these instructions were up-to-date.  Go to http://https://forum.beagleboard.org/tag/latest-images for the latest instructions.
 ====
 
-On your host computer, open a browser and go to http://rcn-ee.net/deb/testing/.  This shows you a list of dates of the most recent Debian images (<<basics_deb1>>).
+On your host computer, open a browser and go to https://forum.beagleboard.org/tag/latest-images  This shows you a list of dates of the most recent Debian images (<<basics_deb1>>).
 
 [[basics_deb1]]
 .Latest Debian images
 image::figures/deb1.png[Latest Debian images]
 
+At the time of writing, we are using the _Bullseye_ image.  Click on it's link.
+Scroling up you'll find <<basics_deb2>>.  There are three types of snapshots, Minimal, IoT and Xfce Desktop.  IoT is the one we are running.
+
+
 Clicking a date will show you several variations for that particular date. <<basics_deb2>> shows the results of clicking _2014-11-11_.
 
 [[basics_deb2]]
-.Latest Debian images for a given date
-image::figures/deb2.png[Latest Debian images for given date]
+.Latest Debian images 
+image::figures/deb2.png[Latest Debian images]
 
-Clicking _lxde-4gb/_ shows a list of 4 GB images (<<basics_deb3>>). 
+These are the images you want to use if you are flashing a Rev C BeagleBone Black onboard flash, or flashing a 4 GB or bigger miscroSD card. The image beginning with _am335x-debian-11.3-iot-_ is used for programming the microSD card. 
 
-[[basics_deb3]]
-.Latest 4 GB Debian images for a given date
-image::figures/deb3.png[Latest 4 GB Debian images for given date]
-
-These are the images you want to use if you are flashing a Rev C BeagleBone Black onboard flash, or flashing a 4 GB or bigger miscroSD card. The image beginning with _bone-debian-7.7-lxde_ is used for programming the microSD card. The one beginning with _BBB-eMMC-flasher-deb_ is for programming the onboard flash memory.
+The one beginning with _am57xx-debian-_ is for programming the Beagle AI's.
 
 [NOTE]
 ====
