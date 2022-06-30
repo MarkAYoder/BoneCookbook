@@ -20,7 +20,7 @@ fs.writeFileSync(COUNTERPATH+'/enable', '1');
 setInterval(readEncoder, ms);    // Check state every 250 ms
 
 function readEncoder() {
-	var data = fs.readFileSync(COUNTERPATH + '/count').slice(0, -1);
+	var data = fs.readFileSync(COUNTERPATH+'/count').slice(0, -1);
 	console.log('data = ' + data);
 }
 
