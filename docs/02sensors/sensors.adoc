@@ -110,8 +110,6 @@ data= 1
 
 This process will work for any script in this book.
 
-
-
 ==== Discussion
 
 
@@ -176,7 +174,7 @@ If you want to use the magnetic reed switch wired as shown in <<js_pushbutton_fi
 
 ==== Discussion
 
-=== Mapping Header number to gpio numbers
+=== Mapping Header Numbers to gpio Numbers
 
 ==== Problem
 
@@ -184,7 +182,7 @@ You have a sensor attached to the P8 or P9 header and need to know which gpio pi
 
 ==== Solution
 
-The +show-pins+ command will display information about all the P8 and P9 header pins.  To see the info for just one pin, used +grep+.
+The +show-pins+ command will display information about all the P8 and P9 header pins.  To see the info for just one pin, used+grep+.
 
 ++++
 <pre data-type="programlisting">
@@ -193,8 +191,9 @@ P9.42         89 fast rx down 7 gpio 0.07 << lo  P9_42 (pinmux_P9_42_default_pin
 </pre>
 ++++
 
-The numbers following the string +gpio+ are the port number and the pin on that port.  In this cse it's port 0 and pin 7.  To find the gpio number multiply the port number by 32 and add it to the pin number.  This give 0*32+7=7.  For P9_26 you get:
+The numbers following the string +gpio+ are the port number and the pin on that port.  In this cse it's port 0 and pin 7.  To find the gpio number multiply the port number by 32 and add it to the pin number.  This gives 0*32+7=7.  
 
+For P9_26 you get:
 ++++
 <pre data-type="programlisting">
 bone$ <strong>show-pins | grep P9.26</strong>
@@ -250,7 +249,7 @@ include::code/analogIn.js[]
 
 [NOTE]
 ====
-(((".toFixed()", primary-sortas="toFixed()")))This code in <<sensors_analogIn_code>> uses +.toFixed(3)+ to print only three digits past the decimal. Otherwise, the output could have many extra digits. Try removing +.toFixed(3)+ and see what happens.
+The code in <<sensors_analogIn_code>> outputs a value between 0 and 4096.
 ====
 
 ===== A variable resistor with two terminals

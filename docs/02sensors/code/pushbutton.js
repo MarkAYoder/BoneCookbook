@@ -1,23 +1,27 @@
 #!/usr/bin/env node
-var b = require('bonescript');
-var button = 'P9_42';
+////////////////////////////////////////
+//	pushbutton.js
+//      Reads P9_42 and prints its value.
+//	Wiring:	Connect a switch between P9_42 and 3.3V
+//	Setup:	
+//	See:	
+////////////////////////////////////////
+const fs = require("fs");
 
-b.pinMode(button, b.INPUT, 7, 'pulldown', 'fast', doAttach);
+const pin = '7'; // P(_42 is gpio 7
 
-function doAttach(x) {
-    if(x.err) {
-        console.log('x.err = ' + x.err);
-        return;
-    }
-    b.attachInterrupt(button, true, b.CHANGE, printStatus);
+GPIOPATH="/sys/class/gpio/";
+// Make sure pin is exported
+if(!fs.existsSync(GPIOPATH+"gpio"+pin)) {
+    fs.writeFileSync(GPIOPATH+"export", pin);
 }
+// Make it an input pin
+fs.writeFileSync(GPIOPATH+"gpio"+pin+"/direction", "in");
 
-function printStatus(x) {
-    if(x.attached) {
-        console.log("Interrupt handler attached");
-        return;
-    }
-    console.log('x.value = ' + x.value);
-    console.log('x.err   = ' + x.err);
-}
+// Read every 500ms
+setInterval(readPin, 500);
 
+function readPin() {
+    var data = fs.readFileSync(GPIOPATH+"gpio"+pin+"/value");
+    console.log('data= ' + data);
+ }
