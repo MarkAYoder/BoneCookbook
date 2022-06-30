@@ -35,7 +35,7 @@ A cookbook for programming Beagles
   ** [python] Reading a Position, Light, or Force Sensor (Variable Resistance Sensor)
   ** [python, add continuous, gnuplot] Reading a Distance Sensor (Analog or Variable Voltage Sensor)
   ** [js too complicated, try py ] Reading a Distance Sensor (Variable Pulse Width Sensor)
-  ** [ ] Accurately Reading the Position of a Motor or Dial
+  ** [ python, js done] Accurately Reading the Position of a Motor or Dial
   ** [ ] Acquiring Data by Using a Smart Sensor over a Serial Connection
   ** [ ] Measuring a Temperature
   ** [ ] Reading Temperature via a Dallas 1-Wire Device

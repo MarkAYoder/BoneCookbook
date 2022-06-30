@@ -21,7 +21,7 @@ setInterval(readEncoder, ms);    // Check state every 250 ms
 
 function readEncoder() {
 	var data = fs.readFileSync(COUNTERPATH + '/count').slice(0, -1);
-	console.log('data= ' + data);
+	console.log('data = ' + data);
 }
 
 // Black OR Pocket

@@ -378,7 +378,7 @@ On the AI it's:
 |===
 |eQEP1 | P8.33 and P8.35
 |eQEP2 | P8.11 and P8.12 or P9.19 and P9.41
-|eQEP3 |P8.24 abd P8.25 or P9.27 and P9.42
+|eQEP3 |P8.24 and P8.25 or P9.27 and P9.42
 |===
 
 To make this recipe, you will need:
@@ -424,24 +424,19 @@ Try rotating the encoder clockwise and counter-clockwise. You'll see an output l
 
 [source, console]
 ----
-Period updated to 100000000
-Enabled
-position: 0
- speed: NaN
-position: 4
- speed: -4
-position: 6
- speed: -2
-position: 8
- speed: -2
-position: 12
- speed: -4
-position: 16
- speed: -4
-position: 19
- speed: -3
-position: 20
- speed: -1
+data = 32
+data = 40
+data = 44
+data = 48
+data = 39
+data = 22
+data = 0
+data = 999989
+data = 999973
+data = 999973
+data = 999973
+data = 999972
+^C
 ----
 The values you get for +speed+ and +position+ will depend on which way you are turning the device and how quickly. You will need to press ^C (Ctrl-C) to end the pass:[<span class="keep-together">program</span>].
 
