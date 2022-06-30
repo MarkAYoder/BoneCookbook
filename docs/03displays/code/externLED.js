@@ -1,16 +1,33 @@
 #!/usr/bin/env node
-var b = require('bonescript');
-var LED = 'P9_14';
-var state = b.HIGH;     // Initial state
-b.pinMode(LED, b.OUTPUT);
+////////////////////////////////////////
+//	internalLED.js
+//	Blinks the USR LEDs.
+//	Wiring:
+//	Setup:
+//	See:
+////////////////////////////////////////
+const fs = require("fs");
 
-setInterval(flash, 250);    // Change state every 250 ms
+// Look up P9.14 using show-pins.  gpio1.18 maps to 50
+pin="50";
 
-function flash() {
-    b.digitalWrite(LED, state);
-    if(state === b.HIGH) {
-        state = b.LOW;
+GPIOPATH="/sys/class/gpio/";
+// Make sure pin is exported
+if(!fs.existsSync(GPIOPATH+"gpio"+pin)) {
+    fs.writeFileSync(GPIOPATH+"export", pin);
+}
+// Make it an output pin
+fs.writeFileSync(GPIOPATH+"gpio"+pin+"/direction", "out");
+
+// Blink every 500ms
+setInterval(toggle, 500);
+
+state="1";
+function toggle() {
+    fs.writeFileSync(GPIOPATH+"gpio"+pin+"/value", state);
+    if(state == "0") {
+        state = "1";
     } else {
-        state = b.HIGH;
+        state = "0";
     }
 }

@@ -1,16 +1,25 @@
 #!/usr/bin/env node
-var b = require('bonescript');
-var LED = 'USR0';
-var state = b.HIGH;     // Initial state
-b.pinMode(LED, b.OUTPUT);
+////////////////////////////////////////
+//	internalLED.js
+//	Blinks the USR LEDs.
+//	Wiring:
+//	Setup:
+//	See:
+////////////////////////////////////////
+const fs = require('fs');
+const ms = 250      // Blink time in ms
+const LED = 'usr0'; // LED to blink
+const LEDPATH = '/sys/class/leds/beaglebone:green:'+LED+'/brightness';
 
-setInterval(flash, 250);    // Change state every 250 ms
+var state = '1';    // Initial state
+
+setInterval(flash, ms);    // Change state every ms
 
 function flash() {
-    b.digitalWrite(LED, state);
-    if(state === b.HIGH) {
-        state = b.LOW;
+    fs.writeFileSync(LEDPATH, state)
+    if(state === '1') {
+        state = '0';
     } else {
-        state = b.HIGH;
+        state = '1';
     }
 }
