@@ -16,7 +16,7 @@ console.log('Hit ^C to stop');
 setInterval(readPin, ms);
 
 function readPin() {
-    var data = fs.readFileSync(IIOPATH);
+    var data = fs.readFileSync(IIOPATH).slice(0, -1);
     console.log('data= ' + data);
  }
 // Bone  | Pocket | AIN

@@ -365,6 +365,22 @@ This code is more complex than others in this chapter, because we have to tell t
 .Wiring a rotary encoder using eQEP2
 image::figures/rotaryEncoder_bb.png[rotaryEncoder]
 
+On the BeagleBone and PocketBeage the three encoders are:
+[cols="1,1"]
+|===
+|eQEP0 | P9.27 and P9.42 OR P1_33 and P2_34 
+|eQEP1 | P9.33 and P9.35
+|eQEP2 | P8.11 and P8.12 OR P2_24 and P2_33
+|===
+
+On the AI it's:
+[cols="1,1"]
+|===
+|eQEP1 | P8.33 and P8.35
+|eQEP2 | P8.11 and P8.12 or P9.19 and P9.41
+|eQEP3 |P8.24 abd P8.25 or P9.27 and P9.42
+|===
+
 To make this recipe, you will need:
 
 * Breadboard and jumper wires (see <<app_proto>>)
@@ -375,33 +391,22 @@ We are using a quadrature rotary encoder, which has two switches inside that ope
 Wire the encoder to +P8_11+ and +P8_12+, as shown in <<digital_rotaryEncoder_fig>>.
 
 BeagleBone Black has built-in hardware for reading up to three encoders.  
-Here, we'll use the _eQEP2_ encoder. To enable it, put the code from <<digital_bone_eqep2b>> in a file called _bone_eqep2b.dts_. You can do this using Cloud9 to edit files (as shown in <<basics_cloud9>>) or use a more traditional editor (as shown in <<tips_editing_files>>).
+Here, we'll use the _eQEP2_ encoder via the Linux +count+ subsystem.
 
-[[digital_bone_eqep2b]]
-.Configuring a rotary encoder (bone_eqep2b.dts) footnote:[This solution first appeared on the  https://groups.google.com/forum/#!searchin/beagleboard/eQep/beagleboard/Orp3tFcNgCc/mYacP_GkCQQJ[Beagle Google Group].]
-====
-[source,c,subs="-callouts"]
-----
-
-include::code/bone_eqep2b.dts[]
-
-----
-====
 
 Then run the following commands:
-////
-To Do: slots needs updating
-////
 
 ++++
 <pre data-type="programlisting">
-bone$ <strong>dtc -O dtb -o bone_eqep2b-00A0.dtbo -b 0 -@ bone_eqep2b.dts</strong>
-bone$ <strong>sudo cp bone_eqep2b-00A0.dtbo /lib/firmware</strong>
-bone$ <strong>echo bone_eqep2b > /sys/devices/bone_capemgr.*/slots</strong>
+bone$ <strong>config-pin P8_11 qep</strong>
+bone$ <strong>config-pin P8_12 qep</strong>
+bone$ <strong>show-pins | grep qep</strong>
+P8.12        12 fast rx  up  4 qep 2 in A    ocp/P8_12_pinmux (pinmux_P8_12_qep_pin)
+P8.11        13 fast rx  up  4 qep 2 in B    ocp/P8_11_pinmux (pinmux_P8_11_qep_pin)
 </pre>
 ++++
 
-This will enable _eQEP2_ on pins +P8_11+ and +P8_12+.  
+This will enable _eQEP2_ on pins +P8_11+ and +P8_12+.  The +2+ after the +qep+ returned by +show-pins+ shows it's _eQEP2_.  
 
 Finally, add the code in <<digital_rotaryEncoder_js>> to a file named _rotaryEncoder.js_ and run it.
 
