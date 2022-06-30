@@ -138,6 +138,17 @@ image::figures/pushbutton_bb.png[Bone with pushbutton]
 
 The code in <<js_pushbutton_code>> reads GPIO port +P9_42+, which is attached to the pass:[<span class="keep-together">pushbutton</span>]. 
 
+[[py_pushbutton_code]]
+.Monitoring a pushbutton using a callback function (pushbutton.py)
+====
+[source, python]
+----
+
+include::code/pushbutton.py[]
+
+----
+====
+
 [[js_pushbutton_code]]
 .Monitoring a pushbutton using a callback function (pushbutton.js)
 ====
@@ -155,13 +166,10 @@ include::code/pushbutton.js[]
 <pre data-type="programlisting">
 bone$ <strong>chmod +x ./pushbutton.js</strong>
 bone$ <strong>./pushbutton.js</strong>
-data= 0
-
-data= 0
-
-data= 1
-
-data= 1
+data = 0
+data = 0
+data = 1
+data = 1
 ^C
 </pre>
 ++++

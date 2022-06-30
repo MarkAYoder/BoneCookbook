@@ -39,6 +39,16 @@ include::code/internLED.js[]
 
 ----
 ====
+[[jpyinternLED_code]]
+.Using an internal LED (internLED.py)
+====
+[source, python]
+----
+
+include::code/internLED.py[]
+
+----
+====
 
 In the +bash+ command window, enter the following commands:
 
