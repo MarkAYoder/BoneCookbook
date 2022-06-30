@@ -97,23 +97,20 @@ Now, add recipe code to the newly created _pushbutton.js_ file to enable it to r
 <pre data-type="programlisting">
 root@beaglebone:~/boneSensors# <strong>chmod +x pushbutton.js</strong>
 root@beaglebone:~/boneSensors# <strong>./pushbutton.js</strong>
-Interrupt handler attached
-x.value = 1
-x.err   = undefined
-x.value = 0
-x.err   = undefined
-x.value = 1
-x.err   = undefined
+data= 0
+
+data= 0
+
+data= 1
+
+data= 1
 ^C
 </pre>
 ++++
 
 This process will work for any script in this book.
 
-[NOTE]
-====
-((("b.pinMode()")))((("pinMode()")))((("b.attachInterrupt()")))((("attachInterrupt()")))In this example, I've called +b.pinMode()+ asynchronously and performed the +b.attachInterrupt()+ call within the callback function. There are cases where BoneScript version 0.2.4 might not completely finish setting up a pin's mode when called synchronously. That might result in needing to run a program twice to overcome the error. Using asynchronous calls is the preferred strategy to avoid this issue.
-====
+
 
 ==== Discussion
 
@@ -160,23 +157,50 @@ include::code/pushbutton.js[]
 <pre data-type="programlisting">
 bone$ <strong>chmod +x ./pushbutton.js</strong>
 bone$ <strong>./pushbutton.js</strong>
-Interrupt handler attached
-x.value = 1
-x.err   = undefined
-x.value = 0
-x.err   = undefined
+data= 0
+
+data= 0
+
+data= 1
+
+data= 1
+^C
 </pre>
 ++++
 
-The +chmod+ command makes it executable (you have to do this only once), and the second command runs it. Try pushing the button. The code waits for the value of the input to change; when it changes, the new value is printed out.
+The +chmod+ command makes it executable (you have to do this only once), and the second command runs it. Try pushing the button. The code reads the pin and prints its current value.
 
 ((("code", "stopping")))((("&#x005E;C (Ctrl-C) command")))((("commands", "&#x005E;C (Ctrl-C)")))You will have to press ^C (Ctrl-C) to stop the code.
 
-If you want to use the magnetic reed switch wired as shown in <<js_pushbutton_fig>>, change +P9_42+ to +P9_26+. 
+If you want to use the magnetic reed switch wired as shown in <<js_pushbutton_fig>>, change +P9_42+ to +P9_26+ which is gpio +14+. 
 
 ==== Discussion
 
+=== Mapping Header number to gpio numbers
 
+==== Problem
+
+You have a sensor attached to the P8 or P9 header and need to know which gpio pin it's using.
+
+==== Solution
+
+The +show-pins+ command will display information about all the P8 and P9 header pins.  To see the info for just one pin, used +grep+.
+
+++++
+<pre data-type="programlisting">
+bone$ <strong>show-pins | grep P9.42</strong>
+P9.42         89 fast rx down 7 gpio 0.07 << lo  P9_42 (pinmux_P9_42_default_pin)
+</pre>
+++++
+
+The numbers following the string +gpio+ are the port number and the pin on that port.  In this cse it's port 0 and pin 7.  To find the gpio number multiply the port number by 32 and add it to the pin number.  This give 0*32+7=7.  For P9_26 you get:
+
+++++
+<pre data-type="programlisting">
+bone$ <strong>show-pins | grep P9.26</strong>
+P9.26           96 fast rx  up  7 gpio 0.14 << hi  P9_26 (pinmux_P9_26_default_pin)</pre>
+++++
+0*32+14=14, so the P9_26 pin in gpio 14.
 
 === Reading a Position, Light, or Force Sensor (Variable Resistance Sensor)
 
