@@ -468,16 +468,16 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p>If you are running Linux on a host computer attached to BeagleBone Black, it&#8217;s not hard to mount the Bone&#8217;s files on the host or the host&#8217;s files on the Bone by using sshfs. Suppose that you want to access files on the host from the Bone. First, install sshfs:</p>
 </div>
 <pre data-type="programlisting">
-bone# <strong>apt-get install sshfs</strong>
+bone$ <strong>sudo apt install sshfs</strong>
 </pre>
 <div class="paragraph">
 <p>Now, mount the files to an empty directory (substitute your username on the host computer for username and the IP address of the host for 192.168.7.1):</p>
 </div>
 <pre data-type="programlisting">
-bone# <strong>mkdir host</strong>
-bone# <strong>sshfs username@$192.168.7.1:. host</strong>
-bone# <strong>cd host</strong>
-bone# <strong>ls</strong>
+bone$ <strong>mkdir host</strong>
+bone$ <strong>sshfs username@$192.168.7.1:. host</strong>
+bone$ <strong>cd host</strong>
+bone$ <strong>ls</strong>
 </pre>
 <div class="paragraph">
 <p>The ls command will now list the files in your home directory on your host computer.  You can edit them as if they were local to the Bone.  You can access all the files by substituting :/ for the :. following the IP address.</p>
@@ -486,7 +486,7 @@ bone# <strong>ls</strong>
 <p>You can go the other way, too. Suppose that you are on your Linux host computer and want to access files on your Bone. Install sshfs:</p>
 </div>
 <pre data-type="programlisting">
-host$ <strong>sudo apt-get install sshfs</strong>
+host$ <strong>sudo apt install sshfs</strong>
 </pre>
 <div class="paragraph">
 <p>and then access:</p>
@@ -508,7 +508,7 @@ host$ <strong>ls</strong>
 </div>
 <pre data-type="programlisting">
 host$ <strong>umount /mnt/bone</strong>
-bone# <strong>umount home</strong>
+bone$ <strong>umount home</strong>
 </pre>
 </div>
 </div>
@@ -579,8 +579,8 @@ bone# <strong>umount home</strong>
 <p>First, create a directory for this recipe:</p>
 </div>
 <pre data-type="programlisting">
-bone# <strong>mkdir serverExample</strong>
-bone# <strong>cd serverExample</strong>
+bone$ <strong>mkdir serverExample</strong>
+bone$ <strong>cd serverExample</strong>
 </pre>
 <div class="paragraph">
 <p>Add the code in <a href="#networking_nodeServer_code">Javascript code for a simple Node.js-based web server (server.js)</a> to a file called <em>server.js</em> in the <em>serverExample</em> directory.</p>
@@ -657,9 +657,9 @@ function send404(res) {
 <p>Add the HTML in <a href="#networking_index_html">A sample web page (test.html)</a> to a file called <em>test.html</em> in the <em>serverExample</em> directory, and then run this:</p>
 </div>
 <pre data-type="programlisting">
-bone# <strong>cd serverExample</strong>
-bone# <strong>chmod +x server.js</strong>
-bone# <strong>./server.js</strong>
+bone$ <strong>cd serverExample</strong>
+bone$ <strong>chmod +x server.js</strong>
+bone$ <strong>./server.js</strong>
 Listening on 9090
 </pre>
 <div class="paragraph">
@@ -800,7 +800,7 @@ function send404(res) {
 <p>Now, run the following command:</p>
 </div>
 <pre data-type="programlisting">
-bone# <strong>./GPIOserver.js</strong>
+bone$ <strong>./GPIOserver.js</strong>
 Listening on 9090
 </pre>
 <div class="paragraph">
@@ -1213,7 +1213,7 @@ function run() {
 <p>First, you need to <a href="https://mail.google.com">set up a Gmail account</a>, if you don&#8217;t already have one. Next, install nodemailer:</p>
 </div>
 <pre data-type="programlisting">
-bone# <strong>npm install -g nodemailer</strong>
+bone$ <strong>npm install -g nodemailer</strong>
 </pre>
 <div class="paragraph">
 <p>Then add the code in <a href="#networking_nodemailer_code">Sending email using nodemailer (nodemailer-test.js)</a> to a file named <em>nodemailer-test.js</em> in the <em>serverExample</em> directory. Be sure to substitute your own Gmail username and password for user and pass.</p>
@@ -1269,8 +1269,8 @@ transporter.sendMail(mailOptions, function(error, info){
 <p>Then run the script to send the email:</p>
 </div>
 <pre data-type="programlisting">
-bone# <strong>chmod +x nodemailer-test.js</strong>
-bone# <strong>.\nodemailer-test.js</strong>
+bone$ <strong>chmod +x nodemailer-test.js</strong>
+bone$ <strong>.\nodemailer-test.js</strong>
 </pre>
 <div class="admonitionblock warning">
 <table>
@@ -1311,7 +1311,7 @@ bone# <strong>.\nodemailer-test.js</strong>
 <p>Next, install Trilio by using the following command:</p>
 </div>
 <pre data-type="programlisting">
-bone# <strong>npm install -g twilio</strong>
+bone$ <strong>npm install -g twilio</strong>
 </pre>
 <div class="paragraph">
 <p>Finally, add the code in <a href="#networking_twilio_code">Sending SMS messages using Twilio (<em>twilio-test.js</em>)</a> to a file named <em>twilio-test.js</em> and run it. Your text will be sent.</p>
@@ -1386,7 +1386,7 @@ client.messages.create({
 <p>Because your Bone is on the network, it&#8217;s not hard to access the current weather conditions from a weather API. First, install a JavaScript module:</p>
 </div>
 <pre data-type="programlisting">
-bone# <strong>npm install -g weather-js</strong>  (Took about 4 minutes on a slow connection)
+bone$ <strong>npm install -g weather-js</strong>  (Took about 4 minutes on a slow connection)
 </pre>
 <div class="paragraph">
 <p>Then add the code in <a href="#networking_weather_code">Code for getting current weather conditions (<em>weather.js</em>)</a> to a file named <em>weather.js</em>.</p>
@@ -1434,8 +1434,8 @@ weather.find({search: 'Terre Haute, IN', degreeType: 'F'},
 <p>Run this by using the following commands:</p>
 </div>
 <pre data-type="programlisting">
-bone# <strong>chmod +x weather.js</strong>
-bone# <strong>./weather.js</strong>
+bone$ <strong>chmod +x weather.js</strong>
+bone$ <strong>./weather.js</strong>
 ...
 {
   "temperature": "74",
@@ -1476,7 +1476,7 @@ bone# <strong>./weather.js</strong>
 <p>First, install the Twitter node package:</p>
 </div>
 <pre data-type="programlisting">
-bone# <strong>npm install node-twitter</strong>
+bone$ <strong>npm install node-twitter</strong>
 </pre>
 <div class="paragraph">
 <p>Before creating a Twitter app, you need to authenticate with Twitter:</p>
@@ -1676,20 +1676,20 @@ function sendTweet() {
 <p>To install Node-RED, run the following commands:</p>
 </div>
 <pre data-type="programlisting">
-bone# <strong>cd</strong>          # Change to home directory
-bone# <strong>git clone https://github.com/node-red/node-red.git</strong>
-bone# <strong>cd node-red/</strong>
-bone# <strong>npm install --production</strong>    # almost 6 minutes
-bone# <strong>cd nodes</strong>
-bone# <strong>git clone https://github.com/node-red/node-red-nodes.git</strong> # 2 seconds
-bone# <strong>cd ~/node-red</strong>
+bone$ <strong>cd</strong>          # Change to home directory
+bone$ <strong>git clone https://github.com/node-red/node-red.git</strong>
+bone$ <strong>cd node-red/</strong>
+bone$ <strong>npm install --production</strong>    # almost 6 minutes
+bone$ <strong>cd nodes</strong>
+bone$ <strong>git clone https://github.com/node-red/node-red-nodes.git</strong> # 2 seconds
+bone$ <strong>cd ~/node-red</strong>
 </pre>
 <div class="paragraph">
 <p>To run Node-RED, use the following commands:</p>
 </div>
 <pre data-type="programlisting">
-bone# <strong>cd ~/node-red</strong>
-bone# <strong>node red.js</strong>
+bone$ <strong>cd ~/node-red</strong>
+bone$ <strong>node red.js</strong>
 Welcome to Node-RED
 ===================
 
@@ -2126,7 +2126,7 @@ function sendCommand() {
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2022-06-25 13:14:10 -0400
+Last updated 2022-06-28 16:39:49 -0400
 </div>
 </div>
 </body>

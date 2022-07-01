@@ -482,7 +482,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p>Use the following command to determine which kernel you are running:</p>
 </div>
 <pre data-type="programlisting">
-bone# <strong>uname -a</strong>
+bone$ <strong>uname -a</strong>
 Linux beaglebone <strong>3.8.13-bone67</strong> #1 SMP Wed Sep 24 21:30:03 UTC 2014 armv7l
  GNU/Linux
 </pre>
@@ -493,7 +493,7 @@ Linux beaglebone <strong>3.8.13-bone67</strong> #1 SMP Wed Sep 24 21:30:03 UTC 2
 <p>To update to the current kernel, ensure that your Bone is on the Internet (<a href="#networking_usb">[networking_usb]</a> or <a href="#networking_wired">[networking_wired]</a>) and then run the following commands:</p>
 </div>
 <pre data-type="programlisting">
-bone# <strong>apt-cache pkgnames | grep linux-image | sort | less</strong>
+bone$ <strong>apt-cache pkgnames | grep linux-image | sort | less</strong>
 ...
 linux-image-3.15.8-armv7-x5
 linux-image-3.15.8-bone5
@@ -504,9 +504,9 @@ linux-image-3.16.0-rc7-bone1
 linux-image-3.8.13-bone60
 linux-image-3.8.13-bone61
 linux-image-3.8.13-bone62
-bone# <strong>apt-get install linux-image-3.14.23-ti-r35</strong>
-bone# <strong>reboot</strong>
-bone# <strong>uname -a</strong>
+bone$ <strong>sudo apt install linux-image-3.14.23-ti-r35</strong>
+bone$ <strong>sudo reboot</strong>
+bone$ <strong>uname -a</strong>
 Linux beaglebone 3.14.23-ti-r35 #1 SMP PREEMPT Wed Nov 19 21:11:08 UTC 2014 armv7l
  GNU/Linux
 </pre>
@@ -573,7 +573,7 @@ MODULE_LICENSE("GPL");</code></pre>
 <p>When compiling on the Bone, all you need to do is load the Kernel Headers for the version of the kernel you&#8217;re running:</p>
 </div>
 <pre data-type="programlisting">
-bone# <strong>apt-get install linux-headers-`uname -r`</strong>
+bone$ <strong>sudo apt install linux-headers-`uname -r`</strong>
 </pre>
 <div class="admonitionblock note">
 <table>
@@ -630,7 +630,7 @@ clean:
 <p>Now, compile the kernel module by using the make command:</p>
 </div>
 <pre data-type="programlisting">
-bone# <strong>make</strong>
+bone$ <strong>make</strong>
 make -C /lib/modules/3.8.13-bone67/build \
       SUBDIRS=/root/cookbook-atlas/code/hello modules
 make[1]: Entering directory `/usr/src/linux-headers-3.8.13-bone67'
@@ -640,7 +640,7 @@ make[1]: Entering directory `/usr/src/linux-headers-3.8.13-bone67'
   CC      /root/cookbook-atlas/code/hello/hello.mod.o
   LD [M]  /root/cookbook-atlas/code/hello/hello.ko
 make[1]: Leaving directory `/usr/src/linux-headers-3.8.13-bone67'
-bone# <strong>ls</strong>
+bone$ <strong>ls</strong>
 Makefile        hello.c   hello.mod.c  hello.o
 Module.symvers  hello.ko  hello.mod.o  modules.order
 </pre>
@@ -648,13 +648,13 @@ Module.symvers  hello.ko  hello.mod.o  modules.order
 <p>Notice that several files have been created. <em>hello.ko</em> is the one you want. Try a couple of commands with it:</p>
 </div>
 <pre data-type="programlisting">
-bone# <strong>modinfo hello.ko</strong>
+bone$ <strong>modinfo hello.ko</strong>
 filename:       /root/hello/hello.ko
 srcversion:     87C6AEED7791B4B90C3B50C
 depends:
 vermagic:       3.8.13-bone67 SMP mod_unload modversions ARMv7 thumb2 p2v8
-bone# <strong>insmod hello.ko</strong>
-bone# <strong>dmesg | tail -4</strong>
+bone$ <strong>sudo insmod hello.ko</strong>
+bone$ <strong>dmesg | tail -4</strong>
 [419313.320052] bone-iio-helper helper.15: ready
 [419313.322776] bone-capemgr bone_capemgr.9: slot #8: Applied #1 overlays.
 [491540.999431] Loading hello module...
@@ -683,8 +683,8 @@ bone# <strong>dmesg | tail -4</strong>
 <p>On Linux, <a href="http://bit.ly/1AjhWUW">everything is a file</a>; that is, you can access all the inputs and outputs, the LEDs, and so on by opening the right <em>file</em> and reading or writing to it. For example, try the following:</p>
 </div>
 <pre data-type="programlisting">
-bone# <strong>cd /sys/class/leds/</strong>
-bone# <strong>ls</strong>
+bone$ <strong>cd /sys/class/leds/</strong>
+bone$ <strong>ls</strong>
 beaglebone:green:usr0  beaglebone:green:usr2
 beaglebone:green:usr1  beaglebone:green:usr3
 </pre>
@@ -692,10 +692,10 @@ beaglebone:green:usr1  beaglebone:green:usr3
 <p>What you are seeing are four directories, one for each onboard LED. Now try this:</p>
 </div>
 <pre data-type="programlisting">
-bone# <strong>cd beaglebone\:green\:usr0</strong>
-bone# <strong>ls</strong>
+bone$ <strong>cd beaglebone\:green\:usr0</strong>
+bone$ <strong>ls</strong>
 brightness  device  max_brightness  power  subsystem  trigger  uevent
-bone# <strong>cat trigger</strong>
+bone$ <strong>cat trigger</strong>
 none nand-disk mmc0 mmc1 timer oneshot [heartbeat]
      backlight gpio cpu0 default-on transient
 </pre>
@@ -706,8 +706,8 @@ none nand-disk mmc0 mmc1 timer oneshot [heartbeat]
 <p>Then try the following:</p>
 </div>
 <pre data-type="programlisting">
-bone# <strong>echo none > trigger</strong>
-bone# <strong>cat trigger</strong>
+bone$ <strong>echo none > trigger</strong>
+bone$ <strong>cat trigger</strong>
 [none] nand-disk mmc0 mmc1 timer oneshot heartbeat
        backlight gpio cpu0 default-on transient
 </pre>
@@ -718,8 +718,8 @@ bone# <strong>cat trigger</strong>
 <p>Now, try turning it on and off:</p>
 </div>
 <pre data-type="programlisting">
-bone# <strong>echo 1 > brightness</strong>
-bone# <strong>echo 0 > brightness</strong>
+bone$ <strong>echo 1 > brightness</strong>
+bone$ <strong>echo 0 > brightness</strong>
 </pre>
 <div class="paragraph">
 <p>The LED should be turning on and off with the commands.</p>
@@ -758,44 +758,44 @@ bone# <strong>echo 0 > brightness</strong>
 <p>Next, change to the GPIO sysfs directory:</p>
 </div>
 <pre data-type="programlisting">
-bone# <strong>cd /sys/class/gpio/</strong>
-bone# <strong>ls</strong>
+bone$ <strong>cd /sys/class/gpio/</strong>
+bone$ <strong>ls</strong>
 export  gpiochip0  gpiochip32  gpiochip64  gpiochip96  unexport
 </pre>
 <div class="paragraph">
 <p>The ls command shows all the GPIO pins that have be exported. In this case, none have, so you see only the four GPIO controllers. Export using the export command:</p>
 </div>
 <pre data-type="programlisting">
-bone# <strong>echo 7 > export</strong>
-bone# <strong>ls</strong>
+bone$ <strong>echo 7 > export</strong>
+bone$ <strong>ls</strong>
 export  gpio7  gpiochip0  gpiochip32  gpiochip64  gpiochip96  unexport
 </pre>
 <div class="paragraph">
 <p>Now you can see the <em>gpio7</em> directory. Change into the <em>gpio7</em> directory and look around:</p>
 </div>
 <pre data-type="programlisting">
-bone# <strong>cd gpio7</strong>
-bone# <strong>ls</strong>
+bone$ <strong>cd gpio7</strong>
+bone$ <strong>ls</strong>
 active_low  direction  edge  power  subsystem  uevent  value
-bone# <strong>cat direction</strong>
+bone$ <strong>cat direction</strong>
 in
-bone# <strong>cat value</strong>
+bone$ <strong>cat value</strong>
 0
 </pre>
 <div class="paragraph">
 <p>Notice that the pin is already configured to be an input pin. (If it wasn&#8217;t already configured that way, use echo in &gt; direction to configure it.) You can also see that its current value is 0—that is, it isn&#8217;t pressed. Try pressing and holding it and running again:</p>
 </div>
 <pre data-type="programlisting">
-bone# <strong>cat value</strong>
+bone$ <strong>cat value</strong>
 1
 </pre>
 <div class="paragraph">
 <p>The 1 informs you that the switch is pressed. When you are done with GPIO 7, you can always unexport it:</p>
 </div>
 <pre data-type="programlisting">
-bone# <strong>cd ..</strong>
-bone# <strong>echo 7 > unexport</strong>
-bone# <strong>ls</strong>
+bone$ <strong>cd ..</strong>
+bone$ <strong>echo 7 > unexport</strong>
+bone$ <strong>ls</strong>
 export  gpiochip0  gpiochip32  gpiochip64  gpiochip96  unexport
 </pre>
 </div>
@@ -805,23 +805,23 @@ export  gpiochip0  gpiochip32  gpiochip64  gpiochip96  unexport
 <p>Now, suppose that you want to control an external LED. <a href="#displays_externalLED">[displays_externalLED]</a> shows how to wire an LED to P9_14. <a href="#kernel_gpio_map_fig">Mapping P9_42 header position to GPIO 7</a> shows P9_14 is GPIO 50. Following the approach in <a href="#kernel_gpio_sysfs">Controlling GPIOs by Using SYSFS Entries</a>, enable GPIO 50 and make it an output:</p>
 </div>
 <pre data-type="programlisting">
-bone# <strong>cd /sys/class/gpio/</strong>
-bone# <strong>echo 50 > export</strong>
-bone# <strong>ls</strong>
+bone$ <strong>cd /sys/class/gpio/</strong>
+bone$ <strong>echo 50 > export</strong>
+bone$ <strong>ls</strong>
 gpio50  gpiochip0  gpiochip32  gpiochip64  gpiochip96
-bone# <strong>cd gpio50</strong>
-bone# <strong>ls</strong>
+bone$ <strong>cd gpio50</strong>
+bone$ <strong>ls</strong>
 active_low  direction  edge  power  subsystem  uevent  value
-bone# <strong>cat direction</strong>
+bone$ <strong>cat direction</strong>
 in
 </pre>
 <div class="paragraph">
 <p>By default, P9_14 is set as an input. Switch it to an output and turn it on:</p>
 </div>
 <pre data-type="programlisting">
-bone# <strong>echo out > direction</strong>
-bone# <strong>echo 1 > value</strong>
-bone# <strong>echo 0 > value</strong>
+bone$ <strong>echo out > direction</strong>
+bone$ <strong>echo 1 > value</strong>
+bone$ <strong>echo 0 > value</strong>
 </pre>
 <div class="paragraph">
 <p>The LED turns on when a 1 is written to value and turns off when a 0 is written.</p>
@@ -978,7 +978,7 @@ Are you 100% sure, on selecting [/dev/sdb] (y/n)? y
 <p>You can cross-compile without installing the entire kernel source by running the following:</p>
 </div>
 <pre data-type="programlisting">
-host$ <strong>sudo apt-get install gcc-arm-linux-gnueabihf</strong>
+host$ <strong>sudo apt install gcc-arm-linux-gnueabihf</strong>
 </pre>
 <div class="paragraph">
 <p>Then skip down to <a href="#kernel_skip_to_here">Setting Up Variables</a>.</p>
@@ -1319,7 +1319,7 @@ host$ <strong>git format-patch master --stdout &gt; hello1.patch</strong>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2022-06-25 13:14:10 -0400
+Last updated 2022-06-28 16:39:58 -0400
 </div>
 </div>
 </body>

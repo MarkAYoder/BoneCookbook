@@ -467,7 +467,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </td>
 <td class="content">
 <div class="paragraph">
-<p>In this chapter, as in the others, we assume that you are logged in as root (as indicated by the bone# prompt). This gives you quick access to the general-purpose input/output (GPIO) ports without having to use sudo each time.</p>
+<p>In this chapter, as in the others, we assume that you are logged in as root (as indicated by the bone$ prompt). This gives you quick access to the general-purpose input/output (GPIO) ports without having to use sudo each time.</p>
 </div>
 </td>
 </tr>
@@ -553,8 +553,8 @@ function flashLED(x) {
 <p>Add the code to a file named <em>pushLED.js</em> and run it by using the following commands:</p>
 </div>
 <pre data-type="programlisting">
-bone# <strong>chmod +x pushLED.js</strong>
-bone# <strong>./pushLED.js</strong>
+bone$ <strong>chmod +x pushLED.js</strong>
+bone$ <strong>./pushLED.js</strong>
 </pre>
 <div class="paragraph">
 <p>Press ^C (Ctrl-C) to stop the code.</p>
@@ -675,8 +675,8 @@ int main(void) {
 <p>Compile and run the code:</p>
 </div>
 <pre data-type="programlisting">
-bone# <strong>gcc -o pushLED pushLED.c /usr/local/lib/libsoc.so</strong>
-bone# <strong>./pushLED</strong>
+bone$ <strong>gcc -o pushLED pushLED.c /usr/local/lib/libsoc.so</strong>
+bone$ <strong>./pushLED</strong>
 libsoc-debug: debug enabled (libsoc_set_debug)
 libsoc-gpio-debug: requested gpio (60, libsoc_gpio_request)
 libsoc-gpio-debug: GPIO already exported (60, libsoc_gpio_request)
@@ -741,9 +741,9 @@ libsoc-gpio-debug: freeing gpio (60, libsoc_gpio_free)
 <p>First, download and install devmem2:</p>
 </div>
 <pre data-type="programlisting">
-bone# <strong>wget http://free-electrons.com/pub/mirror/devmem2.c</strong>
-bone# <strong>gcc -o devmem2 devmem2.c</strong>
-bone# <strong>mv devmem2 /usr/bin</strong>
+bone$ <strong>wget http://free-electrons.com/pub/mirror/devmem2.c</strong>
+bone$ <strong>gcc -o devmem2 devmem2.c</strong>
+bone$ <strong>mv devmem2 /usr/bin</strong>
 </pre>
 <div class="paragraph">
 <p>This solution will read a pushbutton attached to P9_42 and flash an LED attached to P9_13. Note that this is a change from the previous solutions that makes the code used here much simpler. Wire up your Bone as shown in <a href="#realtime_pushLEDmmap_fig">Diagram for wiring a pushbutton and LED with the LED attached to P9_13</a>.</p>
@@ -758,12 +758,12 @@ bone# <strong>mv devmem2 /usr/bin</strong>
 <p>Now, flash the LED attached to P9_13 using the Linux sysfs interface (<a href="#kernel_gpio_sysfs">[kernel_gpio_sysfs]</a>). To do this, first look up which GPIO number P9_13 is attached to by referring to <a href="#tips_cape_headers_digital">[tips_cape_headers_digital]</a>. Finding P9_13 at GPIO 31, export GPIO 31 and make it an output:</p>
 </div>
 <pre data-type="programlisting">
-bone# <strong>cd cd /sys/class/gpio/</strong>
-bone# <strong>echo 31 > export</strong>
-bone# <strong>cd gpio31</strong>
-bone# <strong>echo out > direction</strong>
-bone# <strong>echo 1 > value</strong>
-bone# <strong>echo 0 > value</strong>
+bone$ <strong>cd cd /sys/class/gpio/</strong>
+bone$ <strong>echo 31 > export</strong>
+bone$ <strong>cd gpio31</strong>
+bone$ <strong>echo out > direction</strong>
+bone$ <strong>echo 1 > value</strong>
+bone$ <strong>echo 0 > value</strong>
 </pre>
 <div class="paragraph">
 <p>The LED will turn on when 1 is echoed into value and off when 0 is echoed.</p>
@@ -775,7 +775,7 @@ bone# <strong>echo 0 > value</strong>
 <p>This means you read from address 0x44E0_7000 + 0x138 = 0x44E0_7138 to see the status of the LED:</p>
 </div>
 <pre data-type="programlisting">
-bone# <strong>devmem2 0x44E07138</strong>
+bone$ <strong>devmem2 0x44E07138</strong>
 /dev/mem opened.
 Memory mapped at address 0xb6f8e000.
 Value at address 0x44E07138 (0xb6f8e138): 0xC000C404
@@ -785,7 +785,7 @@ Value at address 0x44E07138 (0xb6f8e138): 0xC000C404
 <p>The returned value 0xC000C404 (1100 0000 0000 0000 1100 0100 0000 0100 in binary) has bit 31 set to 1, which means the LED is on. Turn the LED off by writing 0x80000000 (1000 0000 0000 0000 0000 0000 0000 0000 binary) to the GPIO_CLEARDATA register at 0x44E0_7000 + 0x190 = 0x44E0_7190:</p>
 </div>
 <pre data-type="programlisting">
-bone# <strong>devmem2 0x44E07190 w 0x80000000</strong>
+bone$ <strong>devmem2 0x44E07190 w 0x80000000</strong>
 /dev/mem opened.
 Memory mapped at address 0xb6fd7000.
 Value at address 0x44E07190 (0xb6fd7190): 0x80000000
@@ -798,7 +798,7 @@ Written 0x80000000; readback 0x0
 <p>You read the pushbutton switch in a similar way. <a href="#tips_cape_headers_digital">[tips_cape_headers_digital]</a> says P9_42 is GPIO 7, which means bit 7 is the state of P9_42. The devmem2 in this example reads 0x0, which means all bits are 0, including GPIO 7. Section 25.4.1 of the Technical Reference Manual instructs you to use offset 0x13C to read GPIO_DATAOUT. Push the pushbutton and run devmem2:</p>
 </div>
 <pre data-type="programlisting">
-bone# <strong>devmem2 0x44e07138</strong>
+bone$ <strong>devmem2 0x44e07138</strong>
 /dev/mem opened.
 Memory mapped at address 0xb6fe2000.
 Value at address 0x44E07138 (0xb6fe2138): 0x4000C484
@@ -992,8 +992,8 @@ int main(int argc, char *argv[]) {
 <p>Now, compile and run the code:</p>
 </div>
 <pre data-type="programlisting">
-bone# <strong>gcc -O3 pushLEDmmap.c -o pushLEDmmap</strong>
-bone# <strong>./pushLEDmmap</strong>
+bone$ <strong>gcc -O3 pushLEDmmap.c -o pushLEDmmap</strong>
+bone$ <strong>./pushLEDmmap</strong>
 Mapping 44E07000 - 44E08000 (size: 1000)
 GPIO mapped to 0xb6fac000
 GPIO SETDATAOUTADDR mapped to 0xb6fac194
@@ -1046,7 +1046,7 @@ Ctrl-C pressed, cleaning up and exiting...
 </td>
 <td class="content">
 <div class="paragraph">
-<p>The Xenomai kernel is now available in the BeagleBoard.org Debian package feeds, and you can install it by using apt-get install xenomai-runtime. Nevertheless, we find it useful to include the details of building the Xenomai kernel.</p>
+<p>The Xenomai kernel is now available in the BeagleBoard.org Debian package feeds, and you can install it by using sudo apt install xenomai-runtime. Nevertheless, we find it useful to include the details of building the Xenomai kernel.</p>
 </div>
 </td>
 </tr>
@@ -1218,11 +1218,11 @@ host$ <strong>scp -r xenomai-2.6.4 192.168.7.2:.</strong>
 <p>Run the following commands on the Bone:</p>
 </div>
 <pre data-type="programlisting">
-bone# <strong>cd ~/xenomai-2.6.4</strong>
-bone# <strong>./configure CFLAGS="-march=armv7-a -mfpu=vfp3" LDFLAGS="-march=armv7-a \
+bone$ <strong>cd ~/xenomai-2.6.4</strong>
+bone$ <strong>./configure CFLAGS="-march=armv7-a -mfpu=vfp3" LDFLAGS="-march=armv7-a \
         -mfpu=vfp3"</strong>
-bone# <strong>make</strong>
-bone# <strong>make install</strong>
+bone$ <strong>make</strong>
+bone$ <strong>make install</strong>
 </pre>
 <div class="paragraph">
 <p>./configure takes about a minute, make six more minutes, and install another minute.</p>
@@ -1231,12 +1231,12 @@ bone# <strong>make install</strong>
 <p>Next, copy the drivers:</p>
 </div>
 <pre data-type="programlisting">
-bone# <strong>cd; mkdir xenomai_drivers; cd xenomai_drivers</strong>
+bone$ <strong>cd; mkdir xenomai_drivers; cd xenomai_drivers</strong>
 
 host$ <strong>cd bb-kernel/KERNEL/drivers/xenomai/testing</strong>
 host$ <strong>scp *.ko 192.168.7.2:xenomai_drivers</strong>
 
-bone# <strong>insmode xeno_klat.ko</strong>
+bone$ <strong>sudo insmode xeno_klat.ko</strong>
 </pre>
 </div>
 <div class="sect4">
@@ -1245,7 +1245,7 @@ bone# <strong>insmode xeno_klat.ko</strong>
 <p>Go ahead and run some tests:</p>
 </div>
 <pre data-type="programlisting">
-bone# <strong>usr/xenomai/bin/latency</strong>
+bone$ <strong>usr/xenomai/bin/latency</strong>
 == Sampling period: 1000 us
 == Test mode: periodic user-mode task
 == All results in microseconds
@@ -1310,17 +1310,17 @@ RTS|      2.749|      3.916|     25.499|       0|     0| 00:00:05/00:00:05
 <p>Many of the pins easily accessible by the PRU are taken up by the HDMI interface discussed in <a href="#tips_hdmi">[tips_hdmi]</a>. If you haven&#8217;t already edited <em>uEnv.txt</em>, you can run these commands to disable the HDMI interface and reboot:</p>
 </div>
 <pre data-type="programlisting">
-bone# <strong>sed -i \
+bone$ <strong>sed -i \
  '/cape_disable=capemgr.disable_partno=BB-BONELT-HDMI,BB-BONELT-HDMIN$/ \
       \s/^#//' /boot/uEnv.txt</strong>
-bone# <strong>shutdown -r now</strong>
+bone$ <strong>sudo reboot</strong>
 </pre>
 <div class="paragraph">
 <p>To build the firmware files, you first need to install the TI PRU C compiler:</p>
 </div>
 <pre data-type="programlisting">
-bone# <strong>apt-get update</strong>
-bone# <strong>apt-get install ti-pru-cgt-installer</strong>
+bone$ <strong>sudo apt update</strong>
+bone$ <strong>sudo apt install ti-pru-cgt-installer</strong>
 Reading package lists... Done
 Building dependency tree
 Reading state information... Done
@@ -1365,10 +1365,10 @@ Installed successfully into /
 <p>Clone the PRU Speak repository and run the <em>install.sh</em> shell script:</p>
 </div>
 <pre data-type="programlisting">
-bone# <strong>git clone git://github.com/jadonk/pruspeak.git</strong>
-bone# <strong>cd pruspeak</strong>
-bone# <strong>./install.sh</strong>
-if [ ! -d "/lib/modules/3.8.13-bone68/build" ]; then apt-get install \
+bone$ <strong>git clone git://github.com/jadonk/pruspeak.git</strong>
+bone$ <strong>cd pruspeak</strong>
+bone$ <strong>./install.sh</strong>
+if [ ! -d "/lib/modules/3.8.13-bone68/build" ]; then apt install \
         linux-headers-3.8.13-bone68; fi
 make -C /lib/modules/3.8.13-bone68/build M=/root/pruspeak/src/driver modules
 make[1]: Entering directory `/usr/src/linux-headers-3.8.13-bone68'
@@ -1427,8 +1427,8 @@ install -m 755 bs_shell.py /usr/bin
 <p>Use the modprobe command to load the kernel module and config-pin to load the device tree overlay:</p>
 </div>
 <pre data-type="programlisting">
-bone# <strong>modprobe pru_speak</strong>
-bone# <strong>config-pin overlay BB-PRUSPEAK</strong>
+bone$ <strong>modprobe pru_speak</strong>
+bone$ <strong>config-pin overlay BB-PRUSPEAK</strong>
 </pre>
 <div class="paragraph">
 <p>The kernel module will need to be reloaded after rebooting, unless it&#8217;s been added to <em>/etc/modules-load.d/modules.conf</em> and <em>/boot/uEnv.txt</em>.</p>
@@ -1471,7 +1471,7 @@ print ret</code></pre>
 <p>Then run the code by using the following command:</p>
 </div>
 <pre data-type="programlisting">
-bone# <strong>./pruSpeak.py</strong>
+bone$ <strong>./pruSpeak.py</strong>
 Generating LALR tables
 Initializing PRU Speak
 0       0x110000FF      SET var1, DIO[14]
@@ -1511,7 +1511,7 @@ PRU Speak object deleted
 <p>To invoke a shell interface to PRU Speak, run <em>bs_shell.py</em>:</p>
 </div>
 <pre data-type="programlisting">
-bone# <strong>bs_shell.py</strong>
+bone$ <strong>bs_shell.py</strong>
 Generating LALR tables
 Initializing PRU Speak
 ps&gt;<strong>SCRIPT</strong>
@@ -1547,7 +1547,7 @@ PRU Speak object deleted
 <p>Running the interpreter over a TCP socket enables tools like Labview to communicate with the Bone in a platform-independent way. Use netcat (nc) to interact with the interpreter from the command line:</p>
 </div>
 <pre data-type="programlisting">
-bone# <strong>bs_tcp_server.py 2&amp;&gt;1 &gt; /var/log/pruspeak.log &amp;</strong>
+bone$ <strong>bs_tcp_server.py 2&amp;&gt;1 &gt; /var/log/pruspeak.log &amp;</strong>
 [1] 2594
 bone # <strong>nc localhost 6060</strong>
 <strong>SCRIPT</strong>
@@ -1605,7 +1605,7 @@ bone # <strong>nc localhost 6060</strong>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2022-06-25 13:14:10 -0400
+Last updated 2022-06-28 16:39:50 -0400
 </div>
 </div>
 </body>

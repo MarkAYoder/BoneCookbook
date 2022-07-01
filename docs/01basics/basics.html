@@ -499,75 +499,17 @@ Plug the USB cable into your host computer (Mac, Windows, or Linux) and plug the
 </div>
 <div class="title">Figure 2. The Bone appears as a USB drive</div>
 </div>
-<div class="paragraph">
-<p>Open the drive and open <em>START.htm</em> using <a href="http://www.google.com/chrome/">Google Chrome</a> or <a href="https://www.mozilla.org/en-US/firefox/new/">Firefox</a> (<a href="#basics_02gettingStarted_fig">Open START.htm</a>).</p>
-</div>
-<div class="admonitionblock tip">
-<table>
-<tr>
-<td class="icon">
-<div class="title">Tip</div>
-</td>
-<td class="content">
-<div class="paragraph">
-<p>Some users have reported problems when using Internet Explorer with the web pages served up by the Bone, so make sure to use Chrome or Firefox.</p>
-</div>
-</td>
-</tr>
-</table>
-</div>
-<div id="basics_02gettingStarted_fig" class="imageblock">
-<div class="content">
-<img src="figures/02GettingStarted.png" alt="Open START.htm">
-</div>
-<div class="title">Figure 3. Open START.htm</div>
-</div>
-<div class="paragraph">
-<p>Follow the instructions (<a href="#basics_03gettingStarted_fig">Install the USB drivers</a>) for installing the USB drivers for your host computer&#8217;s operating system (OS).</p>
-</div>
-<div id="basics_03gettingStarted_fig" class="imageblock">
-<div class="content">
-<img src="figures/03GettingStarted.png" alt="Install USB drivers">
-</div>
-<div class="title">Figure 4. Install the USB drivers</div>
-</div>
-<div class="paragraph">
-<p>On your host, browse to <a href="http://192.168.7.2" class="bare">http://192.168.7.2</a> (<a href="#basics_04gettingStarted_fig">Open http://192.168.7.2 on your host computer</a>).</p>
-</div>
-<div id="basics_04gettingStarted_fig" class="imageblock">
-<div class="content">
-<img src="figures/04GettingStarted.png" alt="Open START.htm">
-</div>
-<div class="title">Figure 5. Open <a href="http://192.168.7.2" class="bare">http://192.168.7.2</a> on your host computer</div>
-</div>
-<div class="paragraph">
-<p>You are now ready to explore your Bone. Look around. There&#8217;s lots of information on the page.</p>
-</div>
-<div class="admonitionblock tip">
-<table>
-<tr>
-<td class="icon">
-<div class="title">Tip</div>
-</td>
-<td class="content">
-<div class="paragraph">
-<p>The green banner at the top of the page means the browser is talking to the Bone, and code on the page can be edited and run on the Bone. Try scrolling down to the code in "BoneScript interactive guide" and running it. Then try editing the code and running it again. Take five minutes and try it! Watch out, though, because you can&#8217;t save your edits. You need Cloud9 for that, as discussed next.</p>
-</div>
-</td>
-</tr>
-</table>
-</div>
 <div id="basics_openCloud9" class="paragraph">
-<p>Also be sure to browse to <a href="http://192.168.7.2:3000" class="bare">http://192.168.7.2:3000</a> from your host computer (<a href="#basics_05gettingStarted_fig">Cloud9</a>).</p>
+<p>Browse to <a href="http://192.168.7.2:3000" class="bare">http://192.168.7.2:3000</a> from your host computer (<a href="#basics_05gettingStarted_fig">Visual Studio Code</a>).</p>
 </div>
 <div id="basics_05gettingStarted_fig" class="imageblock">
 <div class="content">
-<img src="figures/05GettingStarted.png" alt="Cloud9">
+<img src="figures/05GettingStartedVScode.png" alt="Cloud9">
 </div>
-<div class="title">Figure 6. Cloud9</div>
+<div class="title">Figure 3. Visual Studio Code</div>
 </div>
 <div class="paragraph">
-<p>Here, you&#8217;ll find <em>Cloud9</em>, a web-based integrated development environment (IDE) that lets you edit and run code on your Bone!  See <a href="#basics_cloud9">Editing Code Using the Cloud9 IDE</a> for more details.</p>
+<p>Here, you&#8217;ll find <em>Visual Studio Code</em>, a web-based integrated development environment (IDE) that lets you edit and run code on your Bone!  See <a href="#basics_cloud9">Editing Code Using the Cloud9 IDE</a> for more details.</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -594,7 +536,7 @@ Plug the USB cable into your host computer (Mac, Windows, or Linux) and plug the
 <p>Make sure you turn off your Bone properly. It&#8217;s best to run the halt command:</p>
 </div>
 <pre data-type="programlisting">
-bone# <strong>halt</strong>
+bone$ <strong>sudo halt</strong>
 The system is going down for system halt NOW! (pts/0)
 </pre>
 <div class="paragraph">
@@ -623,13 +565,13 @@ The system is going down for system halt NOW! (pts/0)
 <div class="sect3">
 <h4 id="_solution_3">Solution</h4>
 <div class="paragraph">
-<p>This book uses <a href="https://www.debian.org">Debian</a>, the Linux distribution that currently ships on the Bone. However this book is based on a newer version (2014-11-11 image) than what is shipping at the time of this writing. You can see which version your Bone is running by following the instructions in <a href="#basics_out_of_the_box">Getting Started, Out of the Box</a> to open the USB drive that comes from the Bone, as shown in <a href="#basics_02gettingStarted_fig">Open START.htm</a>. But instead of opening <em>START.html</em>, open <em>ID.txt</em> (shown with the dashed arrow in <a href="#basics_02gettingStarted_fig">Open START.htm</a>). You&#8217;ll see something like <a href="#basics_ID">Contents of ID.txt</a>, in which 2014-11-11 is the date of the image.</p>
+<p>This book uses <a href="https://www.debian.org">Debian</a>, the Linux distribution that currently ships on the Bone. However this book is based on a newer version (2014-11-11 image) than what is shipping at the time of this writing. You can see which version your Bone is running by following the instructions in <a href="#basics_out_of_the_box">Getting Started, Out of the Box</a> to open the USB drive that comes from the Bone, as shown in <a href="#basics_02gettingStarted_fig">[basics_02gettingStarted_fig]</a>. But instead of opening <em>START.html</em>, open <em>ID.txt</em> (shown with the dashed arrow in <a href="#basics_02gettingStarted_fig">[basics_02gettingStarted_fig]</a>). You&#8217;ll see something like <a href="#basics_ID">Contents of ID.txt</a>, in which 2014-11-11 is the date of the image.</p>
 </div>
 <div id="basics_ID" class="imageblock">
 <div class="content">
 <img src="figures/ID.txt.png" alt="Contents of ID.txt">
 </div>
-<div class="title">Figure 7. Contents of ID.txt</div>
+<div class="title">Figure 4. Contents of ID.txt</div>
 </div>
 </div>
 <div class="sect3">
@@ -654,7 +596,7 @@ The system is going down for system halt NOW! (pts/0)
 <div class="content">
 <img src="figures/bonescript-examples.png" alt="The BoneScript examples page">
 </div>
-<div class="title">Figure 8. The BoneScript API examples page</div>
+<div class="title">Figure 5. The BoneScript API examples page</div>
 </div>
 <div class="admonitionblock tip">
 <table>
@@ -737,7 +679,7 @@ The system is going down for system halt NOW! (pts/0)
 <div class="content">
 <img src="figures/template_bb.png" alt="Breadboad">
 </div>
-<div class="title">Figure 9. Breadboard wired to BeagleBone Black</div>
+<div class="title">Figure 6. Breadboard wired to BeagleBone Black</div>
 </div>
 </div>
 <div class="sect3">
@@ -756,7 +698,7 @@ The system is going down for system halt NOW! (pts/0)
 <div class="sect3">
 <h4 id="_solution_6">Solution</h4>
 <div class="paragraph">
-<p>Plug your Bone into a host computer via the USB cable. Open a browser (either Google Chrome or FireFox will work) on your host computer (as shown in <a href="#basics_out_of_the_box">Getting Started, Out of the Box</a>). After the Bone has booted up, browse to <a href="http://192.168.7.2:3000" class="bare">http://192.168.7.2:3000</a> on your host. You will see something like <a href="#basics_05gettingStarted_fig">Cloud9</a>.</p>
+<p>Plug your Bone into a host computer via the USB cable. Open a browser (either Google Chrome or FireFox will work) on your host computer (as shown in <a href="#basics_out_of_the_box">Getting Started, Out of the Box</a>). After the Bone has booted up, browse to <a href="http://192.168.7.2:3000" class="bare">http://192.168.7.2:3000</a> on your host. You will see something like <a href="#basics_05gettingStarted_fig">Visual Studio Code</a>.</p>
 </div>
 <div class="paragraph">
 <p>Click the <em>examples</em> folder on the left and then double-click <em>blinkled.js</em>.
@@ -767,7 +709,7 @@ select Add Home to Favorites (<a href="#basics_addHome_fig">Making your home fol
 <div class="content">
 <img src="figures/addHome.png" alt="add home">
 </div>
-<div class="title">Figure 10. Making your home folder appear in Cloud9</div>
+<div class="title">Figure 7. Making your home folder appear in Cloud9</div>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -841,7 +783,7 @@ Click the bash tab (it should be the leftmost tab). Here, you have a command pro
 <div class="content">
 <img src="figures/cloud9Bash.png" alt="cloud9 bash">
 </div>
-<div class="title">Figure 11. Cloud9 debugger</div>
+<div class="title">Figure 8. Cloud9 debugger</div>
 </div>
 <div class="paragraph">
 <p>Change to the directory that contains your file, make it executable, and then run it:</p>
@@ -878,13 +820,13 @@ You need to use the chmod +x command only once. Finally, ./blinkled.js instructs
 <div class="content">
 <img src="figures/autoRun.png" alt="autorun">
 </div>
-<div class="title">Figure 12. Making applications autorun at boot-up time</div>
+<div class="title">Figure 9. Making applications autorun at boot-up time</div>
 </div>
 <div class="paragraph">
 <p>You can drag and drop the script into the <em>autorun</em> folder using the Cloud9 IDE workspace view, or you can move it using the bash prompt:</p>
 </div>
 <pre data-type="programlisting">
-bone# <strong>mv myApp.js autorun</strong>
+bone$ <strong>mv myApp.js autorun</strong>
 </pre>
 </div>
 <div class="sect3">
@@ -910,41 +852,39 @@ bone# <strong>mv myApp.js autorun</strong>
 </td>
 <td class="content">
 <div class="paragraph">
-<p>At the time they were written, these instructions were up-to-date.  Go to <a href="http://beagleboard.org/latest-images" class="bare">http://beagleboard.org/latest-images</a> for the latest instructions.</p>
+<p>At the time they were written, these instructions were up-to-date.  Go to <a href="http://https://forum.beagleboard.org/tag/latest-images" class="bare">http://https://forum.beagleboard.org/tag/latest-images</a> for the latest instructions.</p>
 </div>
 </td>
 </tr>
 </table>
 </div>
 <div class="paragraph">
-<p>On your host computer, open a browser and go to <a href="http://rcn-ee.net/deb/testing/" class="bare">http://rcn-ee.net/deb/testing/</a>.  This shows you a list of dates of the most recent Debian images (<a href="#basics_deb1">Latest Debian images</a>).</p>
+<p>On your host computer, open a browser and go to <a href="https://forum.beagleboard.org/tag/latest-images" class="bare">https://forum.beagleboard.org/tag/latest-images</a>  This shows you a list of dates of the most recent Debian images (<a href="#basics_deb1">Latest Debian images</a>).</p>
 </div>
 <div id="basics_deb1" class="imageblock">
 <div class="content">
 <img src="figures/deb1.png" alt="Latest Debian images">
 </div>
-<div class="title">Figure 13. Latest Debian images</div>
+<div class="title">Figure 10. Latest Debian images</div>
 </div>
 <div class="paragraph">
-<p>Clicking a date will show you several variations for that particular date. <a href="#basics_deb2">Latest Debian images for a given date</a> shows the results of clicking <em>2014-11-11</em>.</p>
+<p>At the time of writing, we are using the <em>Bullseye</em> image.  Click on it&#8217;s link.
+Scroling up you&#8217;ll find <a href="#basics_deb2">Latest Debian images</a>.  There are three types of snapshots, Minimal, IoT and Xfce Desktop.  IoT is the one we are running.</p>
+</div>
+<div class="paragraph">
+<p>Clicking a date will show you several variations for that particular date. <a href="#basics_deb2">Latest Debian images</a> shows the results of clicking <em>2014-11-11</em>.</p>
 </div>
 <div id="basics_deb2" class="imageblock">
 <div class="content">
-<img src="figures/deb2.png" alt="Latest Debian images for given date">
+<img src="figures/deb2.png" alt="Latest Debian images">
 </div>
-<div class="title">Figure 14. Latest Debian images for a given date</div>
-</div>
-<div class="paragraph">
-<p>Clicking <em>lxde-4gb/</em> shows a list of 4 GB images (<a href="#basics_deb3">Latest 4 GB Debian images for a given date</a>).</p>
-</div>
-<div id="basics_deb3" class="imageblock">
-<div class="content">
-<img src="figures/deb3.png" alt="Latest 4 GB Debian images for given date">
-</div>
-<div class="title">Figure 15. Latest 4 GB Debian images for a given date</div>
+<div class="title">Figure 11. Latest Debian images</div>
 </div>
 <div class="paragraph">
-<p>These are the images you want to use if you are flashing a Rev C BeagleBone Black onboard flash, or flashing a 4 GB or bigger miscroSD card. The image beginning with <em>bone-debian-7.7-lxde</em> is used for programming the microSD card. The one beginning with <em>BBB-eMMC-flasher-deb</em> is for programming the onboard flash memory.</p>
+<p>These are the images you want to use if you are flashing a Rev C BeagleBone Black onboard flash, or flashing a 4 GB or bigger miscroSD card. The image beginning with <em>am335x-debian-11.3-iot-</em> is used for programming the microSD card.</p>
+</div>
+<div class="paragraph">
+<p>The one beginning with <em>am57xx-debian-</em> is for programming the Beagle AI&#8217;s.</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -1026,7 +966,7 @@ follow the instructions there to install the image you downloaded.</p>
 <div class="content">
 <img src="figures/disks.png" alt="Disks">
 </div>
-<div class="title">Figure 16. Unmounting the microSD card via the Disks application</div>
+<div class="title">Figure 12. Unmounting the microSD card via the Disks application</div>
 </div>
 <div class="paragraph">
 <p>Run the following command to download the 2014-11-11 image (be sure that you have a fast Internet connection; it&#8217;s more than 500 MB in size):</p>
@@ -1139,7 +1079,7 @@ tmpfs           100M     0  100M   0% /run/user
 <div class="content">
 <img src="figures/diskutility.png" alt="Disk Utility">
 </div>
-<div class="title">Figure 17. Examining the microSD card via the Disk Utility application</div>
+<div class="title">Figure 13. Examining the microSD card via the Disk Utility application</div>
 </div>
 <div class="paragraph">
 <p>The important part of the Disk Identifier is the number immediately following disk (a 1 in <a href="#basics_diskutility_fig">Examining the microSD card via the Disk Utility application</a>). We&#8217;ll use this identifier to overwrite the microSD contents.</p>
@@ -1215,8 +1155,8 @@ mac$ <strong>sudo dd if=bone-debian-7.7-lxde-4gb-armhf-2014-11-11-4gb.img of=/de
 <p>Ensure that your Bone is on the network and then run the following command on the Bone:</p>
 </div>
 <pre data-type="programlisting">
-bone# <strong>apt-get update</strong>
-bone# <strong>apt-get upgrade</strong>
+bone$ <strong>sudo apt update</strong>
+bone$ <strong>sudo apt upgrade</strong>
 </pre>
 <div class="paragraph">
 <p>If there are any new updates, they will be installed.</p>
@@ -1379,7 +1319,7 @@ host$ <strong>sudo dd if=BBB-eMMC-flasher-debian-7.7-lxde-4gb-armhf-2014-11-11-4
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2022-06-25 13:14:08 -0400
+Last updated 2022-06-28 17:30:27 -0400
 </div>
 </div>
 </body>

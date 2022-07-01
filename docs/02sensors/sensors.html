@@ -597,31 +597,17 @@ root@beaglebone:~/boneSensors# <strong>touch pushbutton.js</strong>
 <pre data-type="programlisting">
 root@beaglebone:~/boneSensors# <strong>chmod +x pushbutton.js</strong>
 root@beaglebone:~/boneSensors# <strong>./pushbutton.js</strong>
-Interrupt handler attached
-x.value = 1
-x.err   = undefined
-x.value = 0
-x.err   = undefined
-x.value = 1
-x.err   = undefined
+data= 0
+
+data= 0
+
+data= 1
+
+data= 1
 ^C
 </pre>
 <div class="paragraph">
 <p>This process will work for any script in this book.</p>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<div class="title">Note</div>
-</td>
-<td class="content">
-<div class="paragraph">
-<p>In this example, I&#8217;ve called b.pinMode() asynchronously and performed the b.attachInterrupt() call within the callback function. There are cases where BoneScript version 0.2.4 might not completely finish setting up a pin&#8217;s mode when called synchronously. That might result in needing to run a program twice to overcome the error. Using asynchronous calls is the preferred strategy to avoid this issue.</p>
-</div>
-</td>
-</tr>
-</table>
 </div>
 </div>
 <div class="sect3">
@@ -670,33 +656,81 @@ x.err   = undefined
 <div class="paragraph">
 <p>The code in <a href="#js_pushbutton_code">Monitoring a pushbutton using a callback function (pushbutton.js)</a> reads GPIO port P9_42, which is attached to the <span class="keep-together">pushbutton</span>.</p>
 </div>
+<div id="py_pushbutton_code" class="exampleblock">
+<div class="title">Example 1. Monitoring a pushbutton using a callback function (pushbutton.py)</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-python" data-lang="python">#!/usr/bin/env python
+# ////////////////////////////////////////
+# //	pushbutton.py
+# //      Reads P9_42 and prints its value.
+# //	Wiring:	Connect a switch between P9_42 and 3.3V
+# //	Setup:	
+# //	See:	
+# ////////////////////////////////////////
+import time
+import os
+
+ms = 500    # Read time in ms
+pin = '7' #  P9_42 is gpio 7
+GPIOPATH="/sys/class/gpio/"
+
+# Make sure pin is exported
+if (not os.path.exists(GPIOPATH+"gpio"+pin)):
+    f = open(GPIOPATH+"export", "w")
+    f.write(pin)
+    f.close()
+
+# Make it an input pin
+f = open(GPIOPATH+"gpio"+pin+"/direction", "w")
+f.write("in")
+f.close()
+
+f = open(GPIOPATH+"gpio"+pin+"/value", "r")
+
+while True:
+    f.seek(0)
+    data = f.read()[:-1]
+    print("data = " + data)
+    time.sleep(ms/1000)</code></pre>
+</div>
+</div>
+</div>
+</div>
 <div id="js_pushbutton_code" class="exampleblock">
-<div class="title">Example 1. Monitoring a pushbutton using a callback function (pushbutton.js)</div>
+<div class="title">Example 2. Monitoring a pushbutton using a callback function (pushbutton.js)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
 <pre class="highlight"><code class="language-javascript" data-lang="javascript">#!/usr/bin/env node
-var b = require('bonescript');
-var button = 'P9_42';
+////////////////////////////////////////
+//	pushbutton.js
+//      Reads P9_42 and prints its value.
+//	Wiring:	Connect a switch between P9_42 and 3.3V
+//	Setup:	
+//	See:	
+////////////////////////////////////////
+const fs = require("fs");
 
-b.pinMode(button, b.INPUT, 7, 'pulldown', 'fast', doAttach);
+const ms = 500   // Read time in ms
+const pin = '7'; // P9_42 is gpio 7
+const GPIOPATH="/sys/class/gpio/";
 
-function doAttach(x) {
-    if(x.err) {
-        console.log('x.err = ' + x.err);
-        return;
-    }
-    b.attachInterrupt(button, true, b.CHANGE, printStatus);
+// Make sure pin is exported
+if(!fs.existsSync(GPIOPATH+"gpio"+pin)) {
+    fs.writeFileSync(GPIOPATH+"export", pin);
 }
+// Make it an input pin
+fs.writeFileSync(GPIOPATH+"gpio"+pin+"/direction", "in");
 
-function printStatus(x) {
-    if(x.attached) {
-        console.log("Interrupt handler attached");
-        return;
-    }
-    console.log('x.value = ' + x.value);
-    console.log('x.err   = ' + x.err);
-}</code></pre>
+// Read every ms
+setInterval(readPin, ms);
+
+function readPin() {
+    var data = fs.readFileSync(GPIOPATH+"gpio"+pin+"/value").slice(0, -1);
+    console.log('data = ' + data);
+ }</code></pre>
 </div>
 </div>
 </div>
@@ -705,22 +739,22 @@ function printStatus(x) {
 <p>Put this code in a file called <em>pushbutton.js</em> following the steps in <a href="#sensors_getting_started">Input and Run a JavaScript Application for Talking to Sensors</a>. In the Cloud9 bash tab, run it by using the following commands:</p>
 </div>
 <pre data-type="programlisting">
-bone# <strong>chmod +x ./pushbutton.js</strong>
-bone# <strong>./pushbutton.js</strong>
-Interrupt handler attached
-x.value = 1
-x.err   = undefined
-x.value = 0
-x.err   = undefined
+bone$ <strong>chmod +x ./pushbutton.js</strong>
+bone$ <strong>./pushbutton.js</strong>
+data = 0
+data = 0
+data = 1
+data = 1
+^C
 </pre>
 <div class="paragraph">
-<p>The chmod command makes it executable (you have to do this only once), and the second command runs it. Try pushing the button. The code waits for the value of the input to change; when it changes, the new value is printed out.</p>
+<p>The chmod command makes it executable (you have to do this only once), and the second command runs it. Try pushing the button. The code reads the pin and prints its current value.</p>
 </div>
 <div class="paragraph">
 <p>You will have to press ^C (Ctrl-C) to stop the code.</p>
 </div>
 <div class="paragraph">
-<p>If you want to use the magnetic reed switch wired as shown in <a href="#js_pushbutton_fig">Diagram for wiring a pushbutton and magnetic reed switch input</a>, change P9_42 to P9_26.</p>
+<p>If you want to use the magnetic reed switch wired as shown in <a href="#js_pushbutton_fig">Diagram for wiring a pushbutton and magnetic reed switch input</a>, change P9_42 to P9_26 which is gpio 14.</p>
 </div>
 </div>
 <div class="sect3">
@@ -729,15 +763,46 @@ x.err   = undefined
 </div>
 </div>
 <div class="sect2">
-<h3 id="_reading_a_position_light_or_force_sensor_variable_resistance_sensor">Reading a Position, Light, or Force Sensor (Variable Resistance Sensor)</h3>
+<h3 id="_mapping_header_numbers_to_gpio_numbers">Mapping Header Numbers to gpio Numbers</h3>
 <div class="sect3">
 <h4 id="_problem_4">Problem</h4>
+<div class="paragraph">
+<p>You have a sensor attached to the P8 or P9 header and need to know which gpio pin it&#8217;s using.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_solution_4">Solution</h4>
+<div class="paragraph">
+<p>The show-pins command will display information about all the P8 and P9 header pins.  To see the info for just one pin, used+grep+.</p>
+</div>
+<pre data-type="programlisting">
+bone$ <strong>show-pins | grep P9.42</strong>
+P9.42         89 fast rx down 7 gpio 0.07 << lo  P9_42 (pinmux_P9_42_default_pin)
+</pre>
+<div class="paragraph">
+<p>The numbers following the string gpio are the port number and the pin on that port.  In this cse it&#8217;s port 0 and pin 7.  To find the gpio number multiply the port number by 32 and add it to the pin number.  This gives 0*32+7=7.</p>
+</div>
+<div class="paragraph">
+<p>For P9_26 you get:</p>
+</div>
+<pre data-type="programlisting">
+bone$ <strong>show-pins | grep P9.26</strong>
+P9.26           96 fast rx  up  7 gpio 0.14 << hi  P9_26 (pinmux_P9_26_default_pin)</pre>
+<div class="paragraph">
+<p>0*32+14=14, so the P9_26 pin in gpio 14.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_reading_a_position_light_or_force_sensor_variable_resistance_sensor">Reading a Position, Light, or Force Sensor (Variable Resistance Sensor)</h3>
+<div class="sect3">
+<h4 id="_problem_5">Problem</h4>
 <div class="paragraph">
 <p>You have a variable resistor, force-sensitive resistor, flex sensor, or any of a number of other sensors that output their value as a variable resistance, and you want to read their value with the Bone.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_4">Solution</h4>
+<h4 id="_solution_5">Solution</h4>
 <div class="paragraph">
 <p>Use the Bone&#8217;s analog-to-digital converters (ADCs) and a resistor divider circuit to detect the resistance in the sensor.</p>
 </div>
@@ -785,20 +850,81 @@ or</p>
 <p><a href="#sensors_analogIn_code">Reading an analog voltage (analogIn.js)</a> shows the BoneScript code used to read the variable resistor.
 Add the code to a file called <em>analogIn.js</em> and run it; then change the resistor and run it again. The voltage read will change.</p>
 </div>
+<div id="py_analogIn_code" class="exampleblock">
+<div class="title">Example 3. Reading an analog voltage (analogIn.py)</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-python" data-lang="python">#!/usr/bin/env python3
+#//////////////////////////////////////
+#	analogin.py
+# 	Reads the analog value of the light sensor.
+#//////////////////////////////////////
+import time
+import os
+
+pin = "2"        # light sensor, A2, P9_37
+
+IIOPATH='/sys/bus/iio/devices/iio:device0/in_voltage'+pin+'_raw'
+
+print('Hit ^C to stop')
+
+f = open(IIOPATH, "r")
+
+while True:
+    f.seek(0)
+    x = float(f.read())/4096
+    print('{}: {:.1f}%, {:.3f} V'.format(pin, 100*x, 1.8*x), end = '\r')
+    time.sleep(0.1)
+
+# // Bone  | Pocket | AIN
+# // ----- | ------ | --- 
+# // P9_39 | P1_19  | 0
+# // P9_40 | P1_21  | 1
+# // P9_37 | P1_23  | 2
+# // P9_38 | P1_25  | 3
+# // P9_33 | P1_27  | 4
+# // P9_36 | P2_35  | 5
+# // P9_35 | P1_02  | 6</code></pre>
+</div>
+</div>
+</div>
+</div>
 <div id="sensors_analogIn_code" class="exampleblock">
-<div class="title">Example 2. Reading an analog voltage (analogIn.js)</div>
+<div class="title">Example 4. Reading an analog voltage (analogIn.js)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
 <pre class="highlight"><code class="language-js" data-lang="js">#!/usr/bin/env node
-var b = require('bonescript');
+//////////////////////////////////////
+//	analogin.js
+// 	Reads the analog value of the light sensor.
+//////////////////////////////////////
+const fs = require("fs");
+const ms = 500;  // Time in milliseconds
 
-b.analogRead('P9_36', printStatus);
+const pin = "2";        // light sensor, A2, P9_37
 
-function printStatus(x) {
-    console.log('x.value = ' + x.value.toFixed(3));
-    console.log('x.err   = ' + x.err);
-}</code></pre>
+const IIOPATH='/sys/bus/iio/devices/iio:device0/in_voltage'+pin+'_raw';
+
+console.log('Hit ^C to stop');
+
+// Read every 500ms
+setInterval(readPin, ms);
+
+function readPin() {
+    var data = fs.readFileSync(IIOPATH).slice(0, -1);
+    console.log('data = ' + data);
+ }
+// Bone  | Pocket | AIN
+// ----- | ------ | --- 
+// P9_39 | P1_19  | 0
+// P9_40 | P1_21  | 1
+// P9_37 | P1_23  | 2
+// P9_38 | P1_25  | 3
+// P9_33 | P1_27  | 4
+// P9_36 | P2_35  | 5
+// P9_35 | P1_02  | 6</code></pre>
 </div>
 </div>
 </div>
@@ -811,7 +937,7 @@ function printStatus(x) {
 </td>
 <td class="content">
 <div class="paragraph">
-<p>This code in <a href="#sensors_analogIn_code">Reading an analog voltage (analogIn.js)</a> uses .toFixed(3) to print only three digits past the decimal. Otherwise, the output could have many extra digits. Try removing .toFixed(3) and see what happens.</p>
+<p>The code in <a href="#sensors_analogIn_code">Reading an analog voltage (analogIn.js)</a> outputs a value between 0 and 4096.</p>
 </div>
 </td>
 </tr>
@@ -846,13 +972,13 @@ across the flex sensor.</p>
 <div class="sect2">
 <h3 id="_reading_a_distance_sensor_analog_or_variable_voltage_sensor">Reading a Distance Sensor (Analog or Variable Voltage Sensor)</h3>
 <div class="sect3">
-<h4 id="_problem_5">Problem</h4>
+<h4 id="_problem_6">Problem</h4>
 <div class="paragraph">
 <p>You want to measure distance with a <a href="http://bit.ly/1Mt5Elr">LV-MaxSonar-EZ1 Sonar Range Finder</a>, which outputs a voltage in proportion to the distance.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_5">Solution</h4>
+<h4 id="_solution_6">Solution</h4>
 <div class="paragraph">
 <p>To make this recipe, you will need:</p>
 </div>
@@ -893,23 +1019,40 @@ across the flex sensor.</p>
 <p><a href="#sensors_ultrasonicRange_code">Reading an analog voltage (ultrasonicRange.js)</a> shows the code that reads the sensor at a fixed interval.</p>
 </div>
 <div id="sensors_ultrasonicRange_code" class="exampleblock">
-<div class="title">Example 3. Reading an analog voltage (ultrasonicRange.js)</div>
+<div class="title">Example 5. Reading an analog voltage (ultrasonicRange.js)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
 <pre class="highlight"><code class="language-js" data-lang="js">#!/usr/bin/env node
-var b = require('bonescript');
-var ms = 250;  // Time in milliseconds
+//////////////////////////////////////
+//	ultrasonicRange.js
+// 	Reads the analog value of the light sensor.
+//////////////////////////////////////
+const fs = require("fs");
+const ms = 250;  // Time in milliseconds
 
-setInterval(readRange, ms);
+const pin = "0";        // light sensor, A0, P9_39
 
-function readRange() {
-    b.analogRead('P9_33', printStatus);
-}
-function printStatus(x) {
-    console.log('x.value = ' + x.value);
-    console.log('Distance= ' + x.value * 1.8/0.0064);
-}</code></pre>
+const IIOPATH='/sys/bus/iio/devices/iio:device0/in_voltage'+pin+'_raw';
+
+console.log('Hit ^C to stop');
+
+// Read every ms
+setInterval(readPin, ms);
+
+function readPin() {
+    var data = fs.readFileSync(IIOPATH);
+    console.log('data= ' + data);
+ }
+// Bone  | Pocket | AIN
+// ----- | ------ | --- 
+// P9_39 | P1_19  | 0
+// P9_40 | P1_21  | 1
+// P9_37 | P1_23  | 2
+// P9_38 | P1_25  | 3
+// P9_33 | P1_27  | 4
+// P9_36 | P2_35  | 5
+// P9_35 | P1_02  | 6</code></pre>
 </div>
 </div>
 </div>
@@ -923,13 +1066,13 @@ function printStatus(x) {
 <div class="sect2">
 <h3 id="sensors_hc-sr04">Reading a Distance Sensor (Variable Pulse Width Sensor)</h3>
 <div class="sect3">
-<h4 id="_problem_6">Problem</h4>
+<h4 id="_problem_7">Problem</h4>
 <div class="paragraph">
 <p>You want to use a HC-SR04 Ultrasonic Range Sensor with BeagleBone Black.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_6">Solution</h4>
+<h4 id="_solution_7">Solution</h4>
 <div class="paragraph">
 <p>The HC-SR04 Ultrasonic Range Sensor (shown in <a href="#sensors_hc_sr04_image_fig">HC-SR04 Ultrasonic range sensor</a>) works by sending a trigger pulse to the <em>Trigger</em> input and then measuring the pulse width on the <em>Echo</em> output. The width of the pulse tells you the distance.</p>
 </div>
@@ -969,7 +1112,7 @@ device, so the <em>banded</em> wire (running from P9_7 on the Bone to VCC on the
 <p><a href="#sensors_hc-sr04_code">Driving a HC-SR04 ultrasound sensor (hc-sr04-ultraSonic.js)</a> shows BoneScript code used to drive the HC-SR04.</p>
 </div>
 <div id="sensors_hc-sr04_code" class="exampleblock">
-<div class="title">Example 4. Driving a HC-SR04 ultrasound sensor (hc-sr04-ultraSonic.js)</div>
+<div class="title">Example 6. Driving a HC-SR04 ultrasound sensor (hc-sr04-ultraSonic.js)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -1040,13 +1183,13 @@ function pingEnd(x) {
 <div class="sect2">
 <h3 id="_accurately_reading_the_position_of_a_motor_or_dial">Accurately Reading the Position of a Motor or Dial</h3>
 <div class="sect3">
-<h4 id="_problem_7">Problem</h4>
+<h4 id="_problem_8">Problem</h4>
 <div class="paragraph">
 <p>You have a motor or dial and want to detect rotation using a rotary encoder.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_7">Solution</h4>
+<h4 id="_solution_8">Solution</h4>
 <div class="paragraph">
 <p>Use a rotary encoder (also called a <em>quadrature encoder</em>) connected to one of the Bone&#8217;s eQEP ports, as shown in <a href="#digital_rotaryEncoder_fig">Wiring a rotary encoder using eQEP2</a>.</p>
 </div>
@@ -1056,6 +1199,52 @@ function pingEnd(x) {
 </div>
 <div class="title">Figure 12. Wiring a rotary encoder using eQEP2</div>
 </div>
+<div class="paragraph">
+<p>On the BeagleBone and PocketBeage the three encoders are:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">eQEP0</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P9.27 and P9.42 OR P1_33 and P2_34</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">eQEP1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P9.33 and P9.35</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">eQEP2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P8.11 and P8.12 OR P2_24 and P2_33</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>On the AI it&#8217;s:</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">eQEP1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P8.33 and P8.35</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">eQEP2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P8.11 and P8.12 or P9.19 and P9.41</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">eQEP3</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">P8.24 and P8.25 or P9.27 and P9.42</p></td>
+</tr>
+</tbody>
+</table>
 <div class="paragraph">
 <p>To make this recipe, you will need:</p>
 </div>
@@ -1077,137 +1266,64 @@ function pingEnd(x) {
 </div>
 <div class="paragraph">
 <p>BeagleBone Black has built-in hardware for reading up to three encoders.
-Here, we&#8217;ll use the <em>eQEP2</em> encoder. To enable it, put the code from <a href="#digital_bone_eqep2b">Configuring a rotary encoder (bone_eqep2b.dts) <sup class="footnote">[1]</sup></a> in a file called <em>bone_eqep2b.dts</em>. You can do this using Cloud9 to edit files (as shown in <a href="#basics_cloud9">[basics_cloud9]</a>) or use a more traditional editor (as shown in <a href="#tips_editing_files">[tips_editing_files]</a>).</p>
-</div>
-<div id="digital_bone_eqep2b" class="exampleblock">
-<div class="title">Example 5. Configuring a rotary encoder (bone_eqep2b.dts) <sup class="footnote">[<a id="_footnoteref_1" class="footnote" href="#_footnotedef_1" title="View footnote.">1</a>]</sup></div>
-<div class="content">
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-c" data-lang="c">/*
- * Copyright (C) 2013 Nathaniel R. Lewis - http://nathanielrlewis.com/
- *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License version 2 as
- * published by the Free Software Foundation.
- * 
- * Enable eQEP2 on the Beaglebone White and Black
- * These pins don't conflict with the HDMI
- */
-/dts-v1/;
-/plugin/;
-
-/ {
-    compatible = "ti,beaglebone", "ti,beaglebone-black";
-
-    /* identification */
-    part-number = "bone_eqep2";
-    version     = "00A0";
-
-    fragment@0 {
-        target = &lt;&amp;am33xx_pinmux&gt;;
-        __overlay__ {
-            pinctrl_eqep2: pinctrl_eqep2_pins {
-                pinctrl-single,pins = &lt;					 				   
-		          0x038 0x24  /* P8_16 = GPIO2_12 = EQEP2_index, MODE4 */
-		          0x03C 0x24  /* P8_15 = GPIO2_13 = EQEP2_strobe, MODE4 */
-		          0x030 0x34  /* P8_12 = GPIO2_10 = EQEP2A_in, MODE4 */
-		          0x034 0x34  /* P8_11 = GPIO2_11 = EQEP2B_in, MODE4 */
-                &gt;;
-            };
-        };
-    };
-    
-    fragment@1 {
-        target = &lt;&amp;epwmss2&gt;;
-        __overlay__ {
-            status = "okay";
-        };
-    };
-    
-    fragment@2 {
-    	target = &lt;&amp;eqep2&gt;;
-    	__overlay__ {
-        pinctrl-names = "default";
-        pinctrl-0 = &lt;&amp;pinctrl_eqep2&gt;;
-        count_mode = &lt; 0 &gt;;  
-        /* 0 - Quadrature mode, normal 90 phase offset cha &amp; chb.  
-           1 - Direction mode.  cha input = clock, chb input = direction  */
-        swap_inputs = &lt; 0 &gt;; /* Are chan A &amp; chan B swapped? (0-no,1-yes) */
-          invert_qa = &lt; 1 &gt;;   /* Should we invert the channel A input?  */
-          invert_qb = &lt; 1 &gt;;   /* Should we invert the channel B input? 
-                These are inverted because my encoder outputs drive transistors 
-                that pull down the pins */
-          invert_qi = &lt; 0 &gt;;   /* Should we invert the index input? */
-          invert_qs = &lt; 0 &gt;;   /* Should we invert the strobe input? */
-        
-        status = "okay";
-    	};
-    };
-};</code></pre>
-</div>
-</div>
-</div>
+Here, we&#8217;ll use the <em>eQEP2</em> encoder via the Linux count subsystem.</p>
 </div>
 <div class="paragraph">
 <p>Then run the following commands:</p>
 </div>
 <pre data-type="programlisting">
-bone# <strong>dtc -O dtb -o bone_eqep2b-00A0.dtbo -b 0 -@ bone_eqep2b.dts</strong>
-bone# <strong>cp bone_eqep2b-00A0.dtbo /lib/firmware</strong>
-bone# <strong>echo bone_eqep2b > /sys/devices/bone_capemgr.*/slots</strong>
+bone$ <strong>config-pin P8_11 qep</strong>
+bone$ <strong>config-pin P8_12 qep</strong>
+bone$ <strong>show-pins | grep qep</strong>
+P8.12        12 fast rx  up  4 qep 2 in A    ocp/P8_12_pinmux (pinmux_P8_12_qep_pin)
+P8.11        13 fast rx  up  4 qep 2 in B    ocp/P8_11_pinmux (pinmux_P8_11_qep_pin)
 </pre>
 <div class="paragraph">
-<p>This will enable <em>eQEP2</em> on pins P8_11 and P8_12.</p>
+<p>This will enable <em>eQEP2</em> on pins P8_11 and P8_12.  The 2 after the qep returned by show-pins shows it&#8217;s <em>eQEP2</em>.</p>
 </div>
 <div class="paragraph">
 <p>Finally, add the code in <a href="#digital_rotaryEncoder_js">Reading a rotary encoder (rotaryEncoder.js)</a> to a file named <em>rotaryEncoder.js</em> and run it.</p>
 </div>
 <div id="digital_rotaryEncoder_js" class="exampleblock">
-<div class="title">Example 6. Reading a rotary encoder (rotaryEncoder.js)</div>
+<div class="title">Example 7. Reading a rotary encoder (rotaryEncoder.js)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
 <pre class="highlight"><code class="language-js" data-lang="js">#!/usr/bin/env node
 // This uses the eQEP hardware to read a rotary encoder
-// echo bone_eqep2b &gt; $SLOTS 
+// bone$ config-pin P8_11 qep
+// bone$ config-pin P8_12 qep
 
-var b = require('bonescript'),
-    fs = require('fs');
+const fs = require("fs");
     
-var eQEP0 = "/sys/devices/ocp.3/48300000.epwmss/48300180.eqep/",
-    eQEP1 = "/sys/devices/ocp.3/48302000.epwmss/48302180.eqep/",
-    eQEP2 = "/sys/devices/ocp.3/48304000.epwmss/48304180.eqep/",
-    eQEP = eQEP2;
+const eQEP = "2";
+const COUNTERPATH = '/sys/bus/counter/devices/counter'+eQEP+'/count0';
 	
-var oldData,			// pervious data read
-    period = 100;	// in ms
+const ms = 250; 	// Time between samples in ms
+const maxCount = '1000000';
 
-// Set the eEQP period, convert to ns.
-fs.writeFile(eQEP+'period', period*1000000, function(err) {
-	if (err) throw err;
-	console.log('Period updated to ' + period*1000000);
-})
+// Set the eEQP maximum count
+fs.writeFileSync(COUNTERPATH+'/ceiling', maxCount);
 
 // Enable
-fs.writeFile(eQEP+'enabled', 1, function(err) {
-	if (err) throw err;
-	console.log('Enabled');
-})
+fs.writeFileSync(COUNTERPATH+'/enable', '1');
 
-setInterval(readEncoder, period);    // Check state every 250 ms
+setInterval(readEncoder, ms);    // Check state every 250 ms
 
-function readEncoder(x) {
-	fs.readFile(eQEP + 'position', {encoding: 'utf8'}, printValue);
+function readEncoder() {
+	var data = fs.readFileSync(COUNTERPATH+'/count').slice(0, -1);
+	console.log('data = ' + data);
 }
 
-function printValue(err, data) {
-	if (err) throw err;
-	if (oldData !== data) {
-		console.log('position: '+data+' speed: '+(oldData-data));
-		oldData = data;
-	}
-}</code></pre>
+// Black OR Pocket
+// eQEP0:	P9.27 and P9.42 OR P1_33 and P2_34
+// eQEP1:	P9.33 and P9.35
+// eQEP2:	P8.11 and P8.12 OR P2_24 and P2_33
+
+// AI
+// eQEP1:	P8.33 and P8.35
+// eQEP2:	P8.11 and P8.12 or P9.19 and P9.41
+// eQEP3:	P8.24 abd P8.25 or P9.27 and P9.42</code></pre>
 </div>
 </div>
 </div>
@@ -1217,24 +1333,19 @@ function printValue(err, data) {
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-console" data-lang="console">Period updated to 100000000
-Enabled
-position: 0
- speed: NaN
-position: 4
- speed: -4
-position: 6
- speed: -2
-position: 8
- speed: -2
-position: 12
- speed: -4
-position: 16
- speed: -4
-position: 19
- speed: -3
-position: 20
- speed: -1</code></pre>
+<pre class="highlight"><code class="language-console" data-lang="console">data = 32
+data = 40
+data = 44
+data = 48
+data = 39
+data = 22
+data = 0
+data = 999989
+data = 999973
+data = 999973
+data = 999973
+data = 999972
+^C</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1255,13 +1366,13 @@ position: 20
 <div class="sect2">
 <h3 id="sensors_GPS">Acquiring Data by Using a Smart Sensor over a Serial Connection</h3>
 <div class="sect3">
-<h4 id="_problem_8">Problem</h4>
+<h4 id="_problem_9">Problem</h4>
 <div class="paragraph">
 <p>You want to connect a smart sensor that uses a built-in microcontroller to stream data, such as a global positioning system (GPS), to the Bone and read the data from it.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_8">Solution</h4>
+<h4 id="_solution_9">Solution</h4>
 <div class="paragraph">
 <p>The Bone has several serial ports (UARTs) that you can use to read data from an external microcontroller included in smart sensors, such as a GPS. Just wire one up, and you&#8217;ll soon be gathering useful data, such as your own location.</p>
 </div>
@@ -1292,13 +1403,13 @@ position: 20
 There are many utilities to help convert such sensor data into a human-readable form. For this GPS, run the following command to load a NMEA parser:</p>
 </div>
 <pre data-type="programlisting">
-bone# <strong>npm install -g nmea</strong>
+bone$ <strong>npm install -g nmea</strong>
 </pre>
 <div class="paragraph">
 <p>Running the code in <a href="#digital_GPS_code">Talking to a GPS with UART 4 (GPS.js)</a> will print the current location every time the GPS outputs it.</p>
 </div>
 <div id="digital_GPS_code" class="exampleblock">
-<div class="title">Example 7. Talking to a GPS with UART 4 (GPS.js)</div>
+<div class="title">Example 8. Talking to a GPS with UART 4 (GPS.js)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -1375,15 +1486,15 @@ function onSerial(x) {
 <div class="sect2">
 <h3 id="sensors_i2c_temp">Measuring a Temperature</h3>
 <div class="sect3">
-<h4 id="_problem_9">Problem</h4>
+<h4 id="_problem_10">Problem</h4>
 <div class="paragraph">
 <p>You want to measure a temperature using a digital temperature sensor.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_9">Solution</h4>
+<h4 id="_solution_10">Solution</h4>
 <div class="paragraph">
-<p>The TMP102 sensor is a common digital temperature sensor that uses a standard I<sup>2</sup>C-based serial protocol.</p>
+<p>The TMP101 sensor is a common digital temperature sensor that uses a standard I<sup>2</sup>C-based serial protocol.</p>
 </div>
 <div class="paragraph">
 <p>To make this recipe, you will need:</p>
@@ -1397,21 +1508,21 @@ function onSerial(x) {
 <p>Two 4.7 k&#8486; resistors (see <a href="#app_resistor">[app_resistor]</a>)</p>
 </li>
 <li>
-<p>TMP102 temperature sensor (see <a href="#app_ic">[app_ic]</a>)</p>
+<p>TMP101 temperature sensor (see <a href="#app_ic">[app_ic]</a>)</p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
-<p>Wire the TMP102, as shown in <a href="#sensors_i2cTemp_fig">Wiring an I<sup>2</sup>C TMP102 temperature sensor</a>.</p>
+<p>Wire the TMP101, as shown in <a href="#sensors_i2cTemp_fig">Wiring an I<sup>2</sup>C TMP101 temperature sensor</a>.</p>
 </div>
 <div id="sensors_i2cTemp_fig" class="imageblock">
 <div class="content">
 <img src="figures/i2cTemp_bb.png" alt="I^2^C  Temp">
 </div>
-<div class="title">Figure 15. Wiring an I<sup>2</sup>C TMP102 temperature sensor</div>
+<div class="title">Figure 15. Wiring an I<sup>2</sup>C TMP101 temperature sensor</div>
 </div>
 <div class="paragraph">
-<p>There are two I<sup>2</sup>C buses brought out to the headers. <a href="#sensors_cape_headers_i2c">Table of I<sup>2</sup>C outputs</a> shows that you have wired your device to I<sup>2</sup>C bus 2, but watch out: the buses aren&#8217;t always numbered the same. When you work with BoneScript, they are numbered 1 and 2, but if you work from the Linux command line, they are numbered 0 and 1. Confusing, huh?</p>
+<p>There are two I<sup>2</sup>C buses brought out to the headers. <a href="#sensors_cape_headers_i2c">Table of I<sup>2</sup>C outputs</a> shows that you have wired your device to I<sup>2</sup>C bus 2.</p>
 </div>
 <div id="sensors_cape_headers_i2c" class="imageblock">
 <div class="content">
@@ -1420,13 +1531,13 @@ function onSerial(x) {
 <div class="title">Figure 16. Table of I<sup>2</sup>C outputs</div>
 </div>
 <div class="paragraph">
-<p>Once the I<sup>2</sup>C  device is wired up, you can use a couple handy I<sup>2</sup>C tools to test the device. Because these are Linux command-line tools, you have to use 1 as the bus number. i2cdetect, shown in <a href="#js_i2cTools">I<sup>2</sup>C tools</a>, shows which I<sup>2</sup>C  devices are on the bus. The -r flag indicates which bus to use. Our TMP102 is appearing at address 0x49. You can use the i2cget command to read the value. It returns the temperature in hexidecimal and degrees C. In this example, 0x18 = 24&#176;C, which is 75.2&#176;F. (Hmmm, the office is a bit warm today.) Try warming up the TMP102 with your finger and running i2cget again.</p>
+<p>Once the I<sup>2</sup>C  device is wired up, you can use a couple handy I<sup>2</sup>C tools to test the device. Because these are Linux command-line tools, you have to use 2 as the bus number. i2cdetect, shown in <a href="#js_i2cTools">I<sup>2</sup>C tools</a>, shows which I<sup>2</sup>C  devices are on the bus. The -r flag indicates which bus to use. Our TMP101 is appearing at address 0x49. You can use the i2cget command to read the value. It returns the temperature in hexidecimal and degrees C. In this example, 0x18 = 24&#176;C, which is 75.2&#176;F. (Hmmm, the office is a bit warm today.) Try warming up the TMP101 with your finger and running i2cget again.</p>
 </div>
 <div id="js_i2cTools" class="exampleblock">
-<div class="title">Example 8. I<sup>2</sup>C tools</div>
+<div class="title">Example 9. I<sup>2</sup>C tools</div>
 <div class="content">
 <pre data-type="programlisting">
-bone# <strong>i2cdetect -y -r 1</strong>
+bone$ <strong>i2cdetect -y -r 2</strong>
      0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f
 00:          -- -- -- -- -- -- -- -- -- -- -- -- --
 10: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
@@ -1437,71 +1548,223 @@ bone# <strong>i2cdetect -y -r 1</strong>
 60: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 70: -- -- -- -- -- -- -- --
 
-bone# <strong>i2cget -y 1 0x49</strong>
+bone$ <strong>i2cget -y 2 0x49</strong>
 0x18
 </pre>
 </div>
 </div>
+</div>
+<div class="sect3">
+<h4 id="_reading_the_temperature_via_the_kernel_driver">Reading the temperature via the kernel driver</h4>
 <div class="paragraph">
-<p><a href="#js_i2cTemp_code">Reading an I<sup>2</sup>C  device (i2cTemp.js)</a> shows how to read the TMP102 from BoneScript.</p>
+<p>The cleanest way to read the temperature from at TMP101 sensor is to use the kernel drive.</p>
+</div>
+<div class="paragraph">
+<p>Assuming the TMP101 is on bus 2 (the last digit is the bus number)</p>
+</div>
+<div id="js_i2cKernel" class="exampleblock">
+<div class="title">Example 10. I<sup>2</sup>C TMP101 via Kernel</div>
+<div class="content">
+<pre data-type="programlisting">
+bone$ <strong>cd /sys/class/i2c-adapter/</strong>
+bone$ <strong>ls</strong>
+i2c-0  i2c-1  i2c-2			# Three i2c busses (bus 0 is internal)
+bone$ <strong>cd i2c-2</strong>	# Pick bus 2
+bone$ <strong>ls -ls</strong>
+0 --w--w---- 1 root gpio 4096 Jul  1 09:24 delete_device
+0 lrwxrwxrwx 1 root gpio    0 Jun 30 16:25 device -> ../../4819c000.i2c
+0 drwxrwxr-x 3 root gpio    0 Dec 31  1999 i2c-dev
+0 -r--r--r-- 1 root gpio 4096 Dec 31  1999 name
+0 --w--w---- 1 root gpio 4096 Jul  1 09:24 new_device
+0 lrwxrwxrwx 1 root gpio    0 Jun 30 16:25 of_node -> ../../../../../../../../firmware/devicetree/base/ocp/interconnect@48000000/segment@100000/target-module@9c000/i2c@0
+0 drwxrwxr-x 2 root gpio    0 Dec 31  1999 power
+0 lrwxrwxrwx 1 root gpio    0 Jun 30 16:25 subsystem -> ../../../../../../../../bus/i2c
+0 -rw-rw-r-- 1 root gpio 4096 Dec 31  1999 uevent
+</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Assuming the TMP101 is at address 0x48:</p>
+</div>
+<div class="exampleblock">
+<div class="content">
+<pre data-type="programlisting">
+bone$ <strong>echo tmp101 0x49 > new_device</strong>
+</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This tells the kernel you have a TMP101 sensor at address 0x49. Check the log to be sure.</p>
+</div>
+<div class="exampleblock">
+<div class="content">
+<pre data-type="programlisting">
+bone$ <strong>dmesg -H | tail -3</strong>
+[ +13.571823] i2c i2c-2: new_device: Instantiated device tmp101 at 0x49
+[  +0.043362] lm75 2-0049: supply vs not found, using dummy regulator
+[  +0.009976] lm75 2-0049: hwmon0: sensor 'tmp101'
+</div>
+</div>
+<div class="paragraph">
+<p>Yes, it&#8217;s there, now see what happened.</p>
+</div>
+<div class="exampleblock">
+<div class="content">
+<pre data-type="programlisting">
+bone$ <strong>ls</strong>
+2-0049  delete_device  device  i2c-dev  name
+new_device  of_node  power  subsystem  uevent
+</div>
+</div>
+<div class="paragraph">
+<p>Notice a new directory has appeared. It&#8217;s for i2c bus 2, address 0x49. Look into it.</p>
+</div>
+<div class="exampleblock">
+<div class="content">
+<pre data-type="programlisting">
+bone$ <strong>d 2-0048/hwmon/hwmon0</strong>
+bone$ <strong>ls -F</strong>
+device@  name  power/  subsystem@  temp1_input  temp1_max
+temp1_max_hyst  uevent  update_interval
+bone$ <strong>cat temp1_input</strong>
+24250
+</div>
+</div>
+<div class="paragraph">
+<p>There is the temperature in milli-degrees C.</p>
+</div>
+<div class="paragraph">
+<p>Other i2c devices are supported by the kerenl.
+You can try the Linux Kernel Driver Database, <a href="https://cateee.net/lkddb/" class="bare">https://cateee.net/lkddb/</a> to see them.</p>
+</div>
+<div class="paragraph">
+<p>Once the driver is in place, you can read it via code.
+<a href="#js_i2cTemp_code">Reading an I<sup>2</sup>C  device (i2cTemp.js)</a> shows how to read the TMP101 from BoneScript.</p>
+</div>
+<div id="pyi2cTemp_code" class="exampleblock">
+<div class="title">Example 11. Reading an I<sup>2</sup>C  device (i2cTemp.py)</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-python" data-lang="python">#!/usr/bin/env python
+# ////////////////////////////////////////
+# //	i2cTemp.py
+# //      Read at TMP101 sensor on i2c bus 2, address 0x49
+# //	Wiring:	Attach to i2c as shown in text.
+# //	Setup:	echo tmp101 0x49 &gt; /sys/class/i2c-adapter/i2c-2/new_device
+# //	See:	
+# ////////////////////////////////////////
+import time
+
+ms = 1000   # Read time in ms
+bus = '2'
+addr = '49'
+I2CPATH='/sys/class/i2c-adapter/i2c-'+bus+'/'+bus+'-00'+addr+'/hwmon/hwmon0';
+
+f = open(I2CPATH+"/temp1_input", "r")
+
+while True:
+    f.seek(0)
+    data = f.read()[:-1]    # returns mili-degrees C
+    print("data (C) = " + str(int(data)/1000))
+    time.sleep(ms/1000)</code></pre>
+</div>
+</div>
+</div>
 </div>
 <div id="js_i2cTemp_code" class="exampleblock">
-<div class="title">Example 9. Reading an I<sup>2</sup>C  device (i2cTemp.js)</div>
+<div class="title">Example 12. Reading an I<sup>2</sup>C  device (i2cTemp.js)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
 <pre class="highlight"><code class="language-js" data-lang="js">#!/usr/bin/env node
+////////////////////////////////////////
+//	i2cTemp.js
+//      Read at TMP101 sensor on i2c bus 2, address 0x49
+//	Wiring:	Attach to i2c as shown in text.
+//	Setup:	echo tmp101 0x49 &gt; /sys/class/i2c-adapter/i2c-2/new_device
+//	See:	
+////////////////////////////////////////
+const fs = require("fs");
 
-var b = require('bonescript');
-var bus = '/dev/i2c-2'              // <b class="conum">(1)</b>
-var TMP102 = 0x49;                  // <b class="conum">(2)</b>
+const ms = 1000;   // Read time in ms
+const bus = '2';
+const addr = '49';
+I2CPATH='/sys/class/i2c-adapter/i2c-'+bus+'/'+bus+'-00'+addr+'/hwmon/hwmon0';
 
-b.i2cOpen(bus, TMP102);             // <b class="conum">(3)</b>
-b.i2cReadByte(bus, onReadByte);     // <b class="conum">(4)</b>
+// Read every ms
+setInterval(readTMP, ms);
 
-function onReadByte(x) {            // <b class="conum">(5)</b>
-    if (x.event == 'callback') {
-        console.log('onReadByte: ' + JSON.stringify(x)); // <b class="conum">(6)</b>
-        console.log(x.res*9/5+32 + 'F'); // <b class="conum">(7)</b>
-    }
-}</code></pre>
+function readTMP() {
+    var data = fs.readFileSync(I2CPATH+"/temp1_input").slice(0, -1);
+    console.log('data (C) = ' + data/1000);
+ }</code></pre>
 </div>
 </div>
 </div>
-</div>
-<div class="colist arabic">
-<ol>
-<li>
-<p>This line states which bus to use. The last digit gives the BoneScript bus number.</p>
-</li>
-<li>
-<p>This gives the address of the device on the bus.</p>
-</li>
-<li>
-<p>This line opens the device. All I<sup>2</sup>C commands that follow will apply to this bus and device.</p>
-</li>
-<li>
-<p>This line reads a byte from the device. The default is to read from address 0 of the selected device. Address 0 for the TMP102 is the current temperature. As soon as the register is read, the onReadByte() function is called.</p>
-</li>
-<li>
-<p>The value, x, passed to onReadByte() is an object. The .event field of the object informs us if we have a callback.</p>
-</li>
-<li>
-<p>If this is a callback, use console.log to display the contents of object x.</p>
-</li>
-<li>
-<p>Finally, print the result field, x.res, after converting it to degrees F.</p>
-</li>
-</ol>
 </div>
 <div class="paragraph">
 <p>Run the code by using the following command:</p>
 </div>
+<div class="exampleblock">
+<div class="content">
 <pre data-type="programlisting">
-bone# <strong>./i2cTemp.js</strong>
-onReadByte: {"err":null,"res":24,"event":"callback"}
-75.2F
+bone$ <strong>./i2cTemp.js</strong>
+data (C) = 25.625
+data (C) = 27.312
+data (C) = 28.187
+data (C) = 28.375
+^C
 </pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Notice using the  kernel interface gets you more digits of accuracy.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_reading_i2c_device_directly">Reading i2c device directly</h4>
+<div class="paragraph">
+<p>The TMP102 sensor can be read directly with i2c commands rather than using the kernel driver.  First you need to install the i2c module.</p>
+</div>
+<div class="exampleblock">
+<div class="content">
+<pre data-type="programlisting">
+bone$ <strong>pip install smbus</strong>
+</pre>
+</div>
+</div>
+<div id="js_i2cTemp_code" class="exampleblock">
+<div class="title">Example 13. Reading an I<sup>2</sup>C  device (i2cTemp.js)</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-js" data-lang="js">#!/usr/bin/env python
+# ////////////////////////////////////////
+# //	i2ctmp101.py
+# //      Read at TMP101 sensor on i2c bus 2, address 0x49
+# //	Wiring:	Attach to i2c as shown in text.
+# //	Setup:	pip install smbus
+# //	See:	
+# ////////////////////////////////////////
+import smbus
+import time
+
+ms = 1000               # Read time in ms
+bus = smbus.SMBus(2)    # Using i2c bus 2
+addr = 0x49             # TMP101 is at address 0x49
+
+while True:
+    data = bus.read_byte_data(addr, 0)
+    print("temp (C) = " + str(data))
+    time.sleep(ms/1000)</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>This gets only 8 bits for the temperature.  See the TMP101 datasheet for details on how  to get up to 12 bits.</p>
+</div>
 </div>
 <div class="sect3">
 <h4 id="_discussion_9">Discussion</h4>
@@ -1511,13 +1774,13 @@ onReadByte: {"err":null,"res":24,"event":"callback"}
 <div class="sect2">
 <h3 id="_reading_temperature_via_a_dallas_1_wire_device">Reading Temperature via a Dallas 1-Wire Device</h3>
 <div class="sect3">
-<h4 id="_problem_10">Problem</h4>
+<h4 id="_problem_11">Problem</h4>
 <div class="paragraph">
 <p>You want to measure a temperature using a Dallas Semiconductor DS18B20 temperature sensor.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_10">Solution</h4>
+<h4 id="_solution_11">Solution</h4>
 <div class="paragraph">
 <p>The DS18B20 is an interesting temperature sensor that uses Dallas Semiconductor&#8217;s 1-wire interface. The data communication requires only one wire! (However, you still need wires from ground and 3.3 V.) You can wire it to any GPIO port.</p>
 </div>
@@ -1538,108 +1801,119 @@ onReadByte: {"err":null,"res":24,"event":"callback"}
 </ul>
 </div>
 <div class="paragraph">
-<p>Wire up as shown in <a href="#sensors_1-wire_fig">Wiring a Dallas 1-Wire temperature sensor <sup class="footnote">[2]</sup></a>.</p>
+<p>Wire up as shown in <a href="#sensors_1-wire_fig">Wiring a Dallas 1-Wire temperature sensor <sup class="footnote">[1]</sup></a>.</p>
 </div>
 <div id="sensors_1-wire_fig" class="imageblock">
 <div class="content">
 <img src="figures/onewire_bb.png" alt="1-wire">
 </div>
-<div class="title">Figure 17. Wiring a Dallas 1-Wire temperature sensor <sup class="footnote">[<a id="_footnoteref_2" class="footnote" href="#_footnotedef_2" title="View footnote.">2</a>]</sup></div>
+<div class="title">Figure 17. Wiring a Dallas 1-Wire temperature sensor <sup class="footnote">[<a id="_footnoteref_1" class="footnote" href="#_footnotedef_1" title="View footnote.">1</a>]</sup></div>
 </div>
 <div class="paragraph">
-<p>Add the code in <a href="#sensors_onewire_dts_code">Reading a temperature with a DS18B20 (BB-W1-00A0.dts)</a> to a file called <em>BB-W1-00A0.dts</em>.</p>
-</div>
-<div id="sensors_onewire_dts_code" class="exampleblock">
-<div class="title">Example 10. Reading a temperature with a DS18B20 (BB-W1-00A0.dts)</div>
-<div class="content">
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-js" data-lang="js">/dts-v1/;
-/plugin/;
-
-/ {
-    compatible = "ti,beaglebone", "ti,beaglebone-black";
-
-    part-number = "BB-W1";
-    version = "00A0";
-
-    /* state the resources this cape uses */
-    exclusive-use =
-	/* the pin header uses */
-	"P9.20",
-	/* the hardware IP uses */
-	"gpio0_12";
-
-    fragment@0 {
-	target = &lt;&amp;am33xx_pinmux&gt;;
-	__overlay__ {
-	    dallas_w1_pins: pinmux_dallas_w1_pins {
-		pinctrl-single,pins = &lt;	0x150 0x37 &gt;;
-	    };
-	};
-    };
-
-    fragment@1 {
-	target = &lt;&amp;ocp&gt;;
-	__overlay__ {
-	    onewire@0 {
-		compatible      = "w1-gpio";
-		pinctrl-names   = "default";
-		pinctrl-0       = &lt;&amp;dallas_w1_pins&gt;;
-		status          = "okay";
-
-		gpios = &lt;&amp;gpio1 2 0&gt;;
-	   };
-	};
-    };
-};</code></pre>
-</div>
-</div>
-</div>
-</div>
-<div class="paragraph">
-<p>Then run the following commands:</p>
+<p>Edit the file /boot/uEnt.txt.   Go to about line 19 and edit as shown:</p>
 </div>
 <pre data-type="programlisting">
-bone# <strong>dtc -O dtb -o BB-W1-00A0.dtbo -b 0 -@ BB-W1-00A0.dts</strong>
-bone# <strong>cp BB-W1-00A0.dtbo /lib/firmware/</strong>
-bone# <strong>echo BB-W1 > /sys/devices/bone_capemgr.*/slots</strong>
+ 17 ###
+ 18 ###Additional custom capes
+ 19 uboot_overlay_addr4=BB-W1-P9.12-00A0.dtbo
+ 20 #uboot_overlay_addr5=<file5>.dtbo
+</pre>
+<div class="paragraph">
+<p>Be sure to remove the # at the beginning of the line.</p>
+</div>
+<div class="paragraph">
+<p>reboot the bone and then run the following commands:</p>
+</div>
+<pre data-type="programlisting">
+bone$ <strong>reboot</strong>
 </pre>
 <div class="paragraph">
 <p>Now run the following command to discover the serial number on your device:</p>
 </div>
 <pre data-type="programlisting">
-bone# <strong>ls /sys/bus/w1/devices/</strong>
+bone$ <strong>ls /sys/bus/w1/devices/</strong>
 28-00000114ef1b  28-00000128197d  w1_bus_master1
 </pre>
 <div class="paragraph">
-<p>This shows the serial numbers for all the devices.</p>
+<p>I have two devices wired in parallel on the same P9_12 input. This shows the serial numbers for all the devices.</p>
 </div>
 <div class="paragraph">
-<p>Finally, add the code in <a href="#sensors_onewire__code">Reading a temperature with a DS18B20 (onewire.js)</a> in to a file named <em>onewire.js</em>, edit the path assigned to w1 so that the path points to your device, and then run it.</p>
+<p>Finally, add the code in <a href="#sensors_onewire__code">Reading a temperature with a DS18B20 (w1.js)</a> in to a file named <em>w1.js</em>, edit the path assigned to w1 so that the path points to your device, and then run it.</p>
+</div>
+<div id="py_onewire__code" class="exampleblock">
+<div class="title">Example 14. Reading a temperature with a DS18B20 (w1.py)</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-python" data-lang="python">#!/usr/bin/env python
+# ////////////////////////////////////////
+# //	w1.js
+# //      Read a Dallas 1-wire device on P9_12
+# //	Wiring:	Attach gnd and 3.3V and data to P9_12
+# //	Setup:	Edit /boot/uEnv.txt to include:
+# //              uboot_overlay_addr4=BB-W1-P9.12-00A0.dtbo
+# //	See:	
+# ////////////////////////////////////////
+import time
+
+ms = 500   # Read time in ms
+#  Do ls /sys/bus/w1/devices and find the address of your device
+addr = '28-00000d459c2c' # Must be changed for your device.
+W1PATH ='/sys/bus/w1/devices/' + addr
+
+f = open(W1PATH+'/temperature')
+
+while True:
+    f.seek(0)
+    data = f.read()[:-1]
+    print("temp (C) = " + str(int(data)/1000))
+    time.sleep(ms/1000)</code></pre>
+</div>
+</div>
+</div>
 </div>
 <div id="sensors_onewire__code" class="exampleblock">
-<div class="title">Example 11. Reading a temperature with a DS18B20 (onewire.js)</div>
+<div class="title">Example 15. Reading a temperature with a DS18B20 (w1.js)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
 <pre class="highlight"><code class="language-js" data-lang="js">#!/usr/bin/env node
-var b = require('bonescript');
+////////////////////////////////////////
+//	w1.js
+//      Read a Dallas 1-wire device on P9_12
+//	Wiring:	Attach gnd and 3.3V and data to P9_12
+//	Setup:	Edit /boot/uEnv.txt to include:
+//              uboot_overlay_addr4=BB-W1-P9.12-00A0.dtbo
+//	See:	
+////////////////////////////////////////
+const fs = require("fs");
 
-var w1="/sys/bus/w1/devices/28-00000114ef1b/w1_slave"
+const ms = 500   // Read time in ms
+// Do ls /sys/bus/w1/devices and find the address of your device
+const addr = '28-00000d459c2c'; // Must be changed for your device.
+const W1PATH ='/sys/bus/w1/devices/' + addr;
 
-setInterval(getTemp, 1000);	// read temperatue every 1000ms
+// Read every ms
+setInterval(readW1, ms);
 
-function getTemp() {
-    b.readTextFile(w1, printStatus);
-}
-
-function printStatus(x) {
-    console.log('x.data = ' + x.data);
-    console.log('x.err  = ' + x.err);
-}</code></pre>
+function readW1() {
+    var data = fs.readFileSync(W1PATH+'/temperature').slice(0, -1);
+    console.log('temp (C) = ' + data/1000);
+ }</code></pre>
 </div>
 </div>
+</div>
+</div>
+<div class="exampleblock">
+<div class="content">
+<pre data-type="programlisting">
+bone$ <strong>./w1.js</strong>
+temp (C) = 28.625
+temp (C) = 29.625
+temp (C) = 30.5
+temp (C) = 31.0
+^C
+</pre>
 </div>
 </div>
 </div>
@@ -1653,13 +1927,13 @@ function printStatus(x) {
 <div class="sect2">
 <h3 id="sensors_sensortag">Sensing All Sorts of Things with SensorTag via Bluetooth v4.0</h3>
 <div class="sect3">
-<h4 id="_problem_11">Problem</h4>
+<h4 id="_problem_12">Problem</h4>
 <div class="paragraph">
 <p>You have a TI SensorTag, and you want to interface it to BeagleBone Black via Bluetooth Low Energy (BLE).</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_11">Solution</h4>
+<h4 id="_solution_12">Solution</h4>
 <div class="paragraph">
 <p>TI&#8217;s <a href="http://bit.ly/1C58WIN">SensorTag</a> (shown in <a href="#sensors_sensortag_fig">SensorTag</a>) combines six sensors (temperature, humidity, accelerometer, pressure, magnetometer, and gyroscope) in one package that interfaces via <a href="http://bit.ly/1EzMo4x">Bluetooth Low Energy</a>.</p>
 </div>
@@ -1689,8 +1963,8 @@ function printStatus(x) {
 <p>Power up your Bone using the 5 V adapter. You need the adapter because the BLE dongle needs extra power for the radios it contains. After it is booted up, log in (<a href="#tips_shell">[tips_shell]</a>) and run the following commands:</p>
 </div>
 <pre data-type="programlisting">
-bone# <strong>apt-get install libbluetooth-dev</strong>
-bone# <strong>npm install -g sensortag</strong>
+bone$ <strong>sudo apt install libbluetooth-dev</strong>
+bone$ <strong>npm install -g sensortag</strong>
 </pre>
 <div class="paragraph">
 <p>This installs the Bluetooth tools and the JavaScript library to talk to it.</p>
@@ -1699,7 +1973,7 @@ bone# <strong>npm install -g sensortag</strong>
 <p>Add the code in <a href="#sensors_sensorTag_code">Code for reading the temperature from a SensorTag (sensorTag.js)</a> to a file called <em>sensorTag.js</em> and run it.</p>
 </div>
 <div id="sensors_sensorTag_code" class="exampleblock">
-<div class="title">Example 12. Code for reading the temperature from a SensorTag (sensorTag.js)</div>
+<div class="title">Example 16. Code for reading the temperature from a SensorTag (sensorTag.js)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -1904,13 +2178,13 @@ disconnected!</code></pre>
 <div class="sect2">
 <h3 id="sensors_audio">Playing and Recording Audio</h3>
 <div class="sect3">
-<h4 id="_problem_12">Problem</h4>
+<h4 id="_problem_13">Problem</h4>
 <div class="paragraph">
 <p>BeagleBone doesn&#8217;t have audio built in, but you want to play and record files.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_12">Solution</h4>
+<h4 id="_solution_13">Solution</h4>
 <div class="paragraph">
 <p>One approach is to buy an audio cape (<a href="#app_capes">[app_capes]</a>), but another, possibly cheaper approach is to buy a USB audio adapter,
 such as the one shown in <a href="#usb_audio_dongle">A USB audio dongle</a>. Some adapters that I&#8217;ve tested are provided in <a href="#app_misc">[app_misc]</a>.</p>
@@ -1925,10 +2199,10 @@ such as the one shown in <a href="#usb_audio_dongle">A USB audio dongle</a>. Som
 <p>Drivers for the <a href="http://bit.ly/1MrAJUR">Advanced Linux Sound Architecture</a> (ALSA) are already installed on the Bone. You can list the recording and playing devices on your Bone by using aplay and arecord, as shown in <a href="#sensors_alsa">Listing the ALSA audio output and input devices on the Bone</a>. BeagleBone Black has audio-out on the HDMI interface. It&#8217;s listed as card 0 in <a href="#sensors_alsa">Listing the ALSA audio output and input devices on the Bone</a>. card 1 is my USB audio adapter&#8217;s audio out.</p>
 </div>
 <div id="sensors_alsa" class="exampleblock">
-<div class="title">Example 13. Listing the ALSA audio output and input devices on the Bone</div>
+<div class="title">Example 17. Listing the ALSA audio output and input devices on the Bone</div>
 <div class="content">
 <pre data-type="programlisting">
-bone# <strong>aplay -l</strong>
+bone$ <strong>aplay -l</strong>
 **** List of PLAYBACK Hardware Devices ****
 card 0: Black [TI BeagleBone Black], device 0: HDMI nxp-hdmi-hifi-0 []
   Subdevices: 1/1
@@ -1937,7 +2211,7 @@ card 1: Device [C-Media USB Audio Device], device 0: USB Audio [USB Audio]
   Subdevices: 1/1
   Subdevice #0: subdevice #0
 
-bone# <strong>arecord -l</strong>
+bone$ <strong>arecord -l</strong>
 **** List of CAPTURE Hardware Devices ****
 card 1: Device [C-Media USB Audio Device], device 0: USB Audio [USB Audio]
   Subdevices: 1/1
@@ -1949,7 +2223,7 @@ card 1: Device [C-Media USB Audio Device], device 0: USB Audio [USB Audio]
 <p>In the aplay output shown in <a href="#sensors_alsa">Listing the ALSA audio output and input devices on the Bone</a>, you can see the USB adapter&#8217;s audio out. By default, the Bone will send audio to the HDMI. You can change that default by creating a file in your home directory called <em>~/.asoundrc</em> and adding the code in <a href="#sensors_asoundrc">Change the default audio out by putting this in ~/.asoundrc (audio.asoundrc)</a> to it.</p>
 </div>
 <div id="sensors_asoundrc" class="exampleblock">
-<div class="title">Example 14. Change the default audio out by putting this in ~/.asoundrc (audio.asoundrc)</div>
+<div class="title">Example 18. Change the default audio out by putting this in ~/.asoundrc (audio.asoundrc)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -1971,15 +2245,15 @@ ctl.!default {
 <p>You can easily play <em>.wav</em> files with aplay:</p>
 </div>
 <pre data-type="programlisting">
-bone# <strong>aplay test.wav</strong>
+bone$ <strong>aplay test.wav</strong>
 </pre>
 <div class="paragraph">
 <p>You can play other files in other formats by installing mplayer:</p>
 </div>
 <pre data-type="programlisting">
-bone# <strong>apt-get update</strong>
-bone# <strong>apt-get install mplayer</strong>
-bone# <strong>mplayer test.mp3</strong>
+bone$ <strong>sudo apt update</strong>
+bone$ <strong>sudo apt install mplayer</strong>
+bone$ <strong>mplayer test.mp3</strong>
 </pre>
 </div>
 <div class="sect3">
@@ -1995,15 +2269,12 @@ bone# <strong>mplayer test.mp3</strong>
 <div id="footnotes">
 <hr>
 <div class="footnote" id="_footnotedef_1">
-<a href="#_footnoteref_1">1</a>. This solution first appeared on the  <a href="https://groups.google.com/forum/#!searchin/beagleboard/eQep/beagleboard/Orp3tFcNgCc/mYacP_GkCQQJ">Beagle Google Group</a>.
-</div>
-<div class="footnote" id="_footnotedef_2">
-<a href="#_footnoteref_2">2</a>. This solution, written by Elias Bakken (@AgentBrum), originally appeared on <a href="http://bit.ly/1FaRbbK">Hipstercircuits</a>.
+<a href="#_footnoteref_1">1</a>. This solution, written by Elias Bakken (@AgentBrum), originally appeared on <a href="http://bit.ly/1FaRbbK">Hipstercircuits</a>.
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2022-06-25 13:14:09 -0400
+Last updated 2022-07-01 13:42:07 -0400
 </div>
 </div>
 </body>

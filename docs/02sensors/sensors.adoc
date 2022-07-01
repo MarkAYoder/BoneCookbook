@@ -685,7 +685,7 @@ include::code/i2cTemp.js[]
 ====
 
 Run the code by using the following command:
-
+====
 ++++
 <pre data-type="programlisting">
 bone$ <strong>./i2cTemp.js</strong>
@@ -696,8 +696,32 @@ data (C) = 28.375
 ^C
 </pre>
 ++++
+====
 
 Notice using the  kernel interface gets you more digits of accuracy.
+
+==== Reading i2c device directly
+The TMP102 sensor can be read directly with i2c commands rather than using the kernel driver.  First you need to install the i2c module.
+
+====
+++++
+<pre data-type="programlisting">
+bone$ <strong>pip install smbus</strong>
+</pre>
+++++
+====
+
+[[js_i2cTemp_code]]
+.Reading an I^2^C  device (i2cTemp.js)
+====
+[source, js]
+----
+include::code/i2ctmp101.py[]
+----
+====
+
+This gets only 8 bits for the temperature.  See the TMP101 datasheet for details on how  to get up to 12 bits.
+
 ==== Discussion
 
 

@@ -486,25 +486,69 @@ BeagleBone Black&#8217;s general-purpose input/output (GPIO) pins. The Bone has 
 <div class="paragraph">
 <p>Place the code shown in <a href="#js_internLED_code">Using an internal LED (internLED.js)</a> in a file called <em>internLED.js</em>. You can do this using Cloud9 to edit files (as shown in <a href="#basics_cloud9">[basics_cloud9]</a>) or with a more traditional editor (as shown in <a href="#tips_editing_files">[tips_editing_files]</a>).</p>
 </div>
+<div id="py_internLED_code" class="exampleblock">
+<div class="title">Example 1. Using an internal LED (internLED.py)</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-python" data-lang="python">#!/usr/bin/env python
+# //////////////////////////////////////
+# 	internalLED.py
+# 	Blinks A USR LED.
+# 	Wiring:
+# 	Setup:
+# 	See:
+# //////////////////////////////////////
+import time
+
+ms = 250      # Blink time in ms
+LED = 'usr0'; # LED to blink
+LEDPATH = '/sys/class/leds/beaglebone:green:'+LED+'/brightness'
+
+state = '1'    # Initial state
+
+f = open(LEDPATH, "w")
+
+while True:
+    f.seek(0)
+    f.write(state)
+    if (state == '1'):
+        state = '0'
+    else:
+        state = '1'
+    time.sleep(ms/1000)</code></pre>
+</div>
+</div>
+</div>
+</div>
 <div id="js_internLED_code" class="exampleblock">
-<div class="title">Example 1. Using an internal LED (internLED.js)</div>
+<div class="title">Example 2. Using an internal LED (internLED.js)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
 <pre class="highlight"><code class="language-javascript" data-lang="javascript">#!/usr/bin/env node
-var b = require('bonescript');
-var LED = 'USR0';
-var state = b.HIGH;     // Initial state
-b.pinMode(LED, b.OUTPUT);
+// //////////////////////////////////////
+// 	internalLED.js
+// 	Blinks the USR LEDs.
+// 	Wiring:
+// 	Setup:
+// 	See:
+// //////////////////////////////////////
+const fs = require('fs');
+const ms = 250;     // Blink time in ms
+const LED = 'usr0'; // LED to blink
+const LEDPATH = '/sys/class/leds/beaglebone:green:'+LED+'/brightness';
 
-setInterval(flash, 250);    // Change state every 250 ms
+var state = '1';    // Initial state
+
+setInterval(flash, ms);    // Change state every ms
 
 function flash() {
-    b.digitalWrite(LED, state);
-    if(state === b.HIGH) {
-        state = b.LOW;
+    fs.writeFileSync(LEDPATH, state)
+    if(state === '1') {
+        state = '0';
     } else {
-        state = b.HIGH;
+        state = '1';
     }
 }</code></pre>
 </div>
@@ -515,8 +559,8 @@ function flash() {
 <p>In the bash command window, enter the following commands:</p>
 </div>
 <pre data-type="programlisting">
-bone# <strong>chmod +x internLED.js</strong>
-bone# <strong>./internLED.js</strong>
+bone$ <strong>chmod +x internLED.js</strong>
+bone$ <strong>./internLED.js</strong>
 </pre>
 <div class="paragraph">
 <p>The USER0 LED should now be flashing.</p>
@@ -580,24 +624,41 @@ bone# <strong>./internLED.js</strong>
 <p>After you&#8217;ve wired it, start Cloud9 (see <a href="#basics_cloud9">[basics_cloud9]</a>) and enter the code shown in <a href="#js_externLED_code">Code for using an external LED (externLED.js)</a> in a file called <em>externLED.js</em>.</p>
 </div>
 <div id="js_externLED_code" class="exampleblock">
-<div class="title">Example 2. Code for using an external LED (externLED.js)</div>
+<div class="title">Example 3. Code for using an external LED (externLED.js)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
 <pre class="highlight"><code class="language-javascript" data-lang="javascript">#!/usr/bin/env node
-var b = require('bonescript');
-var LED = 'P9_14';
-var state = b.HIGH;     // Initial state
-b.pinMode(LED, b.OUTPUT);
+////////////////////////////////////////
+//	internalLED.js
+//	Blinks the USR LEDs.
+//	Wiring:
+//	Setup:
+//	See:
+////////////////////////////////////////
+const fs = require("fs");
 
-setInterval(flash, 250);    // Change state every 250 ms
+// Look up P9.14 using show-pins.  gpio1.18 maps to 50
+pin="50";
 
-function flash() {
-    b.digitalWrite(LED, state);
-    if(state === b.HIGH) {
-        state = b.LOW;
+GPIOPATH="/sys/class/gpio/";
+// Make sure pin is exported
+if(!fs.existsSync(GPIOPATH+"gpio"+pin)) {
+    fs.writeFileSync(GPIOPATH+"export", pin);
+}
+// Make it an output pin
+fs.writeFileSync(GPIOPATH+"gpio"+pin+"/direction", "out");
+
+// Blink every 500ms
+setInterval(toggle, 500);
+
+state="1";
+function toggle() {
+    fs.writeFileSync(GPIOPATH+"gpio"+pin+"/value", state);
+    if(state == "0") {
+        state = "1";
     } else {
-        state = b.HIGH;
+        state = "0";
     }
 }</code></pre>
 </div>
@@ -668,7 +729,7 @@ function flash() {
 <p>BoneScript has an analogWrite() function that uses the Bone&#8217;s pulse width modulation (PWM) hardware to produce an analog out signal. We&#8217;ll use the same circuit as before (<a href="#displays_externLED_fig">Diagram for using an external LED</a>) and declare the pin mode to be ANALOG_OUTPUT. Add the code in <a href="#js_fadeLED_code">Code for using an external LED (fadeLED.js)</a> to a file called <em>fadeLED.js</em> and then run it as before.</p>
 </div>
 <div id="js_fadeLED_code" class="exampleblock pagebreak-before">
-<div class="title">Example 3. Code for using an external LED (fadeLED.js)</div>
+<div class="title">Example 4. Code for using an external LED (fadeLED.js)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -771,10 +832,10 @@ function fade() {
 <p>Run the i2cdetect -y -r 1 command to discover the address of the display, as shown in <a href="#displays_i2cdetect">Using I<sup>2</sup>C command-line tools to discover the address of the display</a>.</p>
 </div>
 <div id="displays_i2cdetect" class="exampleblock pagebreak-before">
-<div class="title">Example 4. Using I<sup>2</sup>C command-line tools to discover the address of the display</div>
+<div class="title">Example 5. Using I<sup>2</sup>C command-line tools to discover the address of the display</div>
 <div class="content">
 <pre data-type="programlisting">
-bone# <strong>i2cdetect -y -r 1</strong>
+bone$ <strong>i2cdetect -y -r 1</strong>
      0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f
 00:          -- -- -- -- -- -- -- -- -- -- -- -- --
 10: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
@@ -794,11 +855,11 @@ bone# <strong>i2cdetect -y -r 1</strong>
 <p>Add the code in <a href="#displays_matrix_i2c">LED matrix display (matrixLEDi2c.js)</a> to a file called <em>matrixLEDi2c.js</em> and run it by using the following command:</p>
 </div>
 <pre data-type="programlisting">
-bone# <strong>npm install -g sleep</strong>
-bone# <strong>./matrixLEDi2c.js</strong>
+bone$ <strong>npm install -g sleep</strong>
+bone$ <strong>./matrixLEDi2c.js</strong>
 </pre>
 <div id="displays_matrix_i2c" class="exampleblock">
-<div class="title">Example 5. LED matrix display (matrixLEDi2c.js)</div>
+<div class="title">Example 6. LED matrix display (matrixLEDi2c.js)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -963,7 +1024,7 @@ b.i2cWriteBytes(port, 0x04, [0xff]);</code></pre>
 <p><a href="#js_neoPixel_code">Installing and running LEDscape and OpenPixelControl (neoPixel.sh)</a> shows how to install LEDscape and run the LEDs.</p>
 </div>
 <div id="js_neoPixel_code" class="exampleblock">
-<div class="title">Example 6. Installing and running LEDscape and OpenPixelControl (neoPixel.sh)</div>
+<div class="title">Example 7. Installing and running LEDscape and OpenPixelControl (neoPixel.sh)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -1035,18 +1096,18 @@ modprobe uio_pruss
 <p>The drivers for the 5110 are in the Node Packaged Modules repository. Get and install them by running the following commands:</p>
 </div>
 <pre data-type="programlisting">
-bone# <strong>npm install -g nokia5110</strong>
-bone# <strong>cd /usr/local/lib/node_modules/nokia5110</strong>
-bone# <strong>ln -s LCD_5110.js nokia5110.js</strong>
-bone# <strong>cp lcdTest.js /tmp</strong>
-bone# <strong>cd -</strong>
-bone# <strong>mv /tmp/lcdTest.js nokia5110Test.js</strong>
+bone$ <strong>npm install -g nokia5110</strong>
+bone$ <strong>cd /usr/local/lib/node_modules/nokia5110</strong>
+bone$ <strong>ln -s LCD_5110.js nokia5110.js</strong>
+bone$ <strong>cp lcdTest.js /tmp</strong>
+bone$ <strong>cd -</strong>
+bone$ <strong>mv /tmp/lcdTest.js nokia5110Test.js</strong>
 </pre>
 <div class="paragraph">
 <p>Edit <em>nokia5110Test.js</em> so that the first few lines specify how it&#8217;s wired (as shown in <a href="#displays_nokia5110_code">Defining the Nokia 5110 pins (nokia5110.js)</a>) and then run the code.</p>
 </div>
 <div id="displays_nokia5110_code" class="exampleblock pagebreak-before">
-<div class="title">Example 7. Defining the Nokia 5110 pins (nokia5110.js)</div>
+<div class="title">Example 8. Defining the Nokia 5110 pins (nokia5110.js)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -1092,13 +1153,13 @@ lcd.PIN_RESET= "P9_13";</code></pre>
 <p>Just install the <em>flite</em> text-to-speech program:</p>
 </div>
 <pre data-type="programlisting">
-bone# <strong>apt-get install flite</strong>
+bone$ <strong>sudo apt install flite</strong>
 </pre>
 <div class="paragraph">
 <p>Then add the code from <a href="#speak_code">A program that talks (speak.js)</a> in a file called <em>speak.js</em> and run.</p>
 </div>
 <div id="speak_code" class="exampleblock">
-<div class="title">Example 8. A program that talks (speak.js)</div>
+<div class="title">Example 9. A program that talks (speak.js)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -1147,7 +1208,7 @@ speakForSelf("Hello, My name is Borris. " +
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2022-06-25 13:14:09 -0400
+Last updated 2022-07-01 12:17:34 -0400
 </div>
 </div>
 </body>

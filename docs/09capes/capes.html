@@ -543,11 +543,11 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 # From http://elinux.org/CircuitCo:MiniDisplay_Cape
 # Datasheet:
 # https://www.crystalfontz.com/products/document/3277/ST7735_V2.1_20100505.pdf
-bone# <strong>wget http://elinux.org/images/e/e4/Minidisplay-example.tar.gz</strong>
-bone# <strong>tar zmxvf Minidisplay-example.tar.gz</strong>
-bone# <strong>cd minidisplay-example</strong>
-bone# <strong>make</strong>
-bone# <strong>./minidisplay-test</strong>
+bone$ <strong>wget http://elinux.org/images/e/e4/Minidisplay-example.tar.gz</strong>
+bone$ <strong>tar zmxvf Minidisplay-example.tar.gz</strong>
+bone$ <strong>cd minidisplay-example</strong>
+bone$ <strong>make</strong>
+bone$ <strong>./minidisplay-test</strong>
 Unable to initialize SPI: No such file or directory
 Aborted
 </pre>
@@ -569,14 +569,14 @@ Aborted
 <p>The MiniDisplay uses the Serial Peripheral Interface (SPI) interface, and it&#8217;s not initialized. The <a href="http://bit.ly/1xd0r8p">manufacturer&#8217;s website</a> suggests enabling SPI0 by using the following commands:</p>
 </div>
 <pre data-type="programlisting">
-bone# <strong>export SLOTS=/sys/devices/bone_capemgr.*/slots</strong>
-bone# <strong>echo BB-SPIDEV0 &gt; $SLOTS</strong>
+bone$ <strong>export SLOTS=/sys/devices/bone_capemgr.*/slots</strong>
+bone$ <strong>echo BB-SPIDEV0 &gt; $SLOTS</strong>
 </pre>
 <div class="paragraph">
 <p>Hmmm, something isn&#8217;t working here. Here&#8217;s how to see what happened:</p>
 </div>
 <pre data-type="programlisting">
-bone# <strong>dmesg | tail</strong>
+bone$ <strong>dmesg | tail</strong>
 [  625.334497] bone_capemgr.9: part_number 'BB-SPIDEV0', version 'N/A'
 [  625.334673] bone_capemgr.9: slot #11: generic override
 [  625.334720] bone_capemgr.9: bone: Using override eeprom data at slot 11
@@ -604,7 +604,7 @@ bone# <strong>dmesg | tail</strong>
 <p>Here&#8217;s how to see what&#8217;s already configured:</p>
 </div>
 <pre data-type="programlisting">
-bone# <strong>cat $SLOTS</strong>
+bone$ <strong>cat $SLOTS</strong>
  0: 54:PF---
  1: 55:PF---
  2: 56:PF---
@@ -626,8 +626,8 @@ bone# <strong>cat $SLOTS</strong>
 <p>You can unconfigure it by using the following commands:</p>
 </div>
 <pre data-type="programlisting">
-bone# <strong>echo -10 &gt; $SLOTS</strong>
-bone# <strong>cat $SLOTS</strong>
+bone$ <strong>echo -10 &gt; $SLOTS</strong>
+bone$ <strong>cat $SLOTS</strong>
  0: 54:PF---
  1: 55:PF---
  2: 56:PF---
@@ -659,8 +659,8 @@ bone# <strong>cat $SLOTS</strong>
 <p>Now, configure it for the MiniDisplay and run a test:</p>
 </div>
 <pre data-type="programlisting">
-bone# <strong>echo BB-SPIDEV0 &gt; $SLOTS</strong>
-bone# <strong>./minidisplay-test</strong>
+bone$ <strong>echo BB-SPIDEV0 &gt; $SLOTS</strong>
+bone$ <strong>./minidisplay-test</strong>
 </pre>
 <div class="paragraph">
 <p>You then see Boris, as shown in <a href="#capes_miniDisplayBoris">MiniDisplay showing Boris <sup class="footnote">[2]</sup></a>.</p>
@@ -1234,7 +1234,7 @@ Looking at the stimulus you&#8217;ll generate <em>before</em> you connect up you
 <p>You can install Eagle PCB on your Linux host by using the following command:</p>
 </div>
 <pre data-type="programlisting">
-host$ <strong>sudo apt-get install eagle</strong>
+host$ <strong>sudo apt install eagle</strong>
 Reading package lists... Done
 Building dependency tree
 Reading state information... Done
@@ -1345,7 +1345,7 @@ host$ <strong>eagle</strong>
 <p>I found it necessary to install libfreetype6 and freetype-py onto my system, but you might not need this first step:</p>
 </div>
 <pre data-type="programlisting">
-host$ <strong>sudo apt-get install libfreetype6</strong>
+host$ <strong>sudo apt install libfreetype6</strong>
 Reading package lists... Done
 Building dependency tree
 Reading state information... Done
@@ -1816,7 +1816,7 @@ drwxrwxr-x 9 ubuntu ubuntu   4096 Nov 25 19:42 schematic-file-converter
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2022-06-25 13:14:10 -0400
+Last updated 2022-06-28 16:39:46 -0400
 </div>
 </div>
 </body>
