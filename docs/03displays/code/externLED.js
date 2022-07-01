@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 ////////////////////////////////////////
-//	internalLED.js
-//	Blinks the USR LEDs.
+//	externalLED.js
+//	Blinks the P9_14 pin
 //	Wiring:
 //	Setup:
 //	See:
