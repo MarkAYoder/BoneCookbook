@@ -6,6 +6,9 @@
 //	Setup:  config-pin P9_14 pwm
 //          cd /sys/class/pwm/pwmchip5
 //          echo 0 > export
+//          cd pwm0
+//          chgrp gpio *
+//          chmod g+w *
 //	See:
 ////////////////////////////////////////
 const fs = require("fs");

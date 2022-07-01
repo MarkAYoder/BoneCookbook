@@ -136,7 +136,15 @@ After you've wired it, because this uses the same output pin as <<displays_exter
 
 ==== Solution
 
-((("analogWrite()")))((("b.analogWrite()")))((("pulse width modulation (PWM)")))BoneScript has an +analogWrite()+ function that uses the Bone's pulse width modulation (PWM) hardware to produce an analog out signal. We'll use the same circuit as before (<<displays_externLED_fig>>) and declare the pin mode to be +ANALOG_OUTPUT+. Add the code in <<js_fadeLED_code>> to a file called _fadeLED.js_ and then run it as before.
+((("analogWrite()")))((("b.analogWrite()")))((("pulse width modulation (PWM)"))) Use the Bone's pulse width modulation (PWM) hardware to fade an LED We'll use the same circuit as before (<<displays_externLED_fig>>). Add the code in <<js_fadeLED_code>> to a file called _fadeLED.js_.  Next configure the pins.  We are using P9_14 so run:
+
+++++
+<pre>
+bone$ <strong>config-pin P9_14 pwm
+</pre>
+++++
+
+Then run it as before.
 
 [role="pagebreak-before"]
 [[js_fadeLED_code]]
@@ -151,10 +159,61 @@ include::code/fadeLED.js[]
 ====
 
 ==== Discussion
+The Bone has several outputs that can be use as pwm's as shown in <<cape-headers-pwm_fig>>.  There are three +EHRPWM+'s which each has a pair  of pwm channels.  Each pair must have the same period.  
 
 [[cape-headers-pwm_fig]]
 .Table of PWM outputs
 image::figures/cape-headers-pwm.png["PWM outputs"]
+
+The pwm's are accessed through +/sys/class/pwm+
+
+++++
+<pre>
+bone$ <strong>cd /sys/class/pwm</strong>
+bone$ <strong>ls</strong>
+pwmchip0  pwmchip1  pwmchip2  pwmchip3  pwmchip5  pwmchip7
+</pre>
+++++
+Here we see six pwmchips that can be used.  Chips 3, 5 and 7 have pairs of pwm channels.  Explore one.
+++++
+<pre>
+bone$ <strong>cd pwmchip5</strong>
+bone$ <strong>ls</strong>
+device  export  npwm  power   subsystem  uevent  unexport
+bone$ <strong>cat npwm</strong>
+2
+bone$ <strong>echo 0 > export</strong>
+bone$ <strong>ls</strong>
+device  export  npwm  power  pwm0  subsystem  uevent  unexport
+bone$ <strong>cd pwm0</strong>
+bone$ <strong>ls</strong>
+capture  duty_cycle  enable  period  polarity  power  uevent
+</pre>
+++++
+Here is where you can set the period and duty_cycle (in ns) and enable the pwm.
+Attach in LED to P9_14 and if you set the period long enough you can see the LED flash.
+
+++++
+<pre>
+bone$ <strong>echo 1000000000 > period</strong>
+bone$ <strong>echo  500000000 > duty_cycle</strong>
+bone$ <strong>echo 1 > enable</strong>
+</pre>
+++++
+Your LED should now be flashing.
+
+<<display_pwm_mapping>> are the mapping I've figured out so far. I don't know how to get to the timers.
+[[display_pwm_mapping]]
+.Headers to pwm channel mapping.
+|====
+| Pin | pwmchip | pwm
+| P9_31 | 3 | 0
+| P9_29 | 3 | 1
+| P9_14 | 5 | 0
+| P9_16 | 5 | 1
+| P8_19 | 7 | 0
+| P8_13 | 7 | 1
+|====
 
 === Writing to an LED Matrix
 
