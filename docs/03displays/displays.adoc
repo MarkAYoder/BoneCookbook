@@ -147,6 +147,18 @@ bone$ <strong>config-pin P9_14 pwm
 Then run it as before.
 
 [role="pagebreak-before"]
+[[py_fadeLED_code]]
+.Code for using an external LED (fadeLED.py)
+====
+[source, python]
+----
+
+include::code/fadeLED.py[]
+
+----
+====
+
+[role="pagebreak-before"]
 [[js_fadeLED_code]]
 .Code for using an external LED (fadeLED.js)
 ====
