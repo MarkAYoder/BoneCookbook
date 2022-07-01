@@ -29,6 +29,17 @@ image::figures/internLED.png["USER LEDs"]
 
 Place the code shown in <<js_internLED_code>> in a file called _internLED.js_. You can do this using Cloud9 to edit files (as shown in <<basics_cloud9>>) or with a more traditional editor (as shown in <<tips_editing_files>>).
 
+[[py_internLED_code]]
+.Using an internal LED (internLED.py)
+====
+[source, python]
+----
+
+include::code/internLED.py[]
+
+----
+====
+
 [[js_internLED_code]]
 .Using an internal LED (internLED.js)
 ====
@@ -36,16 +47,6 @@ Place the code shown in <<js_internLED_code>> in a file called _internLED.js_. Y
 ----
 
 include::code/internLED.js[]
-
-----
-====
-[[jpyinternLED_code]]
-.Using an internal LED (internLED.py)
-====
-[source, python]
-----
-
-include::code/internLED.py[]
 
 ----
 ====

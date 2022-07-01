@@ -1,13 +1,13 @@
 #!/usr/bin/env node
-////////////////////////////////////////
-//	internalLED.js
-//	Blinks the USR LEDs.
-//	Wiring:
-//	Setup:
-//	See:
-////////////////////////////////////////
+// //////////////////////////////////////
+// 	internalLED.js
+// 	Blinks the USR LEDs.
+// 	Wiring:
+// 	Setup:
+// 	See:
+// //////////////////////////////////////
 const fs = require('fs');
-const ms = 250      // Blink time in ms
+const ms = 250;     // Blink time in ms
 const LED = 'usr0'; // LED to blink
 const LEDPATH = '/sys/class/leds/beaglebone:green:'+LED+'/brightness';
 
