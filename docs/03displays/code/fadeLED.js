@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 ////////////////////////////////////////
-//	externalLED.js
+//	fadeLED.js
 //	Blinks the P9_14 pin
 //	Wiring:
 //	Setup:  config-pin P9_14 pwm
