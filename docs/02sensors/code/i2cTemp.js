@@ -3,7 +3,7 @@
 //	i2cTemp.js
 //      Read at TMP101 sensor on i2c bus 2, address 0x49
 //	Wiring:	Attach to i2c as shown in text.
-//	Setup:	
+//	Setup:	echo tmp101 0x49 > /sys/class/i2c-adapter/i2c-2/new_device
 //	See:	
 ////////////////////////////////////////
 const fs = require("fs");
@@ -18,5 +18,5 @@ setInterval(readTMP, ms);
 
 function readTMP() {
     var data = fs.readFileSync(I2CPATH+"/temp1_input").slice(0, -1);
-    console.log('data= ' + data/1000);
+    console.log('data (C) = ' + data/1000);
  }

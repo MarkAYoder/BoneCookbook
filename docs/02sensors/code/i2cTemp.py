@@ -3,7 +3,7 @@
 # //	i2cTemp.js
 # //      Read at TMP101 sensor on i2c bus 2, address 0x49
 # //	Wiring:	Attach to i2c as shown in text.
-# //	Setup:	
+# //	Setup:	echo tmp101 0x49 > /sys/class/i2c-adapter/i2c-2/new_device
 # //	See:	
 # ////////////////////////////////////////
 import time
@@ -17,6 +17,6 @@ f = open(I2CPATH+"/temp1_input", "r")
 
 while True:
     f.seek(0)
-    data = f.read()[:-1]
-    print("data = " + str(int(data)/1000))
+    data = f.read()[:-1]    # returns mili-degrees C
+    print("data (C) = " + str(int(data)/1000))
     time.sleep(ms/1000)
