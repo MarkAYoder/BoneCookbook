@@ -244,6 +244,17 @@ image::figures/analogIn_bb.png[Analog]
 <<sensors_analogIn_code>> shows the BoneScript code used to read the variable resistor.  
 Add the code to a file called _analogIn.js_ and run it; then change the resistor and run it again. The voltage read will change.
 
+[[py_analogIn_code]]
+.Reading an analog voltage (analogIn.py)
+====
+[source, python]
+----
+
+include::code/analogIn.py[]
+
+----
+====
+
 [[sensors_analogIn_code]]
 .Reading an analog voltage (analogIn.js)
 ====
@@ -779,7 +790,7 @@ temp (C) = 28.625
 temp (C) = 29.625
 temp (C) = 30.5
 temp (C) = 31.0
-^CTraceback (mos
+^C
 </pre>
 ++++
 ====

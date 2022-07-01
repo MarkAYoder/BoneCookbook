@@ -31,14 +31,14 @@ A cookbook for programming Beagles
   ** [ ] Introduction
   ** [ ] Choosing a Method to Connect Your Sensor
   ** [python/vs code] Input and Run a JavaScript Application for Talking to Sensors
-  ** [python] Reading the Status of a Pushbutton or Magnetic Switch (Passive On/Off Sensor)
-  ** [python] Reading a Position, Light, or Force Sensor (Variable Resistance Sensor)
+  ** [x] Reading the Status of a Pushbutton or Magnetic Switch (Passive On/Off Sensor)
+  ** [x] Reading a Position, Light, or Force Sensor (Variable Resistance Sensor)
   ** [python, add continuous, gnuplot] Reading a Distance Sensor (Analog or Variable Voltage Sensor)
   ** [js too complicated, try py ] Reading a Distance Sensor (Variable Pulse Width Sensor)
-  ** [ python, js done] Accurately Reading the Position of a Motor or Dial
+  ** [x] Accurately Reading the Position of a Motor or Dial
   ** [ ] Acquiring Data by Using a Smart Sensor over a Serial Connection
-  ** [ ] Measuring a Temperature
-  ** [ ] Reading Temperature via a Dallas 1-Wire Device
+  ** [x] Measuring a Temperature
+  ** [x] Reading Temperature via a Dallas 1-Wire Device
   ** [remove?] Sensing All Sorts of Things with SensorTag via Bluetooth v4.0
   ** [ ] Playing and Recording Audio
   

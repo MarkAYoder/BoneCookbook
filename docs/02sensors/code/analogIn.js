@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 //////////////////////////////////////
-//	analogin.py
+//	analogin.js
 // 	Reads the analog value of the light sensor.
 //////////////////////////////////////
 const fs = require("fs");
