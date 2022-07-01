@@ -523,39 +523,39 @@ image::figures/cape-headers-serial.png[UART outputs]
 
 ==== Problem
 
-((("sensors", "temperature")))((("temperature sensors", "TMP102 sensor")))((("digital temperature sensors")))((("TMP102 sensor")))((("environmental sensors", "temperature")))((("I&#x00B2;C-based serial protocol")))You want to measure a temperature using a digital temperature sensor.
+((("sensors", "temperature")))((("temperature sensors", "TMP101 sensor")))((("digital temperature sensors")))((("TMP101 sensor")))((("environmental sensors", "temperature")))((("I&#x00B2;C-based serial protocol")))You want to measure a temperature using a digital temperature sensor.
 
 ==== Solution
 
-The TMP102 sensor is a common digital temperature sensor that uses a standard I^2^C-based serial protocol.
+The TMP101 sensor is a common digital temperature sensor that uses a standard I^2^C-based serial protocol.
 
 To make this recipe, you will need:
 
 * Breadboard and jumper wires (see <<app_proto>>)
 * Two 4.7 k&#8486; resistors (see <<app_resistor>>)
-* TMP102 temperature sensor (see <<app_ic>>)
+* TMP101 temperature sensor (see <<app_ic>>)
 
-Wire the TMP102, as shown in <<sensors_i2cTemp_fig>>.
+Wire the TMP101, as shown in <<sensors_i2cTemp_fig>>.
 
 [[sensors_i2cTemp_fig]]
-.Wiring an I^2^C TMP102 temperature sensor
+.Wiring an I^2^C TMP101 temperature sensor
 image::figures/i2cTemp_bb.png[I^2^C  Temp]
 
-There are two I^2^C buses brought out to the headers. <<sensors_cape_headers_i2c>> shows that you have wired your device to I^2^C bus +2+, but watch out: the buses aren't always numbered the same. When you work with BoneScript, they are numbered +1+ and +2+, but if you work from the Linux command line, they are numbered +0+ and +1+. Confusing, huh?
+There are two I^2^C buses brought out to the headers. <<sensors_cape_headers_i2c>> shows that you have wired your device to I^2^C bus +2+.
 
 [[sensors_cape_headers_i2c]]
 .Table of I^2^C outputs
 image::figures/cape-headers-i2c.png[I^2^C  Temp]
 
 
-Once the I^2^C  device is wired up, you can use a couple handy I^2^C tools to test the device. Because these are Linux command-line tools, you have to use +1+ as the bus number. +i2cdetect+, shown in <<js_i2cTools>>, shows which I^2^C  devices are on the bus. The +-r+ flag indicates which bus to use. Our TMP102 is appearing at address +0x49+. You can use the +i2cget+ command to read the value. It returns the temperature in hexidecimal and degrees C. In this example, 0x18 = 24{deg}C, which is 75.2{deg}F. (Hmmm, the office is a bit warm today.) Try warming up the TMP102 with your finger and running +i2cget+ again.
+Once the I^2^C  device is wired up, you can use a couple handy I^2^C tools to test the device. Because these are Linux command-line tools, you have to use +2+ as the bus number. +i2cdetect+, shown in <<js_i2cTools>>, shows which I^2^C  devices are on the bus. The +-r+ flag indicates which bus to use. Our TMP101 is appearing at address +0x49+. You can use the +i2cget+ command to read the value. It returns the temperature in hexidecimal and degrees C. In this example, 0x18 = 24{deg}C, which is 75.2{deg}F. (Hmmm, the office is a bit warm today.) Try warming up the TMP101 with your finger and running +i2cget+ again.
 
 [[js_i2cTools]]
 .I^2^C tools
 ====
 ++++
 <pre data-type="programlisting">
-bone$ <strong>i2cdetect -y -r 1</strong>
+bone$ <strong>i2cdetect -y -r 2</strong>
      0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f
 00:          -- -- -- -- -- -- -- -- -- -- -- -- -- 
 10: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 
@@ -566,13 +566,103 @@ bone$ <strong>i2cdetect -y -r 1</strong>
 60: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 
 70: -- -- -- -- -- -- -- --
 
-bone$ <strong>i2cget -y 1 0x49</strong>
+bone$ <strong>i2cget -y 2 0x49</strong>
 0x18
 </pre>
 ++++
 ====
 
-<<js_i2cTemp_code>> shows how to read the TMP102 from BoneScript.
+==== Reading the temperature via the kernel driver
+
+The cleanest way to read the temperature from at TMP101 sensor is to use the kernel drive.
+
+Assuming the TMP101 is on bus 2 (the last digit is the bus number)
+
+[[js_i2cKernel]]
+.I^2^C TMP101 via Kernel
+====
+++++
+<pre data-type="programlisting">
+bone$ <strong>cd /sys/class/i2c-adapter/</strong>
+bone$ <strong>ls</strong>
+i2c-0  i2c-1  i2c-2			# Three i2c busses (bus 0 is internal)
+bone$ <strong>cd i2c-2</strong>	# Pick bus 2
+bone$ <strong>ls -ls</strong>
+0 --w--w---- 1 root gpio 4096 Jul  1 09:24 delete_device
+0 lrwxrwxrwx 1 root gpio    0 Jun 30 16:25 device -> ../../4819c000.i2c
+0 drwxrwxr-x 3 root gpio    0 Dec 31  1999 i2c-dev
+0 -r--r--r-- 1 root gpio 4096 Dec 31  1999 name
+0 --w--w---- 1 root gpio 4096 Jul  1 09:24 new_device
+0 lrwxrwxrwx 1 root gpio    0 Jun 30 16:25 of_node -> ../../../../../../../../firmware/devicetree/base/ocp/interconnect@48000000/segment@100000/target-module@9c000/i2c@0
+0 drwxrwxr-x 2 root gpio    0 Dec 31  1999 power
+0 lrwxrwxrwx 1 root gpio    0 Jun 30 16:25 subsystem -> ../../../../../../../../bus/i2c
+0 -rw-rw-r-- 1 root gpio 4096 Dec 31  1999 uevent
+</pre>
+++++
+====
+
+Assuming the TMP101 is at address 0x48:
+====
+++++
+<pre data-type="programlisting">
+bone$ <strong>echo tmp101 0x49 > new_device</strong>
+</pre>
+++++
+====
+
+This tells the kernel you have a TMP101 sensor at address 0x49. Check the log to be sure.
+
+====
+++++
+<pre data-type="programlisting">
+bone$ <strong>dmesg -H | tail -3</strong>
+[ +13.571823] i2c i2c-2: new_device: Instantiated device tmp101 at 0x49
+[  +0.043362] lm75 2-0049: supply vs not found, using dummy regulator
+[  +0.009976] lm75 2-0049: hwmon0: sensor 'tmp101'
+++++
+====
+Yes, it's there, now see what happened.
+
+====
+++++
+<pre data-type="programlisting">
+bone$ <strong>ls</strong>
+2-0049  delete_device  device  i2c-dev  name  
+new_device  of_node  power  subsystem  uevent
+++++
+====
+
+Notice a new directory has appeared. It's for i2c bus 2, address 0x49. Look into it.
+
+====
+++++
+<pre data-type="programlisting">
+bone$ <strong>d 2-0048/hwmon/hwmon0</strong>
+bone$ <strong>ls -F</strong>
+device@  name  power/  subsystem@  temp1_input  temp1_max  
+temp1_max_hyst  uevent  update_interval
+bone$ <strong>cat temp1_input</strong>
+24250
+++++
+====
+There is the temperature in milli-degrees C.
+
+Other i2c devices are supported by the kerenl.
+You can try the Linux Kernel Driver Database, https://cateee.net/lkddb/ to see them.
+
+Once the driver is in place, you can read it via code.
+<<js_i2cTemp_code>> shows how to read the TMP101 from BoneScript.
+
+[[pyi2cTemp_code]]
+.Reading an I^2^C  device (i2cTemp.py)
+====
+[source, python]
+----
+
+include::code/i2cTemp.py[]
+
+----
+====
 
 [[js_i2cTemp_code]]
 .Reading an I^2^C  device (i2cTemp.js)
@@ -584,30 +674,21 @@ include::code/i2cTemp.js[]
 
 ----
 ====
-<1> This line states which bus to use. The last digit gives the BoneScript bus number.
-
-<2> This gives the address of the device on the bus.
-
-<3> This line opens the device. All I^2^C commands that follow will apply to this bus and device.
-
-<4> This line reads a byte from the device. The default is to read from address +0+ of the selected device. Address +0+ for the TMP102 is the current temperature. As soon as the register is read, the +onReadByte()+ function is called.((("onReadByte()")))
-
-<5> The value, +x+, passed to +onReadByte()+ is an object. The +.event+ field of the object informs us if we have a callback.
-
-<6> If this is a callback, use +console.log+ to display the contents of object +x+.
-
-<7> Finally, print the result field, +x.res+, after converting it to degrees F.
 
 Run the code by using the following command:
 
 ++++
 <pre data-type="programlisting">
 bone$ <strong>./i2cTemp.js</strong>
-onReadByte: {"err":null,"res":24,"event":"callback"}
-75.2F
+data= 25.937
+data= 25.875
+data= 28062
+data= 27812
+^C
 </pre>
 ++++
 
+Notice using the  kernel interface gets you more digits of accuracy.
 ==== Discussion
 
 

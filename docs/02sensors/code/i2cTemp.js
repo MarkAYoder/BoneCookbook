@@ -8,9 +8,9 @@
 ////////////////////////////////////////
 const fs = require("fs");
 
-const ms = 1000   // Read time in ms
+const ms = 1000;   // Read time in ms
 const bus = '2';
-const addr = '49'
+const addr = '49';
 I2CPATH='/sys/class/i2c-adapter/i2c-'+bus+'/'+bus+'-00'+addr+'/hwmon/hwmon0';
 
 // Read every ms
