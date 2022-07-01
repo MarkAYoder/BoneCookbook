@@ -1,15 +1,22 @@
 #!/usr/bin/env node
+////////////////////////////////////////
+//	i2cTemp.js
+//      Read at TMP101 sensor on i2c bus 2, address 0x49
+//	Wiring:	Attach to i2c as shown in text.
+//	Setup:	
+//	See:	
+////////////////////////////////////////
+const fs = require("fs");
 
-var b = require('bonescript');
-var bus = '/dev/i2c-2'              // <1>
-var TMP102 = 0x49;                  // <2>
+const ms = 1000   // Read time in ms
+const bus = '2';
+const addr = '49'
+I2CPATH='/sys/class/i2c-adapter/i2c-'+bus+'/'+bus+'-00'+addr+'/hwmon/hwmon0';
 
-b.i2cOpen(bus, TMP102);             // <3>
-b.i2cReadByte(bus, onReadByte);     // <4>
+// Read every ms
+setInterval(readTMP, ms);
 
-function onReadByte(x) {            // <5>
-    if (x.event == 'callback') {
-        console.log('onReadByte: ' + JSON.stringify(x)); // <6>
-        console.log(x.res*9/5+32 + 'F'); // <7>
-    }
-}
+function readTMP() {
+    var data = fs.readFileSync(I2CPATH+"/temp1_input").slice(0, -1);
+    console.log('data= ' + data/1000);
+ }
