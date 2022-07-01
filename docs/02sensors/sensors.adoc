@@ -711,7 +711,7 @@ bone$ <strong>pip install smbus</strong>
 ++++
 ====
 
-[[js_i2cTemp_code]]
+[[js_i2ctmp101_code]]
 .Reading an I^2^C  device (i2cTemp.js)
 ====
 [source, js]

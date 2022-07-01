@@ -312,53 +312,6 @@ include::code/neoPixel.sh[]
 
 ==== Discussion
 
-=== Using a Nokia 5510 LCD Display
-
-==== Problem
-((("outputs", "Nokia 5510 LCD display")))((("Nokia 5510 LCD display")))((("displays", "Nokia 5510 LCD")))((("LCD displays")))((("text, displaying")))((("graphics, displaying")))You want to display some text and graphics on a Nokia 5510 black-and-white LCD display.
-
-==== Solution
-What you will need for this recipe:
-
-* Breadboard and jumper wires (see <<app_proto>>)
-* Nokia 5110 LCD (see <<app_misc>>)
-* 220 &#8486; resistor (see <<app_resistor>>)
-
-The Nokia 5110 LCD runs off of 3.3 V, so you can wire it directly to the Bone (<<displays_nokia_fig>>).
-
-[[displays_nokia_fig]]
-.Wiring a Nokia 5110 LCD display
-image::figures/nokia5110_bb.png["Nokia 5110"]
-
-The drivers for the 5110 are in the Node Packaged Modules repository. Get and install them by running the following commands:
-
-++++
-<pre data-type="programlisting">
-bone$ <strong>npm install -g nokia5110</strong>
-bone$ <strong>cd /usr/local/lib/node_modules/nokia5110</strong>
-bone$ <strong>ln -s LCD_5110.js nokia5110.js</strong>
-bone$ <strong>cp lcdTest.js /tmp</strong>
-bone$ <strong>cd -</strong>
-bone$ <strong>mv /tmp/lcdTest.js nokia5110Test.js</strong>
-</pre>
-++++
-
-Edit _nokia5110Test.js_ so that the first few lines specify how it's wired (as shown in <<displays_nokia5110_code>>) and then run the code.
-
-[role="pagebreak-before"]
-[[displays_nokia5110_code]]
-.Defining the Nokia 5110 pins (nokia5110.js)
-====
-[source, javascript]
-----
-
-include::code/nokia5110.js[]
-
-----
-====
-
-==== Discussion
-
 === Making Your Bone Speak
 
 ==== Problem

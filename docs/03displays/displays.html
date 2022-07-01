@@ -852,62 +852,62 @@ bone$ <strong>i2cdetect -y -r 1</strong>
 <p>Here, you can see a device at 0x49 and 0x70. I know I have a temperature sensor at 0x49, so the LED matrix must be at 0.70.</p>
 </div>
 <div class="paragraph">
-<p>Add the code in <a href="#displays_matrix_i2c">LED matrix display (matrixLEDi2c.js)</a> to a file called <em>matrixLEDi2c.js</em> and run it by using the following command:</p>
+<p>Add the code in <a href="#displays_matrix_i2c">LED matrix display (matrixLEDi2c.py)</a> to a file called <em>matrixLEDi2c.js</em> and run it by using the following command:</p>
 </div>
+<div class="exampleblock">
+<div class="content">
 <pre data-type="programlisting">
 bone$ <strong>npm install -g sleep</strong>
-bone$ <strong>./matrixLEDi2c.js</strong>
+bone$ <strong>./matrixLEDi2c.py</strong>
 </pre>
+</div>
+</div>
 <div id="displays_matrix_i2c" class="exampleblock">
-<div class="title">Example 6. LED matrix display (matrixLEDi2c.js)</div>
+<div class="title">Example 6. LED matrix display (matrixLEDi2c.py)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-c" data-lang="c">#!/usr/bin/env node
-// npm install -g sleep
+<pre class="highlight"><code class="language-c" data-lang="c">#!/usr/bin/env python
+# ////////////////////////////////////////
+# //	i2cTemp.py
+# //      Write an 8x8 Red/Green LED matrix.
+# //	Wiring:	Attach to i2c as shown in text.
+# //	Setup:	echo tmp101 0x49 &gt; /sys/class/i2c-adapter/i2c-2/new_device
+# //	See:	https://www.adafruit.com/product/902
+# ////////////////////////////////////////
+import smbus
+import time
 
-var b = require('bonescript');
-var sleep = require('sleep');
-var port = '/dev/i2c-2'				// <b class="conum">(1)</b>
-var matrix = 0x70;					// <b class="conum">(2)</b>
-var time = 1000000; // Delay between images in us
+bus = smbus.SMBus(2)  # Use i2c bus 2       <b class="conum">(1)</b>
+matrix = 0x70         # Use address 0x70    <b class="conum">(2)</b>
+ms = 1;               # Delay between images in ms
 
-// The first btye is GREEN, the second is RED.		<b class="conum">(3)</b>
-var smile =
-	[0x00, 0x3c, 0x00, 0x42, 0x28, 0x89, 0x04, 0x85, 
-	 0x04, 0x85, 0x28, 0x89, 0x00, 0x42, 0x00, 0x3c];
-var frown =
-	[0x3c, 0x00, 0x42, 0x00, 0x85, 0x20, 0x89, 0x00, 
-	 0x89, 0x00, 0x85, 0x20, 0x42, 0x00, 0x3c, 0x00];
-var neutral =
-	[0x3c, 0x3c, 0x42, 0x42, 0xa9, 0xa9, 0x89, 0x89,
-	 0x89, 0x89, 0xa9, 0xa9, 0x42, 0x42, 0x3c, 0x3c];
-var blank = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+# The first byte is GREEN, the second is RED.   <b class="conum">(3)</b>
+smile = [0x00, 0x3c, 0x00, 0x42, 0x28, 0x89, 0x04, 0x85,
+    0x04, 0x85, 0x28, 0x89, 0x00, 0x42, 0x00, 0x3c
+]
+frown = [0x3c, 0x00, 0x42, 0x00, 0x85, 0x20, 0x89, 0x00,
+    0x89, 0x00, 0x85, 0x20, 0x42, 0x00, 0x3c, 0x00
+]
+neutral = [0x3c, 0x3c, 0x42, 0x42, 0xa9, 0xa9, 0x89, 0x89,
+    0x89, 0x89, 0xa9, 0xa9, 0x42, 0x42, 0x3c, 0x3c
+]
 
-b.i2cOpen(port, matrix);			// <b class="conum">(4)</b>
+bus.write_byte_data(matrix, 0x21, 0)   # Start oscillator (p10) <b class="conum">(4)</b>
+bus.write_byte_data(matrix, 0x81, 0)   # Disp on, blink off (p11)
+bus.write_byte_data(matrix, 0xe7, 0)   # Full brightness (page 15)
 
-b.i2cWriteByte(port,  0x21); // Start oscillator (p10)		<b class="conum">(5)</b>
-b.i2cWriteByte(port,  0x81); // Disp on, blink off (p11)
-b.i2cWriteByte(port,  0xe7); // Full brightness (page 15)
+bus.write_i2c_block_data(matrix, 0, frown)      # <b class="conum">(5)</b>
+for fade in range(0xef, 0xe0, -1):              # <b class="conum">(6)</b>
+    bus.write_byte_data(matrix, fade, 0)
+    time.sleep(ms/10)
 
-b.i2cWriteBytes(port, 0x00, frown);			// <b class="conum">(6)</b>
-sleep.usleep(time);
+bus.write_i2c_block_data(matrix, 0, neutral)
+for fade in range(0xe0, 0xef, 1):
+    bus.write_byte_data(matrix, fade, 0)
+    time.sleep(ms/10)
 
-b.i2cWriteBytes(port, 0x00, neutral);
-sleep.usleep(time);
-
-b.i2cWriteBytes(port, 0x00, smile);
-// Fade the display
-var fade;
-for(fade = 0xef; fade &gt;= 0xe0; fade--) {		// <b class="conum">(7)</b>
-    b.i2cWriteByte(port,  fade);
-    sleep.usleep(time/10);
-}
-for(fade = 0xe1; fade &lt;= 0xef; fade++) {
-    b.i2cWriteByte(port,  fade);
-    sleep.usleep(time/10);
-}
-b.i2cWriteBytes(port, 0x04, [0xff]);</code></pre>
+bus.write_i2c_block_data(matrix, 0, smile)</code></pre>
 </div>
 </div>
 </div>
@@ -922,9 +922,6 @@ b.i2cWriteBytes(port, 0x04, [0xff]);</code></pre>
 </li>
 <li>
 <p>This indicates which LEDs to turn on. The first byte is for the first column of <em>green</em> LEDs. In this case, all are turned off. The next byte is for the first column of <em>red</em> LEDs. The hex 0x3c number is 0b00111100 in binary. This means the first two red LEDs are off, the next four are on, and the last two are off. The next byte (0x00) says the second column of <em>green</em> LEDs are all off, the fourth byte (0x42 = 0b01000010) says just two red LEDs are on, and so on. Declarations define four different patterns to display on the LED matrix, the last being all turned off.</p>
-</li>
-<li>
-<p>Open the I<sup>2</sup>C port.</p>
 </li>
 <li>
 <p>Send three commands to the matrix to get it ready to display.</p>
@@ -1002,7 +999,7 @@ b.i2cWriteBytes(port, 0x04, [0xff]);</code></pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_writing_to_a_neopixel_led_string">Writing to a NeoPixel LED String</h3>
+<h3 id="_writing_to_a_neopixel_led_string_using_the_prus">Writing to a NeoPixel LED String Using the PRUs</h3>
 <div class="sect3">
 <h4 id="_problem_7">Problem</h4>
 <div class="paragraph">
@@ -1012,13 +1009,34 @@ b.i2cWriteBytes(port, 0x04, [0xff]);</code></pre>
 <div class="sect3">
 <h4 id="_solution_7">Solution</h4>
 <div class="paragraph">
+<p>The PRU Cookbook has a nice discussion (<a href="https://markayoder.github.io/PRUCookbook/05blocks/blocks.html#blocks_ws2812">WS2812 (NeoPixel) driver</a>) on driving NeoPixels.</p>
+</div>
+<div id="py_neoPixelMatrix_fig" class="imageblock">
+<div class="content">
+<img src="figures/neo_bb.png" alt="NeoPixel Ring">
+</div>
+<div class="title">Figure 8. Wiring an Adafruit NeoPixel LED matrix to P9_29</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_writing_to_a_neopixel_led_string_using_ledscape">Writing to a NeoPixel LED String Using LEDscape</h3>
+<div class="sect3">
+<h4 id="_problem_8">Problem</h4>
+<div class="paragraph">
+<p>You have an <a href="http://www.adafruit.com/products/1138">Adafruit NeoPixel LED string</a> or <a href="http://www.adafruit.com/products/1487">Adafruit NeoPixel LED matrix</a> and want to light it up.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_solution_8">Solution</h4>
+<div class="paragraph">
 <p>Wire up an Adafruit NeoPixel LED 8-by-8 matrix as shown in <a href="#js_neoPixelMatrix_fig">Wiring an Adafruit NeoPixel LED matrix to P8_30</a>.</p>
 </div>
 <div id="js_neoPixelMatrix_fig" class="imageblock">
 <div class="content">
 <img src="figures/neoPixelMatrix_bb.png" alt="NeoPixel Matrix">
 </div>
-<div class="title">Figure 8. Wiring an Adafruit NeoPixel LED matrix to P8_30</div>
+<div class="title">Figure 9. Wiring an Adafruit NeoPixel LED matrix to P8_30</div>
 </div>
 <div class="paragraph">
 <p><a href="#js_neoPixel_code">Installing and running LEDscape and OpenPixelControl (neoPixel.sh)</a> shows how to install LEDscape and run the LEDs.</p>
@@ -1058,88 +1076,6 @@ modprobe uio_pruss
 </div>
 </div>
 <div class="sect2">
-<h3 id="_using_a_nokia_5510_lcd_display">Using a Nokia 5510 LCD Display</h3>
-<div class="sect3">
-<h4 id="_problem_8">Problem</h4>
-<div class="paragraph">
-<p>You want to display some text and graphics on a Nokia 5510 black-and-white LCD display.</p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_solution_8">Solution</h4>
-<div class="paragraph">
-<p>What you will need for this recipe:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Breadboard and jumper wires (see <a href="#app_proto">[app_proto]</a>)</p>
-</li>
-<li>
-<p>Nokia 5110 LCD (see <a href="#app_misc">[app_misc]</a>)</p>
-</li>
-<li>
-<p>220 &#8486; resistor (see <a href="#app_resistor">[app_resistor]</a>)</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>The Nokia 5110 LCD runs off of 3.3 V, so you can wire it directly to the Bone (<a href="#displays_nokia_fig">Wiring a Nokia 5110 LCD display</a>).</p>
-</div>
-<div id="displays_nokia_fig" class="imageblock">
-<div class="content">
-<img src="figures/nokia5110_bb.png" alt="Nokia 5110">
-</div>
-<div class="title">Figure 9. Wiring a Nokia 5110 LCD display</div>
-</div>
-<div class="paragraph">
-<p>The drivers for the 5110 are in the Node Packaged Modules repository. Get and install them by running the following commands:</p>
-</div>
-<pre data-type="programlisting">
-bone$ <strong>npm install -g nokia5110</strong>
-bone$ <strong>cd /usr/local/lib/node_modules/nokia5110</strong>
-bone$ <strong>ln -s LCD_5110.js nokia5110.js</strong>
-bone$ <strong>cp lcdTest.js /tmp</strong>
-bone$ <strong>cd -</strong>
-bone$ <strong>mv /tmp/lcdTest.js nokia5110Test.js</strong>
-</pre>
-<div class="paragraph">
-<p>Edit <em>nokia5110Test.js</em> so that the first few lines specify how it&#8217;s wired (as shown in <a href="#displays_nokia5110_code">Defining the Nokia 5110 pins (nokia5110.js)</a>) and then run the code.</p>
-</div>
-<div id="displays_nokia5110_code" class="exampleblock pagebreak-before">
-<div class="title">Example 8. Defining the Nokia 5110 pins (nokia5110.js)</div>
-<div class="content">
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-javascript" data-lang="javascript">#!/usr/bin/env node
-//
-// Copyright (C) 2012 - Cabin Programs, Ken Keller 
-//
-
-var lcd = require('nokia5110');
-var b = require('bonescript');
-var timeout = 0;
-var inverseIndex;
-
-//
-//  Must define the following outputs
-//
-lcd.PIN_SDIN = "P9_17";
-lcd.PIN_SCLK = "P9_21";
-lcd.PIN_SCE  = "P9_11";
-lcd.PIN_DC   = "P9_15";
-lcd.PIN_RESET= "P9_13";</code></pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_discussion_8">Discussion</h4>
-
-</div>
-</div>
-<div class="sect2">
 <h3 id="_making_your_bone_speak">Making Your Bone Speak</h3>
 <div class="sect3">
 <h4 id="_problem_9">Problem</h4>
@@ -1159,7 +1095,7 @@ bone$ <strong>sudo apt install flite</strong>
 <p>Then add the code from <a href="#speak_code">A program that talks (speak.js)</a> in a file called <em>speak.js</em> and run.</p>
 </div>
 <div id="speak_code" class="exampleblock">
-<div class="title">Example 9. A program that talks (speak.js)</div>
+<div class="title">Example 8. A program that talks (speak.js)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -1199,7 +1135,7 @@ speakForSelf("Hello, My name is Borris. " +
 </div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_9">Discussion</h4>
+<h4 id="_discussion_8">Discussion</h4>
 
 </div>
 </div>
@@ -1208,7 +1144,7 @@ speakForSelf("Hello, My name is Borris. " +
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2022-07-01 12:17:34 -0400
+Last updated 2022-07-01 14:17:55 -0400
 </div>
 </div>
 </body>

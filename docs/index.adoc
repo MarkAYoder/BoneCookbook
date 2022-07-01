@@ -44,14 +44,14 @@ A cookbook for programming Beagles
   
 . link:03displays/displays.html[Displays]
   ** [ ] Introduction
-  ** [python] Toggling an Onboard LED
+  ** [x] Toggling an Onboard LED
   ** [python ] Toggling an External LED
   ** [python ] Toggling a High-Voltage External Device
   ** [python ] Fading an External LED
-  ** [python ] Writing to an LED Matrix
+  ** [x] Writing to an LED Matrix
   ** [remove?] Driving a 5 V Device
   ** [PRU?] Writing to a NeoPixel LED String
-  ** [remove?] Using a Nokia 5510 LCD Display
+  ** [ ] removed - Using a Nokia 5510 LCD Display
   ** [remove?] Making Your Bone Speak
 
  . link:04motors/motors.html[Motors]
