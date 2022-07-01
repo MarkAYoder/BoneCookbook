@@ -271,7 +271,20 @@ If your device needs more current than the Bone's 5 V power supply provides, you
 
 ==== Discussion
 
-=== Writing to a NeoPixel LED String
+=== Writing to a NeoPixel LED String Using the PRUs
+
+==== Problem
+((("displays", "NeoPixel LED strings")))((("outputs", "NeoPixel LED strings")))((("Adafruit Neopixel LED strings")))((("Neopixel LED strings")))((("LEDs", "Adafruit Neopixel LED strings")))You have an http://www.adafruit.com/products/1138[Adafruit NeoPixel LED string] or http://www.adafruit.com/products/1487[Adafruit NeoPixel LED matrix] and want to light it up.
+
+==== Solution
+
+The PRU Cookbook has a nice discussion (https://markayoder.github.io/PRUCookbook/05blocks/blocks.html#blocks_ws2812[WS2812 (NeoPixel) driver]) on driving NeoPixels.
+
+[[py_neoPixelMatrix_fig]]
+.Wiring an Adafruit NeoPixel LED matrix to +P9_29+
+image::figures/neo_bb.png["NeoPixel Ring"]
+
+=== Writing to a NeoPixel LED String Using LEDscape
 
 ==== Problem
 ((("displays", "NeoPixel LED strings")))((("outputs", "NeoPixel LED strings")))((("Adafruit Neopixel LED strings")))((("Neopixel LED strings")))((("LEDs", "Adafruit Neopixel LED strings")))You have an http://www.adafruit.com/products/1138[Adafruit NeoPixel LED string] or http://www.adafruit.com/products/1487[Adafruit NeoPixel LED matrix] and want to light it up.
