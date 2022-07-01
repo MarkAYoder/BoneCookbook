@@ -669,9 +669,7 @@ include::code/i2cTemp.py[]
 ====
 [source, js]
 ----
-
 include::code/i2cTemp.js[]
-
 ----
 ====
 
@@ -680,10 +678,10 @@ Run the code by using the following command:
 ++++
 <pre data-type="programlisting">
 bone$ <strong>./i2cTemp.js</strong>
-data= 25.937
-data= 25.875
-data= 28062
-data= 27812
+data (C) = 25.625
+data (C) = 27.312
+data (C) = 28.187
+data (C) = 28.375
 ^C
 </pre>
 ++++
@@ -720,29 +718,22 @@ Wire up as shown in <<sensors_1-wire_fig>>.
 .Wiring a Dallas 1-Wire temperature sensor footnote:[This solution, written by Elias Bakken (@AgentBrum), originally appeared on http://bit.ly/1FaRbbK[Hipstercircuits].]
 image::figures/onewire_bb.png[1-wire]
 
-Add the code in <<sensors_onewire_dts_code>> to a file called _BB-W1-00A0.dts_.
+Edit the file +/boot/uEnt.txt+.   Go to about line 19 and edit as shown:
+++++
+<pre data-type="programlisting">
+ 17 ###
+ 18 ###Additional custom capes
+ 19 uboot_overlay_addr4=BB-W1-P9.12-00A0.dtbo
+ 20 #uboot_overlay_addr5=<file5>.dtbo
+</pre>
+++++
+Be sure to remove the +#+ at the beginning of the line.
 
-[[sensors_onewire_dts_code]]
-.Reading a temperature with a DS18B20 (BB-W1-00A0.dts)
-====
-[source, js]
-----
-
-include::code/BB-W1-00A0.dts[]
-
-----
-====
-
-Then run the following commands:
-////
-To DO: update slotes
-////
+reboot the bone and then run the following commands:
 
 ++++
 <pre data-type="programlisting">
-bone$ <strong>dtc -O dtb -o BB-W1-00A0.dtbo -b 0 -@ BB-W1-00A0.dts</strong>
-bone$ <strong>sudo cp BB-W1-00A0.dtbo /lib/firmware/</strong>
-bone$ <strong>echo BB-W1 > /sys/devices/bone_capemgr.*/slots</strong>
+bone$ <strong>reboot</strong>
 </pre>
 ++++
 
@@ -755,19 +746,42 @@ bone$ <strong>ls /sys/bus/w1/devices/</strong>
 </pre>
 ++++
 
-This shows the serial numbers for all the devices. 
+I have two devices wired in parallel on the same P9_12 input. This shows the serial numbers for all the devices. 
 
-Finally, add the code in <<sensors_onewire__code>> in to a file named _onewire.js_, edit the path assigned to +w1+ so that the path points to your device, and then run it.
+Finally, add the code in <<sensors_onewire__code>> in to a file named _w1.js_, edit the path assigned to +w1+ so that the path points to your device, and then run it.
 
+[[py_onewire__code]]
+.Reading a temperature with a DS18B20 (w1.py)
+====
+[source, python]
+----
+
+include::code/w1.py[]
+
+----
+====
 [[sensors_onewire__code]]
-.Reading a temperature with a DS18B20 (onewire.js)
+.Reading a temperature with a DS18B20 (w1.js)
 ====
 [source, js]
 ----
 
-include::code/onewire.js[]
+include::code/w1.js[]
 
 ----
+====
+
+====
+++++
+<pre data-type="programlisting">
+bone$ <strong>./w1.js</strong>
+temp (C) = 28.625
+temp (C) = 29.625
+temp (C) = 30.5
+temp (C) = 31.0
+^CTraceback (mos
+</pre>
+++++
 ====
 
 ==== Discussion

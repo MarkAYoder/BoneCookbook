@@ -10,7 +10,7 @@ const fs = require("fs");
 
 const ms = 500   // Read time in ms
 const pin = '7'; // P9_42 is gpio 7
-GPIOPATH="/sys/class/gpio/";
+const GPIOPATH="/sys/class/gpio/";
 
 // Make sure pin is exported
 if(!fs.existsSync(GPIOPATH+"gpio"+pin)) {
@@ -24,5 +24,5 @@ setInterval(readPin, ms);
 
 function readPin() {
     var data = fs.readFileSync(GPIOPATH+"gpio"+pin+"/value").slice(0, -1);
-    console.log('data= ' + data);
+    console.log('data = ' + data);
  }
