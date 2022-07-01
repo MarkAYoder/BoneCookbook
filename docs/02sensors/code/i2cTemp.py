@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # ////////////////////////////////////////
 # //	i2cTemp.py
-# //      Read at TMP101 sensor on i2c bus 2, address 0x49
+# //      Read a TMP101 sensor on i2c bus 2, address 0x49
 # //	Wiring:	Attach to i2c as shown in text.
 # //	Setup:	echo tmp101 0x49 > /sys/class/i2c-adapter/i2c-2/new_device
 # //	See:	

@@ -209,20 +209,22 @@ Here, you can see a device at +0x49+ and +0x70+. I know I have a temperature sen
 
 Add the code in <<displays_matrix_i2c>> to a file called _matrixLEDi2c.js_ and run it by using the following command:
 
+====
 ++++
 <pre data-type="programlisting">
 bone$ <strong>npm install -g sleep</strong>
-bone$ <strong>./matrixLEDi2c.js</strong>
+bone$ <strong>./matrixLEDi2c.py</strong>
 </pre>
 ++++
+====
 
 [[displays_matrix_i2c]]
-.LED matrix display (matrixLEDi2c.js)
+.LED matrix display (matrixLEDi2c.py)
 ====
 [source, c]
 ----
 
-include::code/matrixLEDi2c.js[]
+include::code/matrixLEDi2c.py[]
 
 ----
 ====
@@ -232,13 +234,11 @@ include::code/matrixLEDi2c.js[]
 
 <3> This indicates which LEDs to turn on. The first byte is for the first column of _green_ LEDs. In this case, all are turned off. The next byte is for the first column of _red_ LEDs. The hex +0x3c+ number is +0b00111100+ in binary. This means the first two red LEDs are off, the next four are on, and the last two are off. The next byte (+0x00+) says the second column of _green_ LEDs are all off, the fourth byte (+0x42+ = +0b01000010+) says just two +red+ LEDs are on, and so on. Declarations define four different patterns to display on the LED matrix, the last being all turned off.
 
-<4> Open the I^2^C port.
+<4> Send three commands to the matrix to get it ready to display.
 
-<5> Send three commands to the matrix to get it ready to display.
+<5> Now, we are ready to display the various patterns. After each pattern is displayed, we sleep a certain amount of time so that the pattern can be seen.
 
-<6> Now, we are ready to display the various patterns. After each pattern is displayed, we sleep a certain amount of time so that the pattern can be seen.
-
-<7> Finally, send commands to the LED matrix to set the brightness. This makes the disply fade out and back in again.
+<6> Finally, send commands to the LED matrix to set the brightness. This makes the disply fade out and back in again.
 
 ==== Discussion
 
