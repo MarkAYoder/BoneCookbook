@@ -10,7 +10,7 @@ import time
 eQEP = '2'
 COUNTERPATH = '/sys/bus/counter/devices/counter'+eQEP+'/count0'
 	
-ms = 250 	# Time between samples in ms
+ms = 100 	# Time between samples in ms
 maxCount = '1000000'
 
 # Set the eEQP maximum count
@@ -25,10 +25,13 @@ f.close()
 
 f = open(COUNTERPATH+'/count', 'r')
 
+olddata = -1
 while True:
 	f.seek(0)
 	data = f.read()[:-1]
-	print("data = " + data)
+	if data != olddata:
+		olddata = data
+		print("data = " + data)
 	time.sleep(ms/1000)
 
 # Black OR Pocket
