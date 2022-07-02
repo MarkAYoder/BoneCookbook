@@ -21,8 +21,8 @@ pwm = '1'      # pwm to use
 PWMPATH='/sys/class/pwm/pwmchip'+pwmchip
 min  = 0.8 # Smallest angle (in ms)
 max  = 2.4 # Largest angle (in ms)
-ms  = 250  # How often to change position, in ms
-pos = 1.5  # Current position, about middle ms)
+ms   = 250 # How often to change position, in ms
+pos  = 1.5 # Current position, about middle ms)
 step = 0.1 # Step size to next position
 
 def signal_handler(sig, frame):

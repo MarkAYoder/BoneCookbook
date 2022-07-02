@@ -62,6 +62,16 @@ image:figures/servoMotor_bb.png[Servo Motor]
 The code for controlling the servo motor is in _servoMotor.js_, shown in <<motors_servoMotor_code>>.
 
 [role="pagebreak-before"]
+[[pyservoMotor_code]]
+.Code for driving a servo motor (servoMotor.py)
+====
+[source, python]
+----
+
+include::code/servoMotor.py[]
+
+----
+====
 [[motors_servoMotor_code]]
 .Code for driving a servo motor (servoMotor.js)
 ====
