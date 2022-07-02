@@ -12,6 +12,8 @@
 # //	See:
 # ////////////////////////////////////////
 import time
+import signal
+import sys
 
 pwmPeriod = '20000000'    # Period in ns, (20 ms)
 pwmchip = '5'  # pwm chip to use
@@ -23,7 +25,15 @@ ms  = 250  # How often to change position, in ms
 pos = 1.5  # Current position, about middle ms)
 step = 0.1 # Step size to next position
 
+def signal_handler(sig, frame):
+    print('Got SIGINT, turning motor off')
+    f = open(PWMPATH+'/pwm'+pwm+'/enable', 'w')
+    f.write('0')
+    f.close()
+    sys.exit(0)
+signal.signal(signal.SIGINT, signal_handler)
 print('Hit ^C to stop')
+
 # fs.writeFileSync(PWMPATH+'/export', pwm)   # Export the pwm channel
 # Set the period in ns, first 0 duty_cycle
 f = open(PWMPATH+'/pwm'+pwm+'/duty_cycle', 'w')
@@ -45,17 +55,11 @@ while True:
     if(pos > max or pos < min):
         step *= -1
     duty_cycle = str(round(pos*1000000))    # Convert ms to ns
-    print('pos = ' + str(pos) + ' duty_cycle = ' + duty_cycle)
+    # print('pos = ' + str(pos) + ' duty_cycle = ' + duty_cycle)
     f = open(PWMPATH+'/pwm'+pwm+'/duty_cycle', 'w')
     f.write(duty_cycle)
     f.close()
     time.sleep(ms/1000)
-
-process.on('SIGINT', function() {
-    console.log('Got SIGINT, turning motor off')
-    clearInterval(timer)             # Stop the timer
-    fs.writeFileSync(PWMPATH+'/pwm'+pwm+'/enable', '0')
-})
 
 # | Pin   | pwmchip | pwm
 # | P9_31 | 3       | 0
