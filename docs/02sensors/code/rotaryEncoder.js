@@ -10,7 +10,7 @@ const fs = require("fs");
 const eQEP = "2";
 const COUNTERPATH = '/sys/bus/counter/devices/counter'+eQEP+'/count0';
 	
-const ms = 250; 	// Time between samples in ms
+const ms = 100; 	// Time between samples in ms
 const maxCount = '1000000';
 
 // Set the eEQP maximum count
@@ -19,11 +19,16 @@ fs.writeFileSync(COUNTERPATH+'/ceiling', maxCount);
 // Enable
 fs.writeFileSync(COUNTERPATH+'/enable', '1');
 
-setInterval(readEncoder, ms);    // Check state every 250 ms
+setInterval(readEncoder, ms);    // Check state every ms
 
+var olddata = -1;
 function readEncoder() {
-	var data = fs.readFileSync(COUNTERPATH+'/count').slice(0, -1);
-	console.log('data = ' + data);
+	var data = parseInt(fs.readFileSync(COUNTERPATH+'/count'));
+	if(data != olddata) {
+		// Print only if data changes
+		console.log('data = ' + data);
+		olddata = data;
+	} 
 }
 
 // Black OR Pocket

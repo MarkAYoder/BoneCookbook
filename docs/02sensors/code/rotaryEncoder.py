@@ -29,6 +29,7 @@ olddata = -1
 while True:
 	f.seek(0)
 	data = f.read()[:-1]
+	# Print only if data changes
 	if data != olddata:
 		olddata = data
 		print("data = " + data)
