@@ -49,3 +49,11 @@ while True:
     if(brightness >= max or brightness <= min):
         step = -1 * step
     time.sleep(ms/1000)
+
+# | Pin   | pwmchip | pwm
+# | P9_31 | 3       | 0
+# | P9_29 | 3       | 1
+# | P9_14 | 5       | 0
+# | P9_16 | 5       | 1
+# | P8_19 | 7       | 0
+# | P8_13 | 7       | 1
