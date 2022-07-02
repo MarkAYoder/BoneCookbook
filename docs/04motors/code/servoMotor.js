@@ -32,7 +32,6 @@ fs.writeFileSync(PWMPATH+'/pwm'+pwm+'/duty_cycle', pwmPeriod/2);
 fs.writeFileSync(PWMPATH+'/pwm'+pwm+'/enable', '1');
 
 var timer = setInterval(sweep, ms);
-// move(pos);      // Start in the middle
 
 // Sweep from min to max position and back again
 function sweep() {
@@ -40,10 +39,6 @@ function sweep() {
     if(pos > max || pos < min) {
         step *= -1;
     }
-    move(pos);
-}
-
-function move(pos) {
     var dutyCycle = parseInt(pos*1000000);    // Convert ms to ns
     // console.log('pos = ' + pos + ' duty cycle = ' + dutyCycle);
     fs.writeFileSync(PWMPATH+'/pwm'+pwm+'/duty_cycle', dutyCycle);
