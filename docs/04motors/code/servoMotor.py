@@ -5,10 +5,12 @@
 # //	Wiring:
 # //	Setup:  config-pin P9_16 pwm
 # //          cd /sys/class/pwm/pwmchip5
+# //          sudo chgrp gpio *
+# //          sudo chmod g+w *
 # //          echo 1 > export
 # //          cd pwm1
-# //          chgrp Blinks thegpio *
-# //          chmod g+w *
+# //          sudo chgrp gpio *
+# //          sudo chmod g+w *
 # //	See:
 # ////////////////////////////////////////
 import time
@@ -36,9 +38,9 @@ print('Hit ^C to stop')
 
 # fs.writeFileSync(PWMPATH+'/export', pwm)   # Export the pwm channel
 # Set the period in ns, first 0 duty_cycle
-f = open(PWMPATH+'/pwm'+pwm+'/duty_cycle', 'w')
-f.write('0')
-f.close()
+# f = open(PWMPATH+'/pwm'+pwm+'/duty_cycle', 'w')
+# f.write('0')
+# f.close()
 f = open(PWMPATH+'/pwm'+pwm+'/period', 'w')
 f.write(pwmPeriod)
 f.close()

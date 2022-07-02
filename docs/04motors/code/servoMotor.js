@@ -7,8 +7,8 @@
 //          cd /sys/class/pwm/pwmchip5
 //          echo 1 > export
 //          cd pwm1
-//          chgrp Blinks thegpio *
-//          chmod g+w *
+//          sudo chgrp gpio *
+//          sudo chmod g+w *
 //	See:
 ////////////////////////////////////////
 const fs = require("fs");
@@ -26,7 +26,7 @@ var   pos = 1.5,  // Current position, about middle ms)
 console.log('Hit ^C to stop');
 // fs.writeFileSync(PWMPATH+'/export', pwm);   // Export the pwm channel
 // Set the period in ns, first 0 duty_cycle, 
-fs.writeFileSync(PWMPATH+'/pwm'+pwm+'/duty_cycle', '0');
+// fs.writeFileSync(PWMPATH+'/pwm'+pwm+'/duty_cycle', '0');
 fs.writeFileSync(PWMPATH+'/pwm'+pwm+'/period', pwmPeriod);
 fs.writeFileSync(PWMPATH+'/pwm'+pwm+'/duty_cycle', pwmPeriod/2);
 fs.writeFileSync(PWMPATH+'/pwm'+pwm+'/enable', '1');
