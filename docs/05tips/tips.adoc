@@ -4,7 +4,7 @@
 === Introduction
 In <<basics>>, you learned how to set up BeagleBone Black, and <<sensors>>, <<displays>>, and <<motors>> showed how to interface to the physical world. <<networking>> through the remainder of the book moves into some more exciting advanced topics, and this chapter gets you ready for them.  
 
-The recipes in this chapter assume that you are running Linux on your host computer (<<tips_pick_os>>) and are comfortable with using Linux. We continue to assume that you are logged in as +root+ on your Bone.
+The recipes in this chapter assume that you are running Linux on your host computer (<<tips_pick_os>>) and are comfortable with using Linux. We continue to assume that you are logged in as +debian+ on your Bone.
 
 [[tips_hdmi]]
 === Running Your Bone Standalone
@@ -91,7 +91,9 @@ The powered hub is recommended because USB can supply only 500 mA, and you'll wa
 ((("advanced operations", "selecting host computer OS")))((("host computer", "OS selection")))((("operating system (OS)", "selecting for host computer")))Your project needs a host computer, and you need to select an operating system (OS) for it.
 
 ==== Solution
-For projects that require a host computer, we assume that you are running http://bit.ly/1wXOwkw[Linux Ubuntu 14.04 LTS]. You can be running either a native installation, via a virtual machine such as https://www.virtualbox.org/[VirtualBox], or in the cloud (http://bit.ly/1wu04LI[Microsoft Azure] or http://aws.amazon.com/ec2/[Amazon Elastic Compute Cloud] [EC2], for example).
+For projects that require a host computer, we assume that you are running http://bit.ly/1wXOwkw[Linux Ubuntu 20.04 LTS]. You can be running either a native installation, through https://docs.microsoft.com/en-us/windows/wsl/[Windows Subsystem for Linux],via a virtual machine such as https://www.virtualbox.org/[VirtualBox], or in the cloud (https://portal.azure.com/[Microsoft Azure] or http://aws.amazon.com/ec2/[Amazon Elastic Compute Cloud] [EC2], for example).
+
+Recently I've been prefering https://docs.microsoft.com/en-us/windows/wsl/[Windows Subsystem for Linux].
 
 ==== Discussion
 
@@ -104,11 +106,11 @@ For projects that require a host computer, we assume that you are running http:/
 
 ==== Solution
 
-((("superusers")))((("root user")))<<basics_cloud9_IDE>> shows how to run shell commands in the Cloud9 +bash+ tab. However, the Bone has Secure Shell (SSH) enabled right out of the box, so you can easily connect by using the following command to log in as superuser +root+, (note the +#+ at the end of the prompt):
+((("superusers")))((("root user")))<<basics_cloud9_IDE>> shows how to run shell commands in the Cloud9 +bash+ tab. However, the Bone has Secure Shell (SSH) enabled right out of the box, so you can easily connect by using the following command to log in as user +debian+, (note the +$+ at the end of the prompt):
 
 ++++
 <pre data-type="programlisting">
-host$ <strong>ssh root@192.168.7.2</strong>
+host$ <strong>ssh debian@192.168.7.2</strong>
 Warning: Permanently added 'bone,192.168.7.2' (ECDSA) to the list of known hosts.
 Last login: Mon Dec 22 07:53:06 2014 from yoder-linux.local
 bone$ 
@@ -117,17 +119,7 @@ bone$
 
 ((("normal user")))((("Debian", "normal user")))Or you could log in as a normal user, +debian+ (note the +$+ at the end of the prompt):
 
-++++
-<pre data-type="programlisting">
-host$ <strong>ssh debian@192.168.7.2</strong>
-Warning: Permanently added 'bone,192.168.7.2' (ECDSA) to the list of known hosts.
-debian@bone's password: 
-Last login: Fri Dec  5 07:57:06 2014 from 192.168.7.1
-bone$ 
-</pre>
-++++
-
-((("passwords", "changing")))((("security issues", "passwords")))+root+ has no password. It's best to change both passwords:
+((("passwords", "changing")))((("security issues", "passwords")))+root+ has passwords disabled. It's best to change the password:
 
 ++++
 <pre data-type="programlisting">
@@ -162,11 +154,19 @@ host$ <strong>ls -ls /dev/ttyACM0</strong>
 ++++
 
 _/dev/ttyACM0_ is a serial port on your host computer that the Bone creates when it boots up. 
-The letters +crw-rw----+ show that you can't access it as a normal user. However, you _can_ access it if you are part of +dialout+ group. Just add yourself to the group:
+The letters +crw-rw----+ show that you can't access it as a normal user. However, you _can_ access it if you are part of +dialout+ group. See if you are in the +dialout+ group:
 
 ++++
 <pre data-type="programlisting">
-host$ sudo adduser $USER dialout
+host$ <strong>groups</strong>
+yoder adm tty uucp <strong>dialout</strong> cdrom sudo dip plugdev lpadmin sambashare
+</pre>
+++++
+Looks like I'm already in the group, but if you aren't, just add yourself to the group:
+
+++++
+<pre data-type="programlisting">
+host$ <strong>sudo adduser $USER dialout</strong>
 </pre>
 ++++
 
@@ -197,7 +197,7 @@ tells the speed of the connection. In this case, it's 115,200 bits per second.
 === Viewing and Debugging the Kernel and u-boot Messages at Boot Time
 
 ==== Problem
-((("advanced operations", "viewing system messages")))((("FTDI pins")))((("debugging", "low-level")))((("system messages, viewing")))((("debugging", "at boot time")))You want to see the messages that are logged by BeagleBone Black come to life.
+((("advanced operations", "viewing system messages")))((("FTDI pins")))((("debugging", "low-level")))((("system messages, viewing")))((("debugging", "at boot time")))You want to see the messages that are logged by BeagleBone Black as it comes to life.
 
 ==== Solution
 There is no network in place when the Bone first boots up, so <<tips_shell>> and <<tips_serial>> won't work. This recipe uses some extra hardware (FTDI cable) to attach to the Bone's console serial port.
@@ -239,7 +239,7 @@ Now, run the following commands on your host computer:
 
 ++++
 <pre data-type="programlisting">
-host$ <strong>ls -ls /dev/ttyUSB0 </strong>
+host$ <strong>ls -ls /dev/ttyUSB0</strong>
 0 crw-rw---- 1 root dialout 188, 0 Jun 19 12:43 /dev/ttyUSB0
 host$ <strong>sudo adduser $USER dialout</strong>
 host$ <strong>screen /dev/ttyUSB0 115200</strong>
@@ -256,7 +256,7 @@ beaglebone login:
 
 [NOTE]
 ====
-Your screen might initially be black. Press Enter a couple times to see the login prompt.
+Your screen might initially be blank. Press Enter a couple times to see the login prompt.
 ====
 
 ==== Discussion
@@ -273,7 +273,7 @@ Log in to your Bone and enter the following command:
 ++++
 <pre data-type="programlisting">
 bone$ <strong>cat /etc/dogtag</strong>
-BeagleBoard.org BeagleBone Debian Image 2014-11-11
+BeagleBoard.org Debian Bullseye IoT Image 2022-06-02
 </pre>
 ++++
 
@@ -290,7 +290,7 @@ Run the installed Virtual Network Computing (VNC) server:
 
 ++++
 <pre data-type="programlisting">
-bone$ <strong>sudo -u debian tightvncserver</strong>
+bone$ <strong>tightvncserver</strong>
 
 You will require a password to access your desktops.
 
@@ -306,11 +306,7 @@ Starting applications specified in /root/.vnc/xstartup
 Log file is /root/.vnc/beaglebone:1.log
 </pre>
 ++++
-
-[NOTE]
-====
-This solution assumes that you are logged in to the Bone as +root+. If you just started +tightvncserver+ without +sudo+, the VNC would be running as +root+, which could cause some problems, because some programs (such as the Chrome web browser) won't run as +root+. This example uses +sudo+ to run +tightvncserver+ as +debian+.
-====
+// To Do - Start here
 
 ((("Remmina Remote Desktop Client")))To connect to the Bone, you will need to run a VNC client. There are many to choose from. Remmina Remote Desktop Client is already installed on Ubuntu. Start and select the new remote desktop file button (<<tips_vnc1_fig>>).
 

@@ -45,9 +45,9 @@ A cookbook for programming Beagles
 . link:03displays/displays.html[Displays]
   ** [ ] Introduction
   ** [x] Toggling an Onboard LED
-  ** [python ] Toggling an External LED
+  ** [x] Toggling an External LED
   ** [python ] Toggling a High-Voltage External Device
-  ** [python ] Fading an External LED
+  ** [x] Fading an External LED
   ** [x] Writing to an LED Matrix
   ** [remove?] Driving a 5 V Device
   ** [PRU?] Writing to a NeoPixel LED String
@@ -56,8 +56,8 @@ A cookbook for programming Beagles
 
  . link:04motors/motors.html[Motors]
   ** [ ] Introduction
-  ** [python ] Controlling a Servo Motor
-  ** [python ] Controlling the Speed of a DC Motor
+  ** [x] Controlling a Servo Motor
+  ** [x] Controlling the Speed of a DC Motor
   ** [parts?] Controlling the Speed and Direction of a DC Motor
   ** [parts? ] Driving a Bipolar Stepper Motor
   ** [parts? ] Driving a Unipolar Stepper Motor
@@ -70,7 +70,7 @@ A cookbook for programming Beagles
   ** [ ] Getting to the Command Shell via the Virtual Serial Port
   ** [ftdi ] Viewing and Debugging the Kernel and u-boot Messages at Boot Time
   ** [ ] Verifying You Have the Latest Version of the OS on Your Bone from the Shell
-  ** [update] Controlling the Bone Remotely with VNC
+  ** [update delete?] Controlling the Bone Remotely with VNC
   ** [ ] Learning Typical GNU/Linux Commands
   ** [ ] Editing a Text File from the GNU/Linux Command Shell
   ** [remove? ] Using a Graphical Editor
