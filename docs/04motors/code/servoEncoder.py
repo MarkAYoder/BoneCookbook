@@ -83,11 +83,11 @@ while True:
 	# Print only if data changes
 	if data != olddata:
 		olddata = data
-		print("data = " + data)
+		# print("data = " + data)
 		# # map 0-180  to min-max
 		duty_cycle = -1*int(data)*(max-min)/180.0 + max
 		duty_cycle = str(int(duty_cycle*1000000))	# Convert from ms to ns
-		print('duty_cycle = ' + duty_cycle)
+		# print('duty_cycle = ' + duty_cycle)
 		f = open(PWMPATH+'/pwm'+pwm+'/duty_cycle', 'w')
 		f.write(duty_cycle)
 		f.close()
