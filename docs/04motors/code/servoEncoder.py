@@ -1,11 +1,22 @@
 #!/usr/bin/env python
-# // This uses the eQEP hardware to read a rotary encoder
-# // and position a servo motor
-# // bone$ config-pin P8_11 qep
-# // bone$ config-pin P8_12 qep
-# //          cd /sys/bus/counter/devices/counter2/count0
-# //          sudo chgrp gpio *
-# //          sudo chmod g+w *
+# ////////////////////////////////////////
+# //	servoEncoder.py
+# //	Drive a simple servo motor using rotary encoder viq eQEP 
+# //	Wiring: Servo on P9_16, rotary encoder on P8_11 and P8_12
+# //	Setup:  config-pin P9_16 pwm
+# //			cd /sys/class/pwm/pwmchip5
+# //          	sudo chgrp gpio *
+# //          	sudo chmod g+w *
+# //          	echo 1 > export
+# //          	cd pwm1
+# //
+# //			config-pin P8_11 qep
+# //			config-pin P8_12 qep
+# //        	cd /sys/bus/counter/devices/counter2/count0
+# //          	sudo chgrp gpio *
+# //          	sudo chmod g+w *
+# //	See:
+# ////////////////////////////////////////
 import time
 import signal
 import sys
@@ -34,8 +45,8 @@ pwmPeriod = '20000000'    # Period in ns, (20 ms)
 pwmchip = '5'  # pwm chip to use
 pwm = '1'      # pwm to use
 PWMPATH='/sys/class/pwm/pwmchip'+pwmchip
-min  = 0.8 # Smallest angle (in ms)
-max  = 2.4 # Largest angle (in ms)
+min  = 0.6 # Smallest angle (in ms)
+max  = 2.5 # Largest angle (in ms)
 ms   = 250 # How often to change position, in ms
 pos  = 1.5 # Current position, about middle ms)
 step = 0.1 # Step size to next position
@@ -74,7 +85,7 @@ while True:
 		olddata = data
 		print("data = " + data)
 		# # map 0-180  to min-max
-		duty_cycle = int(data)*(max-min)/180.0 + min
+		duty_cycle = -1*int(data)*(max-min)/180.0 + max
 		duty_cycle = str(int(duty_cycle*1000000))	# Convert from ms to ns
 		print('duty_cycle = ' + duty_cycle)
 		f = open(PWMPATH+'/pwm'+pwm+'/duty_cycle', 'w')
@@ -91,3 +102,11 @@ while True:
 # eQEP1:	P8.33 and P8.35
 # eQEP2:	P8.11 and P8.12 or P9.19 and P9.41
 # eQEP3:	P8.24 abd P8.25 or P9.27 and P9.42
+
+# | Pin   | pwmchip | pwm
+# | P9_31 | 3       | 0
+# | P9_29 | 3       | 1
+# | P9_14 | 5       | 0
+# | P9_16 | 5       | 1
+# | P8_19 | 7       | 0
+# | P8_13 | 7       | 1

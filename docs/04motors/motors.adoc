@@ -62,7 +62,7 @@ image:figures/servoMotor_bb.png[Servo Motor]
 The code for controlling the servo motor is in _servoMotor.js_, shown in <<motors_servoMotor_code>>.
 
 [role="pagebreak-before"]
-[[pyservoMotor_code]]
+[[py_servoMotor_code]]
 .Code for driving a servo motor (servoMotor.py)
 ====
 [source, python]
@@ -86,6 +86,26 @@ Running the code causes the motor to move back and forth, progressing to success
 
 ==== Discussion
 
+=== Controlling a Servo with an Rotary Encoder
+
+==== Problem
+You have a rotary encoder from <<digital_rotaryEncoder_js>> that you want to control a servo motor.
+
+==== Solution
+Combine the code from <<digital_rotaryEncoder_js>> and <<motors_servo>>.
+
+[role="pagebreak-before"]
+[[py_servoEncoder_code]]
+.Code for driving a servo motor with a rotary encorder(servoEncoder.py)
+====
+[source, python]
+----
+
+include::code/servoEncoder.py[]
+
+----
+====
+
 [[motors_dcSpeed]]
 === Controlling the Speed of a DC Motor
 
@@ -95,7 +115,9 @@ Running the code causes the motor to move back and forth, progressing to success
 
 ==== Solution
 
-It would be nice if you could just wire the DC motor to BeagleBone Black and have it work, but it won't.  Most motors require more current than the GPIO ports on the Bone can supply. Our solution is to use a transistor to control the current to the bone.  
+It would be nice if you could just wire the DC motor to BeagleBone Black and have it work, but it won't.  Most motors require more current than the GPIO ports on the Bone can supply. Our solution is to use a transistor to control the current to the bone. 
+
+Here we configure the encoder to returns value between 0 and 180 inclusive.   This value is then mapped to a value between +min+ (0.6 ma) and +max+ (2.5 ms).  This number is converted from milliseconds and nanoseconds (time 1000000) and sent to the servo motor via the pwm.
 
 [role="pagebreak-before"]
 Here's what you will need:
