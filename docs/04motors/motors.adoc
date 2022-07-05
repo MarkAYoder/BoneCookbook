@@ -140,6 +140,18 @@ image:figures/dcMotor_bb.png[DC Motor]
 Use the code in <<motors_dcMotor_code>> (_dcMotor.js_) to run the motor.
 
 [role="pagebreak-before"]
+[[py_dcMotor_code]]
+.Driving a DC motor in one direction (dcMotor.py)
+====
+[source, python]
+----
+
+include::code/dcMotor.py[]
+
+----
+====
+
+[role="pagebreak-before"]
 [[motors_dcMotor_code]]
 .Driving a DC motor in one direction (dcMotor.js)
 ====

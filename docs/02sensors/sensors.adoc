@@ -452,12 +452,12 @@ data = 22
 data = 0
 data = 999989
 data = 999973
-data = 999973
-data = 999973
 data = 999972
 ^C
 ----
-The values you get for +speed+ and +position+ will depend on which way you are turning the device and how quickly. You will need to press ^C (Ctrl-C) to end the pass:[<span class="keep-together">program</span>].
+The values you get for +data+ will depend on which way you are turning the device and how quickly. You will need to press ^C (Ctrl-C) to end.
+
+[<span class="keep-together">program</span>].
 
 ==== Discussion
 

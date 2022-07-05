@@ -41,7 +41,7 @@ fQEP.close()
 fQEP = open(COUNTERPATH+'/count', 'r')
 
 # Set up servo
-pwmPeriod = '20000000'    # Period in ns, (20 ms)
+pwmPeriod = '200000time.sleep(ms/1000)00'    # Period in ns, (20 ms)
 pwmchip = '5'  # pwm chip to use
 pwm = '1'      # pwm to use
 PWMPATH='/sys/class/pwm/pwmchip'+pwmchip
