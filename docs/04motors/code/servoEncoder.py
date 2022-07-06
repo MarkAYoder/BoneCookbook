@@ -4,17 +4,8 @@
 # //	Drive a simple servo motor using rotary encoder viq eQEP 
 # //	Wiring: Servo on P9_16, rotary encoder on P8_11 and P8_12
 # //	Setup:  config-pin P9_16 pwm
-# //			cd /sys/class/pwm/pwmchip5
-# //          	sudo chgrp gpio *
-# //          	sudo chmod g+w *
-# //          	echo 1 > export
-# //          	cd pwm1
-# //
 # //			config-pin P8_11 qep
 # //			config-pin P8_12 qep
-# //        	cd /sys/bus/counter/devices/counter2/count0
-# //          	sudo chgrp gpio *
-# //          	sudo chmod g+w *
 # //	See:
 # ////////////////////////////////////////
 import time
@@ -23,7 +14,7 @@ import sys
 
 # Set up encoder
 eQEP = '2'
-COUNTERPATH = '/sys/bus/counter/devices/counter'+eQEP+'/count0'
+COUNTERPATH = '/dev/bone/counter/counter'+eQEP+'/count0'
 maxCount = '180'
 
 ms = 100 	# Time between samples in ms
@@ -41,36 +32,31 @@ fQEP.close()
 fQEP = open(COUNTERPATH+'/count', 'r')
 
 # Set up servo
-pwmPeriod = '200000time.sleep(ms/1000)00'    # Period in ns, (20 ms)
-pwmchip = '5'  # pwm chip to use
-pwm = '1'      # pwm to use
-PWMPATH='/sys/class/pwm/pwmchip'+pwmchip
-min  = 0.6 # Smallest angle (in ms)
-max  = 2.5 # Largest angle (in ms)
+pwmPeriod = '20000000'    # Period in ns, (20 ms)
+pwm     = '1'  # pwm to use
+channel = 'b'  # channel to use
+PWMPATH='/dev/bone/pwm/'+pwm+'/'+channel
+low  = 0.6 # Smallest angle (in ms)
+hi   = 2.5 # Largest angle (in ms)
 ms   = 250 # How often to change position, in ms
 pos  = 1.5 # Current position, about middle ms)
 step = 0.1 # Step size to next position
 
 def signal_handler(sig, frame):
     print('Got SIGINT, turning motor off')
-    f = open(PWMPATH+'/pwm'+pwm+'/enable', 'w')
+    f = open(PWMPATH+'/enable', 'w')
     f.write('0')
     f.close()
     sys.exit(0)
 signal.signal(signal.SIGINT, signal_handler)
 
-# fs.writeFileSync(PWMPATH+'/export', pwm)   # Export the pwm channel
-# Set the period in ns, first 0 duty_cycle
-# f = open(PWMPATH+'/pwm'+pwm+'/duty_cycle', 'w')
-# f.write('0')
-# f.close()
-f = open(PWMPATH+'/pwm'+pwm+'/period', 'w')
+f = open(PWMPATH+'/period', 'w')
 f.write(pwmPeriod)
 f.close()
-f = open(PWMPATH+'/pwm'+pwm+'/duty_cycle', 'w')
+f = open(PWMPATH+'/duty_cycle', 'w')
 f.write(str(round(int(pwmPeriod)/2)))
 f.close()
-f = open(PWMPATH+'/pwm'+pwm+'/enable', 'w')
+f = open(PWMPATH+'/enable', 'w')
 f.write('1')
 f.close()
 
@@ -84,11 +70,11 @@ while True:
 	if data != olddata:
 		olddata = data
 		# print("data = " + data)
-		# # map 0-180  to min-max
-		duty_cycle = -1*int(data)*(max-min)/180.0 + max
+		# # map 0-180  to low-hi
+		duty_cycle = -1*int(data)*(hi-low)/180.0 + hi
 		duty_cycle = str(int(duty_cycle*1000000))	# Convert from ms to ns
 		# print('duty_cycle = ' + duty_cycle)
-		f = open(PWMPATH+'/pwm'+pwm+'/duty_cycle', 'w')
+		f = open(PWMPATH+'/duty_cycle', 'w')
 		f.write(duty_cycle)
 		f.close()
 	time.sleep(ms/1000)
@@ -103,10 +89,10 @@ while True:
 # eQEP2:	P8.11 and P8.12 or P9.19 and P9.41
 # eQEP3:	P8.24 abd P8.25 or P9.27 and P9.42
 
-# | Pin   | pwmchip | pwm
-# | P9_31 | 3       | 0
-# | P9_29 | 3       | 1
-# | P9_14 | 5       | 0
-# | P9_16 | 5       | 1
-# | P8_19 | 7       | 0
-# | P8_13 | 7       | 1
+# | Pin   | pwm | channel
+# | P9_31 | 0   | a
+# | P9_29 | 0   | b
+# | P9_14 | 1   | a
+# | P9_16 | 1   | b
+# | P8_19 | 2   | a
+# | P8_13 | 2   | b

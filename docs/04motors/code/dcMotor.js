@@ -9,37 +9,36 @@
 const fs = require("fs");
 
 const pwmPeriod = '1000000';    // Period in ns
-const pwmchip = '5';  // pwm chip to use
-const pwm = '1';      // pwm to use
-const PWMPATH='/sys/class/pwm/pwmchip'+pwmchip;
+const pwm     = '1';  // pwm to use
+const channel = 'b';  // channel to use
+const PWMPATH='/dev/bone/pwm/'+pwm+'/'+channel;
 
-const min = 0.05,     // Slowest speed (duty cycle)
-      max = 1,        // Fastest (always on)
+const low = 0.05,     // Slowest speed (duty cycle)
+      hi  = 1,        // Fastest (always on)
       ms = 100;       // How often to change speed, in ms
 var   speed = 0.5,    // Current speed;
       step = 0.05;    // Change in speed
 
 // fs.writeFileSync(PWMPATH+'/export', pwm);   // Export the pwm channel
 // Set the period in ns, first 0 duty_cycle, 
-fs.writeFileSync(PWMPATH+'/pwm'+pwm+'/duty_cycle', '0');
-fs.writeFileSync(PWMPATH+'/pwm'+pwm+'/period', pwmPeriod);
-fs.writeFileSync(PWMPATH+'/pwm'+pwm+'/duty_cycle', pwmPeriod/2);
-fs.writeFileSync(PWMPATH+'/pwm'+pwm+'/enable', '1');
+fs.writeFileSync(PWMPATH+'/duty_cycle', '0');
+fs.writeFileSync(PWMPATH+'/period', pwmPeriod);
+fs.writeFileSync(PWMPATH+'/duty_cycle', pwmPeriod/2);
+fs.writeFileSync(PWMPATH+'/enable', '1');
 
-setInterval(sweep, ms);
+timer = setInterval(sweep, ms);
 
 function sweep() {
     speed += step;
-    if(speed > max || speed < min) {
+    if(speed > hi || speed < low) {
         step *= -1;
     }
-    fs.writeFileSync(PWMPATH+'/pwm'+pwm+'/duty_cycle', 
-    parseInt(pwmPeriod*speed));
+    fs.writeFileSync(PWMPATH+'/duty_cycle', parseInt(pwmPeriod*speed));
     // console.log('speed = ' + speed);
 }
 
 process.on('SIGINT', function() {
     console.log('Got SIGINT, turning motor off');
     clearInterval(timer);       // Stop the timer
-    fs.writeFileSync(PWMPATH+'/pwm'+pwm+'/enable', '0');
+    fs.writeFileSync(PWMPATH+'/enable', '0');
 });

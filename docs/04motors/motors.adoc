@@ -170,6 +170,8 @@ include::code/dcMotor.js[]
 
 How do you change the direction of the motor? See <<motors_dcDirection>>.
 
+// TODO Start here
+
 [[motors_dcDirection]]
 === Controlling the Speed and Direction of a DC Motor
 
