@@ -429,6 +429,17 @@ This will enable _eQEP2_ on pins +P8_11+ and +P8_12+.  The +2+ after the +qep+ r
 
 Finally, add the code in <<digital_rotaryEncoder_js>> to a file named _rotaryEncoder.js_ and run it.
 
+[[digital_rotaryEncoder_py]]
+.Reading a rotary encoder (rotaryEncoder.py)
+====
+[source, python]
+----
+
+include::code/rotaryEncoder.py[]
+
+----
+====
+
 [[digital_rotaryEncoder_js]]
 .Reading a rotary encoder (rotaryEncoder.js)
 ====
@@ -712,9 +723,9 @@ bone$ <strong>pip install smbus</strong>
 ====
 
 [[js_i2ctmp101_code]]
-.Reading an I^2^C  device (i2cTemp.js)
+.Reading an I^2^C  device (i2cTemp.py)
 ====
-[source, js]
+[source, python]
 ----
 include::code/i2ctmp101.py[]
 ----
