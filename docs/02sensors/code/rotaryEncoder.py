@@ -2,13 +2,10 @@
 # // This uses the eQEP hardware to read a rotary encoder
 # // bone$ config-pin P8_11 qep
 # // bone$ config-pin P8_12 qep
-# //          cd /sys/bus/counter/devices/counter2/count0
-# //          sudo chgrp gpio *
-# //          sudo chmod g+w *
 import time
     
 eQEP = '2'
-COUNTERPATH = '/sys/bus/counter/devices/counter'+eQEP+'/count0'
+COUNTERPATH = '/dev/bone/counter/counter'+eQEP+'/count0'
 	
 ms = 100 	# Time between samples in ms
 maxCount = '1000000'

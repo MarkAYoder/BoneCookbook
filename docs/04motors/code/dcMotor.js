@@ -4,11 +4,6 @@
 //	This is an example of driving a DC motor
 //	Wiring:
 //	Setup:  config-pin P9_16 pwm
-//          cd /sys/class/pwm/pwmchip5
-//          echo 1 > export
-//          cd pwm1
-//          chgrp gpio *
-//          chmod g+w *
 //	See:
 ////////////////////////////////////////
 const fs = require("fs");
@@ -40,7 +35,7 @@ function sweep() {
     }
     fs.writeFileSync(PWMPATH+'/pwm'+pwm+'/duty_cycle', 
     parseInt(pwmPeriod*speed));
-    console.log('speed = ' + speed);
+    // console.log('speed = ' + speed);
 }
 
 process.on('SIGINT', function() {
