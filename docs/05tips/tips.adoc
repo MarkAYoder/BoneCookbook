@@ -417,28 +417,6 @@ By default, the file you create will be saved in the directory from which you op
 
 Many other text editors will run on the Bone. +vi+, +vim+, +emacs+, and  even +eclipse+ are all supported. See <<tips_apt>> to learn if your favorite is one of them.
 
-=== Using a Graphical Editor
-
-==== Problem
-((("advanced operations", "using graphical editors")))((("editors", "graphics-based")))((("graphical editors")))You want to use a graphical (rather than text-based) editor to edit a text file.
-
-==== Solution
-((("leafpad editor")))+leafpad+ is a simple graphics-based editor that's already installed on your Bone. You can use it if your host computer supports X-Windows (Mac and Linux). Just run the following commands to open a new file to begin editing in +leafpad+ (<<tips_leafpad_fig>>):
-
-++++
-<pre data-type="programlisting">
-host$ <strong>ssh -X root@192.168.7.2</strong>
-bone$ <strong>leafpad file.txt</strong>
-</pre>
-++++
-
-Notice the +-X+ on the +ssh+ command. This instructs SSH to pass the graphics from the Bone to the host computer. 
-
-[[tips_leafpad_fig]]
-.Editing a file with leafpad
-image::figures/leafpad.png[leafpad]
-
-Now, you can use your mouse to move around and copy and paste as usual.
 
 [[networking_wired]]
 === Establishing an Ethernet-Based Internet Connection
