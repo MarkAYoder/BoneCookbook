@@ -438,44 +438,45 @@ image::figures/internLED.png[RJ45]
 It might take a minute or two for your router to detect the Bone and assign the IP address.
 ====
 
-((("IP address", "locating")))((("ifconfig command")))To find the IP address, open a terminal window and run the +ifconfig+ command:
+((("IP address", "locating")))((("ifconfig command")))To find the IP address, open a terminal window and run the +ip+ command:
 
 ++++
 <pre data-type="programlisting">
-bone$ ifconfig
-eth0      Link encap:Ethernet  HWaddr c8:a0:30:b7:f9:6f  
-          inet addr:137.112.41.36  Bcast:137.112.41.255  Mask:255.255.255.0
-          inet6 addr: fe80::caa0:30ff:feb7:f96f/64 Scope:Link
-          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
-          RX packets:238 errors:0 dropped:53 overruns:0 frame:0
-          TX packets:20 errors:0 dropped:0 overruns:0 carrier:0
-          collisions:0 txqueuelen:1000 
-          RX bytes:25341 (24.7 KiB)  TX bytes:4339 (4.2 KiB)
-          Interrupt:40 
-
-lo        Link encap:Local Loopback  
-          inet addr:127.0.0.1  Mask:255.0.0.0
-          inet6 addr: ::1/128 Scope:Host
-          UP LOOPBACK RUNNING  MTU:65536  Metric:1
-          RX packets:1517 errors:0 dropped:0 overruns:0 frame:0
-          TX packets:1517 errors:0 dropped:0 overruns:0 carrier:0
-          collisions:0 txqueuelen:0 
-          RX bytes:2542320 (2.4 MiB)  TX bytes:2542320 (2.4 MiB)
-
-usb0      Link encap:Ethernet  HWaddr aa:26:91:0e:a6:17  
-          inet addr:192.168.7.2  Bcast:192.168.7.3  Mask:255.255.255.252
-          inet6 addr: fe80::a826:91ff:fe0e:a617/64 Scope:Link
-          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
-          RX packets:8672 errors:0 dropped:0 overruns:0 frame:0
-          TX packets:5069 errors:0 dropped:0 overruns:0 carrier:0
-          collisions:0 txqueuelen:1000 
-          RX bytes:7474185 (7.1 MiB)  TX bytes:3262782 (3.1 MiB)
+bone$ <strong>ip a</strong>
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host 
+       valid_lft forever preferred_lft forever
+2: eth0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc mq state UP group default qlen 1000
+    link/ether c8:a0:30:a6:26:e8 brd ff:ff:ff:ff:ff:ff
+    inet 10.0.5.144/24 brd 10.0.5.255 scope global dynamic eth0
+       valid_lft 80818sec preferred_lft 80818sec
+    inet6 fe80::caa0:30ff:fea6:26e8/64 scope link 
+       valid_lft forever preferred_lft forever
+3: usb0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP group default qlen 1000
+    link/ether c2:3f:44:bb:41:0f brd ff:ff:ff:ff:ff:ff
+    inet 192.168.7.2/24 brd 192.168.7.255 scope global usb0
+       valid_lft forever preferred_lft forever
+    inet6 fe80::c03f:44ff:febb:410f/64 scope link 
+       valid_lft forever preferred_lft forever
+4: usb1: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP group default qlen 1000
+    link/ether 76:7e:49:46:1b:78 brd ff:ff:ff:ff:ff:ff
+    inet 192.168.6.2/24 brd 192.168.6.255 scope global usb1
+       valid_lft forever preferred_lft forever
+    inet6 fe80::747e:49ff:fe46:1b78/64 scope link 
+       valid_lft forever preferred_lft forever
+5: can0: <NOARP,ECHO> mtu 16 qdisc noop state DOWN group default qlen 10
+    link/can 
+6: can1: <NOARP,ECHO> mtu 16 qdisc noop state DOWN group default qlen 10
+    link/can
 </pre>
 ++++
 
-My Bone is connected to the Internet in two ways: via the RJ45 connection (+eth0+) and via the USB cable (+usb0+). The +inet addr+ field shows that my Internet address is +137.112.41.36+ for the RJ45 connector.
+My Bone is connected to the Internet in two ways: via the RJ45 connection (+eth0+) and via the USB cable (+usb0+). The +inet+ field shows that my Internet address is +10.0.5.144+ for the RJ45 connector.
 
-((("MAC address, locating")))On my university campus, you must register your MAC address before any device will work on the network. The +HWaddr+ field gives the MAC address. For +eth0+, it's +c8:a0:30:b7:f9:6f+.  
+((("MAC address, locating")))On my university campus, you must register your MAC address before any device will work on the network. The +HWaddr+ field gives the MAC address. For +eth0+, it's +c8:a0:30:a6:26:e8+.  
 
 The IP address of your Bone can change. If it's been assigned by DHCP, it can change at any time. The MAC address, however, never changes;  it is assigned to your ethernet device when it's manufactured.
 
@@ -527,6 +528,8 @@ Bus 002 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
 ====
 ((("USB devices")))There is a well-known bug in the Bone's 3.8 kernel series that prevents USB devices from being discovered when hot-plugged, which is why you should reboot. Newer kernels should address this issue.
 ====
+
+// TODO  update
 
 ((("iwconfig command")))Next, run +iwconfig+ to find your adapter's name.  Mine is called +wlan0+, but you might see other other names, such as +ra0+.
 
