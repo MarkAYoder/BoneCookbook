@@ -555,7 +555,7 @@ Bus 002 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
 
 
 
-((("iwconfig command")))Next, run +networkctl+ to find your adapter's name.  Mine is called +wlan0+, but you might see other other names, such as +ra0+.
+((("iwconfig command")))Next, run +networkctl+ to find your adapter's name.  Mine is called +wlan0+, but you might see other names, such as +ra0+.
 
 ++++
 <pre data-type="programlisting">
@@ -598,8 +598,6 @@ bone$ <strong>ip a</strong>
 </pre>
 ++++
 
-When you find the WiFi device name (mine is +wlan0+), remember it for later.
-
 Next edit the configuration file +/etc/wpa_supplicant/wpa_supplicant-wlan0.conf+.
 
 ++++
@@ -623,16 +621,24 @@ network={
 </pre>
 ++++
 
-Save your file, then run:
+Change the +ssid+ and +psk+ enteries for your network. Save your file, then run:
 
 ++++
 <pre>
 bone$ <strong>sudo systemctl restart systemd-networkd</strong>
 bone$ <strong> ip a</strong>
+bone$ <strong>ping -c2 google.com</strong>
+PING google.com (142.250.191.206) 56(84) bytes of data.
+64 bytes from ord38s31-in-f14.1e100.net (142.250.191.206): icmp_seq=1 ttl=115 time=19.5 ms
+64 bytes from ord38s31-in-f14.1e100.net (142.250.191.206): icmp_seq=2 ttl=115 time=19.4 ms
+
+--- google.com ping statistics ---
+2 packets transmitted, 2 received, 0% packet loss, time 1001ms
+rtt min/avg/max/mdev = 19.387/19.450/19.513/0.063 ms
 </pre>
 ++++
 
-+wlan0+ should now have an ip address. If not, try rebooting.
++wlan0+ should now have an ip address and you should be on the network. If not, try rebooting.
 
 ==== Discussion
 
