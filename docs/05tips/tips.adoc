@@ -498,6 +498,28 @@ On many home networks, you will be behind a firewall and won't be as visible.
 ((("Internet", "WiFi-based connections")))((("USB wireless adapters")))((("WiFi adapters")))((("wireless networks, connecting to")))((("advanced operations", "WiFi-based Internet connections")))You want BeagleBone Black to talk to the Internet using a USB wireless adapter.
 
 ==== Solution
+
+[TIP]
+====
+For the correct instructions for the image you are using, go to
+https://forum.beagleboard.org/tag/latest-images[latest-images] and click on the image you are using.
+
+[[tips_latest-images_fig]]
+.Latested Beagle Images
+image::figures/latest-images.png[Latest Image Page]
+
+I'm running Debian 11.x (Bullseye), the middle one.
+
+[[tips_networkfig]]
+.Instructions for setting up your network.
+image::figures/network.png[Network Setup Instructions]
+
+
+Scroll to the top of the page and you'll see instructions on setting up Wifi. The instructions here are based on using +networkctl+.
+====
+
+
+// TODO is this up to date?
 Several WiFi adapters work with the Bone. Check http://bit.ly/1EbEwUo[WiFi Adapters] for the latest list.
 
 To make this recipe, you will need:
@@ -531,100 +553,86 @@ Bus 002 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
 
 // TODO  update
 
-((("iwconfig command")))Next, run +iwconfig+ to find your adapter's name.  Mine is called +wlan0+, but you might see other other names, such as +ra0+.
+
+
+((("iwconfig command")))Next, run +networkctl+ to find your adapter's name.  Mine is called +wlan0+, but you might see other other names, such as +ra0+.
 
 ++++
 <pre data-type="programlisting">
-bone$ <strong>iwconfig</strong>
-wlan0     unassociated  Nickname:"WIFI@REALTEK"
-          Mode:Auto  Frequency=2.412 GHz  Access Point: Not-Associated   
-          Sensitivity:0/0  
-          Retry:off   RTS thr:off   Fragment thr:off
-          Encryption key:off
-          Power Management:off
-          Link Quality=0/100  Signal level=0 dBm  Noise level=0 dBm
-          Rx invalid nwid:0  Rx invalid crypt:0  Rx invalid frag:0
-          Tx excessive retries:0  Invalid misc:0   Missed beacon:0
+bone$ <strong>networkctl</strong>
+IDX LINK    TYPE     OPERATIONAL SETUP
+  1 lo      loopback carrier     unmanaged
+  2 eth0    ether    no-carrier  configuring
+  3 usb0    gadget   routable    configured 
+  4 usb1    gadget   routable    configured 
+  5 can0    can      off         unmanaged
+  6 can1    can      off         unmanaged
+  7 wlan0   wlan     routable    configured 
+  8 SoftAp0 wlan     routable    configured 
 
-lo        no wireless extensions.
-
-eth0      no wireless extensions.
-
-usb0      no wireless extensions.
-
+8 links listed.
 </pre>
 ++++
 
-((("ifconfig command")))If no name appears, try +ifconfig -a+:
+((("ifconfig command")))If no name appears, try +ip a+:
 
 ++++
 <pre data-type="programlisting">
-bone$ <strong>ifconfig -a</strong>
+bone$ <strong>ip a</strong>
 ...
-usb0      Link encap:Ethernet  HWaddr 92:84:3f:a2:12:0f  
-          inet addr:192.168.7.2  Bcast:192.168.7.3  Mask:255.255.255.252
-          inet6 addr: fe80::9084:3fff:fea2:120f/64 Scope:Link
-          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
-          RX packets:5789 errors:0 dropped:0 overruns:0 frame:0
-          TX packets:5158 errors:0 dropped:0 overruns:0 carrier:0
-          collisions:0 txqueuelen:1000 
-          RX bytes:6401357 (6.1 MiB)  TX bytes:842982 (823.2 KiB)
-
-wlan0     Link encap:Ethernet  HWaddr 00:13:ef:d0:27:04  
-          UP BROADCAST MULTICAST  MTU:1500  Metric:1
-          RX packets:0 errors:0 dropped:0 overruns:0 frame:0
-          TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
-          collisions:0 txqueuelen:1000 
-          RX bytes:0 (0.0 B)  TX bytes:0 (0.0 B)
-
+2: eth0: <NO-CARRIER,BROADCAST,MULTICAST,UP> mtu 1500 qdisc pfifo_fast state DOWN group default qlen 1000
+    link/ether c8:a0:30:a6:26:e8 brd ff:ff:ff:ff:ff:ff
+3: usb0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP group default qlen 1000
+    link/ether c2:3f:44:bb:41:0f brd ff:ff:ff:ff:ff:ff
+    inet 192.168.7.2/24 brd 192.168.7.255 scope global usb0
+       valid_lft forever preferred_lft forever
+    inet6 fe80::c03f:44ff:febb:410f/64 scope link 
+       valid_lft forever preferred_lft forever
+...
+7: wlan0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc mq state UP group default qlen 1000
+    link/ether 64:69:4e:7e:5c:e4 brd ff:ff:ff:ff:ff:ff
+    inet 10.0.7.21/24 brd 10.0.7.255 scope global dynamic wlan0
+       valid_lft 85166sec preferred_lft 85166sec
+    inet6 fe80::6669:4eff:fe7e:5ce4/64 scope link 
+       valid_lft forever preferred_lft forever
 </pre>
 ++++
 
 When you find the WiFi device name (mine is +wlan0+), remember it for later.
 
-((("wicd-curses")))Run +wicd-curses+ to display the wireless networks your WiFi device is seeing:
+Next edit the configuration file +/etc/wpa_supplicant/wpa_supplicant-wlan0.conf+.
 
 ++++
 <pre data-type="programlisting">
-bone$ <strong>wicd-curses</strong>
+bone$ <strong>sudo nano /etc/wpa_supplicant/wpa_supplicant-wlan0.conf</strong>
 </pre>
 ++++
 
-In <<tips_wicd_opening_view_fig>>, you see one wireless network, my home wireless. 
+In the file you'll see:
 
-[[tips_wicd_opening_view_fig]]
-.Using wicd to display available wireless networks
-image::figures/wicd.png[wicd opening view]
+++++
+<pre data-type="programlisting">
+ctrl_interface=DIR=/run/wpa_supplicant GROUP=netdev
+update_config=1
+#country=US
 
-If nothing appears, press P and make sure the Wireless Interface matches the device name you noted from +ifconfig+. If it doesn't match, press the down arrow and enter the device name, as shown in <<tips_wicd_prefs_fig>>.  
+network={
+	ssid="Your SSID"
+	psk="Your Password"
+}
+</pre>
+++++
 
-[[tips_wicd_prefs_fig]]
-.Setting preferences in wicd
-image::figures/wicdPrefs.png[Setting preferences in wicd]
+Save your file, then run:
 
-After you enter a name, press F10 to save and then press R to refresh the list. You'll now see the available access points.
+++++
+<pre>
+bone$ <strong>sudo systemctl restart systemd-networkd</strong>
+bone$ <strong> ip a</strong>
+</pre>
+++++
 
-Use the down arrow to select which network to use and then press the right arrow  to configure it, as shown in <<tips_wicd_config_fig>>.
-
-[[tips_wicd_config_fig]]
-.Configuring a network in wicd
-image::figures/wicdConfig.png[Configuring a network in wicd]
-
-Press the down arrow until you are near the bottom of the screen and then press Enter. Use the up/down arrows to select the type of authentication (as shown in <<tips_wicd_auth_fig>>) and then press Enter. My home system uses WPA 1/2 (Passphrase) (<<tips_wicd_password_fig>>). 
-
-[[tips_wicd_auth_fig]]
-.Configuring authentication in wicd
-image::figures/wicdSecure.png[Configuring authentication in wicd]
-
-[[tips_wicd_password_fig]]
-.Entering password in wicd
-image::figures/wicdPassword.png[Entering password in wicd]
-
-Press F10 and select the network again; then press C to connect. You'll be connected in a moment, as shown in <<tips_wicd_connected_fig>>.
-
-[[tips_wicd_connected_fig]]
-.Connected to a network via wicd
-image::figures/wicdConnected.png[Connected to a network via wicd]
++wlan0+ should now have an ip address. If not, try rebooting.
 
 ==== Discussion
 
