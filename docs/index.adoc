@@ -73,10 +73,10 @@ A cookbook for programming Beagles
   ** [update delete?] Controlling the Bone Remotely with VNC
   ** [ ] Learning Typical GNU/Linux Commands
   ** [ ] Editing a Text File from the GNU/Linux Command Shell
-  ** [remove? ] Using a Graphical Editor
-  ** [update to ip ] Establishing an Ethernet-Based Internet Connection
-  ** [update to? ] Establishing a WiFi-Based Internet Connection
-  ** [update IP Masquerading ] Sharing the Host's Internet Connection over USB
+  ** [x] removed Using a Graphical Editor
+  ** [x] Establishing an Ethernet-Based Internet Connection
+  ** [x] Establishing a WiFi-Based Internet Connection
+  ** [x] Sharing the Host's Internet Connection over USB
   ** [update add install ] Setting Up a Firewall
   ** [update ] Installing Additional Packages from the Debian Package Feed
   ** [ ] Removing Packages Installed with apt
