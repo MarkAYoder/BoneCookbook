@@ -867,7 +867,7 @@ bone$ <strong>sudo apt install "name of software"</strong>
 </pre>
 ++++
 
-A +sudo+ is necessary if you aren't running as +root+. The first command downloads package lists from various repositories and updates them to get information on the newest versions of packages and their dependencies. (You need to run it only once a week or so.) The second command fetches the software and installs it and all packages it depends on. 
+A +sudo+ is necessary since you aren't running as +root+. The first command downloads package lists from various repositories and updates them to get information on the newest versions of packages and their dependencies. (You need to run it only once a week or so.) The second command fetches the software and installs it and all packages it depends on. 
 
 How do you find out what software you can install?  Try running this:
 
@@ -875,12 +875,12 @@ How do you find out what software you can install?  Try running this:
 <pre data-type="programlisting">
 bone$ <strong>apt-cache pkgnames | sort > /tmp/list</strong>
 bone$ <strong>wc /tmp/list</strong>
- 32121  32121 502707 /tmp/list
+  67303   67303 1348342 /tmp/list
 bone$ <strong>less /tmp/list</strong>
 </pre>
 ++++
 
-The first command lists all the packages that +apt+ knows about and sorts them and stores them in _/tmp/list_. The second command shows why you want to put the list in a file. The +wc+ command counts the number of lines, words, and characters in a file. In our case, there are over 32,000 packages from which we can choose! The +less+ command displays the sorted list, one page at a time. Press the space bar to go to the next page. Press Q to quit.  
+The first command lists all the packages that +apt+ knows about and sorts them and stores them in _/tmp/list_. The second command shows why you want to put the list in a file. The +wc+ command counts the number of lines, words, and characters in a file. In our case, there are over 67,000 packages from which we can choose! The +less+ command displays the sorted list, one page at a time. Press the space bar to go to the next page. Press Q to quit.  
 
 ((("dictionary, installing")))((("online dictionary, installing")))Suppose that you would like to install an online dictionary (+dict+). Just run the following command:
 
