@@ -270,6 +270,8 @@ Your screen might initially be blank. Press Enter a couple times to see the logi
 ==== Solution
 Log in to your Bone and enter the following command:
 
+// TODO update /etc/dogtag<
+
 ++++
 <pre data-type="programlisting">
 bone$ <strong>cat /etc/dogtag</strong>
@@ -280,7 +282,7 @@ BeagleBoard.org Debian Bullseye IoT Image 2022-06-02
 ==== Discussion
 <<basics_latest_os>> shows how to open the _ID.txt_ file to see the OS version. The _/etc/dogtag_ file has the same contents and is easier to find if you already have a command prompt. See <<basics_install_os>> if you need to update your OS.
 
-=== Controlling the Bone Remotely with VNC
+=== Controlling the Bone Remotely with a VNC
 
 ==== Problem
 ((("advanced operations", "remote control via VNC server")))((("Virtual Network Computing (VNC) server")))((("host computer", "accessing graphical desktop from")))You want to access the BeagleBone's graphical desktop from your host computer.
@@ -515,6 +517,7 @@ Scroll to the top of the page and you'll see instructions on setting up Wifi. Th
 [[tips_networkfig]]
 .Instructions for setting up your network.
 image::figures/network.png[Network Setup Instructions]
+====
 
 // TODO is this up to date?
 Several WiFi adapters work with the Bone. Check http://bit.ly/1EbEwUo[WiFi Adapters] for the latest list.
@@ -643,6 +646,8 @@ rtt min/avg/max/mdev = 19.387/19.450/19.513/0.063 ms
 [[networking_usb]]
 === Sharing the Host's Internet Connection over USB
 
+// TODO  Test this
+
 ==== Problem
 ((("advanced operations", "sharing host&#x27;s Internet connection over USB")))((("host computer", "sharing Internet connection over USB")))((("RJ45 connector")))((("Internet", "sharing host computer&#x27;s connection")))Your host computer is connected to the Bone via the USB cable, and you want to run the network between the two.
 
@@ -740,7 +745,7 @@ If you are on a wireless network, find the IP address associated with +wlan0+.
 ====
 
 Then run the following, using your host's IP address:
-
+//  TODO check this iptables
 ++++
 <pre data-type="programlisting">
 host$ <strong>sudo iptables -t nat -A PREROUTING -p tcp -s 0/0 \
@@ -759,16 +764,84 @@ Now browse to your host computer at port +1080+. That is, if your host's IP addr
 ((("firewalls")))((("advanced operations", "firewalls")))((("iptables command")))((("commands", "iptables")))You have put your Bone on the network and want to limit which IP addresses can access it.
 
 ==== Solution
-The Bone already has a firewall installed. Just run the following command:
+https://www.howtogeek.com/[How-To Geek] has a great posting on how do use +ufw+, the "uncomplicated firewall". Check out https://www.howtogeek.com/devops/how-to-secure-your-linux-server-with-a-ufw-firewall/[How to Secure Your Linux Server with a UFW Firewall].  I'll summarize the initial setup here.
 
+First install and check the status:
 ++++
 <pre data-type="programlisting">
-bone$ <strong>iptables --policy INPUT DROP</strong>
-bone$ <strong>iptables -A INPUT -s 137.112.0.0/16 -j ACCEPT</strong>
+bone$ <strong>sudo apt install ufw</strong>
+bone$ <strong>sudo ufw status</strong>
+Status: inactive
 </pre>
 ++++
 
-In this case, only users from my campus (IP addresses beginning with +137.112+) will be able to access (or even see) your Bone.
+Now turn off everything coming in and leave on all outgoing.  Note, this won't take effect until +ufw+ is enabled.
+++++
+<pre data-type="programlisting">
+bone$ <strong>sudo ufw default deny incoming</strong>
+bone$ <strong>sudo ufw default allow outgoing</strong>
+</pre>
+++++
+
+Don't enable yet, make sure +ssh+ still has access
+++++
+<pre data-type="programlisting">
+bone$ <strong>sudo ufw allow 22</strong>
+</pre>
+++++
+
+Just to be sure, you can install +nmap+ on your host computer to see what ports are currently open.
+
+++++
+<pre data-type="programlisting">
+host$ <strong>sudo apt uupdate</strong>
+host$ <strong>sudo apt install nmap</strong>
+host$ <strong>nmap 192.168.7.2</strong>
+Starting Nmap 7.80 ( https://nmap.org ) at 2022-07-09 13:37 EDT
+Nmap scan report for bone (192.168.7.2)
+Host is up (0.014s latency).
+Not shown: 997 closed ports
+PORT     STATE SERVICE
+22/tcp   open  ssh
+80/tcp   open  http
+3000/tcp open  ppp
+
+Nmap done: 1 IP address (1 host up) scanned in 0.19 seconds
+</pre>
+++++
+Currently there are three ports visible:  22, 80 and 3000(visual studio code) Now turn on the firewal and see what happends.
+
+++++
+<pre data-type="programlisting">
+bone$ <strong>sudo ufw enable</strong>
+Command may disrupt existing ssh connections. Proceed with operation (y|n)? y
+Firewall is active and enabled on system startup
+
+
+host$ <strong>nmap 192.168.7.2</strong>
+Starting Nmap 7.80 ( https://nmap.org ) at 2022-07-09 13:37 EDT
+Nmap scan report for bone (192.168.7.2)
+Host is up (0.014s latency).
+Not shown: 999 closed ports
+PORT     STATE SERVICE
+22/tcp   open  ssh
+
+Nmap done: 1 IP address (1 host up) scanned in 0.19 seconds
+</pre>
+++++
+
+Only port 22 (ssh) is accessable now.  
+
+The firewall will remain on, even after a reboot. Disable it now if you don't want it on.
+
+++++
+<pre data-type="programlisting">
+bone$ <strong>sudo ufw disable</strong>
+Firewall stopped and disabled on system startup
+</pre>
+++++
+
+See the How-To Geek article for more examples.
 
 ==== Discussion
 
