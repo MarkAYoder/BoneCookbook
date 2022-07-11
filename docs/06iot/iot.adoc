@@ -47,13 +47,13 @@ and then access:
 ++++
 <pre data-type="programlisting">
 host$ <strong>mkdir /mnt/bone</strong>
-host$ <strong>sshfs root@$192.168.7.2:/ /mnt/bone</strong>
+host$ <strong>sshfs debian@$192.168.7.2:/ /mnt/bone</strong>
 host$ <strong>cd /mnt/bone</strong>
 host$ <strong>ls</strong>
 </pre>
 ++++
 
-Here, we are accessing the files on the Bone as +root+. We’ve mounted the entire file system, starting with +/+, so you can access any file. Of course, with great power comes great responsibility, so be careful.
+Here, we are accessing the files on the Bone as +debian+. We’ve mounted the entire file system, starting with +/+, so you can access any file. Of course, with great power comes great responsibility, so be careful.
 
 ==== Discussion
 The +sshfs+ command gives you easy access from one computer to another. When you are done, you can unmount the files by using the following commands:

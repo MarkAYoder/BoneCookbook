@@ -1132,20 +1132,7 @@ e   4.0KiB [          ] /mnt
 ((("advanced operations", "interactions via C")))((("C language", "benefits of interfacing via")))((("libsoc library")))You want to use C on the Bone to talk to the world.
 
 ==== Solution
-The C solution isn't as simple as the BoneScript or Python solution (<<using_python>>), but it does work and is much faster. https://github.com/jackmitch/libsoc[libsoc] is a "C library for interfacing with common SoC {system on chip} peripherals through generic kernel interfaces" by http://www.embed.me.uk/[Jack Mitchell]. Here's how to get and install it:
-
-++++
-<pre data-type="programlisting">
-bone$ <strong>git clone https://github.com/jackmitch/libsoc.git</strong>
-bone$ <strong>cd libsoc</strong>
-bone$ <strong>./autogen.sh</strong>       # Takes about a minute
-bone$ <strong>./configure</strong>        # Another  minute
-bone$ <strong>make</strong>               # 30 seconds
-bone$ <strong>make install</strong>
-</pre>
-++++
-
-This installs the +libsoc+ library in _/usr/local/lib_. Add the code in <<misc_c_blink>> to a file called _blinkLED.c_.
+The C solution isn't as simple as the JavaScript or Python solution, but it does work and is much faster.  The approach is the same, write to the +/sys/class/gpio+ files.
 
 [[misc_c_blink]]
 .Use C to blink an LED (blinkLED.c)
@@ -1158,10 +1145,7 @@ include::code/blinkLED.c[]
 ----
 ====
 
-[NOTE]
-====
-((("GPIO pins", "header pin mapping for libsoc")))((("debugging", "with libsoc library")))In BoneScript and Python, we refer to the GPIO pins by the header position (+P9_14+, for example). In +libsoc+, we refer to them by an internal GPIO number. <<tips_cape_headers_digital>> shows how to map from header position to GPIO pin. For example, +P9_14+ has +GPIO_50+ next to it. That means +libsoc+ needs to use GPIO 50 to interface with +P9_14+.
-====
+Here, as with JavaScript and Python, the gpio pins are refered to by the Linux gpio number.  <<tips_cape_headers_digital>> shows how the P8 and P9 Headers numbers map to the gpio number.  For this example P9_14 is used, which the table shows in gpio 50.
 
 [[tips_cape_headers_digital]]
 .Mapping from header pin to internal GPIO number
@@ -1171,20 +1155,12 @@ Compile and run the code:
 
 ++++
 <pre data-type="programlisting">
-bone$ <strong>gcc -o blinkLED blinkLED.c -lsoc</strong>
+bone$ <strong>gcc -o blinkLED blinkLED.c </strong>
 bone$ <strong>./blinkLED</strong>
-libsoc-debug: debug enabled (libsoc_set_debug)
-libsoc-gpio-debug: requested gpio (50, libsoc_gpio_request)
-libsoc-gpio-debug: GPIO already exported (50, libsoc_gpio_request)
-libsoc-gpio-debug: setting direction to out (50, libsoc_gpio_set_direction)
-libsoc-debug: debug disabled (libsoc_set_debug)
+^C
 </pre>
 ++++
 
-[NOTE]
-====
-If you have an older image, you might need to install the +libsoc+ library. You can do that with +apt+ if you have network access and the right feeds on your Bone. Install +libsoc2+ for the library and +libsoc-dev+ for the header files.
-====
+Hit ^C to stop the blinking.
 
 ==== Discussion
-

@@ -82,13 +82,13 @@ A cookbook for programming Beagles
   ** [ ] Removing Packages Installed with apt
   ** [update /dev/mmcblk1p1 ] Copying Files Between the Onboard Flash and the MicroSD Card
   ** [update What else to remove ] Freeing Space on the Onboard Flash or MicroSD Card
-  ** [x] IRemoved: nstalling Additional Node.js Packages
+  ** [x] Removed: nstalling Additional Node.js Packages
   ** [x] Removed: Using Python to Interact with the Physical World
-  ** [libsoc? ] Using C to Interact with the Physical World
+  ** [x] Removed libsoc: Using C to Interact with the Physical World
 
 . link:06iot/iot.html[Internet of Things]
   ** [ ] Introduction
-  ** [ ] Accessing Your Host Computer's Files on the Bone
+  ** [x] Accessing Your Host Computer's Files on the Bone
   ** [update how? ] Serving Web Pages from the Bone
   ** [replace with flask?] Interacting with the Bone via a Web Browser
   ** [flask?] Displaying GPIO Status in a Web Browser
