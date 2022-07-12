@@ -92,7 +92,7 @@ You will see the web page shown in <<networking_node_page>>.
 
 [[networking_node_page]]
 .test.html as served by nginx
-image::figures/apacheIndex.png[test.html served by nginx]
+image::figures/nginxTest.png[test.html served by nginx]
 
 ==== Discussion
 
@@ -101,54 +101,105 @@ image::figures/apacheIndex.png[test.html served by nginx]
 === Interacting with the Bone via a Web Browser
 
 ==== Problem
-((("networking", "interaction via web browsers")))((("web servers", "creating your own")))BeagleBone Black is interacting with the physical world nicely via BoneScript, and you want to display that information on a web browser.
+((("networking", "interaction via web browsers")))((("web servers", "creating your own")))BeagleBone Black is interacting with the physical world nicely and you want to display that information on a web browser.
 
 ==== Solution
-http://nodejs.org/[Node.js] is a platform built on http://code.google.com/p/v8/[Chrome's JavaScript runtime] for easily building fast, scalable network applications. <<networking_builtin_server>> shows how to use the node server that's already running. This recipe shows how easy it is to build your own server.  
+https://www.fullstackpython.com/flask.html[Flask] is a Python web framework built with a small core and easy-to-extend philosophy. <<networking_builtin_server>> shows how to use nginx, the web server that's already running. This recipe shows how easy it is to build your own server. This is an adaptation of https://towardsdatascience.com/python-webserver-with-flask-and-raspberry-pi-398423cc6f5d[Python WebServer With Flask and Raspberry Pi].
 
-First, create a directory for this recipe:
-
-++++
-<pre data-type="programlisting">
-bone$ <strong>mkdir serverExample</strong>
-bone$ <strong>cd serverExample</strong>
-</pre>
-++++
-
-Add the code in <<networking_nodeServer_code>> to a file called _server.js_ in the _serverExample_ directory.
-
-[[networking_nodeServer_code]]
-.Javascript code for a simple Node.js-based web server (server.js)
-====
-[source, js]
-----
-
-include::code/server.js[simple Node.js-based web server]
-
-----
-====
-<1> Creates the server. Whenever a browser requests a page from port +9090+, the function +servepage+ is called.
-
-<2> Instructs the server to begin listening on port +9090+.
-
-<3> When +servepage+ is called, +req+ contains the path to the page being requested. This code extracts the path to the page.
-
-<4> +readFile+ reads the entire page being requested.
-
-<5> Be sure the page is there; if not, send the famous +404+ error.
-
-<6> Write the page to the web browser.
-
-Add the HTML in <<networking_index_html>> to a file called _test.html_ in the _serverExample_ directory, and then run this:
+First, install flask:
 
 ++++
 <pre data-type="programlisting">
-bone$ <strong>cd serverExample</strong>
-bone$ <strong>chmod +x server.js</strong>
-bone$ <strong>./server.js</strong>
-Listening on 9090
+bone$ <strong>sudo apt update</strong>
+bone$ <strong>sudo apt install python3-flask</strong>
 </pre>
 ++++
+
+All the code in is the Cookbook repo:
+
+++++
+<pre data-type="programlisting">
+bone$ <strong>git clone https://github.com/MarkAYoder/BoneCookbook</strong>
+bone$ <strong>cd BoneCookbook/doc/06iod/code/flash</strong>
+</pre>
+++++
+
+===== First Flask - hello, world
+Our first example is *helloWorld.py*
+
+[[flask_hello_world]]
+.Python code for flask hello world (helloWorld.py)
+====
+[source, python]
+----
+
+include::code/flask/helloWorld.py[simple flask-based web server]
+
+----
+====
+<1> The first line loads the Flask module into your Python script. 
+
+<2> The second line creates a Flask object called _app_. 
+
+<3> The third line is where the action is, it says to run the index() function when someone accesses the root URL (‘/’) of the server. In this case, send the text “hello, world” to the client’s web browser via return.
+
+<4> The last line says to “listen” on port 8080, reporting any errors.
+
+Now on your host computer, browse to 192.168.7.2:8080flask an you should see.
+
+[[flask_flaskServer]]
+.Test page served by our custom flask server
+image::figures/flaskServer.png[Test page]
+
+===== Adding a template
+Let’s improve our “hello, world” application, by using an HTML template and a CSS file for styling our page.  Note: these have been created for you in the “templates” sub-folder. So, we will create a file named *index1.html*, that has been saved in */templates*.
+
+Here's what's in *templates/index1.html*:
+
+[[flask_index1]]
+.Python code for flask hello world (helloWorld.py)
+====
+[source, html]
+----
+
+include::code/flask/templates/index1.html[index1.html]
+
+----
+====
+
+Note: a style sheet (style.css) is also included. This will be populated later.
+
+Observe that anything in double curly braces within the HTML template is interpreted as a variable that would be passed to it from the Python script via the render_template function. Now, let’s create a new Python script. We will name it app1.py:
+
+
+[[flask_app1]]
+.Python code for flask index1.html (app1.py)
+====
+[source, html]
+----
+
+include::code/flask/app1.py[app1]
+
+----
+====
+
+Note that we create a formatted string("timeString") using the date and time from the "now" object, that has the current time stored on it.
+
+Next important thing on the above code, is that we created a dictionary of variables (a set of keys, such as the title that is associated with values, such as HELLO!) to pass into the template. On “return”, we will return the index.html template to the web browser using the variables in the templateData dictionary.
+
+Execute the Python script:
+
+++++
+<pre data-type="programlisting">
+bone$ <strong>.\app.py</strong>
+</pre>
+++++
+
+Open any web browser and browse to 192.168.7.2:8080. You should see:
+
+[[flask_app1]]
+.Test page served by app1.py
+image::figures/flaskapp1.png[app1.py]
 
 Now, navigate to _192.168.7.2:9090/test.html_ on your host computer (or the Bone) browser, and you will see something like <<networking_nodeServer>>.  
 
