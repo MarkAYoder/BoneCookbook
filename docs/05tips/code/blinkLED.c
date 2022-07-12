@@ -18,34 +18,31 @@ int main() {
 
   // Make sure pin is exported
   snprintf(path, MAXSTR, "%s%s%s", GPIOPATH, "gpio", pin);
-  // printf("%s\n", path);
   if (!access(path, F_OK) == 0) {
     snprintf(path, MAXSTR, "%s%s", GPIOPATH, "export");
-    // printf("path: %s\n", path);
     fp = fopen(path, "w");
-    fwrite(pin, sizeof(pin), strlen(pin), fp);
+    fprintf(fp, "%s", pin);
     fclose(fp);
   }
  
   // Make it an output pin
   snprintf(path, MAXSTR, "%s%s%s%s", GPIOPATH, "gpio", pin, "/direction");
-  // printf("path: %s\n", path);
   fp = fopen(path, "w");
-  fwrite("out", sizeof("out"), strlen("out"), fp);
+  fprintf(fp, "out");
   fclose(fp);
 
-  // Blink every 500ms
+  // Blink every .25 sec
   int state = 0;
   snprintf(path, MAXSTR, "%s%s%s%s", GPIOPATH, "gpio", pin, "/value");
   fp = fopen(path, "w");
   while (1) {
     fseek(fp, 0, SEEK_SET);
     if (state) {
-      fwrite("1", sizeof("1"), strlen("1"), fp);
+      fprintf(fp, "1");
     } else {
-      fwrite("0", sizeof("1"), strlen("1"), fp);
+      fprintf(fp, "0");
     }
     state = ~state;
-    usleep(100000);   // sleep time in microseconds
+    usleep(250000);   // sleep time in microseconds
   }
 }
