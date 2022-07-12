@@ -13,27 +13,27 @@
 int main() {
   FILE *fp;
   char pin[] = "50";
-  char GPIOPATH[] = "/sys/class/gpio/";
+  char GPIOPATH[] = "/sys/class/gpio";
   char path[MAXSTR] = "";
 
   // Make sure pin is exported
-  snprintf(path, MAXSTR, "%s%s%s", GPIOPATH, "gpio", pin);
+  snprintf(path, MAXSTR, "%s%s%s", GPIOPATH, "/gpio", pin);
   if (!access(path, F_OK) == 0) {
-    snprintf(path, MAXSTR, "%s%s", GPIOPATH, "export");
+    snprintf(path, MAXSTR, "%s%s", GPIOPATH, "/export");
     fp = fopen(path, "w");
     fprintf(fp, "%s", pin);
     fclose(fp);
   }
  
   // Make it an output pin
-  snprintf(path, MAXSTR, "%s%s%s%s", GPIOPATH, "gpio", pin, "/direction");
+  snprintf(path, MAXSTR, "%s%s%s%s", GPIOPATH, "/gpio", pin, "/direction");
   fp = fopen(path, "w");
   fprintf(fp, "out");
   fclose(fp);
 
   // Blink every .25 sec
   int state = 0;
-  snprintf(path, MAXSTR, "%s%s%s%s", GPIOPATH, "gpio", pin, "/value");
+  snprintf(path, MAXSTR, "%s%s%s%s", GPIOPATH, "/gpio", pin, "/value");
   fp = fopen(path, "w");
   while (1) {
     fseek(fp, 0, SEEK_SET);
