@@ -30,6 +30,7 @@ def index():
 	# Read Sensors Status
 	f = open(GPIOPATH+"/gpio"+pin+"/value", "r")
 	ledRedSts = f.read()
+	f.close()
 	templateData = {
               'title' : 'GPIO output Status!',
               'ledRed'  : ledRedSts,
