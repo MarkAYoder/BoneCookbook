@@ -89,7 +89,7 @@ A cookbook for programming Beagles
 . link:06iot/iot.html[Internet of Things]
   ** [ ] Introduction
   ** [x] Accessing Your Host Computer's Files on the Bone
-  ** [update how? ] Serving Web Pages from the Bone
+  ** [x] nginx: Serving Web Pages from the Bone
   ** [replace with flask?] Interacting with the Bone via a Web Browser
   ** [flask?] Displaying GPIO Status in a Web Browser
   ** [remove ] Continuously Displaying the GPIO Value via jsfiddle

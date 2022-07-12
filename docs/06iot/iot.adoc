@@ -69,12 +69,12 @@ bone$ <strong>umount home</strong>
 === Serving Web Pages from the Bone
 
 ==== Problem
-((("networking", "serving web pages")))((("web servers", "using BeagleBone as")))((("Node.js web server")))You want to use BeagleBone Black as a web server.
+((("networking", "serving web pages")))((("web servers", "using BeagleBone as")))You want to use BeagleBone Black as a web server.
 
 ==== Solution
-BeagleBone Black already has a couple of web servers running. This recipe shows how to use the Node.js-based server. <<networking_apache>> shows how to use _Apache_.
+BeagleBone Black already has the +nginx+ web server running.
 
-When you point your browser to _192.168.7.2_, you are using the Node.js web server The web pages are served from _/var/lib/cloud9_. Add the HTML in <<networking_index_html>> to a file called _/var/lib/cloud9/test.html_, and then point your browser to _192.168.7.2:test.html_.  
+When you point your browser to _192.168.7.2_, you are using the +nginx+ web server.  The web pages are served from _/var/www/html/. Add the HTML in <<networking_index_html>> to a file called _/var/www/html/test.html_, and then point your browser to _192.168.7.2://test.html_. 
 
 [role="pagebreak-before"]
 [[networking_index_html]]
@@ -91,8 +91,8 @@ include::code/test.html[Sample html]
 You will see the web page shown in <<networking_node_page>>.
 
 [[networking_node_page]]
-.test.html as served by Node.js
-image::figures/apacheIndex.png[test.html served by Node.js]
+.test.html as served by nginx
+image::figures/apacheIndex.png[test.html served by nginx]
 
 ==== Discussion
 
