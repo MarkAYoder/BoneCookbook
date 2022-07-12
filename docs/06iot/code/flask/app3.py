@@ -1,21 +1,35 @@
 #!/usr/bin/env python
 # From: https://towardsdatascience.com/python-webserver-with-flask-and-raspberry-pi-398423cc6f5d
-import Adafruit_BBIO.GPIO as GPIO
+# import Adafruit_BBIO.GPIO as GPIO
+import os
 from flask import Flask, render_template, request
 app = Flask(__name__)
-#define LED GPIOs
+#define LED GPIO
 ledRed = "P9_14"
+pin = '50' #  P9_14 is gpio 50
+GPIOPATH="/sys/class/gpio"
+
 #initialize GPIO status variable
 ledRedSts = 0
-# Define led pins as output
-GPIO.setup(ledRed, GPIO.OUT)   
-# turn leds OFF 
-GPIO.output(ledRed, GPIO.HIGH)
+# Make sure pin is exported
+if (not os.path.exists(GPIOPATH+"/gpio"+pin)):
+    f = open(GPIOPATH+"/export", "w")
+    f.write(pin)
+    f.close()
+# Define led pin as output
+f = open(GPIOPATH+"/gpio"+pin+"/direction", "w")
+f.write("out")
+f.close()
+# turn led OFF 
+f = open(GPIOPATH+"/gpio"+pin+"/value", "w")
+f.write("0")
+f.close()
 
 @app.route("/")
 def index():
 	# Read Sensors Status
-	ledRedSts = GPIO.input(ledRed)
+	f = open(GPIOPATH+"/gpio"+pin+"/value", "r")
+	ledRedSts = f.read()
 	templateData = {
               'title' : 'GPIO output Status!',
               'ledRed'  : ledRedSts,
@@ -26,13 +40,16 @@ def index():
 def action(deviceName, action):
 	if deviceName == 'ledRed':
 		actuator = ledRed
-
+	f = open(GPIOPATH+"/gpio"+pin+"/value", "w")
 	if action == "on":
-		GPIO.output(actuator, GPIO.HIGH)
+		f.write("1")
 	if action == "off":
-		GPIO.output(actuator, GPIO.LOW)
+		f.write("0")
+	f.close()
 		     
-	ledRedSts = GPIO.input(ledRed)
+	f = open(GPIOPATH+"/gpio"+pin+"/value", "r")
+	ledRedSts = f.read()
+	f.close()
 
 	templateData = {
               'ledRed'  : ledRedSts,
