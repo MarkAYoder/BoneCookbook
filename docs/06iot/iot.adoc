@@ -340,6 +340,8 @@ image::figures/flaskapp3.png[Control LED]
 
 Try clickingthe "TURN ON" and "TURN OFF" buttons and your LED will respond.
 
+*app4.py* and *app5.py* combine the previous apps.  Try them out.
+
 === Plotting Data
 
 ==== Problem
