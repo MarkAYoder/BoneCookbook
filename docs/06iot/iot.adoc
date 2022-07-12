@@ -237,9 +237,9 @@ Look that what we are doing is defining the button on *P9_11* as input, reading 
 Let’s also see the new *index2.html* to show the GPIO status:
 
 [[flask_index2]]
-.A simple Flask-based web server to read a GPIO (inde2.html)
+.A simple Flask-based web server to read a GPIO (index2.html)
 ====
-[source, python]
+[source, html]
 ----
 
 include::code/flask/templates/index2.html[]
@@ -272,8 +272,73 @@ It's not hard to assemble your own HTML with the GPIO data. It's an easy extensi
 You want to control an LED attached to a GPIO pin.
 
 ==== Solution
+Now that we know how to “read” GPIO Status, let’s change them. What we will do will control the LED via the web page. We have an LED connected to *P9_14*. Controlling remotely we will change its status from LOW to HIGH and vice-versa.
 
+The python script Let’s create a new Python script and named it *app3.py*.
 
+[[flask_app3]]
+.A simple Flask-based web server to read a GPIO (app3.py)
+====
+[source, python]
+----
+
+include::code/flask/app3.py[]
+
+----
+====
+
+What we have new on above code is the new “route”:
+====
+@app.route("/<deviceName>/<action>")
+====
+From the webpage, calls will be generated with the format:
+
+====
+http://192.168.7.2:8081/ledRed/on
+====
+or
+====
+http://192.168.7.2:8081/ledRed/off
+====
+For the above example, *ledRed* is the “deviceName” and *on* or *off* are examples of possible “action”. Those routes will be identified and properly “worked”. The main steps are:
+
+* Convert the string “ledRED”, for example, on its equivalent GPIO pin.
+
+The integer variable ledRed is equivalent to P9_14. We store this value on variable “actuator”
+
+* For each actuator, we will analyze the “action”, or “command” and act properly.
+If “action = on” for example, we must use the command: GPIO.output(actuator, GPIO.HIGH)
+
+* Update the status of each actuator
+* Update the variable library
+* Return the data to index.html
+
+Let’s now create an index.html to show the GPIO status of each actuator and more important, create “buttons” to send the commands:
+
+[[flask_index3]]
+.A simple Flask-based web server to write a GPIO (index3.html)
+====
+[source, html]
+----
+
+include::code/flask/templates/index3.html[]
+
+----
+====
+
+++++
+<pre data-type="programlisting">
+bone$ <strong>./app3.py</strong>
+</pre>
+++++
+
+Point your browser as before and you will see:
+
+[[flask_app3_fig]]
+.Status of a GPIO pin on a web page
+image::figures/flaskapp3.png[Control LED]
+
+Try clickingthe "TURN ON" and "TURN OFF" buttons and your LED will respond.
 
 === Plotting Data
 
