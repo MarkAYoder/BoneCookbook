@@ -23,17 +23,14 @@ if (not os.path.exists(GPIOPATH+"/gpio"+ledRed)):
 buttonSts = 0
 ledRedSts = 0
 # Define button and PIR sensor pins as an input
-# GPIO.setup(button, GPIO.IN)  
 f = open(GPIOPATH+"/gpio"+button+"/direction", "w")
 f.write("in")
 f.close() 
 # Define led pins as output
-# GPIO.setup(ledRed, GPIO.OUT) 
 f = open(GPIOPATH+"/gpio"+ledRed+"/direction", "w")
 f.write("out")
 f.close()  
 # turn leds OFF 
-# GPIO.output(ledRed, GPIO.LOW)
 f = open(GPIOPATH+"/gpio"+ledRed+"/value", "w")
 f.write("0")
 f.close()
@@ -41,13 +38,11 @@ f.close()
 @app.route("/")
 def index():
 	# Read GPIO Status
-	# buttonSts = GPIO.input(button)
 	f = open(GPIOPATH+"/gpio"+button+"/value", "r")
-	buttonSts = f.read()
+	buttonSts = f.read()[:-1]
 	f.close()
-	# ledRedSts = GPIO.input(ledRed)
 	f = open(GPIOPATH+"/gpio"+ledRed+"/value", "r")
-	ledRedSts = f.read()
+	ledRedSts = f.read()[:-1]
 	f.close()
 
 	templateData = {
@@ -63,23 +58,16 @@ def action(deviceName, action):
 
 	f = open(GPIOPATH+"/gpio"+ledRed+"/value", "w")
 	if action == "on":
-		# GPIO.output(actuator, GPIO.HIGH)
 		f.write("1")
 	if action == "off":
-		# GPIO.output(actuator, GPIO.LOW)
 		f.write("0")
 	f.close()
 		     
-	# buttonSts = GPIO.input(button)
-	# ledRedSts = GPIO.input(ledRed)
-	# buttonSts = GPIO.input(button)
 	f = open(GPIOPATH+"/gpio"+button+"/value", "r")
-	buttonSts = f.read()
+	buttonSts = f.read()[:-1]
 	f.close()
-	# ledRedSts = GPIO.input(ledRed)
 	f = open(GPIOPATH+"/gpio"+ledRed+"/value", "r")
-	ledRedSts = f.read()
-	print("ledRedSts: " + ledRedSts)
+	ledRedSts = int(f.read()[:-1])
 	f.close()
 
 	templateData = {
