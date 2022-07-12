@@ -201,155 +201,78 @@ Open any web browser and browse to 192.168.7.2:8080. You should see:
 .Test page served by app1.py
 image::figures/flaskapp1.png[app1.py]
 
-Now, navigate to _192.168.7.2:9090/test.html_ on your host computer (or the Bone) browser, and you will see something like <<networking_nodeServer>>.  
+Note that the page’s content changes dynamically any time that you refresh it with the actual variable data passed by Python script. In our case, “title” is a fixed value, but “time” change it every second.
 
-[[networking_nodeServer]]
-.Test page served by our custom node-based server
-image::figures/nodeServer.png[Test page]
-
-Note that the only difference between <<networking_nodeServer>> and <<networking_node_page>> is that the first uses port +9090+.
-
-==== Discussion
-
-
-=== Displaying GPIO Status in a Web Browser
+=== Displaying GPIO Status in a Web Browser - reading a button
 
 ==== Problem
 ((("networking", "displaying GPIO pin status")))((("GPIO pins", "displaying status of")))You want a web page to display the status of a GPIO pin.
 
 ==== Solution
-This solution builds on the Node.js-based web server solution in <<networking_nodejs>>.  
+This solution builds on the Flask-based web server solution in <<networking_nodejs>>.  
 
 To make this recipe, you will need:
 
 * Breadboard and jumper wires (see <<app_proto>>)
 * Pushbutton switch (see <<app_misc>>)
 
-Wire your pushbutton as shown in <<js_pushbutton_fig>>. Add the code in <<networking_gpioServer_code>> to a file called _GPIOserver.js_ in the _serverExample_ directory.
+Wire your pushbutton as shown in <<js_pushbutton_fig>>. 
 
-[[networking_gpioServer_code]]
-.A simple Node.js-based web server to read a GPIO (GPIOserver.js)
+Wire a button to *P9_11* and have the web page display the value of the button.
+
+Let’s use a new Python script named *app2.py*.
+
+[[flask_app2]]
+.A simple Flask-based web server to read a GPIO (app2.py)
 ====
-[source, js]
+[source, python]
 ----
 
-include::code/GPIOserver.js[]
+include::code/flask/app2.py[]
 
 ----
 ====
-<1> This the the HTML to send to the server before the data value.
+Look that what we are doing is defining the button on *P9_11* as input, reading its value and storing it in *buttonSts*. Inside the function *index()*, we will pass that value to our web page through “button” that is part of our variable dictionary: *templateData*.
 
-<2> This is the HTML for after the data.
+Let’s also see the new *index2.html* to show the GPIO status:
 
-<3> Normally, we'd send a file, but if +/gpio+ is requested, we'll build our own page and include the value of the GPIO pin.
+[[flask_index2]]
+.A simple Flask-based web server to read a GPIO (inde2.html)
+====
+[source, python]
+----
 
-<4> Read the value of the GPIO pin.
+include::code/flask/templates/index2.html[]
 
-<5> Concatenate the HTML code with the data and send it to the browser.
+----
+====
 
 Now, run the following command:
 
 ++++
 <pre data-type="programlisting">
-bone$ <strong>./GPIOserver.js</strong>
-Listening on 9090
+bone$ <strong>./app2.py</strong>
 </pre>
 ++++
 
-Point your browser to _http://192.168.7.2:9090/gpio_, and the page will look like <<networking_GPIOserver_fig>>.
+Point your browser to _http://192.168.7.2:8080_, and the page will look like <<networking_GPIOserver_fig>>.
 
-[[networking_GPIOserver_fig]]
+[[flask_app2_fig]]
 .Status of a GPIO pin on a web page
-image::figures/GPIOWebPage.png[GPIO status]
+image::figures/flaskapp2.png[GPIO status]
 
 Currently, the +0+ shows that the button isn't pressed. Try refreshing the page while pushing the button, and you will see +1+ displayed.
 
 ==== Discussion
 It's not hard to assemble your own HTML with the GPIO data. It's an easy extension to write a program to display the status of all the GPIO pins.
 
-[[networking_jsfiddle]]
-=== Continuously Displaying the GPIO Value via jsfiddle
+=== Controlling GPIOs
 
 ==== Problem
-((("networking", "displaying GPIO value via jsfiddle")))((("jsfiddle")))((("GPIO pins", "displaying value via jsfiddle")))The value of your GPIO port keeps changing, and you want your web page to always show the current value.
+You want to control an LED attached to a GPIO pin.
 
 ==== Solution
-We'll attack this problem in two steps. This recipe will show how to use an external website (jsfiddle [http://jsfiddle.net/]) to read a GPIO pin on the Bone (yup, an external site can read the GPIO pins on the Bone). <<networking_jQuery_local>> will show how to move the code to run locally on the Bone.
 
-To make this recipe, you will need:
-
-* Breadboard and jumper wires (see <<app_proto>>)
-* Pushbutton switch (see <<app_misc>>)
-* 10 k&#8486; trimpot (variable resistor) (see <<app_resistor>>)
-
-http://jsfiddle.net/[jsfiddle] is a website that lets you fiddle with JavaScript. It's best introduced by an example. Point your browser to http://bit.ly/19c75ql[jQuery example], and you will see the screen shown in <<networking_jQuery_jsfiddle>>.
-
-[[networking_jQuery_jsfiddle]]
-.jsfiddle example of GPIO
-image::figures/jQueryFiddle.png[jsfiddle example of GPIO]
-
-The page has four panels. The upper-left panel shows your HTML code. The lower-left panel shows the JavaScript that animates the HTML. The upper-right panel shows the CSS code that formats your HTML (not used here), and the lower-right panel shows what your rendered page looks like.
-
-Wire your pushbutton switch to +P8_19+ (use <<js_pushbutton_fig>> as an example, but note that the pushbutton in that figure is wired to +P9_42+, instead) and the variable resistor to +P9_36+, as shown in <<sensors_analogIn_fig>>.
-
-[NOTE]
-=====
-You can use any GPIO pin and any analog-in pin; just edit the code to match your setup.
-=====
-
-Press the Run button on the jsfiddle page. The values in the lower-right panel will track your button and variable resistor in real time.
-
-==== Discussion
-
-
-==== See Also
-jsfiddle is great for experimenting with your code, but what if want everything to be served from your Bone and not use an external site? Check out <<networking_jQuery_local>>.
-
-[[networking_jQuery_local]]
-=== Continuously Displaying the GPIO Value
-
-==== Problem
-((("networking", "displaying GPIO value continuously")))((("GPIO pins", "displaying value continuously")))The value of your GPIO port keeps changing, and you want your web page to always show the current value, but you don't want to use an external site.
-
-==== Solution
-((("BoneScript", "displaying GPIO pin values via")))<<networking_jsfiddle>> shows how to use BoneScript in a browser to read GPIO pins on the Bone, but it requires the use of an external website. This recipe shows how to move from jsfiddle to the Bone, with a few simple steps.
-
-Go to a working jsfiddle page (such as the one shown in <<networking_jQuery_jsfiddle>>) and do the pass:[<span class="keep-together">following</span>]:
-
-. In the lower-left panel, select all the BoneScript code and copy it to a file. In this case, call it _jQueryDemo.js_. Save it in the _serverExample_ directory.
-. From the upper-left panel, select all the HTML code and copy it to _jQueryDemo.html_ in the _serverExample_ directory.
-. We need to add code to inform the browser where to find the external libraries we are using. Edit _jQueryDemo.html_ and _before_ your HTML, add the following lines:
-
-[source, html]
-----
-<html>
-    <head>
-        <title>BoneScript jQuery Demo</title>
-        <script src="static/jquery.js"></script>
-        <script src="static/bonescript.js"></script>
-        <script src="jQueryDemo.js"></script>
-    </head>
-<body>
-----
-
-[start=4]
-. Add the following lines _after_ your HTML:
-
-[source, html]
-----
-</body>
-</html>
-----
-
-[start=5]
-. Open _http://192.168.7.2/serverExample/jQueryDemo.html_, and you'll now see your values in your own web page.
-
-[NOTE]
-====
-There are several useful JavaScript libraries already located in _/var/lib/cloud9/static_, and this recipe makes use of a couple of them here.
-====
-
-==== Discussion
 
 
 === Plotting Data
