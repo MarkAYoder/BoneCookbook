@@ -427,14 +427,15 @@ Run it:
 <pre data-type="programlisting">
 host$ <strong>ssh -X bone</strong>
 
-bone$ <strong>cd /var/lib/cloud9/BeagleBone/Black</strong>
+bone$ <strong>cd <Cookbook repo>/doc/06iot/code>/strong>
 bone$ <strong>./analogInContinuous.py</strong>
 Hit ^C to stop
 </pre>
 ++++
+// TODO verify this works.
 <<analog_sine_fig>> is the output of a 1KHz sine wave.
 
-It'd be a good idea to disable the buffer when done.
+It's a good idea to disable the buffer when done.
 
 ++++
 <pre>
@@ -445,49 +446,91 @@ bone$ <strong>echo 0 > /sys/bus/iio/devices/iio:device0/buffer/enable</strong>
 ===== Analog in - Continuous, Change the sample rate
 The built in ADCs sample at 8k samples/second by default. They can run as fast as 200k samples/second by editing a device tree.
 
-bone$ cd /opt/source/bb.org-overlays
-bone$ make
+++++
+<pre>
+bone$ <strong>cd /opt/source/bb.org-overlays</strong>
+bone$ <strong>make</strong>
+</pre>
+++++
+
 This will take a while the first time as it compiles all the device trees.
 
-bone$ vi src/arm/src/arm/BB-ADC-00A0.dts
-Around line 54 you'll see
+++++
+<pre>
+bone$ <strong>vi src/arm/src/arm/BB-ADC-00A0.dts</strong>
+</pre>
+++++
+Around line 57 you'll see
+++++
+<pre>
+Line    Code
+ 57     // For each step, number of adc clock cycles to wait between setting up muxes and sampling.
+ 58     //  range: 0 .. 262143
+ 59     //  optional, default is 152 (XXX but why?!)
+ 60     ti,chan-step-opendelay = <152 152 152 152 152 152 152 152>;
+ 61     //`
+ 62     // XXX is there any purpose to set this nonzero other than to fine-tune the sample rate?
+ 63 
+ 64 
+ 65     // For each step, how many times it should sample to average.
+ 66     //  range: 1 .. 16, must be power of two (i.e. 1, 2, 4, 8, or 16)
+ 67     //  optional, default is 16
+ 68     ti,chan-step-avg = <16 16 16 16 16 16 16 16>;
 
-ti,chan-step-avg = <16 16 16 16 16 16 16 16>;
-ti,chan-step-opendelay = <0x98 0x98 0x98 0x98 0x98 0x98 0x98 0x98>;
-The first line says for every sample returned, average 16 values. This will give you a cleaner signal, but if you want to go fast, change the 16's to 1's. The second line says to delay 0x98 cycles between each sample. Set this to 0 to got as fast a possible.
-
+</pre>
+++++
+The comments give lots of details on how to adjust the device tree  to change the sample rate.
+Line 68 says for every sample returned, average 16 values. This will give you a cleaner signal, but if you want to go fast, change the 16's to 1's. Line 60 says to delay 152 cycles between each sample. Set this to 0 to got as fast a possible.
+++++
+<pre>
 ti,chan-step-avg = <1 1 1 1 1 1 1 1>;
 ti,chan-step-opendelay = <0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00>;
+</pre>
+++++
 Now compile it.
 
-
-
-10KHz triangle wave sampled at 200KHz
-bone$ make
+++++
+<pre>
+bone$ <strong>make</strong>
   DTC     src/arm/BB-ADC-00A0.dtbo
 gcc -o config-pin ./tools/pmunts_muntsos/config-pin.c
+</pre>
+++++
 It knows to only recompile the file you just edited. Now install and reboot.
-
-bone$ sudo make install
+++++
+<pre>
+bone$ <strong>sudo make install</strong>
 ...
 'src/arm/AM335X-PRU-UIO-00A0.dtbo' -> '/lib/firmware/AM335X-PRU-UIO-00A0.dtbo'
 'src/arm/BB-ADC-00A0.dtbo' -> '/lib/firmware/BB-ADC-00A0.dtbo'
 'src/arm/BB-BBBMINI-00A0.dtbo' -> '/lib/firmware/BB-BBBMINI-00A0.dtbo'
 ...
-bone$ reboot
+bone$ <strong>reboot</strong>
+</pre>
+++++
 A number of files get installed, including the ADC file. Now try rerunning.
 
-bone$ cd /var/lib/cloud9/BeagleBone/Black
-bone$ ./analogInContinuous.py
+++++
+<pre>
+bone$ <strong>cd <Cookbook repo>/docs/06iot/code></strong>
+bone$ <strong>./analogInContinuous.py</strong>
 Hit ^C to stop
-Here's the output of a 10KHz sine wave. (The plot is wrong, but eLinux won't let me fix it.)
+</pre>
+++++
+Here's the output of a 10KHz sine wave. 
+// TODO  Is this trun: (The plot is wrong, but eLinux won't let me fix it.)
+[[analog_tri_fig]]
+.10KHz triangle wave sampled at 200KHz
+image::figures/Tri10k.png[10KHz triangle wave sampled at 200KHz]
 
 It's still a good idea to disable the buffer when done.
 
-bone$ echo 0 > /sys/bus/iio/devices/iio:device0/buffer/enable
+++++
+<pre>
+bone$ </strong>echo 0 > /sys/bus/iio/devices/iio:device0/buffer/enable</strong>
+</pre>
+++++
 
-
-XXXXXXXXXXXXXXXXXXXXXXXX
 === Sending an Email
 
 ==== Problem
