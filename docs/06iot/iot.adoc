@@ -338,95 +338,135 @@ Point your browser as before and you will see:
 .Status of a GPIO pin on a web page
 image::figures/flaskapp3.png[Control LED]
 
-Try clickingthe "TURN ON" and "TURN OFF" buttons and your LED will respond.
+Try clicking the "TURN ON" and "TURN OFF" buttons and your LED will respond.
 
 *app4.py* and *app5.py* combine the previous apps.  Try them out.
 
 === Plotting Data
 
 ==== Problem
-. ((("networking", "plotting live data")))((("plotting live data")))((("data", "plotting live")))((("flot plotting package")))You have live data coming into your Bone, and you want to plot it.
+((("networking", "plotting live data")))((("plotting live data")))((("data", "plotting live")))((("flot plotting package")))You have live, continuous,  data coming into your Bone via one of the Analog Ins, and you want to plot it.
 
 ==== Solution
-There are a number of http://bit.ly/1MrHm9L[JavaScript-based plotting packages] out there. This recipe uses http://www.flotcharts.org/[flot] because it strikes a nice balance between ease-of-use and power.
+Analog in - Continuous
+(This is based on information at: http://software-dl.ti.com/processor-sdk-linux/esd/docs/latest/linux/Foundational_Components/Kernel/Kernel_Drivers/ADC.html#Continuous%20Mode)
 
-To make this recipe, you will need:
+Reading a continuous analog signal requires some set up. First go to the iio devices directory.
 
-* Breadboard and jumper wires (see <<app_proto>>)
-* 10 k&#8486; trimpot (variable resistor) (see <<app_resistor>>)
+++++
+<pre data-type="programlisting">
+bone$ <strong>cd /sys/bus/iio/devices/iio:device0</strong>
+bone$ <strong>ls -F</strong>
+buffer/  in_voltage0_raw  in_voltage2_raw  in_voltage4_raw  in_voltage6_raw  name      power/          subsystem@
+dev      in_voltage1_raw  in_voltage3_raw  in_voltage5_raw  in_voltage7_raw  of_node@  scan_elements/  uevent
+</pre>
+++++
 
-Wire your variable resistor to +P9_36+, as shown in <<sensors_analogIn_fig>>.
-Go to http://bit.ly/1E5DW85[jsfiddle Flot Demo] for a nice quick demo. You will the screen shown in <<networking_flot_demo>>. Try changing the variable resistor, and watch the plot respond in real time.
+Here you see the files used to read the one shot values. Look in +scan_elements+ to see how to enable continuous input.
 
-[[networking_flot_demo]]
-.jsfiddle Flot Demo
-image::figures/flotDemo.png[Flot Demo]
+++++
+<pre data-type="programlisting">
+bone$ <strong>ls scan_elements</strong>
+in_voltage0_en     in_voltage1_index  in_voltage2_type   in_voltage4_en     in_voltage5_index  in_voltage6_type
+in_voltage0_index  in_voltage1_type   in_voltage3_en     in_voltage4_index  in_voltage5_type   in_voltage7_en
+in_voltage0_type   in_voltage2_en     in_voltage3_index  in_voltage4_type   in_voltage6_en     in_voltage7_index
+in_voltage1_en     in_voltage2_index  in_voltage3_type   in_voltage5_en     in_voltage6_index  in_voltage7_type
+</pre>
+++++
+Here you see three values for each analog input, _en (enable), _index (index of this channel in the buffer’s chunks) and _type (How the ADC stores its data). (See the link above for details.) Let's use the input at *P9.40* which is *AIN1*. To enable this input:
 
-See <<networking_jsfiddle>> for a description of the jsfiddle panels. In <<networking_flot_demo>>, the lower-right panel displays a live scrolling chart of the values being read from the variable resistor.
+++++
+<pre data-type="programlisting">
+bone$ <strong>echo 1 > scan_elements/in_voltage1_en</strong>
+</pre>
+++++
+Next set the buffer size.
 
-==== Discussion
-You can perform plotting externally, via the http://jsfiddle.net/[jsfiddle] site, or locally.
+++++
+<pre data-type="programlisting">
+bone$ <strong>ls buffer</strong>
+data_available  enable  length  watermark
+</pre>
+++++
+Let's use a 512 sample buffer. You might need to experiment with this.
 
-===== Plotting with jsfiddle
-The HTML panel in <<networking_flot_demo>> simply creates an area called +myplot+ in which to draw the plot. The JavaScript code in <<networking_flot_js>> then reads the analog in and creates the plot to display.
+++++
+<pre data-type="programlisting">
+bone$ <strong>echo 512 > buffer/length</strong>
+</pre>
+++++
+Then start it running.
 
-[[networking_flot_js]]
-.Code for plotting data with Flot (flotDemo.js)
-====
-[source, js]
-----
+++++
+<pre data-type="programlisting">
+bone$ <strong>echo 1 > buffer/enable</strong>
+</pre>
+++++
+Now, just read from +/dev/iio:device0+.
 
-include::code/flotDemo.js[]
+[[analog_sine_fig]]
+.1KHz sine wave sampled at 8KHz
+image::figures/Sine1k.png[1KHz sine wave sampled at 8KHz]
 
-----
-====
-<1> Direct the browser where to find the Bone.  After it is initialized, it calls +run+ to get things going.
+An example Python program that does the above and the reads and plot the buffer is here: analogInContinuous.py Be sure to read the instillation instructions in the comments. Also note this uses X windows and you need to ssh -X bone for X to know where the display is.
 
-<2> Read in the BoneScript library.
+Run it:
 
-<3> Pick which analog-in to use.
+host$ ssh -X bone
+bone$ cd /var/lib/cloud9/BeagleBone/Black
+bone$ ./analogInContinuous.py
+Hit ^C to stop
+Here's the output of a 1KHz sine wave.
 
-<4> Pick where on the web page to draw the plot.  In this case, the code defines only one place, +myplot+.
+It'd be a good idea to disable the buffer when done.
 
-<5> Decide how many points can be plotted.
+bone$ echo 0 > /sys/bus/iio/devices/iio:device0/buffer/enable
+Analog in - Continuous, Change the sample rate
+The built in ADCs sample at 8k samples/second by default. They can run as fast as 200k samples/second by editing a device tree.
 
-<6> Set various plotting options.
+bone$ cd /opt/source/bb.org-overlays
+bone$ make
+This will take a while the first time as it compiles all the device trees.
 
-<7> Initialize the plot.
+bone$ vi src/arm/src/arm/BB-ADC-00A0.dts
+Around line 54 you'll see
 
-<8> Draw the graph on the web page.
+ti,chan-step-avg = <16 16 16 16 16 16 16 16>;
+ti,chan-step-opendelay = <0x98 0x98 0x98 0x98 0x98 0x98 0x98 0x98>;
+The first line says for every sample returned, average 16 values. This will give you a cleaner signal, but if you want to go fast, change the 16's to 1's. The second line says to delay 0x98 cycles between each sample. Set this to 0 to got as fast a possible.
 
-<9> Set the data and draw. Then read the next value and call +onAnalogRead+ when it's ready.
+ti,chan-step-avg = <1 1 1 1 1 1 1 1>;
+ti,chan-step-opendelay = <0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00>;
+Now compile it.
 
-<10> If no error, add newest value to the data array.
 
-<11> Do it all over again in 20 ms.
 
-===== Plotting locally
-You can do plotting locally by following the process in <<networking_jQuery_local>>:
+10KHz triangle wave sampled at 200KHz
+bone$ make
+  DTC     src/arm/BB-ADC-00A0.dtbo
+gcc -o config-pin ./tools/pmunts_muntsos/config-pin.c
+It knows to only recompile the file you just edited. Now install and reboot.
 
-. Copy the JavaScript code in the lower-left panel and save it in a file called _pass:[<span class="keep-together">flotDemo.js</span>]_.
+bone$ sudo make install
+...
+'src/arm/AM335X-PRU-UIO-00A0.dtbo' -> '/lib/firmware/AM335X-PRU-UIO-00A0.dtbo'
+'src/arm/BB-ADC-00A0.dtbo' -> '/lib/firmware/BB-ADC-00A0.dtbo'
+'src/arm/BB-BBBMINI-00A0.dtbo' -> '/lib/firmware/BB-BBBMINI-00A0.dtbo'
+...
+bone$ reboot
+A number of files get installed, including the ADC file. Now try rerunning.
 
-. Copy the HTML in the upper-left panel and add the header material. <<networking_flotDemo>> loads the +flot+ library in addition to +jquery+ and our own code.
+bone$ cd /var/lib/cloud9/BeagleBone/Black
+bone$ ./analogInContinuous.py
+Hit ^C to stop
+Here's the output of a 10KHz sine wave. (The plot is wrong, but eLinux won't let me fix it.)
 
-[[networking_flotDemo]]
-.flotDemo.html (flotDemo.html)
-====
-[source, html]
-----
+It's still a good idea to disable the buffer when done.
 
-include::code/flotDemo.html[]
+bone$ echo 0 > /sys/bus/iio/devices/iio:device0/buffer/enable
 
-----
-====
 
-[start=3]
-. Put both files in the _serverExample_ subdirectory under the Cloud9 IDE (_/var/lib/cloud9_).
-
-. Browse to _http://192.168.7.2/serverExample/flotDemo.html_, and you'll have a local version of your demo running.
-
-Go explore the http://www.flotcharts.org/[Flot site] and see what other plots you pass:[<span class="keep-together">can do</span>].
-
+XXXXXXXXXXXXXXXXXXXXXXXX
 === Sending an Email
 
 ==== Problem
