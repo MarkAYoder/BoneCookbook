@@ -47,7 +47,21 @@ fd = open(IIODEV, "r")
 print('Hit ^C to stop')
 
 x = np.linspace(0, 1000*LEN/SAMPLERATE, LEN)
-
+# Do a dummy plot to give time of the fonts to load.
+y = np.linspace(0, 1000*LEN/SAMPLERATE, LEN)
+gp.plot(x, y,
+    xlabel = 't (ms)',
+    ylabel = 'volts',
+    _yrange = [0, 2],
+    title  = 'analogInContinuous',
+    legend = np.array( ("P9.39", ), ),
+    # ascii=1,
+    # terminal="xterm",
+    # legend = np.array( ("P9.40", "P9.38"), ),
+    # _with  = 'lines'
+    )
+# Wait for fonts to load
+time.sleep(10)
 try:
     while True:
         y = np.fromfile(fd, dtype='uint16', count=LEN)*1.8/4096

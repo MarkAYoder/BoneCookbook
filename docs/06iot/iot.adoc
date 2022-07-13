@@ -432,7 +432,7 @@ bone$ <strong>./analogInContinuous.py</strong>
 Hit ^C to stop
 </pre>
 ++++
-// TODO verify this works.
+// TODO verify this works. fonts are taking too long to load
 <<analog_sine_fig>> is the output of a 1KHz sine wave.
 
 It's a good idea to disable the buffer when done.
