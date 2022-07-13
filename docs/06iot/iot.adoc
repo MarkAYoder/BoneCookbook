@@ -408,20 +408,41 @@ Now, just read from +/dev/iio:device0+.
 .1KHz sine wave sampled at 8KHz
 image::figures/Sine1k.png[1KHz sine wave sampled at 8KHz]
 
-An example Python program that does the above and the reads and plot the buffer is here: analogInContinuous.py Be sure to read the instillation instructions in the comments. Also note this uses X windows and you need to ssh -X bone for X to know where the display is.
+An example Python program that does the above and the reads and plot the buffer is here: analogInContinuous.py 
+
+[[analog_code]]
+.Code to read and plot a continuous analog input(analogInContinuous.py)
+====
+[source, python]
+----
+include::code/analogInContinuous.py[]
+----
+====
+
+Be sure to read the instillation instructions in the comments. Also note this uses X windows and you need to +ssh -X 192.168.7.2+ for X to know where the display is.
 
 Run it:
 
-host$ ssh -X bone
-bone$ cd /var/lib/cloud9/BeagleBone/Black
-bone$ ./analogInContinuous.py
+++++
+<pre data-type="programlisting">
+host$ <strong>ssh -X bone</strong>
+
+bone$ <strong>cd /var/lib/cloud9/BeagleBone/Black</strong>
+bone$ <strong>./analogInContinuous.py</strong>
 Hit ^C to stop
-Here's the output of a 1KHz sine wave.
+</pre>
+++++
+<<analog_sine_fig>> is the output of a 1KHz sine wave.
 
 It'd be a good idea to disable the buffer when done.
 
-bone$ echo 0 > /sys/bus/iio/devices/iio:device0/buffer/enable
-Analog in - Continuous, Change the sample rate
+++++
+<pre>
+bone$ <strong>echo 0 > /sys/bus/iio/devices/iio:device0/buffer/enable</strong>
+</pre>
+++++
+
+===== Analog in - Continuous, Change the sample rate
 The built in ADCs sample at 8k samples/second by default. They can run as fast as 200k samples/second by editing a device tree.
 
 bone$ cd /opt/source/bb.org-overlays
