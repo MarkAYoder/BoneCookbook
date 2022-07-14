@@ -25,15 +25,15 @@ try:
         # print("text: ", r.text)
         # print("json: ", r.json())
         weather = r.json()
-        print("Temp: ", weather['current']['temp'])
+        print("Temp: ", weather['current']['temp'])         # <1>
         print("Humid:", weather['current']['humidity'])
         print("Low:  ", weather['daily'][1]['temp']['min'])
         print("High: ", weather['daily'][0]['temp']['max'])
         day = weather['daily'][0]['sunrise']-weather['timezone_offset']
         print("sunrise: " + datetime.utcfromtimestamp(day).strftime('%Y-%m-%d %H:%M:%S'))
         # print("Day: " + datetime.utcfromtimestamp(day).strftime('%a'))
-        # print("weather: ", weather['daily'][1])
-        # print("weather: ", weather)
+        # print("weather: ", weather['daily'][1])           # <2>
+        # print("weather: ", weather)                       # <3>
         # print("icon: ", weather['current']['weather'][0]['icon'])
         # print()
 

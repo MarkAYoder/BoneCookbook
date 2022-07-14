@@ -575,6 +575,8 @@ See https://realpython.com/python-send-email/ for an example that sends an attac
 
 === Sending an SMS Message
 
+// TODO  My twilio account is suspended.
+
 ==== Problem
 ((("networking", "sending SMS messages")))((("SMS messages")))((("text messages")))((("Twilio")))You want to send a text message from BeagleBone Black.
 
@@ -611,60 +613,53 @@ Twilio allows a small number of free text messages, enough to test your code and
 ((("networking", "displaying weather conditions")))((("current weather conditions")))((("weather APIs")))You want to display the current weather conditions.
 
 ==== Solution
-Because your Bone is on the network, it's not hard to access the current weather conditions from a weather API. First, install a JavaScript module:
+Because your Bone is on the network, it's not hard to access the current weather conditions from a weather API. 
+
+* Go to https://openweathermap.org/ and create an account.
+* Go to https://home.openweathermap.org/api_keys and get your API key.
+* Store your key in the +bash+ variable +APPID+.
 
 ++++
-<pre data-type="programlisting">
-bone$ <strong>npm install -g weather-js</strong>  (Took about 4 minutes on a slow connection)
+<pre>
+bash$ <strong>export APPID="Your key"</strong>
 </pre>
 ++++
+
+* Run the pyhon script.
 
 Then add the code in <<networking_weather_code>> to a file named _weather.js_.
 
 [[networking_weather_code]]
-.Code for getting current weather conditions (_weather.js_)
+.Code for getting current weather conditions (_weather.py_)
 ====
-[source, js]
+[source, python]
 ----
 
-include::code/weather.js[]
+include::code/weather.py[]
 
 ----
 ====
-<1> Prints everything returned by the weather site.
-
-<2> Prints only the current weather conditions.
-
-<3> Prints the forecast for the next day.
+<1> Prints current conditions.
+<2> Prints the forecast for the next day.
+<3> Prints everything returned by the weather site.
 
 Run this by using the following commands:
 
 ++++
 <pre data-type="programlisting">
-bone$ <strong>chmod +x weather.js</strong>
+bone$ <strong>chmod +x weather.py</strong>
 bone$ <strong>./weather.js</strong>
-...
-{
-  "temperature": "74",
-  "skycode": "28",
-  "skytext": "Mostly Cloudy",
-  "date": "2014-07-28",
-  "observationtime": "14:53:00",
-  "observationpoint": "Terre Haute, Terre Haute International Airport - 
-      Hulman Field",
-  "feelslike": "74",
-  "humidity": "53",
-  "winddisplay": "15 mph NW",
-  "day": "Monday",
-  "shortday": "Mon",
-  "windspeed": "15",
-  "imageUrl": "http://wst.s-msn.com/i/en-us/law/28.gif"
-}
+Getting weather
+Temp:  85.1
+Humid: 50
+Low:   62.02
+High:  85.1
+sunrise: 2022-07-14 14:32:46
 </pre>
 ++++
 
 ==== Discussion
-The weather API returns lots of information. Use JavaScript to extract the information you want.
+The weather API returns lots of information. Use Python to extract the information you want.
 
 === Sending and Receiving Tweets
 
