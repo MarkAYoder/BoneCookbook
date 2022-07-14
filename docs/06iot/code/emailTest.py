@@ -1,18 +1,18 @@
 #!/usr/bin/env python
-# From: 
+# From: https://realpython.com/python-send-email/
 import smtplib, ssl
 
 port = 587  # For starttls
-smtp_server    = "smtp.gmail.com"
-sender_email   = "mark.a.yoder@gmail.com"
-receiver_email = "mark.a.yoder@rose-hulman.edu"
+smtp_server  = "smtp.gmail.com"
+sender_email = "from_account@gmail.com"
+receiver_email = "to_account@gmail.com"
 # Go to: https://myaccount.google.com/security
 # Select App password
 # Generate your own 16 char password, copy here
 # Delete password when done
 password = "cftqhcejjdjfdwjh"
 message = """\
-Subject: Hi there 4
+Subject: Testing email
 
 This message is sent from Python.
 

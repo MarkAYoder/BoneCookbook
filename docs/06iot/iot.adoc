@@ -537,24 +537,20 @@ bone$ </strong>echo 0 > /sys/bus/iio/devices/iio:device0/buffer/enable</strong>
 ((("networking", "sending email")))((("email")))((("Gmail")))You want to send an email via Gmail from the Bone.
 
 ==== Solution
-First, you need to https://mail.google.com[set up a Gmail account], if you don't already have one. Next, install +nodemailer+:
+This example came from https://realpython.com/python-send-email/. 
+First, you need to https://mail.google.com[set up a Gmail account], if you don't already have one. Then add the code in <<networking_nodemailer_code>> to a file named _emailTest.py_. Substitute your own Gmail username.  For the password:
 
-++++
-<pre data-type="programlisting">
-bone$ <strong>npm install -g nodemailer</strong>
-</pre>
-++++
-
-Then add the code in <<networking_nodemailer_code>> to a file named _nodemailer-test.js_ in the _serverExample_ directory. Be sure to substitute your own Gmail username and password for +user+ and +pass+.
+* Go to: https://myaccount.google.com/security
+* Select App password.
+* Generate your own 16 char password and copy it into _emailTest.py_.
+* Be sure to delete password when done https://myaccount.google.com/apppasswords .
 
 [[networking_nodemailer_code]]
-.Sending email using nodemailer (nodemailer-test.js)
+.Sending email using nodemailer (emailtTest.py)
 ====
-[source, js]
+[source, python]
 ----
-
-include::code/nodemailer-test.js[nodemailer-test.js]
-
+include::code/emailTest.py[emailTest.py]
 ----
 ====
 
@@ -562,8 +558,8 @@ Then run the script to send the email:
 
 ++++
 <pre data-type="programlisting">
-bone$ <strong>chmod +x nodemailer-test.js</strong>
-bone$ <strong>.\nodemailer-test.js</strong>
+bone$ <strong>chmod +x emailTest.py</strong>
+bone$ <strong>.\emailTest.py</strong>
 </pre>
 ++++
 
@@ -574,6 +570,8 @@ bone$ <strong>.\nodemailer-test.js</strong>
 
 ==== Discussion
 ((("bulk email")))Be careful about putting this into a loop.  Gmail presently limits you to http://group-mail.com/email-marketing/how-to-send-bulk-emails-using-gmail/[500 emails per day and 10 MB per message].
+
+See https://realpython.com/python-send-email/ for an example that sends an attached file.
 
 === Sending an SMS Message
 
