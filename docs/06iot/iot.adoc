@@ -663,6 +663,9 @@ The weather API returns lots of information. Use Python to extract the informati
 ((("networking", "sending/receiving Twitter posts")))((("tweets, sending/receiving")))((("Twitter posts")))You want to send and receive tweets (Twitter posts) with your Bone.
 
 ==== Solution
+
+// TODO update to python
+
 First, install the Twitter node package:
 
 ++++
