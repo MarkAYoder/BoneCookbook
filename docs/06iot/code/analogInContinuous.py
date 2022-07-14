@@ -14,6 +14,7 @@
 # See https://elinux.org/index.php?title=EBC_Exercise_10a_Analog_In#Analog_in_-_Continuous.2C_Change_the_sample_rate
 # for instructions on changing the sampling rate.  Can go up to 200KHz.
 
+fd = open(IIODEV, "r")
 import numpy      as np
 import gnuplotlib as gp
 import time
@@ -23,7 +24,7 @@ IIOPATH='/sys/bus/iio/devices/iio:device0'
 IIODEV='/dev/iio:device0'
 LEN = 100
 SAMPLERATE=8000
-AIN='1'
+AIN='2'
 
 # Setup IIO for Continous reading
 # Enable AIN
@@ -42,26 +43,16 @@ file1 = open(IIOPATH+'/buffer/enable', 'w')
 file1.write('1')
 file1.close()
 
-fd = open(IIODEV, "r")
+x = np.linspace(0, 1000*LEN/SAMPLERATE, LEN)
+# Do a dummy plot to give time of the fonts to load.
+gp.plot(x, x)
+print("Waiting for fonts to load")
+time.sleep(10)
 
 print('Hit ^C to stop')
 
-x = np.linspace(0, 1000*LEN/SAMPLERATE, LEN)
-# Do a dummy plot to give time of the fonts to load.
-y = np.linspace(0, 1000*LEN/SAMPLERATE, LEN)
-gp.plot(x, y,
-    xlabel = 't (ms)',
-    ylabel = 'volts',
-    _yrange = [0, 2],
-    title  = 'analogInContinuous',
-    legend = np.array( ("P9.39", ), ),
-    # ascii=1,
-    # terminal="xterm",
-    # legend = np.array( ("P9.40", "P9.38"), ),
-    # _with  = 'lines'
-    )
-# Wait for fonts to load
-time.sleep(10)
+fd = open(IIODEV, "r")
+
 try:
     while True:
         y = np.fromfile(fd, dtype='uint16', count=LEN)*1.8/4096
