@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 # From: https://towardsdatascience.com/python-webserver-with-flask-and-raspberry-pi-398423cc6f5d
 import os
 # import Adafruit_BBIO.GPIO as GPIO
@@ -49,7 +49,7 @@ def index():
       		'button'  : buttonSts,
       		'ledRed'  : ledRedSts,
       	}
-	return render_template('index.html', **templateData)
+	return render_template('index4.html', **templateData)
 	
 @app.route("/<deviceName>/<action>")
 def action(deviceName, action):
@@ -74,6 +74,6 @@ def action(deviceName, action):
 	 	'button'  : buttonSts,
   		'ledRed'  : ledRedSts,
 	}
-	return render_template('index.html', **templateData)
+	return render_template('index4.html', **templateData)
 if __name__ == "__main__":
    app.run(host='0.0.0.0', port=8080, debug=True)
