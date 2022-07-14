@@ -1,0 +1,10 @@
+# My Twitter keys
+# From https://apps.twitter.com/app/5771872/keys
+export API_KEY='RKH9Bi6QDo8LIUydJN5ubBH7r'
+export API_SECRET_KEY='DwyL7V4Q7O5ochI0PNlDsd00tA2lcSnEaxQSavSW4Jy86GKoxd'
+export TOKEN='48435578-W5fX8R7k93gbwptwpmnp5FgRbsG2Hos8M20iV6140'
+export TOKEN_SECRET='SOFLoyuBBkEsdvBKXh4CLBfQTiO2OiNtx3FQqnjYsHlRM'
+export BEARER_TOKEN='AAAAAAAAAAAAAAAAAAAAAGASWAAAAAAAx3tNEacg9qMqvGRJsmc5ivTuuO0%3Dyu1wzpaLMQDsTgGrh21jAacNRNsnEYKLIuePlJy4kX7DnBeHNj'
+
+# Client ID dmNxcDVPencxT2l3Ry12OWFSdEc6MTpjaQ
+# Client Secret     16tjW8lITIMH0ETUcmCvT1bpUvebCzsWQF3yVLv329rjynRSvT
