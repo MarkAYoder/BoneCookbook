@@ -618,25 +618,21 @@ Because your Bone is on the network, it's not hard to access the current weather
 * Go to https://openweathermap.org/ and create an account.
 * Go to https://home.openweathermap.org/api_keys and get your API key.
 * Store your key in the +bash+ variable +APPID+.
-
 ++++
 <pre>
 bash$ <strong>export APPID="Your key"</strong>
 </pre>
 ++++
-
+* Then add the code in <<networking_weather_code>> to a file named _weather.js_.
 * Run the pyhon script.
 
-Then add the code in <<networking_weather_code>> to a file named _weather.js_.
 
 [[networking_weather_code]]
 .Code for getting current weather conditions (_weather.py_)
 ====
 [source, python]
 ----
-
 include::code/weather.py[]
-
 ----
 ====
 <1> Prints current conditions.
