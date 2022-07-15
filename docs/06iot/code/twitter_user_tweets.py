@@ -8,7 +8,6 @@ import json
 # export 'BEARER_TOKEN'='<your_bearer_token>'
 bearer_token = os.environ.get("BEARER_TOKEN")
 
-
 def create_url():
     # Replace with user ID below
     user_id = 48435578

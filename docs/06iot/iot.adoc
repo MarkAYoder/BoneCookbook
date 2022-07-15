@@ -887,37 +887,6 @@ Test again. The LED will toggle every time the hashtag +#BeagleBone+ is tweeted.
 
 ==== Discussion
 
-
-[[networking_apache]]
-=== Serving Web Pages from the Bone by Using Apache
-
-==== Problem
-((("networking", "serving web pages")))((("web servers", "using BeagleBone as")))((("Apache web servers")))You want to use BeagleBone Black as an Apache web server.
-
-==== Solution
-https://httpd.apache.org/[Apache] (the most popular web server on the Internet since 1996) is already running on the Bone. Point your browser to _http://192.168.7.2:8080/_, and you'll see a screen that looks like <<networking_apacheNoFiles>>.
-
-[[networking_apacheNoFiles]]
-.Apache running on the Bone with no files to view
-image::figures/apacheNoFiles.png[Apache with no files]
-
-What you are seeing is a listing of the files in Apache's root directory (_/var/www/_).  In this case, there are no files to show. Add the HTML in <<networking_index_html>> to a file called _/var/www/test.html_ and refresh your browser. You will see the screen shown in <<networking_apacheTest_html>>.
-
-[[networking_apacheTest_html]]
-.The test.html file appears
-image::figures/apacheTest.png[Apache with test.html]
-
-Click the _test.html_ link to display the screen in <<networking_apacheIndex>>.
-
-[[networking_apacheIndex]]
-.Apache running on the Bone showing test.html
-image::figures/apacheIndex.png[Apache with index.html]
-
-You can place any number of files in _/var/www/_ and access them with Apache.
-
-==== Discussion
-
-
 === Communicating over a Serial Connection to an Arduino or LaunchPad
 
 ==== Problem

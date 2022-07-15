@@ -82,7 +82,7 @@ A cookbook for programming Beagles
   ** [ ] Removing Packages Installed with apt
   ** [update /dev/mmcblk1p1 ] Copying Files Between the Onboard Flash and the MicroSD Card
   ** [update What else to remove ] Freeing Space on the Onboard Flash or MicroSD Card
-  ** [x] Removed: nstalling Additional Node.js Packages
+  ** [x] Removed: installing Additional Node.js Packages
   ** [x] Removed: Using Python to Interact with the Physical World
   ** [x] Removed libsoc: Using C to Interact with the Physical World
 
@@ -90,17 +90,17 @@ A cookbook for programming Beagles
   ** [ ] Introduction
   ** [x] Accessing Your Host Computer's Files on the Bone
   ** [x] nginx: Serving Web Pages from the Bone
-  ** [replace with flask?] Interacting with the Bone via a Web Browser
-  ** [flask?] Displaying GPIO Status in a Web Browser
-  ** [remove ] Continuously Displaying the GPIO Value via jsfiddle
-  ** [remove] Continuously Displaying the GPIO Value
-  ** [update plot via sheets? ] Plotting Data
-  ** [update ] Sending an Email
-  ** [update ] Sending an SMS Message
-  ** [update ] Displaying the Current Weather Conditions
-  ** [update ] Sending and Receiving Tweets
-  ** [update, remove?] Wiring the IoT with Node-RED
-  ** [remove?] Serving Web Pages from the Bone by Using Apache
+  ** [x] Flask: Interacting with the Bone via a Web Browser
+  ** [x Displaying GPIO Status in a Web Browser
+  ** [removed] Continuously Displaying the GPIO Value via jsfiddle
+  ** [removee] Continuously Displaying the GPIO Value
+  ** [x] gnuplot: Plotting Data
+  ** [x] Sending an Email
+  ** [delete? ] Sending an SMS Message
+  ** [x] Displaying the Current Weather Conditions
+  ** [x] Sending and Receiving Tweets
+  ** [remove?] Wiring the IoT with Node-RED
+  ** [x] Removed: Serving Web Pages from the Bone by Using Apache
   ** [hardware?] Communicating over a Serial Connection to an Arduino or LaunchPad
 
 . link:07kernel/kernel.html[The Kernel]

@@ -1,0 +1,164 @@
+[
+    {
+        "id": "70fd05e2.f03d0c",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "b1dc9221.09e41",
+        "type": "gpio out",
+        "z": "70fd05e2.f03d0c",
+        "name": "",
+        "state": "OUTPUT",
+        "pin": "P9_14",
+        "i2cDelay": "0",
+        "i2cAddress": "",
+        "i2cRegister": "",
+        "outputs": 0,
+        "board": "14fb0dec.376712",
+        "x": 610,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "acb4df30.72216",
+        "type": "inject",
+        "z": "70fd05e2.f03d0c",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "1",
+        "payloadType": "num",
+        "x": 370,
+        "y": 180,
+        "wires": [
+            [
+                "b1dc9221.09e41"
+            ]
+        ]
+    },
+    {
+        "id": "35e9479e.0e2428",
+        "type": "inject",
+        "z": "70fd05e2.f03d0c",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "0",
+        "payloadType": "str",
+        "x": 370,
+        "y": 220,
+        "wires": [
+            [
+                "b1dc9221.09e41"
+            ]
+        ]
+    },
+    {
+        "id": "cca6a964.c0e978",
+        "type": "gpio out",
+        "z": "70fd05e2.f03d0c",
+        "name": "",
+        "state": "OUTPUT",
+        "pin": "USR3",
+        "i2cDelay": "0",
+        "i2cAddress": "",
+        "i2cRegister": "",
+        "outputs": 0,
+        "board": "14fb0dec.376712",
+        "x": 610,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "b9def222.f9a97",
+        "type": "inject",
+        "z": "70fd05e2.f03d0c",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "1",
+        "payloadType": "num",
+        "x": 370,
+        "y": 280,
+        "wires": [
+            [
+                "cca6a964.c0e978"
+            ]
+        ]
+    },
+    {
+        "id": "230706ad.dbc7ea",
+        "type": "inject",
+        "z": "70fd05e2.f03d0c",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "0",
+        "payloadType": "str",
+        "x": 370,
+        "y": 320,
+        "wires": [
+            [
+                "cca6a964.c0e978"
+            ]
+        ]
+    },
+    {
+        "id": "14fb0dec.376712",
+        "type": "ioplugin",
+        "name": "",
+        "username": "",
+        "password": "",
+        "boardType": "beaglebone-io",
+        "serialportName": "",
+        "connectionType": "local",
+        "mqttServer": "",
+        "pubTopic": "",
+        "subTopic": "",
+        "tcpHost": "",
+        "tcpPort": "",
+        "sparkId": "",
+        "sparkToken": "",
+        "beanId": "",
+        "impId": "",
+        "uuid": "",
+        "token": "",
+        "sendUuid": "",
+        "samplingInterval": "500"
+    }
+]
