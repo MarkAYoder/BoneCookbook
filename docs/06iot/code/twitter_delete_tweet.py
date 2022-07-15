@@ -5,19 +5,17 @@ import os
 import json
 
 # In your terminal please set your environment variables by running the following lines of code.
-# export 'CONSUMER_KEY'='<your_consumer_key>'
-# export 'CONSUMER_SECRET'='<your_consumer_secret>'
+# export 'API_KEY'='<your_consumer_key>'
+# export 'API_SECRET_KEY'='<your_consumer_secret>'
 
 consumer_key = os.environ.get("API_KEY")
 consumer_secret = os.environ.get("API_SECRET_KEY")
 
 # Be sure to replace tweet-id-to-delete with the id of the Tweet you wish to delete. The authenticated user must own the list in order to delete
-
-id = "1547951228700598273"
-
+id = "1547963178700533760"
 
 # Get request token
-request_token_url = "https://api.twitter.com/oauth/request_token"
+request_token_url = "https://api.twitter.com/oauth/request_token?oauth_callback=oob&x_auth_access_type=write"
 oauth = OAuth1Session(consumer_key, client_secret=consumer_secret)
 
 try:

@@ -664,59 +664,81 @@ The weather API returns lots of information. Use Python to extract the informati
 
 ==== Solution
 
-// TODO update to python
+https://twitter.com/[Twitter] has a whole https://github.com/twitterdev/Twitter-API-v2-sample-code[git repo] of sample code for interacting with Twitter.  Here I'll show how to create a tweet and then how to delete it.
 
-First, install the Twitter node package:
+===== Creating a Project and App
 
+* Follow the https://developer.twitter.com/en/docs/apps/overview[directions here] to create a project and and app. 
+* Be sure to giv eyour app Read and Write permission.
+* Then go to the https://developer.twitter.com/en/portal/projects-and-apps[developer portal] and select you app by clicking on the gear icon to the right of the app name.  
+* Click on the *Keys and tokens* tab. Here you can get to all your keys and tokens.  
+
+[TIP]
+====
+Be sure to record them, you can't get them later.
+====
+* Open the file +twitterKeys.sh+ and record your keys in it.
 ++++
 <pre data-type="programlisting">
-bone$ <strong>npm install node-twitter</strong>
+export API_KEY='XXX'
+export API_SECRET_KEY='XXX'
+export BEARER_TOKEN='XXX'
+export TOKEN='4XXX'
+export TOKEN_SECRET='XXX'
 </pre>
 ++++
-Before creating a Twitter app, you need to authenticate with Twitter:  
+* Next, source the file so the values will appear in your bash session.
+++++
+<pre>
+bash$ <strong>source twitterKeys.sh</strong>
+</pre>
+++++
+You'll need to do this every time you open a new +bash+ window.
 
-. Go to https://apps.twitter.com/[the Twitter Application Management page] and click Create New App. 
-. Fill in the requested information and click "Create your Twitter application." You can leave the Callback URL blank. 
-. Click the API Keys tab. If you plan to have the Bone send tweets, click "modify app permissions" to the right of "Access level." 
-. Select "Read and Write" and click "Update settings."  
-. Click the API Keys tab.
-. Near the bottom of the page, click "Create my access token."
-. Create a file called _twitterKeys.js_ and add the following code to it, substituting your keys for _xxx_:
+===== Creating a tweet
+Add the code in <<twitter_create_code>> to a file called _twitter_create_tweet_.py_ and run it to see your timeline.
 
-[source, js]
-----
-exports.API_KEY      = 'xxx';
-exports.API_SECRET   = 'xxx';
-exports.TOKEN        = 'xxx';
-exports.TOKEN_SECRET = 'xxx';
-----
-
-Add the code in <<networking_timeline_code>> to a file called _twitterTimeLine.js_ and run it to see your timeline.
-
-[[networking_timeline_code]]
-.Code to display your Twitter timeline (twitterTimeLine.js)
+[[twitter_create_code]]
+.Create a Tweet (_twitter_create_tweet.py_)
 ====
-[source, js]
+[source, python]
 ----
-
-include::code/twitterTimeLine.js[]
-
+include::code/twitter_create_tweet.py[]
 ----
 ====
+Run the code and you'll have to authorize.
+++++
+<pre>
+bash$ <strong>./twitter_create_tweet.py</strong>
+Got OAuth token: tWBldQAAAAAAWBJgAAABggJt7qg
+Please go here and authorize: https://api.twitter.com/oauth/authorize?oauth_token=tWBldQAAAAAAWBJgAAABggJt7qg
+Paste the PIN here: <strong>4859044</strong>
+Response code: 201
+{
+    "data": {
+        "id": "1547963178700533760",
+        "text": "Hello world!"
+    }
+}
+</pre>
+++++
+Check your twitter account and you'll see the new tweet.
+Record the *id* number and we'll use it next to delete the tweet.
 
-Use the code in <<networking_send_code>> to send a tweet with a picture.
+===== Deleting a tweet
 
-[[networking_send_code]]
-.Code to send a tweet with a picture (twitterUpload.js)
+Use the code in <<twitter_delete_code>> to delete a tweet.  Around line 15 is the *id* number.  Paste in the value returned above.
+
+[[twitter_delete_code]]
+.Code to delete a tweet  (twitter_delete_tweet.py_)
 ====
-[source, js]
+[source, python]
 ----
-
-include::code/twitterUpload.js[]
-
+include::code/twitter_delete_tweet.py[]
 ----
 ====
 
+// TODO  Start Here
 The code in <<networking_pushbutton_code>> sends a tweet whenever a button is pushed.
 
 [[networking_pushbutton_code]]
