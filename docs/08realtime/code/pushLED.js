@@ -1,25 +1,39 @@
 #!/usr/bin/env node
-var b = require('bonescript');
-var button = 'P9_42';
-var LED    = 'P9_14';
+////////////////////////////////////////
+//	pushLED.js
+//	Blinks an LED attached to P9_12 when the button at P9_42 is pressed
+//	Wiring:
+//	Setup:
+//	See:
+////////////////////////////////////////
+const fs = require("fs");
 
-b.pinMode(button, b.INPUT, 7, 'pulldown', 'fast', doAttach);
-function doAttach(x) {
-    if(x.err) {
-        console.log('x.err = ' + x.err);
-        return;
-    }
-    b.attachInterrupt(button, true, b.CHANGE, flashLED);
+const ms = 500   // Read time in ms
+
+const LED="50";   // Look up P9.14 using show-pins.  gpio1.18 maps to 50
+const button="7"; // P9_42 mapps to 7
+
+GPIOPATH="/sys/class/gpio/";
+
+// Make sure LED is exported
+if(!fs.existsSync(GPIOPATH+"gpio"+LED)) {
+    fs.writeFileSync(GPIOPATH+"export", LED);
 }
+// Make it an output pin
+fs.writeFileSync(GPIOPATH+"gpio"+LED+"/direction", "out");
 
-b.pinMode(LED,    b.OUTPUT);
-
-function flashLED(x) {
-    if(x.attached) {
-        console.log("Interrupt handler attached");
-        return;
-    }
-    console.log('x.value = ' + x.value);
-    console.log('x.err   = ' + x.err);
-    b.digitalWrite(LED, x.value);
+// Make sure button is exported
+if(!fs.existsSync(GPIOPATH+"gpio"+button)) {
+    fs.writeFileSync(GPIOPATH+"export", button);
 }
+// Make it an input pin
+fs.writeFileSync(GPIOPATH+"gpio"+button+"/direction", "in");
+
+// Read every ms
+setInterval(flashLED, ms);
+
+function flashLED() {
+    var data = fs.readFileSync(GPIOPATH+"gpio"+button+"/value").slice(0, -1);
+    console.log('data = ' + data);
+    fs.writeFileSync(GPIOPATH+"gpio"+LED+"/value", data);
+ }
