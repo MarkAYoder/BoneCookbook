@@ -6,9 +6,11 @@
 
 ((("soft real-time systems")))((("hard real-time systems")))In a _soft real-time_ system, the real-time requirements should be met _most_ of the time, where _most_ depends on the system. A video playback system is a good example. The goal might be to display 60 frames per second, but it doesn't matter much if you miss a frame now and then. In a 100 percent _hard real-time_ system, you can never fail to respond in time. Think of an airbag deployment system on a car. You can't even be pass:[<span class="keep-together">50 ms late</span>].
 
-((("Linux", "real-time processing with")))((("ARM processor")))((("programmable real-time units (PRUs)")))Systems running Linux generally can't do 100 percent hard real-time processing, because Linux gets in the way. However, the Bone has an ARM processor running Linux and two additional 32-bit programmable real-time units (PRUs [http://bit.ly/1EzTPZv]) available to do real-time processing. Although the PRUs can achieve 100 percent hard real-time, they take some effort to use.
+((("Linux", "real-time processing with")))((("ARM processor")))((("programmable real-time units (PRUs)")))Systems running Linux generally can't do 100 percent hard real-time processing, because Linux gets in the way. However, the Bone has an ARM processor running Linux and two additional 32-bit programmable real-time units (PRUs http://bit.ly/1EzTPZv[Ti AM33XX PRUSSv2]) available to do real-time processing. Although the PRUs can achieve 100 percent hard real-time, they take some effort to use.
 
 This chapter shows several ways to do real-time input/output (I/O), starting with the effortless, yet slower BoneScript and moving up with increasing speed (and effort) to using the PRUs.
+
+// TODO Is this still true?
 
 [NOTE]
 ====
@@ -278,7 +280,7 @@ The code is in a tight +while+ loop that checks the status of GPIO 7 and copies 
 
 ==== Discussion
 
-
+// TODO  Remove?
 [[realtime_xenomai]]
 === Modifying the Linux Kernel to Use Xenomai
 
