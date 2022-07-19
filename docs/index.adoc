@@ -116,10 +116,10 @@ A cookbook for programming Beagles
 
 . link:08realtime/realtime.html[Real-Time I/O]
   ** [ ] Introduction
-  ** [python ] I/O with BoneScript
-  ** [libsoc? ] I/O with C and libsoc
-  ** [ ] I/O with devmem2
-  ** [ ] I/O with C and mmap()
+  ** [x] I/O with Python and JavaScript
+  ** [libsoc? ] I/O with C
+  ** [x] I/O with devmem2
+  ** [x] I/O with C and mmap()
   ** [replace with preemtn RT?] Modifying the Linux Kernel to Use Xenomai
   ** [update ] I/O with simpPRU
 

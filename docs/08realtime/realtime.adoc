@@ -39,14 +39,21 @@ image::figures/pushLED_bb.png[Bone with pushbutton and LED]
 
 The code in <<realtime_pushLED_code>> reads GPIO port +P9_42+, which is attached to the pass:[<span class="keep-together">pushbutton</span>], and turns on the LED attached to +P9_12+ when the button is pushed.
 
+[[py_pushLED_code]]
+.Monitoring a pushbutton (pushLED.py)
+====
+[source, python]
+----
+include::code/pushLED.py[]
+----
+====
+
 [[realtime_pushLED_code]]
-.Monitoring a pushbutton using a callback function (pushLED.js)
+.Monitoring a pushbutton (pushLED.js)
 ====
 [source, javascript]
 ----
-
 include::code/pushLED.js[]
-
 ----
 ====
 
@@ -56,6 +63,11 @@ Add the code to a file named _pushLED.js_ and run it by using the following comm
 <pre data-type="programlisting">
 bone$ <strong>chmod +x pushLED.js</strong>
 bone$ <strong>./pushLED.js</strong>
+data = 0
+data = 0
+data = 1
+data = 1
+^C
 </pre>
 ++++
 
@@ -64,18 +76,18 @@ Press ^C (Ctrl-C) to stop the code.
 ==== Discussion
 
 [[realtime_libsoc]]
-=== I/O with C and libsoc
+=== I/O with C
 
 ==== Problem
-((("input/output (I/O)", "with C and libsoc")))((("C language", "real time I/O with")))((("libsoc library")))You want to use the C language to process inputs in real time, or JavaScript isn't fast enough.
+((("input/output (I/O)", "with C")))((("C language", "real time I/O with")))You want to use the C language to process inputs in real time, or Python/JavaScript isn't fast enough.
 
 ==== Solution
-<<realtime_JavaScript>> shows how to control an LED with a pushbutton using JavaScript. This recipe accomplishes the same thing using C and +libsoc+. <<misc_libsoc>> shows how to use C and +libsoc+ to access the GPIO pins.
+<<realtime_JavaScript>> shows how to control an LED with a pushbutton using JavaScript. This recipe accomplishes the same thing using C.
 
-Wire up the pushbutton and LED as shown in <<realtime_pushLED_fig>>. Follow the instructions in <<misc_libsoc>> to install +libsoc+. Then add the code in <<realtime_pushLED_c_code>> to a file named _pushLED.c_.
+Wire up the pushbutton and LED as shown in <<realtime_pushLED_fig>>. Then add the code in <<realtime_pushLED_c_code>> to a file named _pushLED.c_.
 
 [[realtime_pushLED_c_code]]
-.Code for reading a switch and blinking an LED using libsoc (pushLED.c)
+.Code for reading a switch and blinking an LED (pushLED.c)
 ====
 [source, c]
 ----
