@@ -285,3 +285,7 @@ The AM335x processor on the Bone has an ARM processor that is running Linux, but
 
 ===== Background
 simpPRU
+
+
+=== Tighter Delay Bounds with the PREEMPT RT Kernel
+
