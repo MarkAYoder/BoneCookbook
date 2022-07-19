@@ -47,20 +47,22 @@ int main() {
   fprintf(fpbutton, "in");
   fclose(fpbutton);
 
-  // Read every .25 sec
-  // snprintf(path, MAXSTR, "%s%s%s%s", GPIOPATH, "/gpio", button, "/value");
-  // fpbutton = fopen(path, "r");
+  // I don't know why I can open the LED outside the loop and use fseek before
+  //  each read, but I can't do the same for the button.  It appears it needs
+  //  to be opened every time.
   snprintf(path, MAXSTR, "%s%s%s%s", GPIOPATH, "/gpio", LED,    "/value");
   fpLED    = fopen(path, "w");
+  
   char state = '0';
+
   while (1) {
     snprintf(path, MAXSTR, "%s%s%s%s", GPIOPATH, "/gpio", button, "/value");
     fpbutton = fopen(path, "r");
-    fseek(fpLED,    0L, SEEK_SET);
+    fseek(fpLED, 0L, SEEK_SET);
     fscanf(fpbutton, "%c", &state);
     printf("state: %c\n", state);
     fprintf(fpLED, "%c", state);
     fclose(fpbutton);
-    usleep(1000000);   // sleep time in microseconds
+    usleep(250000);   // sleep time in microseconds
   }
 }

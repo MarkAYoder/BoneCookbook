@@ -34,7 +34,7 @@ In this chapter, as in the others, we assume that you are logged in as +debian+ 
 Wire up the pushbutton and LED as shown in <<realtime_pushLED_fig>>.
 
 [[realtime_pushLED_fig]]
-.Diagram for wiring a pushbutton and LED with the LED attached to P9_12
+.Diagram for wiring a pushbutton and LED with the LED attached to P9_14
 image::figures/pushLED_bb.png[Bone with pushbutton and LED]
 
 The code in <<realtime_pushLED_code>> reads GPIO port +P9_42+, which is attached to the pass:[<span class="keep-together">pushbutton</span>], and turns on the LED attached to +P9_12+ when the button is pushed.
@@ -75,14 +75,14 @@ Press ^C (Ctrl-C) to stop the code.
 
 ==== Discussion
 
-[[realtime_libsoc]]
+[[realtime_c]
 === I/O with C
 
 ==== Problem
 ((("input/output (I/O)", "with C")))((("C language", "real time I/O with")))You want to use the C language to process inputs in real time, or Python/JavaScript isn't fast enough.
 
 ==== Solution
-<<realtime_JavaScript>> shows how to control an LED with a pushbutton using JavaScript. This recipe accomplishes the same thing using C.
+<<realtime_JavaScript>> shows how to control an LED with a pushbutton using JavaScript. This recipe accomplishes the same thing using C. It does it in the same way, opening the correct /sys/class/gpio files and reading an writing them.
 
 Wire up the pushbutton and LED as shown in <<realtime_pushLED_fig>>. Then add the code in <<realtime_pushLED_c_code>> to a file named _pushLED.c_.
 
@@ -91,9 +91,7 @@ Wire up the pushbutton and LED as shown in <<realtime_pushLED_fig>>. Then add th
 ====
 [source, c]
 ----
-
 include::code/pushLED.c[]
-
 ----
 ====
 
@@ -101,35 +99,19 @@ Compile and run the code:
 
 ++++
 <pre data-type="programlisting">
-bone$ <strong>gcc -o pushLED pushLED.c /usr/local/lib/libsoc.so</strong>
+bone$ <strong>gcc -o pushLED pushLED.c</strong>
 bone$ <strong>./pushLED</strong>
-libsoc-debug: debug enabled (libsoc_set_debug)
-libsoc-gpio-debug: requested gpio (60, libsoc_gpio_request)
-libsoc-gpio-debug: GPIO already exported (60, libsoc_gpio_request)
-libsoc-gpio-debug: requested gpio (7, libsoc_gpio_request)
-libsoc-gpio-debug: GPIO already exported (7, libsoc_gpio_request)
-libsoc-gpio-debug: setting direction to out (60, libsoc_gpio_set_direction)
-libsoc-gpio-debug: setting direction to in (7, libsoc_gpio_set_direction)
-BOTH: 3
-libsoc-gpio-debug: setting edge to both (7, libsoc_gpio_set_edge)
-BOTH: 3
-libsoc-gpio-debug: creating new callback (7, libsoc_gpio_callback_interrupt)
-Push the button...
-libsoc-debug: debug disabled (libsoc_set_debug)
-Got it (1), button = 1
-Got it (2), button = 0
-Got it (3), button = 1
-Got it (4), button = 1
-Got it (5), button = 0
-libsoc-debug: debug enabled (libsoc_set_debug)
-libsoc-gpio-debug: callback thread was stopped 
-           (7, libsoc_gpio_callback_interrupt_cancel)
-libsoc-gpio-debug: freeing gpio (7, libsoc_gpio_free)
-libsoc-gpio-debug: freeing gpio (60, libsoc_gpio_free)
+state: 1
+state: 1
+state: 0
+state: 0
+state: 0
+state: 1
+^C
 </pre>
 ++++
 
-The code responds quickly to the pushbutton. If you need more speed, comment-out the +printf+ command in the interrupt service routine.
+The code responds quickly to the pushbutton. If you need more speed, comment-out the +printf()+ and the +sleep()+.
 
 ==== Discussion
 
@@ -137,7 +119,7 @@ The code responds quickly to the pushbutton. If you need more speed, comment-out
 === I/O with devmem2
 
 ==== Problem
-((("input/output (I/O)", "with devmem2")))((("devmem2 utility")))((("AM335x Technical Reference Manual")))Your C code using +libsoc+ isn't responding fast enough to the input signal. You want to read the GPIO registers directly.
+((("input/output (I/O)", "with devmem2")))((("devmem2 utility")))((("AM335x Technical Reference Manual")))Your C code isn't responding fast enough to the input signal. You want to read the GPIO registers directly.
 
 ==== Solution
 The solution is to use a simple utility called +devmem2+, with which you can read and write registers from the command line.
