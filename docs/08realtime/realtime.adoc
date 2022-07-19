@@ -8,20 +8,20 @@
 
 ((("Linux", "real-time processing with")))((("ARM processor")))((("programmable real-time units (PRUs)")))Systems running Linux generally can't do 100 percent hard real-time processing, because Linux gets in the way. However, the Bone has an ARM processor running Linux and two additional 32-bit programmable real-time units (PRUs http://bit.ly/1EzTPZv[Ti AM33XX PRUSSv2]) available to do real-time processing. Although the PRUs can achieve 100 percent hard real-time, they take some effort to use.
 
-This chapter shows several ways to do real-time input/output (I/O), starting with the effortless, yet slower BoneScript and moving up with increasing speed (and effort) to using the PRUs.
+This chapter shows several ways to do real-time input/output (I/O), starting with the effortless, yet slower JavaScript and moving up with increasing speed (and effort) to using the PRUs.
 
 // TODO Is this still true?
 
 [NOTE]
 ====
-In this chapter, as in the others, we assume that you are logged in as +root+ (as indicated by the +bone$+ prompt). This gives you quick access to the general-purpose input/output (GPIO) ports without having to use +sudo+ each time.
+In this chapter, as in the others, we assume that you are logged in as +debian+ (as indicated by the +bone$+ prompt). This gives you quick access to the general-purpose input/output (GPIO) ports but you may have to use +sudo+ some times.
 ====
 
-[[realtime_BoneScript]]
-=== I/O with BoneScript
+[[realtime_JavaScript]]
+=== I/O with JavaScript
 
 ==== Problem
-((("input/output (I/O)", "with BoneScript")))((("BoneScript", "input/output (I/O) with")))You want to read an input pin and write it to the output as quickly as possible with BoneScript.
+((("input/output (I/O)", "with JavaScript")))((("JavaScript", "input/output (I/O) with")))You want to read an input pin and write it to the output as quickly as possible with JavaScript.
 
 ==== Solution
 <<sensors_pushbutton>> shows how to read a pushbutton switch and <<displays_externalLED>> controls an external LED. This recipe combines the two to read the switch and turn on the LED in response to it. To make this recipe, you will need:
@@ -67,10 +67,10 @@ Press ^C (Ctrl-C) to stop the code.
 === I/O with C and libsoc
 
 ==== Problem
-((("input/output (I/O)", "with C and libsoc")))((("C language", "real time I/O with")))((("libsoc library")))You want to use the C language to process inputs in real time, or BoneScript isn't fast enough.
+((("input/output (I/O)", "with C and libsoc")))((("C language", "real time I/O with")))((("libsoc library")))You want to use the C language to process inputs in real time, or JavaScript isn't fast enough.
 
 ==== Solution
-<<realtime_BoneScript>> shows how to control an LED with a pushbutton using BoneScript. This recipe accomplishes the same thing using C and +libsoc+. <<misc_libsoc>> shows how to use C and +libsoc+ to access the GPIO pins.
+<<realtime_JavaScript>> shows how to control an LED with a pushbutton using JavaScript. This recipe accomplishes the same thing using C and +libsoc+. <<misc_libsoc>> shows how to use C and +libsoc+ to access the GPIO pins.
 
 Wire up the pushbutton and LED as shown in <<realtime_pushLED_fig>>. Follow the instructions in <<misc_libsoc>> to install +libsoc+. Then add the code in <<realtime_pushLED_c_code>> to a file named _pushLED.c_.
 
@@ -280,275 +280,14 @@ The code is in a tight +while+ loop that checks the status of GPIO 7 and copies 
 
 ==== Discussion
 
-[[realtime_PRUSpeak]]
-=== I/O with PRU Speak
+[[realtime_simpPRU]]
+=== I/O with simpPRU
 
 ==== Problem
 ((("input/output (I/O)", "with programmable real-time units (PRUs)")))((("programmable real-time units (PRUs)")))((("PRU Speak")))You require better timing than running C on the ARM can give you.
 
 ==== Solution
-The AM335x processor on the Bone has an ARM processor that is running Linux, but it also has two 32-bit PRUs that are available for processing I/O. It takes a fair amount of understanding to program the PRU. Fortunately, a http://bit.ly/1AjlarF[2014 Google Summer of Code] project produced http://bit.ly/1wXT1eO[PRU Speak], an adaptation of the http://botspeak.org/[BotSpeak] language for the PRU. This solution shows how to use it.
+The AM335x processor on the Bone has an ARM processor that is running Linux, but it also has two 32-bit PRUs that are available for processing I/O. It takes a fair amount of understanding to program the PRU. Fortunately, https://simppru.readthedocs.io/en/latest/[simpPRU] is an intuitive language for PRU which compiles down to PRU C. This solution shows how to use it.
 
 ===== Background
-PRU Speak comprises three main parts:
-
-Kernel::
- The +pru_speak.ko+ Linux kernel driver module loads PRU code and provides communication between the kernel and the firmware running on the PRU. An associated device tree overlay called +BB_PRUSPEAK-00A0.dtbo+ configures the pin access and firmware loaded on to the PRUs.((("Linux kernel", "PRU Speak")))
-Firmware::
- +pru0_firmware+ and +pru1_firmware+ are the firmware files for each of the two PRUs.
-Userspace::
- A Python user space component includes +bs_tcp_server.py+; a TCP socket listener that provides an interface to the PRU Speak interpreter; and +pru_speak.py+, a library for invoking PRU Speak commands from within a Python script.
-
-===== Prerequisites
-Many of the pins easily accessible by the PRU are taken up by the HDMI interface discussed in <<tips_hdmi>>. If you haven't already edited _uEnv.txt_, you can run these commands to disable the HDMI interface and reboot:
-
-++++
-<pre data-type="programlisting">
-bone$ <strong>sed -i \
- '/cape_disable=capemgr.disable_partno=BB-BONELT-HDMI,BB-BONELT-HDMIN$/ \
-      \s/^#//' /boot/uEnv.txt</strong>
-bone$ <strong>sudo reboot</strong>
-</pre>
-++++
-
-To build the firmware files, you first need to install the TI PRU C compiler:
-
-++++
-<pre data-type="programlisting">
-bone$ <strong>sudo apt update</strong>
-bone$ <strong>sudo apt install ti-pru-cgt-installer</strong>
-Reading package lists... Done
-Building dependency tree       
-Reading state information... Done
-The following NEW packages will be installed:
-  ti-pru-cgt-installer
-0 upgraded, 1 newly installed, 0 to remove and 30 not upgraded.
-Need to get 13.1 kB of archives.
-After this operation, 67.6 kB of additional disk space will be used.
-Get:1 http://repos.rcn-ee.net/debian/ wheezy/main ti-pru-cgt-installer \
-              all 2.1.0-1~bpo70+20141201+1 [13.1 kB]
-Fetched 13.1 kB in 0s (38.1 kB/s)         
-Selecting previously unselected package ti-pru-cgt-installer.
-(Reading database ... 59608 files and directories currently installed.)
-Unpacking ti-pru-cgt-installer \
-              (from .../ti-pru-cgt-installer_2.1.0-1~bpo70+20141201+1_all.deb) ...
-Setting up ti-pru-cgt-installer (2.1.0-1~bpo70+20141201+1) ...
---2015-01-19 18:59:14--  http://downloads.ti.com/codegen/esd/cgt_public_sw/\
-PRU/2.1.0/ti_cgt_pru_2.1.0_armlinuxa8hf_busybox_installer.sh
-Resolving downloads.ti.com (downloads.ti.com)... 23.62.97.64, 23.62.97.66
-Connecting to downloads.ti.com (downloads.ti.com)|23.62.97.64|:80... connected.
-HTTP request sent, awaiting response... 200 OK
-Length: 39666613 (38M) [application/x-sh]
-Saving to: `ti_cgt_pru_2.1.0_armlinuxa8hf_busybox_installer.sh'
-
-100%[====================================>] 39,666,613  75.3K/s   in 7m 39s  
-
-2015-01-19 19:06:54 (84.5 KB/s)-`ti_cgt_pru_2.1.0_arm..hf_busybox_installer.sh'\
-         saved [39666613/39666613]
-
-Installing PRU Code Generation tools version 2.1.0 into /
-  please wait, or press CTRL-C to abort
-
-Extracting archive
-Installing files
-[####################] 100%  
-Installed successfully into /
-</pre>
-++++
-
-===== Installation
-Clone the PRU Speak repository and run the _install.sh_ shell script:
-
-++++
-<pre data-type="programlisting">
-bone$ <strong>git clone git://github.com/jadonk/pruspeak.git</strong>
-bone$ <strong>cd pruspeak</strong>
-bone$ <strong>./install.sh</strong>
-if [ ! -d "/lib/modules/3.8.13-bone68/build" ]; then apt install \
-        linux-headers-3.8.13-bone68; fi
-make -C /lib/modules/3.8.13-bone68/build M=/root/pruspeak/src/driver modules
-make[1]: Entering directory `/usr/src/linux-headers-3.8.13-bone68'
-  CC [M]  /root/pruspeak/src/driver/pru_speak.o
-  Building modules, stage 2.
-  MODPOST 1 modules
-  CC      /root/pruspeak/src/driver/pru_speak.mod.o
-  LD [M]  /root/pruspeak/src/driver/pru_speak.ko
-make[1]: Leaving directory `/usr/src/linux-headers-3.8.13-bone68'
-make -C /lib/modules/3.8.13-bone68/build M=/root/pruspeak/src/driver 
-modules_install
-make[1]: Entering directory `/usr/src/linux-headers-3.8.13-bone68'
-  INSTALL /root/pruspeak/src/driver/pru_speak.ko
-  DEPMOD  3.8.13-bone68
-make[1]: Leaving directory `/usr/src/linux-headers-3.8.13-bone68'
-lnkpru -i/usr/share/ti/cgt-pru/lib pru0_firmware.obj pru0_syscall.obj \
-         AM3359_PRU.cmd -o=pru0_firmware
-lnkpru -i/usr/share/ti/cgt-pru/lib pru1_firmware.obj  AM3359_PRU.cmd 
--o=pru1_firmware
-install -m 444 pru0_firmware /lib/firmware
-install -m 444 pru1_firmware /lib/firmware
-dtc -O dtb -o BB-PRUSPEAK-00A0.dtbo -b 0 -@ BB-PRUSPEAK-00A0.dts 
-install -m 644 BB-PRUSPEAK-00A0.dtbo /lib/firmware
-python setup.py build
-running build
-running build_py
-python setup.py build
-running build
-running build_py
-python setup.py install
-running install
-.
-.
-.
-Processing pru_speak-0.0-py2.7.egg
-Removing /usr/local/lib/python2.7/dist-packages/pru_speak-0.0-py2.7.egg
-Copying pru_speak-0.0-py2.7.egg to /usr/local/lib/python2.7/dist-packages
-pru-speak 0.0 is already the active version in easy-install.pth
-
-Installed /usr/local/lib/python2.7/dist-packages/pru_speak-0.0-py2.7.egg
-Processing dependencies for pru-speak==0.0
-Searching for ply==3.4
-Best match: ply 3.4
-Processing ply-3.4-py2.7.egg
-ply 3.4 is already the active version in easy-install.pth
-
-Using /usr/local/lib/python2.7/dist-packages/ply-3.4-py2.7.egg
-Finished processing dependencies for pru-speak==0.0
-install -m 755 bs_tcp_server.py /usr/bin
-install -m 755 bs_shell.py /usr/bin
-</pre>
-++++
-
-===== Runing the Kernel Module
-Use the +modprobe+ command to load the kernel module and +config-pin+ to load the device tree overlay:
-
-++++
-<pre data-type="programlisting">
-bone$ <strong>modprobe pru_speak</strong>
-bone$ <strong>config-pin overlay BB-PRUSPEAK</strong>
-</pre>
-++++
-
-The kernel module will need to be reloaded after rebooting, unless it's been added to _/etc/modules-load.d/modules.conf_ and _/boot/uEnv.txt_.
-
-===== Running the Script
-The PRU is now ready to run code. Add the code in <<realtime_pruSpeak_code>> to a file named _pruSpeak.py_. This code copies the input on +P8_16+ to the output on +P9_31+.
-
-[role="pagebreak-before"]
-[[realtime_pruSpeak_code]]
-.Code for copying P8_16 to P9_31 using the PRU (pruSpeak.py)
-====
-[source, c]
-----
-
-include::code/pruSpeak.py[]
-
-----
-====
-
-Then run the code by using the following command:
-
-++++
-<pre data-type="programlisting">
-bone$ <strong>./pruSpeak.py</strong>
-Generating LALR tables
-Initializing PRU Speak
-0       0x110000FF      SET var1, DIO[14]
-1       0x01400000      SET DIO[0], var1
-2       0x15000000      GOTO 0
-3       0x7F000000      ENDSCRIPT
-
-[285212927, 20971520, 352321536, 2130706432]
-[]
-PRU Speak object deleted
-</pre>
-++++
-
-The code will return immediately, but the PRU will continue to run.
-
-The PRU has quick access to only a subset of GPIO pins. This example reads GPIO +P8_16+ and writes to +P9_31+, so you have to wire up the pushbutton and LED as shown in <<realtime_pushLEDpru_fig>>.
-
-[[realtime_pushLEDpru_fig]]
-.Diagram for wiring a pushbutton and LED for the PRU
-image::figures/pushLEDpru_bb.png[Bone with pushbutton and LED for PRU]
-
-Now, when you push the button, the LED should respond.
-
-==== Discussion
-In addition to invoking PRU Speak scripts via Python, it is also possible to open a shell or TCP socket to the interpreter. When running a script, it is also possible to modify variables to communicate with the running script.
-
-===== Running PRU Speak via Shell
-To invoke a shell interface to PRU Speak, run _bs_shell.py_:
-
-++++
-<pre data-type="programlisting">
-bone$ <strong>bs_shell.py</strong>
-Generating LALR tables
-Initializing PRU Speak
-ps&gt;<strong>SCRIPT</strong>
-...<strong>SET DIO[0],var1</strong>
-...<strong>GOTO 0</strong>
-...<strong>ENDSCRIPT</strong>
-...
-0       0x01400001      SET DIO[0],var1
-1       0x15000000      GOTO 0
-2       0x7F000000      ENDSCRIPT
-
-[]
-ps&gt;<strong>RUN</strong>
-...
-[20971521, 352321536, 2130706432]
-[]
-ps&gt;<strong>SET var1,1</strong>
-...
-[1]
-ps&gt;<strong>SET var1,0</strong>
-...
-[0]
-ps&gt;Closing terminal
-PRU Speak object deleted
-</pre>
-++++
-
-((("&#x005E;C (Ctrl-C) command")))((("commands", "&#x005E;C (Ctrl-C)")))Press Enter on a blank line to complete input to the shell. Press ^C (Ctrl-C) to exit the shell.
-
-===== Running PRU Speak via TCP socket
-Running the interpreter over a TCP socket enables tools like Labview to communicate with the Bone in a platform-independent way. Use netcat (+nc+) to interact with the interpreter from the command line:
-
-++++
-<pre data-type="programlisting">
-bone$ <strong>bs_tcp_server.py 2&amp;&gt;1 &gt; /var/log/pruspeak.log &amp;</strong>
-[1] 2594
-bone # <strong>nc localhost 6060</strong>
-<strong>SCRIPT</strong>
-
-<strong>SET DIO[0],1</strong>
-
-<strong>WAIT 100</strong>
-
-<strong>SET DIO[0],0</strong>
-
-<strong>WAIT 100</strong>
-
-<strong>GOTO 0</strong>
-
-<strong>ENDSCRIPT</strong>
-
-<strong>RUN</strong>
-
-<strong>^C</strong>
-</pre>
-++++
-
-Press ^C (Ctrl-C) to exit +nc+.
-
-[NOTE]
-====
-Currently, pressing ^D (Ctrl-D) within +nc+ will cause the socket listener script to close.
-====
-
-You should now see the LED blinking.
-
-===== Looking Ahead
-At the time of this writing, PRU Speak is still under heavy development. Be sure to check http://bit.ly/1B4DrsC[the README file] for the latest installation and usage guidelines. Currently, only direct PRU GPIO access is implemented, but support for ADCs and additional GPIOs is in the works.
-
-If you are looking to develop your own firmware for the PRUs, this example should provide a template for extending your own interface code.
+simpPRU

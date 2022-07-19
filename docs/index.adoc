@@ -121,7 +121,7 @@ A cookbook for programming Beagles
   ** [ ] I/O with devmem2
   ** [ ] I/O with C and mmap()
   ** [replace with preemtn RT?] Modifying the Linux Kernel to Use Xenomai
-  ** [remove ] I/O with PRU Speak
+  ** [update ] I/O with simpPRU
 
 . link:09capes/capes.html[Capes]
   ** [ ] Introduction
