@@ -10,7 +10,7 @@ const fs = require("fs");
 
 const ms = 500   // Read time in ms
 
-const LED="50";   // Look up P9.14 using show-pins.  gpio1.18 maps to 50
+const LED="50";   // Look up P9.14 using gpioinfo | grep -e chip -e P9.14.  chip 1, line 18 maps to 50
 const button="7"; // P9_42 mapps to 7
 
 GPIOPATH="/sys/class/gpio/";

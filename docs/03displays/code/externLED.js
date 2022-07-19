@@ -8,7 +8,7 @@
 ////////////////////////////////////////
 const fs = require("fs");
 
-// Look up P9.14 using show-pins.  gpio1.18 maps to 50
+// Look up P9.14 using gpioinfo | grep -e chip -e P9.14.  chip 1, line 18 maps to 50
 pin="50";
 
 GPIOPATH="/sys/class/gpio/";

@@ -190,24 +190,33 @@ You have a sensor attached to the P8 or P9 header and need to know which gpio pi
 
 ==== Solution
 
-The +show-pins+ command will display information about all the P8 and P9 header pins.  To see the info for just one pin, used+grep+.
+The +gpioinfo+ command displays information about all the P8 and P9 header pins.  To see the info for just one pin, use +grep+.
 
 ++++
 <pre data-type="programlisting">
-bone$ <strong>show-pins | grep P9.42</strong>
-P9.42         89 fast rx down 7 gpio 0.07 << lo  P9_42 (pinmux_P9_42_default_pin)
+bone$ <strong>gpioinfo | grep -e chip -e P9.42</strong>
+gpiochip0 - 32 lines:
+	line   7: "P8_42A [ecappwm0]" "P9_42" input active-high [used]
+gpiochip1 - 32 lines:
+gpiochip2 - 32 lines:
+gpiochip3 - 32 lines:
+
 </pre>
 ++++
-
-The numbers following the string +gpio+ are the port number and the pin on that port.  In this cse it's port 0 and pin 7.  To find the gpio number multiply the port number by 32 and add it to the pin number.  This gives 0*32+7=7.  
+This shows P9_42  is on  chip 0 and pin 7.  To find the gpio number multiply the chip number by 32 and add it to the pin number.  This gives 0*32+7=7.  
 
 For P9_26 you get:
 ++++
 <pre data-type="programlisting">
-bone$ <strong>show-pins | grep P9.26</strong>
-P9.26           96 fast rx  up  7 gpio 0.14 << hi  P9_26 (pinmux_P9_26_default_pin)</pre>
+bone$ <strong>gpioinfo | grep -e chip -e P9.26</strong>
+gpiochip0 - 32 lines:
+	line  14: "P9_26 [uart1_rxd]" "P9_26" input active-high [used]
+gpiochip1 - 32 lines:
+gpiochip2 - 32 lines:
+gpiochip3 - 32 lines:
+
 ++++
-0*32+14=14, so the P9_26 pin in gpio 14.
+0*32+14=14, so the P9_26 pin is gpio 14.
 
 === Reading a Position, Light, or Force Sensor (Variable Resistance Sensor)
 

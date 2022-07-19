@@ -11,7 +11,7 @@ import os
 
 ms = 50   # Read time in ms
 
-LED="50"   # Look up P9.14 using show-pins.  gpio1.18 maps to 50
+LED="50"   # Look up P9.14 using gpioinfo | grep -e chip -e P9.14.  chip 1, line 18 maps to 50
 button="7" # P9_42 mapps to 7
 
 GPIOPATH="/sys/class/gpio/"
