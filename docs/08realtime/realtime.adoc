@@ -141,7 +141,7 @@ First, download and install +devmem2+:
 <pre data-type="programlisting">
 bone$ <strong>wget http://free-electrons.com/pub/mirror/devmem2.c</strong>
 bone$ <strong>gcc -o devmem2 devmem2.c</strong>
-bone$ <strong>mv devmem2 /usr/bin</strong>
+bone$ <strong>sudo mv devmem2 /usr/bin</strong>
 </pre>
 ++++
 
@@ -172,7 +172,7 @@ This means you read from address +0x44E0_7000+ + +0x138+ = +0x44E0_7138+ to see 
 
 ++++
 <pre data-type="programlisting">
-bone$ <strong>devmem2 0x44E07138</strong>
+bone$ <strong>sudo devmem2 0x44E07138</strong>
 /dev/mem opened.
 Memory mapped at address 0xb6f8e000.
 Value at address 0x44E07138 (0xb6f8e138): 0xC000C404
@@ -184,7 +184,7 @@ The returned value +0xC000C404+ (+1100 0000 0000 0000 1100 0100 0000 0100+ in bi
 
 ++++
 <pre data-type="programlisting">
-bone$ <strong>devmem2 0x44E07190 w 0x80000000</strong>
+bone$ <strong>sudo devmem2 0x44E07190 w 0x80000000</strong>
 /dev/mem opened.
 Memory mapped at address 0xb6fd7000.
 Value at address 0x44E07190 (0xb6fd7190): 0x80000000
@@ -198,7 +198,7 @@ You read the pushbutton switch in a similar way. <<tips_cape_headers_digital>> s
 
 ++++
 <pre data-type="programlisting">
-bone$ <strong>devmem2 0x44e07138</strong>
+bone$ <strong>sudo devmem2 0x44e07138</strong>
 /dev/mem opened.
 Memory mapped at address 0xb6fe2000.
 Value at address 0x44E07138 (0xb6fe2138): 0x4000C484
@@ -215,7 +215,7 @@ This is much more tedious than the previous methods, but it's what's necessary i
 === I/O with C and mmap()
 
 ==== Problem
-((("input/output (I/O)", "with C and mmap()")))((("C language", "mapping GPIO registers with mmap() and")))((("mmap()")))Your C code using +libsoc+ isn't responding fast enough to the input signal.
+((("input/output (I/O)", "with C and mmap()")))((("C language", "mapping GPIO registers with mmap() and")))((("mmap()")))Your C code isn't responding fast enough to the input signal.
 
 ==== Solution
 In smaller processors that aren't running an operating system, you can read and write a given memory address directly from C. With Linux running on Bone, many of the memory locations are hardware protected, so you can't accidentally access them directly. 
@@ -265,7 +265,7 @@ Now, compile and run the code:
 ++++
 <pre data-type="programlisting">
 bone$ <strong>gcc -O3 pushLEDmmap.c -o pushLEDmmap</strong>
-bone$ <strong>./pushLEDmmap</strong>
+bone$ <strong>sudo ./pushLEDmmap</strong>
 Mapping 44E07000 - 44E08000 (size: 1000)
 GPIO mapped to 0xb6fac000
 GPIO SETDATAOUTADDR mapped to 0xb6fac194
@@ -279,200 +279,6 @@ Ctrl-C pressed, cleaning up and exiting...
 The code is in a tight +while+ loop that checks the status of GPIO 7 and copies it to GPIO 31.
 
 ==== Discussion
-
-// TODO  Remove?
-[[realtime_xenomai]]
-=== Modifying the Linux Kernel to Use Xenomai
-
-==== Problem
-((("input/output (I/O)", "with Xenomai")))((("Xenomai")))((("Linux kernel", "modifying to use Xenomai")))Your program can't get control of the processor quickly enough to do your real-time processing.
-
-==== Solution
-http://xenomai.org/[Xenomai] is a set of kernel patches that allow the Bone to respond to real-time events in a predicable way. These instructions are based on Bruno Martins' http://bit.ly/1EXIEZu[Xenomai on the BeagleBone Black in 14 easy steps].
-
-[TIP]
-====
-((("Machinekit distribution")))The Xenomai kernel is used to provide real-time motion control within the Machinekit distribution for the Bone. You might get a quick start by checking out the images provided on http://bit.ly/1NK71xS[the Machinekit blog].
-====
-
-[NOTE]
-====
-The Xenomai kernel is now available in the BeagleBoard.org Debian package feeds, and you can install it by using +sudo apt install xenomai-runtime+. Nevertheless, we find it useful to include the details of building the Xenomai kernel.
-====
-
-[WARNING]
-====
-This recipe requires downloading and patching the kernel. This is advanced work.
-====
-
-First, download, compile, and install the kernel, following the instructions in <<kernel_compiling>>. This will ensure that everything is in place and working before you start changing things.
-
-Next, visit http://bit.ly/1C6QxwN[Xenomai's download page] to find the latest version of Xenomai (at the time of this writing, it's 2.6.4). Download it with the following command (substituting the URL for the latest version you find on Xenomai's download page):
-
-++++
-<pre data-type="programlisting">
-host$ <strong>wget http://download.gna.org/xenomai/stable/latest/xenomai-2.6.4.tar.bz2</strong>
-</pre>
-++++
-
-Check out the latest kernel:
-
-++++
-<pre data-type="programlisting">
-host$ <strong>cd bb-kernel/KERNEL</strong>
-host$ <strong>uname -a</strong>
-host$ <strong>git tags | sort | less</strong>
-</pre>
-++++
-
-Pick the tag that is close to your current version of the kernel. This command checks out the +3.8.13-bone67+ version of the kernel and creates a branch named +xenomai+:
-
-++++
-<pre data-type="programlisting">
-host$ <strong>git checkout 3.8.13-bone67 -b xenomai</strong>
-</pre>
-++++
-
-===== Patching the kernel
-
-Patch the kernel by using the following commands:
-
-////
-Lines are too long in following listing.
-////
-
-++++
-<pre data-type="programlisting">
-host$ <strong>cd bb-kernel/KERNEL</strong>
-host$ <strong>patch -p1 &lt; ../../xenomai-2.6.4/ksrc/arch/arm/patches/\
-       beaglebone/ipipe-core-3.8.13-beaglebone-pre.patch</strong>
-host$ <strong>patch -p1 &lt; ../../xenomai-2.6.4/ksrc/arch/arm/patches/\
-       ipipe-core-3.8.13-arm-4.patch</strong>
-host$ <strong>patch -p1 &lt; ../../xenomai-2.6.4/ksrc/arch/arm/patches/\
-       beaglebone/ipipe-core-3.8.13-beaglebone-post.patch</strong>
-</pre>
-++++
-
-[NOTE]
-====
-These commands assume +bb-kernel+ and +xenomai-2.6.4+ are at the same directory level.
-====
-
-Then get one more patch from http://bit.ly/1Mti9gQ[Xenomai's website]. Add the code in <<realtime_thumb>> to a file named _thumb.patch_.
-
-[[realtime_thumb]]
-.One last patch (_thumb.patch_)
-====
-[source, js]
-----
-
-include::code/thumb.patch[]
-
-----
-====
-
-Run the following command to apply the patch:
-
-++++
-<pre data-type="programlisting">
-host$ <strong>patch -p1 &lt; thumb.patch</strong>
-</pre>
-++++
-
-Prepare the kernel:
-
-++++
-<pre data-type="programlisting">
-host$ <strong>cd ../../xenomai-2.6.4/scripts</strong>
-host$ <strong>./prepare-kernel.sh --arch=arm --linux=../../bb-kernel/KERNEL/</strong>
-</pre>
-++++
-
-Now you're ready to compile the kernel with these new patches:
-
-++++
-<pre data-type="programlisting">
-host$ <strong>cd ../../bb-kernel</strong>
-host$ <strong>tools/rebuild.sh</strong>
-</pre>
-++++
-
-When the configuration menu displays (as shown in <<realtime_xenomai_config>>), make the following changes:
-
-. Select "CPU Power Management" -> "CPU Frequency scaling, disable [ ] CPU Frequency scaling."
-. Select "Real-time sub-system" ->" Drivers" -> "Testing drivers, enable everything."
-
-[[realtime_xenomai_config]]
-.Configuing Xenomai
-image::figures/xenomaiConfig.png[Configuring Xenomai]
-
-Then sit back and wait awhile. After the new kernel is built, install it following the instructions in <<kernel_install>>.
-
-===== Setting up the Bone
-You are now ready to test the new Xenomai kernel. Copy Xenomai to the Bone:
-
-++++
-<pre data-type="programlisting">
-host$ <strong>scp -r xenomai-2.6.4 192.168.7.2:.</strong>
-</pre>
-++++
-
-[NOTE]
-====
-This command assumes that the Bone is at 192.168.7.2.
-====
-
-Run the following commands on the Bone:
-
-++++
-<pre data-type="programlisting">
-bone$ <strong>cd ~/xenomai-2.6.4</strong>
-bone$ <strong>./configure CFLAGS="-march=armv7-a -mfpu=vfp3" LDFLAGS="-march=armv7-a \
-        -mfpu=vfp3"</strong>
-bone$ <strong>make</strong>
-bone$ <strong>make install</strong>
-</pre>
-++++
-
-+./configure+ takes about a minute, +make+ six more minutes, and +install+ another minute.
-
-Next, copy the drivers:
-
-++++
-<pre data-type="programlisting">
-bone$ <strong>cd; mkdir xenomai_drivers; cd xenomai_drivers</strong>
-
-host$ <strong>cd bb-kernel/KERNEL/drivers/xenomai/testing</strong>
-host$ <strong>scp *.ko 192.168.7.2:xenomai_drivers</strong>
-
-bone$ <strong>sudo insmode xeno_klat.ko</strong>
-</pre>
-++++
-
-===== Testing
-Go ahead and run some tests:
-
-++++
-<pre data-type="programlisting">
-bone$ <strong>usr/xenomai/bin/latency</strong>
-== Sampling period: 1000 us
-== Test mode: periodic user-mode task
-== All results in microseconds
-warming up...
-RTT|  00:00:01  (periodic user-mode task, 1000 us period, priority 99)
-RTH|----lat min|----lat avg|----lat max|-overrun|---msw|---lat best|--lat worst
-RTD|      3.624|      3.833|     20.458|       0|     0|      3.624|     20.458
-RTD|      2.749|      3.749|     22.583|       0|     0|      2.749|     22.583
-RTD|      2.749|      4.583|     25.499|       0|     0|      2.749|     25.499
-RTD|      2.749|      3.708|     20.541|       0|     0|      2.749|     25.499
-RTD|      2.749|      3.749|     21.916|       0|     0|      2.749|     25.499
----|-----------|-----------|-----------|--------|------|-------------------------
-RTS|      2.749|      3.916|     25.499|       0|     0| 00:00:05/00:00:05
-</pre>
-++++
-
-==== Discussion
-The details of how to use Xenomai are beyond the scope of this book, but you can browse over to http://xenomai.org/[Xenomai's website] for examples and help on what to do next.
 
 [[realtime_PRUSpeak]]
 === I/O with PRU Speak
