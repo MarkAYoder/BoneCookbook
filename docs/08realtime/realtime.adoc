@@ -304,6 +304,7 @@ Linux breadboard-home 5.10.120-ti-r47 #1bullseye SMP PREEMPT Tue Jul 12 18:59:38
 </pre>
 ++++
 I'm running a 5.10 kernel.  Remember the whole string, +5.10.120-ti-r47+, for later.
+
 * Go to https://forum.beagleboard.org/t/debian-10-x-11-x-kernel-updates/30928[kernel update] and look for +5.10+.
 
 [[realtime_kernel_update_fig]]
@@ -320,6 +321,11 @@ bone$ <strong>sudo apt install bbb.io-kernel-5.10-ti-rt-am335x</strong>
 </pre>
 ++++
 
+[NOTE]
+====
+Use the *am57xx* if you are using the BeagleBoard AI or AI64.
+====
+
 * Before rebooting, edit +/boot/uEnv.txt+ to start with:
 ++++
 <pre data-type="programlisting">
@@ -335,7 +341,7 @@ uname_r=5.10.120-ti-rt-r47
 +uname_r+ tells the boot loader which kernel to boot.  Here we've commented out the regular kernel and left in the RT kernel.  Next time you boot you'll be running the RT kernel.  Don't reboot just yet.  Let's gather some latency data first.
 
 ==== Discussion
-https://bootlin.com/doc/training/preempt-rt/[bootlin preempt_rt] looks like a good workshop on PREEMPT RT.  Their slides say:
+https://bootlin.com/doc/training/preempt-rt/[Bootlin's preempt_rt workshop] looks like a good workshop on PREEMPT RT.  Their slides say:
 
 * One way to implement a multi-task Real-Time Operating System is to have a preemptible system
 * Any task can be interrupted at any point so that higher priority tasks can run
@@ -344,7 +350,7 @@ https://bootlin.com/doc/training/preempt-rt/[bootlin preempt_rt] looks like a go
 * However, code that runs in kernel mode isn’t fully preemptible
 * The Preempt-RT patch aims at making all code running in kernel mode preemptible
 
-The workshop goes into many details on how to get real-time performance on Linux.
+The workshop goes into many details on how to get real-time performance on Linux.  Checkout their https://bootlin.com/doc/training/preempt-rt/preempt-rt-slides.pdf[slides] and https://bootlin.com/doc/training/preempt-rt/preempt-rt-labs.pdf[labs]. Though you can skip the first lab since we present a simpler way to get the RT kernel running. 
 
 +cyclictest+ is one tool for measuring the latency from when a thread is schduled and when it runs.  The +code/rt+ directory in the git repo has some scripts for gathering latency ddata and plotting it.  Here's how to run the scripts.
 
@@ -422,3 +428,26 @@ Now run the scipt again (note it's being saved in +rt.hist+ this time.)
 bone$ <strong>time sudo ./hist.gen > rt.hist</strong>
 </pre>
 ++++
+
+[NOTE]
+====
+At this point yoou can edit +/boot/uEnt.txt+ to boot the non RT kernel and reboot.
+====
+
+Now it's time to plot the results.
+
+++++
+<pre data-type="programlisting">
+bone$ <strong>tgnuplot hist.plt</strong>
+</pre>
+++++
+
+This will generate the file *cyclictest.png* which contains your plot.  It should look like:
+
+[[realtime_cyclictest_fig]]
+.Histogram of Non-RT and RT kernels running cyclictest
+image::code/rt/cyclictest.png[Histogram of Non-RT and RT kernels running cyclictest]
+
+Notice the NON-RT data have much longer latenices. They may not happen offen (fewer thatn 10 times), but they are occuring and may be enough to miss a real-time deadline.
+
+The PREEMPT-RT times are all under a 150 pass:[&mu;]s. 
