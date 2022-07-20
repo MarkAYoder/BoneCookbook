@@ -73,7 +73,7 @@ Press ^C (Ctrl-C) to stop the code.
 
 ==== Discussion
 
-[[realtime_c]
+[[realtime_c]]
 === I/O with C
 
 ==== Problem
@@ -315,6 +315,7 @@ Use the *am57xx* if you are using the BeagleBoard AI or AI64.
 ====
 
 * Before rebooting, edit +/boot/uEnv.txt+ to start with:
+====
 ++++
 <pre data-type="programlisting">
 #Docs: http://elinux.org/Beagleboard:U-boot_partitioning_layout_2.0
@@ -325,7 +326,7 @@ uname_r=5.10.120-ti-rt-r47
 #dtb=
 </pre>
 ++++
-
+====
 +uname_r+ tells the boot loader which kernel to boot.  Here we've commented out the regular kernel and left in the RT kernel.  Next time you boot you'll be running the RT kernel.  Don't reboot just yet.  Let's gather some latency data first.
 
 ==== Discussion

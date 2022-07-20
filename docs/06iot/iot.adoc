@@ -197,7 +197,7 @@ bone$ <strong>.\app.py</strong>
 
 Open any web browser and browse to 192.168.7.2:8080. You should see:
 
-[[flask_app1]]
+[[flask_app1_fig]]
 .Test page served by app1.py
 image::figures/flaskapp1.png[app1.py]
 
