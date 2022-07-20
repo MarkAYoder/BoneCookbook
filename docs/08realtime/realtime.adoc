@@ -272,18 +272,6 @@ The code is in a tight +while+ loop that checks the status of GPIO 7 and copies 
 
 ==== Discussion
 
-[[realtime_simpPRU]]
-=== I/O with simpPRU
-
-==== Problem
-((("input/output (I/O)", "with programmable real-time units (PRUs)")))((("programmable real-time units (PRUs)")))((("PRU Speak")))You require better timing than running C on the ARM can give you.
-
-==== Solution
-The AM335x processor on the Bone has an ARM processor that is running Linux, but it also has two 32-bit PRUs that are available for processing I/O. It takes a fair amount of understanding to program the PRU. Fortunately, https://simppru.readthedocs.io/en/latest/[simpPRU] is an intuitive language for PRU which compiles down to PRU C. This solution shows how to use it.
-
-===== Background
-simpPRU
-
 
 === Tighter Delay Bounds with the PREEMPT_RT Kernel
 
@@ -352,7 +340,9 @@ https://bootlin.com/doc/training/preempt-rt/[Bootlin's preempt_rt workshop] look
 
 The workshop goes into many details on how to get real-time performance on Linux.  Checkout their https://bootlin.com/doc/training/preempt-rt/preempt-rt-slides.pdf[slides] and https://bootlin.com/doc/training/preempt-rt/preempt-rt-labs.pdf[labs]. Though you can skip the first lab since we present a simpler way to get the RT kernel running. 
 
-+cyclictest+ is one tool for measuring the latency from when a thread is schduled and when it runs.  The +code/rt+ directory in the git repo has some scripts for gathering latency ddata and plotting it.  Here's how to run the scripts.
+
+==== Cyclictest
++cyclictest+ is one tool for measuring the latency from when a thread is schduled and when it runs.  The +code/rt+ directory in the git repo has some scripts for gathering latency data and plotting it.  Here's how to run the scripts.
 
 * First look in <<realtime_install_fig>> to see what to install.
 
@@ -419,7 +409,7 @@ Congratulations you are running the RT kernel.
 
 [NOTE]
 ====
-If the Beagle appears to be running (the LEDs are flashing) but you are having trouble connecting vis +ssh 192.168.7.2+, you can try the approach shown in <<tips_FTDI>>.
+If the Beagle appears to be running (the LEDs are flashing) but you are having trouble connecting vis +ssh 192.168.7.2+, you can try connecting using the approach shown in <<tips_FTDI>>.
 ====
 
 Now run the scipt again (note it's being saved in +rt.hist+ this time.)
@@ -438,7 +428,7 @@ Now it's time to plot the results.
 
 ++++
 <pre data-type="programlisting">
-bone$ <strong>tgnuplot hist.plt</strong>
+bone$ <strong>gnuplot hist.plt</strong>
 </pre>
 ++++
 
@@ -448,6 +438,18 @@ This will generate the file *cyclictest.png* which contains your plot.  It shoul
 .Histogram of Non-RT and RT kernels running cyclictest
 image::code/rt/cyclictest.png[Histogram of Non-RT and RT kernels running cyclictest]
 
-Notice the NON-RT data have much longer latenices. They may not happen offen (fewer thatn 10 times), but they are occuring and may be enough to miss a real-time deadline.
+Notice the NON-RT data have much longer latenices. They may not happen ofen (fewer thatn 10 times in each bin), but they are occuring and may be enough to miss a real-time deadline.
 
 The PREEMPT-RT times are all under a 150 pass:[&mu;]s. 
+
+[[realtime_simpPRU]]
+=== I/O with simpPRU
+
+==== Problem
+((("input/output (I/O)", "with programmable real-time units (PRUs)")))((("programmable real-time units (PRUs)")))((("PRU Speak")))You require better timing than running C on the ARM can give you.
+
+==== Solution
+The AM335x processor on the Bone has an ARM processor that is running Linux, but it also has two 32-bit PRUs that are available for processing I/O. It takes a fair amount of understanding to program the PRU. Fortunately, https://simppru.readthedocs.io/en/latest/[simpPRU] is an intuitive language for PRU which compiles down to PRU C. This solution shows how to use it.
+
+===== Background
+simpPRU

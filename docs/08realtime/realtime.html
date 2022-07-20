@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="generator" content="Asciidoctor 2.0.10">
+<meta name="generator" content="Asciidoctor 2.0.12">
 <title>Real-Time I/O</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
@@ -47,7 +47,7 @@ textarea{overflow:auto;vertical-align:top}
 table{border-collapse:collapse;border-spacing:0}
 *,*::before,*::after{-moz-box-sizing:border-box;-webkit-box-sizing:border-box;box-sizing:border-box}
 html,body{font-size:100%}
-body{background:#fff;color:rgba(0,0,0,.8);padding:0;margin:0;font-family:"Noto Serif","DejaVu Serif",serif;font-weight:400;font-style:normal;line-height:1;position:relative;cursor:auto;tab-size:4;-moz-osx-font-smoothing:grayscale;-webkit-font-smoothing:antialiased}
+body{background:#fff;color:rgba(0,0,0,.8);padding:0;margin:0;font-family:"Noto Serif","DejaVu Serif",serif;font-weight:400;font-style:normal;line-height:1;position:relative;cursor:auto;tab-size:4;word-wrap:anywhere;-moz-osx-font-smoothing:grayscale;-webkit-font-smoothing:antialiased}
 a:hover{cursor:pointer}
 img,object,embed{max-width:100%;height:auto}
 object,embed{height:100%}
@@ -62,10 +62,8 @@ img{-ms-interpolation-mode:bicubic}
 img,object,svg{display:inline-block;vertical-align:middle}
 textarea{height:auto;min-height:50px}
 select{width:100%}
-.center{margin-left:auto;margin-right:auto}
-.stretch{width:100%}
 .subheader,.admonitionblock td.content>.title,.audioblock>.title,.exampleblock>.title,.imageblock>.title,.listingblock>.title,.literalblock>.title,.stemblock>.title,.openblock>.title,.paragraph>.title,.quoteblock>.title,table.tableblock>.title,.verseblock>.title,.videoblock>.title,.dlist>.title,.olist>.title,.ulist>.title,.qlist>.title,.hdlist>.title{line-height:1.45;color:#7a2518;font-weight:400;margin-top:0;margin-bottom:.25em}
-div,dl,dt,dd,ul,ol,li,h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6,pre,form,p,blockquote,th,td{margin:0;padding:0;direction:ltr}
+div,dl,dt,dd,ul,ol,li,h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6,pre,form,p,blockquote,th,td{margin:0;padding:0}
 a{color:#2156a5;text-decoration:underline;line-height:inherit}
 a:hover,a:focus{color:#1d4b8f}
 a img{border:0}
@@ -105,19 +103,22 @@ h1{font-size:2.75em}
 h2{font-size:2.3125em}
 h3,#toctitle,.sidebarblock>.content>.title{font-size:1.6875em}
 h4{font-size:1.4375em}}
-table{background:#fff;margin-bottom:1.25em;border:solid 1px #dedede}
+table{background:#fff;margin-bottom:1.25em;border:solid 1px #dedede;word-wrap:normal}
 table thead,table tfoot{background:#f7f8f7}
 table thead tr th,table thead tr td,table tfoot tr th,table tfoot tr td{padding:.5em .625em .625em;font-size:inherit;color:rgba(0,0,0,.8);text-align:left}
 table tr th,table tr td{padding:.5625em .625em;font-size:inherit;color:rgba(0,0,0,.8)}
 table tr.even,table tr.alt{background:#f8f8f7}
-table thead tr th,table tfoot tr th,table tbody tr td,table tr td,table tfoot tr td{display:table-cell;line-height:1.6}
+table thead tr th,table tfoot tr th,table tbody tr td,table tr td,table tfoot tr td{line-height:1.6}
 h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6{line-height:1.2;word-spacing:-.05em}
 h1 strong,h2 strong,h3 strong,#toctitle strong,.sidebarblock>.content>.title strong,h4 strong,h5 strong,h6 strong{font-weight:400}
+.center{margin-left:auto;margin-right:auto}
+.stretch{width:100%}
 .clearfix::before,.clearfix::after,.float-group::before,.float-group::after{content:" ";display:table}
 .clearfix::after,.float-group::after{clear:both}
-:not(pre):not([class^=L])>code{font-size:.9375em;font-style:normal!important;letter-spacing:0;padding:.1em .5ex;word-spacing:-.15em;background:#f7f7f8;-webkit-border-radius:4px;border-radius:4px;line-height:1.45;text-rendering:optimizeSpeed;word-wrap:break-word}
-:not(pre)>code.nobreak{word-wrap:normal}
-:not(pre)>code.nowrap{white-space:nowrap}
+:not(pre).nobreak{word-wrap:normal}
+:not(pre).nowrap{white-space:nowrap}
+:not(pre).pre-wrap{white-space:pre-wrap}
+:not(pre):not([class^=L])>code{font-size:.9375em;font-style:normal!important;letter-spacing:0;padding:.1em .5ex;word-spacing:-.15em;background:#f7f7f8;-webkit-border-radius:4px;border-radius:4px;line-height:1.45;text-rendering:optimizeSpeed}
 pre{color:rgba(0,0,0,.9);font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;line-height:1.45;text-rendering:optimizeSpeed}
 pre code,pre pre{color:inherit;font-size:inherit;line-height:inherit}
 pre>code{display:block}
@@ -182,7 +183,7 @@ body.toc2.toc-right{padding-left:0;padding-right:20em}}
 #content #toc{border-style:solid;border-width:1px;border-color:#e0e0dc;margin-bottom:1.25em;padding:1.25em;background:#f8f8f7;-webkit-border-radius:4px;border-radius:4px}
 #content #toc>:first-child{margin-top:0}
 #content #toc>:last-child{margin-bottom:0}
-#footer{max-width:100%;background:rgba(0,0,0,.8);padding:1.25em}
+#footer{max-width:none;background:rgba(0,0,0,.8);padding:1.25em}
 #footer-text{color:rgba(255,255,255,.8);line-height:1.44}
 #content{margin-bottom:.625em}
 .sect1{padding-bottom:.625em}
@@ -205,7 +206,7 @@ table.tableblock #preamble>.sectionbody>[class="paragraph"]:first-of-type p{font
 .admonitionblock>table td.icon{text-align:center;width:80px}
 .admonitionblock>table td.icon img{max-width:none}
 .admonitionblock>table td.icon .title{font-weight:bold;font-family:"Open Sans","DejaVu Sans",sans-serif;text-transform:uppercase}
-.admonitionblock>table td.content{padding-left:1.125em;padding-right:1.25em;border-left:1px solid #dddddf;color:rgba(0,0,0,.6)}
+.admonitionblock>table td.content{padding-left:1.125em;padding-right:1.25em;border-left:1px solid #dddddf;color:rgba(0,0,0,.6);word-wrap:anywhere}
 .admonitionblock>table td.content>:last-child>:last-child{margin-bottom:0}
 .exampleblock>.content{border-style:solid;border-width:1px;border-color:#e6e6e6;margin-bottom:1.25em;padding:1.25em;background:#fff;-webkit-border-radius:4px;border-radius:4px}
 .exampleblock>.content>:first-child{margin-top:0}
@@ -215,7 +216,7 @@ table.tableblock #preamble>.sectionbody>[class="paragraph"]:first-of-type p{font
 .sidebarblock>:last-child{margin-bottom:0}
 .sidebarblock>.content>.title{color:#7a2518;margin-top:0;text-align:center}
 .exampleblock>.content>:last-child>:last-child,.exampleblock>.content .olist>ol>li:last-child>:last-child,.exampleblock>.content .ulist>ul>li:last-child>:last-child,.exampleblock>.content .qlist>ol>li:last-child>:last-child,.sidebarblock>.content>:last-child>:last-child,.sidebarblock>.content .olist>ol>li:last-child>:last-child,.sidebarblock>.content .ulist>ul>li:last-child>:last-child,.sidebarblock>.content .qlist>ol>li:last-child>:last-child{margin-bottom:0}
-.literalblock pre,.listingblock>.content>pre{-webkit-border-radius:4px;border-radius:4px;word-wrap:break-word;overflow-x:auto;padding:1em;font-size:.8125em}
+.literalblock pre,.listingblock>.content>pre{-webkit-border-radius:4px;border-radius:4px;overflow-x:auto;padding:1em;font-size:.8125em}
 @media screen and (min-width:768px){.literalblock pre,.listingblock>.content>pre{font-size:.90625em}}
 @media screen and (min-width:1280px){.literalblock pre,.listingblock>.content>pre{font-size:1em}}
 .literalblock pre,.listingblock>.content>pre:not(.highlight),.listingblock>.content>pre[class="highlight"],.listingblock>.content>pre[class^="highlight "]{background:#f7f7f8}
@@ -261,21 +262,20 @@ pre.pygments .lineno::before{content:"";margin-right:-.125em}
 .quoteblock.excerpt,.quoteblock .quoteblock{margin-left:0}
 .quoteblock.excerpt blockquote,.quoteblock.excerpt p,.quoteblock .quoteblock blockquote,.quoteblock .quoteblock p{color:inherit;font-size:1.0625rem}
 .quoteblock.excerpt .attribution,.quoteblock .quoteblock .attribution{color:inherit;text-align:left;margin-right:0}
-table.tableblock{max-width:100%;border-collapse:separate}
 p.tableblock:last-child{margin-bottom:0}
+td.tableblock>.content{margin-bottom:1.25em;word-wrap:anywhere}
 td.tableblock>.content>:last-child{margin-bottom:-1.25em}
-td.tableblock>.content>:last-child.sidebarblock{margin-bottom:0}
 table.tableblock,th.tableblock,td.tableblock{border:0 solid #dedede}
-table.grid-all>thead>tr>.tableblock,table.grid-all>tbody>tr>.tableblock{border-width:0 1px 1px 0}
-table.grid-all>tfoot>tr>.tableblock{border-width:1px 1px 0 0}
-table.grid-cols>*>tr>.tableblock{border-width:0 1px 0 0}
-table.grid-rows>thead>tr>.tableblock,table.grid-rows>tbody>tr>.tableblock{border-width:0 0 1px}
-table.grid-rows>tfoot>tr>.tableblock{border-width:1px 0 0}
-table.grid-all>*>tr>.tableblock:last-child,table.grid-cols>*>tr>.tableblock:last-child{border-right-width:0}
-table.grid-all>tbody>tr:last-child>.tableblock,table.grid-all>thead:last-child>tr>.tableblock,table.grid-rows>tbody>tr:last-child>.tableblock,table.grid-rows>thead:last-child>tr>.tableblock{border-bottom-width:0}
+table.grid-all>*>tr>*{border-width:1px}
+table.grid-cols>*>tr>*{border-width:0 1px}
+table.grid-rows>*>tr>*{border-width:1px 0}
 table.frame-all{border-width:1px}
+table.frame-ends{border-width:1px 0}
 table.frame-sides{border-width:0 1px}
-table.frame-topbot,table.frame-ends{border-width:1px 0}
+table.frame-none>colgroup+*>:first-child>*,table.frame-sides>colgroup+*>:first-child>*{border-top-width:0}
+table.frame-none>:last-child>:last-child>*,table.frame-sides>:last-child>:last-child>*{border-bottom-width:0}
+table.frame-none>*>tr>:first-child,table.frame-ends>*>tr>:first-child{border-left-width:0}
+table.frame-none>*>tr>:last-child,table.frame-ends>*>tr>:last-child{border-right-width:0}
 table.stripes-all tr,table.stripes-odd tr:nth-of-type(odd),table.stripes-even tr:nth-of-type(even),table.stripes-hover tr:hover{background:#f8f8f7}
 th.halign-left,td.halign-left{text-align:left}
 th.halign-right,td.halign-right{text-align:right}
@@ -284,7 +284,7 @@ th.valign-top,td.valign-top{vertical-align:top}
 th.valign-bottom,td.valign-bottom{vertical-align:bottom}
 th.valign-middle,td.valign-middle{vertical-align:middle}
 table thead th,table tfoot th{font-weight:bold}
-tbody tr th{display:table-cell;line-height:1.6;background:#f7f8f7}
+tbody tr th{background:#f7f8f7}
 tbody tr th,tbody tr th p,tfoot tr th,tfoot tr th p{color:rgba(0,0,0,.8);font-weight:bold}
 p.tableblock>code:only-child{background:none;padding:0}
 p.tableblock{font-size:1em}
@@ -313,6 +313,7 @@ ol.lowergreek{list-style-type:lower-greek}
 .hdlist>table>tbody>tr,.colist>table>tbody>tr{background:none}
 td.hdlist1,td.hdlist2{vertical-align:top;padding:0 .625em}
 td.hdlist1{font-weight:bold;padding-bottom:1.25em}
+td.hdlist2{word-wrap:anywhere}
 .literalblock+.colist,.listingblock+.colist{margin-top:-.5em}
 .colist td:not([class]):first-child{padding:.4em .75em 0;line-height:1;vertical-align:top}
 .colist td:not([class]):first-child img{max-width:none}
@@ -385,7 +386,7 @@ a span.icon>.fa{cursor:inherit}
 .admonitionblock td.icon .icon-warning::before{content:"\f071";color:#bf6900}
 .admonitionblock td.icon .icon-caution::before{content:"\f06d";color:#bf3400}
 .admonitionblock td.icon .icon-important::before{content:"\f06a";color:#bf0000}
-.conum[data-value]{display:inline-block;color:#fff!important;background:rgba(0,0,0,.8);-webkit-border-radius:100px;border-radius:100px;text-align:center;font-size:.75em;width:1.67em;height:1.67em;line-height:1.67em;font-family:"Open Sans","DejaVu Sans",sans-serif;font-style:normal;font-weight:bold}
+.conum[data-value]{display:inline-block;color:#fff!important;background:rgba(0,0,0,.8);-webkit-border-radius:50%;border-radius:50%;text-align:center;font-size:.75em;width:1.67em;height:1.67em;line-height:1.67em;font-family:"Open Sans","DejaVu Sans",sans-serif;font-style:normal;font-weight:bold}
 .conum[data-value] *{color:#fff!important}
 .conum[data-value]+b{display:none}
 .conum[data-value]::after{content:attr(data-value)}
@@ -412,6 +413,7 @@ thead{display:table-header-group}
 svg{max-width:100%}
 p,blockquote,dt,td.content{font-size:1em;orphans:3;widows:3}
 h2,h3,#toctitle,.sidebarblock>.content>.title{page-break-after:avoid}
+#header,#content,#footnotes,#footer{max-width:none}
 #toc,.sidebarblock,.exampleblock>.content{background:none!important}
 #toc{border-bottom:1px solid #dddddf!important;padding-bottom:0!important}
 body.book #header{text-align:center}
@@ -452,10 +454,10 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p>In a <em>soft real-time</em> system, the real-time requirements should be met <em>most</em> of the time, where <em>most</em> depends on the system. A video playback system is a good example. The goal might be to display 60 frames per second, but it doesn&#8217;t matter much if you miss a frame now and then. In a 100 percent <em>hard real-time</em> system, you can never fail to respond in time. Think of an airbag deployment system on a car. You can&#8217;t even be <span class="keep-together">50 ms late</span>.</p>
 </div>
 <div class="paragraph">
-<p>Systems running Linux generally can&#8217;t do 100 percent hard real-time processing, because Linux gets in the way. However, the Bone has an ARM processor running Linux and two additional 32-bit programmable real-time units (PRUs [<a href="http://bit.ly/1EzTPZv" class="bare">http://bit.ly/1EzTPZv</a>]) available to do real-time processing. Although the PRUs can achieve 100 percent hard real-time, they take some effort to use.</p>
+<p>Systems running Linux generally can&#8217;t do 100 percent hard real-time processing, because Linux gets in the way. However, the Bone has an ARM processor running Linux and two additional 32-bit programmable real-time units (PRUs <a href="http://bit.ly/1EzTPZv">Ti AM33XX PRUSSv2</a>) available to do real-time processing. Although the PRUs can achieve 100 percent hard real-time, they take some effort to use.</p>
 </div>
 <div class="paragraph">
-<p>This chapter shows several ways to do real-time input/output (I/O), starting with the effortless, yet slower BoneScript and moving up with increasing speed (and effort) to using the PRUs.</p>
+<p>This chapter shows several ways to do real-time input/output (I/O), starting with the effortless, yet slower JavaScript and moving up with increasing speed (and effort) to using the PRUs.</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -465,7 +467,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </td>
 <td class="content">
 <div class="paragraph">
-<p>In this chapter, as in the others, we assume that you are logged in as root (as indicated by the bone$ prompt). This gives you quick access to the general-purpose input/output (GPIO) ports without having to use sudo each time.</p>
+<p>In this chapter, as in the others, we assume that you are logged in as debian (as indicated by the bone$ prompt). This gives you quick access to the general-purpose input/output (GPIO) ports but you may have to use sudo some times.</p>
 </div>
 </td>
 </tr>
@@ -473,11 +475,11 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </div>
 <div class="sect2">
-<h3 id="realtime_BoneScript">I/O with BoneScript</h3>
+<h3 id="realtime_JavaScript">I/O with JavaScript</h3>
 <div class="sect3">
 <h4 id="_problem">Problem</h4>
 <div class="paragraph">
-<p>You want to read an input pin and write it to the output as quickly as possible with BoneScript.</p>
+<p>You want to read an input pin and write it to the output as quickly as possible with JavaScript.</p>
 </div>
 </div>
 <div class="sect3">
@@ -502,47 +504,119 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </ul>
 </div>
 <div class="paragraph">
-<p>Wire up the pushbutton and LED as shown in <a href="#realtime_pushLED_fig">Diagram for wiring a pushbutton and LED with the LED attached to P9_12</a>.</p>
+<p>Wire up the pushbutton and LED as shown in <a href="#realtime_pushLED_fig">Diagram for wiring a pushbutton and LED with the LED attached to P9_14</a>.</p>
 </div>
 <div id="realtime_pushLED_fig" class="imageblock">
 <div class="content">
 <img src="figures/pushLED_bb.png" alt="Bone with pushbutton and LED">
 </div>
-<div class="title">Figure 1. Diagram for wiring a pushbutton and LED with the LED attached to P9_12</div>
+<div class="title">Figure 1. Diagram for wiring a pushbutton and LED with the LED attached to P9_14</div>
 </div>
 <div class="paragraph">
-<p>The code in <a href="#realtime_pushLED_code">Monitoring a pushbutton using a callback function (pushLED.js)</a> reads GPIO port P9_42, which is attached to the <span class="keep-together">pushbutton</span>, and turns on the LED attached to P9_12 when the button is pushed.</p>
+<p>The code in <a href="#realtime_pushLED_code">Monitoring a pushbutton (pushLED.js)</a> reads GPIO port P9_42, which is attached to the <span class="keep-together">pushbutton</span>, and turns on the LED attached to P9_12 when the button is pushed.</p>
+</div>
+<div id="py_pushLED_code" class="exampleblock">
+<div class="title">Example 1. Monitoring a pushbutton (pushLED.py)</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-python" data-lang="python">#!/usr/bin/env python
+# ////////////////////////////////////////
+# //	pushLED.py
+# //	Blinks an LED attached to P9_12 when the button at P9_42 is pressed
+# //	Wiring:
+# //	Setup:
+# //	See:
+# ////////////////////////////////////////
+import time
+import os
+
+ms = 50   # Read time in ms
+
+LED="50"   # Look up P9.14 using gpioinfo | grep -e chip -e P9.14.  chip 1, line 18 maps to 50
+button="7" # P9_42 mapps to 7
+
+GPIOPATH="/sys/class/gpio/"
+
+# Make sure LED is exported
+if (not os.path.exists(GPIOPATH+"gpio"+LED)):
+    f = open(GPIOPATH+"export", "w")
+    f.write(LED)
+    f.close()
+
+# Make it an output pin
+f = open(GPIOPATH+"gpio"+LED+"/direction", "w")
+f.write("out")
+f.close()
+
+# Make sure button is exported
+if (not os.path.exists(GPIOPATH+"gpio"+button)):
+    f = open(GPIOPATH+"export", "w")
+    f.write(button)
+    f.close()
+
+# Make it an output pin
+f = open(GPIOPATH+"gpio"+button+"/direction", "w")
+f.write("in")
+f.close()
+
+# Read every ms
+fin  = open(GPIOPATH+"gpio"+button+"/value", "r")
+fout = open(GPIOPATH+"gpio"+LED+"/value", "w")
+
+while True:
+    fin.seek(0)
+    fout.seek(0)
+    fout.write(fin.read())
+    time.sleep(ms/1000)</code></pre>
+</div>
+</div>
+</div>
 </div>
 <div id="realtime_pushLED_code" class="exampleblock">
-<div class="title">Example 1. Monitoring a pushbutton using a callback function (pushLED.js)</div>
+<div class="title">Example 2. Monitoring a pushbutton (pushLED.js)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
 <pre class="highlight"><code class="language-javascript" data-lang="javascript">#!/usr/bin/env node
-var b = require('bonescript');
-var button = 'P9_42';
-var LED    = 'P9_14';
+////////////////////////////////////////
+//	pushLED.js
+//	Blinks an LED attached to P9_12 when the button at P9_42 is pressed
+//	Wiring:
+//	Setup:
+//	See:
+////////////////////////////////////////
+const fs = require("fs");
 
-b.pinMode(button, b.INPUT, 7, 'pulldown', 'fast', doAttach);
-function doAttach(x) {
-    if(x.err) {
-        console.log('x.err = ' + x.err);
-        return;
-    }
-    b.attachInterrupt(button, true, b.CHANGE, flashLED);
+const ms = 500   // Read time in ms
+
+const LED="50";   // Look up P9.14 using gpioinfo | grep -e chip -e P9.14.  chip 1, line 18 maps to 50
+const button="7"; // P9_42 mapps to 7
+
+GPIOPATH="/sys/class/gpio/";
+
+// Make sure LED is exported
+if(!fs.existsSync(GPIOPATH+"gpio"+LED)) {
+    fs.writeFileSync(GPIOPATH+"export", LED);
 }
+// Make it an output pin
+fs.writeFileSync(GPIOPATH+"gpio"+LED+"/direction", "out");
 
-b.pinMode(LED,    b.OUTPUT);
+// Make sure button is exported
+if(!fs.existsSync(GPIOPATH+"gpio"+button)) {
+    fs.writeFileSync(GPIOPATH+"export", button);
+}
+// Make it an input pin
+fs.writeFileSync(GPIOPATH+"gpio"+button+"/direction", "in");
 
-function flashLED(x) {
-    if(x.attached) {
-        console.log("Interrupt handler attached");
-        return;
-    }
-    console.log('x.value = ' + x.value);
-    console.log('x.err   = ' + x.err);
-    b.digitalWrite(LED, x.value);
-}</code></pre>
+// Read every ms
+setInterval(flashLED, ms);
+
+function flashLED() {
+    var data = fs.readFileSync(GPIOPATH+"gpio"+button+"/value").slice(0, -1);
+    console.log('data = ' + data);
+    fs.writeFileSync(GPIOPATH+"gpio"+LED+"/value", data);
+ }</code></pre>
 </div>
 </div>
 </div>
@@ -553,6 +627,11 @@ function flashLED(x) {
 <pre data-type="programlisting">
 bone$ <strong>chmod +x pushLED.js</strong>
 bone$ <strong>./pushLED.js</strong>
+data = 0
+data = 0
+data = 1
+data = 1
+^C
 </pre>
 <div class="paragraph">
 <p>Press ^C (Ctrl-C) to stop the code.</p>
@@ -560,110 +639,97 @@ bone$ <strong>./pushLED.js</strong>
 </div>
 <div class="sect3">
 <h4 id="_discussion">Discussion</h4>
-
+<div class="paragraph">
+<p>[[realtime_c]
+=== I/O with C</p>
 </div>
 </div>
-<div class="sect2">
-<h3 id="realtime_libsoc">I/O with C and libsoc</h3>
 <div class="sect3">
 <h4 id="_problem_2">Problem</h4>
 <div class="paragraph">
-<p>You want to use the C language to process inputs in real time, or BoneScript isn&#8217;t fast enough.</p>
+<p>You want to use the C language to process inputs in real time, or Python/JavaScript isn&#8217;t fast enough.</p>
 </div>
 </div>
 <div class="sect3">
 <h4 id="_solution_2">Solution</h4>
 <div class="paragraph">
-<p><a href="#realtime_BoneScript">I/O with BoneScript</a> shows how to control an LED with a pushbutton using BoneScript. This recipe accomplishes the same thing using C and libsoc. <a href="#misc_libsoc">[misc_libsoc]</a> shows how to use C and libsoc to access the GPIO pins.</p>
+<p><a href="#realtime_JavaScript">I/O with JavaScript</a> shows how to control an LED with a pushbutton using JavaScript. This recipe accomplishes the same thing using C. It does it in the same way, opening the correct /sys/class/gpio files and reading an writing them.</p>
 </div>
 <div class="paragraph">
-<p>Wire up the pushbutton and LED as shown in <a href="#realtime_pushLED_fig">Diagram for wiring a pushbutton and LED with the LED attached to P9_12</a>. Follow the instructions in <a href="#misc_libsoc">[misc_libsoc]</a> to install libsoc. Then add the code in <a href="#realtime_pushLED_c_code">Code for reading a switch and blinking an LED using libsoc (pushLED.c)</a> to a file named <em>pushLED.c</em>.</p>
+<p>Wire up the pushbutton and LED as shown in <a href="#realtime_pushLED_fig">Diagram for wiring a pushbutton and LED with the LED attached to P9_14</a>. Then add the code in <a href="#realtime_pushLED_c_code">Code for reading a switch and blinking an LED (pushLED.c)</a> to a file named <em>pushLED.c</em>.</p>
 </div>
 <div id="realtime_pushLED_c_code" class="exampleblock">
-<div class="title">Example 2. Code for reading a switch and blinking an LED using libsoc (pushLED.c)</div>
+<div class="title">Example 3. Code for reading a switch and blinking an LED (pushLED.c)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-c" data-lang="c">#include &lt;stdio.h&gt;
-#include &lt;stdlib.h&gt;
+<pre class="highlight"><code class="language-c" data-lang="c">////////////////////////////////////////
+//	blinkLED.c
+//	Blinks the P9_14 pin based on the P9_42 pin
+//	Wiring:
+//	Setup:
+//	See:
+////////////////////////////////////////
+#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
 #include &lt;unistd.h&gt;
-#include &lt;sys/wait.h&gt;
+#define MAXSTR 100
 
-#include "libsoc_gpio.h"
-#include "libsoc_debug.h"
+int main() {
+  FILE *fpbutton, *fpLED;
+  char LED[] = "50";   // Look up P9.14 using gpioinfo | grep -e chip -e P9.14.  chip 1, line 18 maps to 50
+  char button[] = "7"; // Look up P9.42 using gpioinfo | grep -e chip -e P9.42.  chip 0, line 7 maps to 7
+  char GPIOPATH[] = "/sys/class/gpio";
+  char path[MAXSTR] = "";
 
-/**
- *
- * This gpio_test is intended to be run on BeagleBone
- * and reads pin P9_42 (gpio7) and write the value to P9_12 (gpio60).
- *
- * The GPIO_OUTPUT and INPUT defines can be changed to support any two pins.
- *
- */
-
-#define GPIO_OUTPUT  60
-#define GPIO_INPUT   7
-
-// Create both gpio pointers
- gpio *gpio_output, *gpio_input;
-
-static int interrupt_count = 0;
-
-int callback_test(void* arg) {
-  int* tmp_count = (int*) arg;
-  int value;
-
-  *tmp_count = *tmp_count + 1;
-  value = libsoc_gpio_get_level (gpio_input);
-  libsoc_gpio_set_level(gpio_output, value);
-  // Comment out the following line to make the code respond faster
-  printf("Got it (%d), button = %d\n", *tmp_count, value);
-
-  return EXIT_SUCCESS;
-}
-
-int main(void) {
-  // Enable debug output
-  libsoc_set_debug(1);
-
-  // Request gpios
-  gpio_output = libsoc_gpio_request(GPIO_OUTPUT, LS_SHARED);
-  gpio_input = libsoc_gpio_request(GPIO_INPUT, LS_SHARED);
-
-  // Set direction to OUTPUT
-  libsoc_gpio_set_direction(gpio_output, OUTPUT);
-
-  // Set direction to INPUT
-  libsoc_gpio_set_direction(gpio_input, INPUT);
-
-  // Set edge to BOTH
-  libsoc_gpio_set_edge(gpio_input, BOTH);
-
-  // Set up callback
-  libsoc_gpio_callback_interrupt(gpio_input, &amp;callback_test,
-                      (void*) &amp;interrupt_count);
-
-  printf("Push the button...\n");
-  // Disaple debug output so the code will respond faster
-  libsoc_set_debug(0);
-
-  sleep(10);
-
-  libsoc_set_debug(1);
-
-  // Cancel the callback on interrupt
-  libsoc_gpio_callback_interrupt_cancel(gpio_input);
-
-  //If gpio_request was successful
-  if (gpio_input) { // Free gpio request memory
-    libsoc_gpio_free(gpio_input);
+  // Make sure LED is exported
+  snprintf(path, MAXSTR, "%s%s%s", GPIOPATH, "/gpio", LED);
+  if (!access(path, F_OK) == 0) {
+    snprintf(path, MAXSTR, "%s%s", GPIOPATH, "/export");
+    fpLED = fopen(path, "w");
+    fprintf(fpLED, "%s", LED);
+    fclose(fpLED);
   }
+ 
+  // Make it an output LED
+  snprintf(path, MAXSTR, "%s%s%s%s", GPIOPATH, "/gpio", LED, "/direction");
+  fpLED = fopen(path, "w");
+  fprintf(fpLED, "out");
+  fclose(fpLED);
 
-  if (gpio_output) { // Free gpio request memory
-    libsoc_gpio_free(gpio_output);
+  // Make sure bbuttonutton is exported
+  snprintf(path, MAXSTR, "%s%s%s", GPIOPATH, "/gpio", button);
+  if (!access(path, F_OK) == 0) {
+    snprintf(path, MAXSTR, "%s%s", GPIOPATH, "/export");
+    fpbutton = fopen(path, "w");
+    fprintf(fpbutton, "%s", button);
+    fclose(fpbutton);
   }
+ 
+  // Make it an input button
+  snprintf(path, MAXSTR, "%s%s%s%s", GPIOPATH, "/gpio", button, "/direction");
+  fpbutton = fopen(path, "w");
+  fprintf(fpbutton, "in");
+  fclose(fpbutton);
 
-  return EXIT_SUCCESS;
+  // I don't know why I can open the LED outside the loop and use fseek before
+  //  each read, but I can't do the same for the button.  It appears it needs
+  //  to be opened every time.
+  snprintf(path, MAXSTR, "%s%s%s%s", GPIOPATH, "/gpio", LED,    "/value");
+  fpLED    = fopen(path, "w");
+  
+  char state = '0';
+
+  while (1) {
+    snprintf(path, MAXSTR, "%s%s%s%s", GPIOPATH, "/gpio", button, "/value");
+    fpbutton = fopen(path, "r");
+    fseek(fpLED, 0L, SEEK_SET);
+    fscanf(fpbutton, "%c", &amp;state);
+    printf("state: %c\n", state);
+    fprintf(fpLED, "%c", state);
+    fclose(fpbutton);
+    usleep(250000);   // sleep time in microseconds
+  }
 }</code></pre>
 </div>
 </div>
@@ -673,34 +739,18 @@ int main(void) {
 <p>Compile and run the code:</p>
 </div>
 <pre data-type="programlisting">
-bone$ <strong>gcc -o pushLED pushLED.c /usr/local/lib/libsoc.so</strong>
+bone$ <strong>gcc -o pushLED pushLED.c</strong>
 bone$ <strong>./pushLED</strong>
-libsoc-debug: debug enabled (libsoc_set_debug)
-libsoc-gpio-debug: requested gpio (60, libsoc_gpio_request)
-libsoc-gpio-debug: GPIO already exported (60, libsoc_gpio_request)
-libsoc-gpio-debug: requested gpio (7, libsoc_gpio_request)
-libsoc-gpio-debug: GPIO already exported (7, libsoc_gpio_request)
-libsoc-gpio-debug: setting direction to out (60, libsoc_gpio_set_direction)
-libsoc-gpio-debug: setting direction to in (7, libsoc_gpio_set_direction)
-BOTH: 3
-libsoc-gpio-debug: setting edge to both (7, libsoc_gpio_set_edge)
-BOTH: 3
-libsoc-gpio-debug: creating new callback (7, libsoc_gpio_callback_interrupt)
-Push the button...
-libsoc-debug: debug disabled (libsoc_set_debug)
-Got it (1), button = 1
-Got it (2), button = 0
-Got it (3), button = 1
-Got it (4), button = 1
-Got it (5), button = 0
-libsoc-debug: debug enabled (libsoc_set_debug)
-libsoc-gpio-debug: callback thread was stopped
-           (7, libsoc_gpio_callback_interrupt_cancel)
-libsoc-gpio-debug: freeing gpio (7, libsoc_gpio_free)
-libsoc-gpio-debug: freeing gpio (60, libsoc_gpio_free)
+state: 1
+state: 1
+state: 0
+state: 0
+state: 0
+state: 1
+^C
 </pre>
 <div class="paragraph">
-<p>The code responds quickly to the pushbutton. If you need more speed, comment-out the printf command in the interrupt service routine.</p>
+<p>The code responds quickly to the pushbutton. If you need more speed, comment-out the printf() and the sleep().</p>
 </div>
 </div>
 <div class="sect3">
@@ -713,7 +763,7 @@ libsoc-gpio-debug: freeing gpio (60, libsoc_gpio_free)
 <div class="sect3">
 <h4 id="_problem_3">Problem</h4>
 <div class="paragraph">
-<p>Your C code using libsoc isn&#8217;t responding fast enough to the input signal. You want to read the GPIO registers directly.</p>
+<p>Your C code isn&#8217;t responding fast enough to the input signal. You want to read the GPIO registers directly.</p>
 </div>
 </div>
 <div class="sect3">
@@ -741,7 +791,7 @@ libsoc-gpio-debug: freeing gpio (60, libsoc_gpio_free)
 <pre data-type="programlisting">
 bone$ <strong>wget http://free-electrons.com/pub/mirror/devmem2.c</strong>
 bone$ <strong>gcc -o devmem2 devmem2.c</strong>
-bone$ <strong>mv devmem2 /usr/bin</strong>
+bone$ <strong>sudo mv devmem2 /usr/bin</strong>
 </pre>
 <div class="paragraph">
 <p>This solution will read a pushbutton attached to P9_42 and flash an LED attached to P9_13. Note that this is a change from the previous solutions that makes the code used here much simpler. Wire up your Bone as shown in <a href="#realtime_pushLEDmmap_fig">Diagram for wiring a pushbutton and LED with the LED attached to P9_13</a>.</p>
@@ -773,7 +823,7 @@ bone$ <strong>echo 0 > value</strong>
 <p>This means you read from address 0x44E0_7000 + 0x138 = 0x44E0_7138 to see the status of the LED:</p>
 </div>
 <pre data-type="programlisting">
-bone$ <strong>devmem2 0x44E07138</strong>
+bone$ <strong>sudo devmem2 0x44E07138</strong>
 /dev/mem opened.
 Memory mapped at address 0xb6f8e000.
 Value at address 0x44E07138 (0xb6f8e138): 0xC000C404
@@ -783,7 +833,7 @@ Value at address 0x44E07138 (0xb6f8e138): 0xC000C404
 <p>The returned value 0xC000C404 (1100 0000 0000 0000 1100 0100 0000 0100 in binary) has bit 31 set to 1, which means the LED is on. Turn the LED off by writing 0x80000000 (1000 0000 0000 0000 0000 0000 0000 0000 binary) to the GPIO_CLEARDATA register at 0x44E0_7000 + 0x190 = 0x44E0_7190:</p>
 </div>
 <pre data-type="programlisting">
-bone$ <strong>devmem2 0x44E07190 w 0x80000000</strong>
+bone$ <strong>sudo devmem2 0x44E07190 w 0x80000000</strong>
 /dev/mem opened.
 Memory mapped at address 0xb6fd7000.
 Value at address 0x44E07190 (0xb6fd7190): 0x80000000
@@ -796,7 +846,7 @@ Written 0x80000000; readback 0x0
 <p>You read the pushbutton switch in a similar way. <a href="#tips_cape_headers_digital">[tips_cape_headers_digital]</a> says P9_42 is GPIO 7, which means bit 7 is the state of P9_42. The devmem2 in this example reads 0x0, which means all bits are 0, including GPIO 7. Section 25.4.1 of the Technical Reference Manual instructs you to use offset 0x13C to read GPIO_DATAOUT. Push the pushbutton and run devmem2:</p>
 </div>
 <pre data-type="programlisting">
-bone$ <strong>devmem2 0x44e07138</strong>
+bone$ <strong>sudo devmem2 0x44e07138</strong>
 /dev/mem opened.
 Memory mapped at address 0xb6fe2000.
 Value at address 0x44E07138 (0xb6fe2138): 0x4000C484
@@ -817,7 +867,7 @@ Value at address 0x44E07138 (0xb6fe2138): 0x4000C484
 <div class="sect3">
 <h4 id="_problem_4">Problem</h4>
 <div class="paragraph">
-<p>Your C code using libsoc isn&#8217;t responding fast enough to the input signal.</p>
+<p>Your C code isn&#8217;t responding fast enough to the input signal.</p>
 </div>
 </div>
 <div class="sect3">
@@ -863,7 +913,7 @@ Value at address 0x44E07138 (0xb6fe2138): 0x4000C484
 <p>Add the code in <a href="#realtime_pushLEDmmap_h">Memory address definitions (pushLEDmmap.h)</a> to a file named <em>pushLEDmmap.h</em>.</p>
 </div>
 <div id="realtime_pushLEDmmap_h" class="exampleblock">
-<div class="title">Example 3. Memory address definitions (pushLEDmmap.h)</div>
+<div class="title">Example 4. Memory address definitions (pushLEDmmap.h)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -910,7 +960,7 @@ Value at address 0x44E07138 (0xb6fe2138): 0x4000C484
 <p>Add the code in <a href="#realtime_pushLEDmmap_c">Code for directly reading memory addresses (pushLEDmmap.c)</a> to a file named <em>pushLEDmmap.c</em>.</p>
 </div>
 <div id="realtime_pushLEDmmap_c" class="exampleblock">
-<div class="title">Example 4. Code for directly reading memory addresses (pushLEDmmap.c)</div>
+<div class="title">Example 5. Code for directly reading memory addresses (pushLEDmmap.c)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -926,7 +976,7 @@ Value at address 0x44E07138 (0xb6fe2138): 0x4000C484
 #include &lt;stdio.h&gt;
 #include &lt;stdlib.h&gt;
 #include &lt;sys/mman.h&gt;
-#include &lt;fcntl.h&gt;
+#include &lt;fcntl.h&gt; 
 #include &lt;signal.h&gt;    // Defines signal-handling functions (i.e. trap Ctrl-C)
 #include "pushLEDmmap.h"
 
@@ -950,10 +1000,10 @@ int main(int argc, char *argv[]) {
 
     int fd = open("/dev/mem", O_RDWR);
 
-    printf("Mapping %X - %X (size: %X)\n", GPIO0_START_ADDR, GPIO0_END_ADDR,
+    printf("Mapping %X - %X (size: %X)\n", GPIO0_START_ADDR, GPIO0_END_ADDR, 
                                            GPIO0_SIZE);
 
-    gpio_addr = mmap(0, GPIO0_SIZE, PROT_READ | PROT_WRITE, MAP_SHARED, fd,
+    gpio_addr = mmap(0, GPIO0_SIZE, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 
                         GPIO0_START_ADDR);
 
     gpio_datain            = gpio_addr + GPIO_DATAIN;
@@ -991,7 +1041,7 @@ int main(int argc, char *argv[]) {
 </div>
 <pre data-type="programlisting">
 bone$ <strong>gcc -O3 pushLEDmmap.c -o pushLEDmmap</strong>
-bone$ <strong>./pushLEDmmap</strong>
+bone$ <strong>sudo ./pushLEDmmap</strong>
 Mapping 44E07000 - 44E08000 (size: 1000)
 GPIO mapped to 0xb6fac000
 GPIO SETDATAOUTADDR mapped to 0xb6fac194
@@ -1010,193 +1060,61 @@ Ctrl-C pressed, cleaning up and exiting...
 </div>
 </div>
 <div class="sect2">
-<h3 id="realtime_xenomai">Modifying the Linux Kernel to Use Xenomai</h3>
+<h3 id="_tighter_delay_bounds_with_the_preempt_rt_kernel">Tighter Delay Bounds with the PREEMPT_RT Kernel</h3>
 <div class="sect3">
 <h4 id="_problem_5">Problem</h4>
 <div class="paragraph">
-<p>Your program can&#8217;t get control of the processor quickly enough to do your real-time processing.</p>
+<p>You want to run real-time processes on the Beagle, but the OS is slowing things down.</p>
 </div>
 </div>
 <div class="sect3">
 <h4 id="_solution_5">Solution</h4>
 <div class="paragraph">
-<p><a href="http://xenomai.org/">Xenomai</a> is a set of kernel patches that allow the Bone to respond to real-time events in a predicable way. These instructions are based on Bruno Martins' <a href="http://bit.ly/1EXIEZu">Xenomai on the BeagleBone Black in 14 easy steps</a>.</p>
-</div>
-<div class="admonitionblock tip">
-<table>
-<tr>
-<td class="icon">
-<div class="title">Tip</div>
-</td>
-<td class="content">
-<div class="paragraph">
-<p>The Xenomai kernel is used to provide real-time motion control within the Machinekit distribution for the Bone. You might get a quick start by checking out the images provided on <a href="http://bit.ly/1NK71xS">the Machinekit blog</a>.</p>
-</div>
-</td>
-</tr>
-</table>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<div class="title">Note</div>
-</td>
-<td class="content">
-<div class="paragraph">
-<p>The Xenomai kernel is now available in the BeagleBoard.org Debian package feeds, and you can install it by using sudo apt install xenomai-runtime. Nevertheless, we find it useful to include the details of building the Xenomai kernel.</p>
-</div>
-</td>
-</tr>
-</table>
-</div>
-<div class="admonitionblock warning">
-<table>
-<tr>
-<td class="icon">
-<div class="title">Warning</div>
-</td>
-<td class="content">
-<div class="paragraph">
-<p>This recipe requires downloading and patching the kernel. This is advanced work.</p>
-</div>
-</td>
-</tr>
-</table>
+<p>The Kernel can be compiled with PREEMPT_RT enabled which reduces the delay from when a thread is scheduled to when it runs.</p>
 </div>
 <div class="paragraph">
-<p>First, download, compile, and install the kernel, following the instructions in <a href="#kernel_compiling">[kernel_compiling]</a>. This will ensure that everything is in place and working before you start changing things.</p>
+<p>Switching to a PREEMPT_RT kernel is rather easy, but be sure to follow the steps in the Discussion to see how much the latencies are reduced.</p>
 </div>
-<div class="paragraph">
-<p>Next, visit <a href="http://bit.ly/1C6QxwN">Xenomai&#8217;s download page</a> to find the latest version of Xenomai (at the time of this writing, it&#8217;s 2.6.4). Download it with the following command (substituting the URL for the latest version you find on Xenomai&#8217;s download page):</p>
-</div>
-<pre data-type="programlisting">
-host$ <strong>wget http://download.gna.org/xenomai/stable/latest/xenomai-2.6.4.tar.bz2</strong>
-</pre>
-<div class="paragraph">
-<p>Check out the latest kernel:</p>
-</div>
-<pre data-type="programlisting">
-host$ <strong>cd bb-kernel/KERNEL</strong>
-host$ <strong>uname -a</strong>
-host$ <strong>git tags | sort | less</strong>
-</pre>
-<div class="paragraph">
-<p>Pick the tag that is close to your current version of the kernel. This command checks out the 3.8.13-bone67 version of the kernel and creates a branch named xenomai:</p>
-</div>
-<pre data-type="programlisting">
-host$ <strong>git checkout 3.8.13-bone67 -b xenomai</strong>
-</pre>
-<div class="sect4">
-<h5 id="_patching_the_kernel">Patching the kernel</h5>
-<div class="paragraph">
-<p>Patch the kernel by using the following commands:</p>
-</div>
-<pre data-type="programlisting">
-host$ <strong>cd bb-kernel/KERNEL</strong>
-host$ <strong>patch -p1 &lt; ../../xenomai-2.6.4/ksrc/arch/arm/patches/\
-       beaglebone/ipipe-core-3.8.13-beaglebone-pre.patch</strong>
-host$ <strong>patch -p1 &lt; ../../xenomai-2.6.4/ksrc/arch/arm/patches/\
-       ipipe-core-3.8.13-arm-4.patch</strong>
-host$ <strong>patch -p1 &lt; ../../xenomai-2.6.4/ksrc/arch/arm/patches/\
-       beaglebone/ipipe-core-3.8.13-beaglebone-post.patch</strong>
-</pre>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<div class="title">Note</div>
-</td>
-<td class="content">
-<div class="paragraph">
-<p>These commands assume bb-kernel and xenomai-2.6.4 are at the same directory level.</p>
-</div>
-</td>
-</tr>
-</table>
-</div>
-<div class="paragraph">
-<p>Then get one more patch from <a href="http://bit.ly/1Mti9gQ">Xenomai&#8217;s website</a>. Add the code in <a href="#realtime_thumb">One last patch (<em>thumb.patch</em>)</a> to a file named <em>thumb.patch</em>.</p>
-</div>
-<div id="realtime_thumb" class="exampleblock">
-<div class="title">Example 5. One last patch (<em>thumb.patch</em>)</div>
-<div class="content">
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-js" data-lang="js">diff --git a/arch/arm/kernel/entry-armv.S b/arch/arm/kernel/entry-armv.S
-index e2bc263..6f4d9f0 100644
---- a/arch/arm/kernel/entry-armv.S
-+++ b/arch/arm/kernel/entry-armv.S
-@@ -469,6 +469,7 @@ __irq_usr:
- 	kuser_cmpxchg_check
- 	irq_handler
- #ifdef CONFIG_IPIPE
-+THUMB(	it	ne )
- 	bne	__ipipe_ret_to_user_irqs_disabled
- #endif	/* CONFIG_IPIPE */
- 	get_thread_info tsk
-@@ -767,6 +768,7 @@ ENTRY(ret_from_exception)
- 	disable_irq
- 	bl	__ipipe_check_root
- 	cmp     r0, #1
-+THUMB(	it	ne )
- 	bne	__ipipe_ret_to_user_irqs_disabled  @ Fast exit path over non-root domains
- #endif /* CONFIG_IPIPE */
- 	get_thread_info tsk</code></pre>
-</div>
-</div>
-</div>
-</div>
-<div class="paragraph">
-<p>Run the following command to apply the patch:</p>
-</div>
-<pre data-type="programlisting">
-host$ <strong>patch -p1 &lt; thumb.patch</strong>
-</pre>
-<div class="paragraph">
-<p>Prepare the kernel:</p>
-</div>
-<pre data-type="programlisting">
-host$ <strong>cd ../../xenomai-2.6.4/scripts</strong>
-host$ <strong>./prepare-kernel.sh --arch=arm --linux=../../bb-kernel/KERNEL/</strong>
-</pre>
-<div class="paragraph">
-<p>Now you&#8217;re ready to compile the kernel with these new patches:</p>
-</div>
-<pre data-type="programlisting">
-host$ <strong>cd ../../bb-kernel</strong>
-host$ <strong>tools/rebuild.sh</strong>
-</pre>
-<div class="paragraph">
-<p>When the configuration menu displays (as shown in <a href="#realtime_xenomai_config">Configuing Xenomai</a>), make the following changes:</p>
-</div>
-<div class="olist arabic">
-<ol class="arabic">
+<div class="ulist">
+<ul>
 <li>
-<p>Select "CPU Power Management" &#8594; "CPU Frequency scaling, disable [ ] CPU Frequency scaling."</p>
+<p>First see which kernel you are running:</p>
 </li>
-<li>
-<p>Select "Real-time sub-system" &#8594;" Drivers" &#8594; "Testing drivers, enable everything."</p>
-</li>
-</ol>
-</div>
-<div id="realtime_xenomai_config" class="imageblock">
-<div class="content">
-<img src="figures/xenomaiConfig.png" alt="Configuring Xenomai">
-</div>
-<div class="title">Figure 3. Configuing Xenomai</div>
-</div>
-<div class="paragraph">
-<p>Then sit back and wait awhile. After the new kernel is built, install it following the instructions in <a href="#kernel_install">[kernel_install]</a>.</p>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_setting_up_the_bone">Setting up the Bone</h5>
-<div class="paragraph">
-<p>You are now ready to test the new Xenomai kernel. Copy Xenomai to the Bone:</p>
+</ul>
 </div>
 <pre data-type="programlisting">
-host$ <strong>scp -r xenomai-2.6.4 192.168.7.2:.</strong>
+bone$ <strong>uname -a</strong>
+Linux breadboard-home 5.10.120-ti-r47 #1bullseye SMP PREEMPT Tue Jul 12 18:59:38 UTC 2022 armv7l GNU/Linux
+</pre>
+<div class="paragraph">
+<p>I&#8217;m running a 5.10 kernel.  Remember the whole string, 5.10.120-ti-r47, for later.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Go to <a href="https://forum.beagleboard.org/t/debian-10-x-11-x-kernel-updates/30928">kernel update</a> and look for 5.10.</p>
+</li>
+</ul>
+</div>
+<div id="realtime_kernel_update_fig" class="imageblock">
+<div class="content">
+<img src="figures/kernel_update.png" alt="The regular and RT kernels">
+</div>
+<div class="title">Figure 3. The regular and RT kernels</div>
+</div>
+<div class="paragraph">
+<p>In <a href="#realtime_kernel_update_fig">The regular and RT kernels</a> you see the reular kernel on top and the RT below.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>We want the RT one.</p>
+</li>
+</ul>
+</div>
+<pre data-type="programlisting">
+bone$ <strong>sudo apt update</strong>
+bone$ <strong>sudo apt install bbb.io-kernel-5.10-ti-rt-am335x</strong>
 </pre>
 <div class="admonitionblock note">
 <table>
@@ -1206,69 +1124,223 @@ host$ <strong>scp -r xenomai-2.6.4 192.168.7.2:.</strong>
 </td>
 <td class="content">
 <div class="paragraph">
-<p>This command assumes that the Bone is at 192.168.7.2.</p>
+<p>Use the <strong>am57xx</strong> if you are using the BeagleBoard AI or AI64.</p>
 </div>
 </td>
 </tr>
 </table>
 </div>
-<div class="paragraph">
-<p>Run the following commands on the Bone:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Before rebooting, edit /boot/uEnv.txt to start with:</p>
+</li>
+</ul>
 </div>
 <pre data-type="programlisting">
-bone$ <strong>cd ~/xenomai-2.6.4</strong>
-bone$ <strong>./configure CFLAGS="-march=armv7-a -mfpu=vfp3" LDFLAGS="-march=armv7-a \
-        -mfpu=vfp3"</strong>
-bone$ <strong>make</strong>
-bone$ <strong>make install</strong>
-</pre>
-<div class="paragraph">
-<p>./configure takes about a minute, make six more minutes, and install another minute.</p>
-</div>
-<div class="paragraph">
-<p>Next, copy the drivers:</p>
-</div>
-<pre data-type="programlisting">
-bone$ <strong>cd; mkdir xenomai_drivers; cd xenomai_drivers</strong>
+#Docs: http://elinux.org/Beagleboard:U-boot_partitioning_layout_2.0
 
-host$ <strong>cd bb-kernel/KERNEL/drivers/xenomai/testing</strong>
-host$ <strong>scp *.ko 192.168.7.2:xenomai_drivers</strong>
-
-bone$ <strong>sudo insmode xeno_klat.ko</strong>
+# uname_r=5.10.120-ti-r47
+uname_r=5.10.120-ti-rt-r47
+#uuid=
+#dtb=
 </pre>
-</div>
-<div class="sect4">
-<h5 id="_testing">Testing</h5>
 <div class="paragraph">
-<p>Go ahead and run some tests:</p>
-</div>
-<pre data-type="programlisting">
-bone$ <strong>usr/xenomai/bin/latency</strong>
-== Sampling period: 1000 us
-== Test mode: periodic user-mode task
-== All results in microseconds
-warming up...
-RTT|  00:00:01  (periodic user-mode task, 1000 us period, priority 99)
-RTH|----lat min|----lat avg|----lat max|-overrun|---msw|---lat best|--lat worst
-RTD|      3.624|      3.833|     20.458|       0|     0|      3.624|     20.458
-RTD|      2.749|      3.749|     22.583|       0|     0|      2.749|     22.583
-RTD|      2.749|      4.583|     25.499|       0|     0|      2.749|     25.499
-RTD|      2.749|      3.708|     20.541|       0|     0|      2.749|     25.499
-RTD|      2.749|      3.749|     21.916|       0|     0|      2.749|     25.499
----|-----------|-----------|-----------|--------|------|-------------------------
-RTS|      2.749|      3.916|     25.499|       0|     0| 00:00:05/00:00:05
-</pre>
+<p>uname_r tells the boot loader which kernel to boot.  Here we&#8217;ve commented out the regular kernel and left in the RT kernel.  Next time you boot you&#8217;ll be running the RT kernel.  Don&#8217;t reboot just yet.  Let&#8217;s gather some latency data first.</p>
 </div>
 </div>
 <div class="sect3">
 <h4 id="_discussion_5">Discussion</h4>
 <div class="paragraph">
-<p>The details of how to use Xenomai are beyond the scope of this book, but you can browse over to <a href="http://xenomai.org/">Xenomai&#8217;s website</a> for examples and help on what to do next.</p>
+<p><a href="https://bootlin.com/doc/training/preempt-rt/">Bootlin&#8217;s preempt_rt workshop</a> looks like a good workshop on PREEMPT RT.  Their slides say:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>One way to implement a multi-task Real-Time Operating System is to have a preemptible system</p>
+</li>
+<li>
+<p>Any task can be interrupted at any point so that higher priority tasks can run</p>
+</li>
+<li>
+<p>Userspace preemption already exists in Linux</p>
+</li>
+<li>
+<p>The Linux Kernel also supports real-time scheduling policies</p>
+</li>
+<li>
+<p>However, code that runs in kernel mode isn’t fully preemptible</p>
+</li>
+<li>
+<p>The Preempt-RT patch aims at making all code running in kernel mode preemptible</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The workshop goes into many details on how to get real-time performance on Linux.  Checkout their <a href="https://bootlin.com/doc/training/preempt-rt/preempt-rt-slides.pdf">slides</a> and <a href="https://bootlin.com/doc/training/preempt-rt/preempt-rt-labs.pdf">labs</a>. Though you can skip the first lab since we present a simpler way to get the RT kernel running.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_cyclictest">Cyclictest</h4>
+<div class="paragraph">
+<p>cyclictest is one tool for measuring the latency from when a thread is schduled and when it runs.  The code/rt directory in the git repo has some scripts for gathering latency data and plotting it.  Here&#8217;s how to run the scripts.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>First look in <a href="#realtime_install_fig">install.sh</a> to see what to install.</p>
+</li>
+</ul>
+</div>
+<div id="realtime_install_fig" class="exampleblock">
+<div class="title">Example 6. install.sh</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre>sudo apt install rt-tests
+# You can run gnuplot on the host
+sudo apt install gnuplot</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Open up another window and start something that will create a load on the Bone, then run the following:</p>
+</li>
+</ul>
+</div>
+<pre data-type="programlisting">
+bone$ <strong>time sudo ./hist.gen > nort.hist</strong>
+</pre>
+<div class="paragraph">
+<p><a href="#realtime_hist_gen_fig">hist.gen</a> shows what&#8217;s being run.  It defaults to 100,000 loops, so it take a while.  The data is saved in nort.hist, for no RT  histogram.</p>
+</div>
+<div id="realtime_hist_gen_fig" class="exampleblock">
+<div class="title">Example 7. hist.gen</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre>#!/bin/sh
+# This code is from Julia Cartwright julia@kernel.org
+
+cyclictest -m -S -p 90 -h 400 -l "${1:-100000}"</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>If you get an error:</p>
+</div>
+<div class="paragraph">
+<p>Unable to change scheduling policy!
+Probably missing capabilities, either run as root or increase RLIMIT_RTPRIO limits</p>
+</div>
+<div class="paragraph">
+<p>try running ./setup.sh. If that doesn&#8217;t work try:</p>
+</div>
+<pre data-type="programlisting">
+
+bone$ sudo bash
+bone# ulimit -r unlimited
+bone# ./hist.gen > nort.hist
+bone# exit
+</pre>
+</td>
+</tr>
+</table>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Now you are ready to reboot into the RT kernel and run the test again.</p>
+</li>
+</ul>
+</div>
+<pre data-type="programlisting">
+bone$ <strong>reboot</strong>
+</pre>
+<div class="ulist">
+<ul>
+<li>
+<p>After rebooting:</p>
+</li>
+</ul>
+</div>
+<pre data-type="programlisting">
+bone$ <strong>uname -a</strong>
+Linux breadboard-home 5.10.120-ti-rt-r47 #1bullseye SMP PREEMPT RT Tue Jul 12 18:59:38 UTC 2022 armv7l GNU/Linux
+</pre>
+<div class="paragraph">
+<p>Congratulations you are running the RT kernel.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>If the Beagle appears to be running (the LEDs are flashing) but you are having trouble connecting vis ssh 192.168.7.2, you can try connecting using the approach shown in <a href="#tips_FTDI">[tips_FTDI]</a>.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Now run the scipt again (note it&#8217;s being saved in rt.hist this time.)</p>
+</div>
+<pre data-type="programlisting">
+bone$ <strong>time sudo ./hist.gen > rt.hist</strong>
+</pre>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>At this point yoou can edit /boot/uEnt.txt to boot the non RT kernel and reboot.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Now it&#8217;s time to plot the results.</p>
+</div>
+<pre data-type="programlisting">
+bone$ <strong>gnuplot hist.plt</strong>
+</pre>
+<div class="paragraph">
+<p>This will generate the file <strong>cyclictest.png</strong> which contains your plot.  It should look like:</p>
+</div>
+<div id="realtime_cyclictest_fig" class="imageblock">
+<div class="content">
+<img src="code/rt/cyclictest.png" alt="Histogram of Non-RT and RT kernels running cyclictest">
+</div>
+<div class="title">Figure 4. Histogram of Non-RT and RT kernels running cyclictest</div>
+</div>
+<div class="paragraph">
+<p>Notice the NON-RT data have much longer latenices. They may not happen ofen (fewer thatn 10 times in each bin), but they are occuring and may be enough to miss a real-time deadline.</p>
+</div>
+<div class="paragraph">
+<p>The PREEMPT-RT times are all under a 150 &mu;s.</p>
 </div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="realtime_PRUSpeak">I/O with PRU Speak</h3>
+<h3 id="realtime_simpPRU">I/O with simpPRU</h3>
 <div class="sect3">
 <h4 id="_problem_6">Problem</h4>
 <div class="paragraph">
@@ -1278,322 +1350,12 @@ RTS|      2.749|      3.916|     25.499|       0|     0| 00:00:05/00:00:05
 <div class="sect3">
 <h4 id="_solution_6">Solution</h4>
 <div class="paragraph">
-<p>The AM335x processor on the Bone has an ARM processor that is running Linux, but it also has two 32-bit PRUs that are available for processing I/O. It takes a fair amount of understanding to program the PRU. Fortunately, a <a href="http://bit.ly/1AjlarF">2014 Google Summer of Code</a> project produced <a href="http://bit.ly/1wXT1eO">PRU Speak</a>, an adaptation of the <a href="http://botspeak.org/">BotSpeak</a> language for the PRU. This solution shows how to use it.</p>
+<p>The AM335x processor on the Bone has an ARM processor that is running Linux, but it also has two 32-bit PRUs that are available for processing I/O. It takes a fair amount of understanding to program the PRU. Fortunately, <a href="https://simppru.readthedocs.io/en/latest/">simpPRU</a> is an intuitive language for PRU which compiles down to PRU C. This solution shows how to use it.</p>
 </div>
 <div class="sect4">
 <h5 id="_background">Background</h5>
 <div class="paragraph">
-<p>PRU Speak comprises three main parts:</p>
-</div>
-<div class="dlist">
-<dl>
-<dt class="hdlist1">Kernel</dt>
-<dd>
-<p>The pru_speak.ko Linux kernel driver module loads PRU code and provides communication between the kernel and the firmware running on the PRU. An associated device tree overlay called BB_PRUSPEAK-00A0.dtbo configures the pin access and firmware loaded on to the PRUs.</p>
-</dd>
-<dt class="hdlist1">Firmware</dt>
-<dd>
-<p>pru0_firmware and pru1_firmware are the firmware files for each of the two PRUs.</p>
-</dd>
-<dt class="hdlist1">Userspace</dt>
-<dd>
-<p>A Python user space component includes bs_tcp_server.py; a TCP socket listener that provides an interface to the PRU Speak interpreter; and pru_speak.py, a library for invoking PRU Speak commands from within a Python script.</p>
-</dd>
-</dl>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_prerequisites">Prerequisites</h5>
-<div class="paragraph">
-<p>Many of the pins easily accessible by the PRU are taken up by the HDMI interface discussed in <a href="#tips_hdmi">[tips_hdmi]</a>. If you haven&#8217;t already edited <em>uEnv.txt</em>, you can run these commands to disable the HDMI interface and reboot:</p>
-</div>
-<pre data-type="programlisting">
-bone$ <strong>sed -i \
- '/cape_disable=capemgr.disable_partno=BB-BONELT-HDMI,BB-BONELT-HDMIN$/ \
-      \s/^#//' /boot/uEnv.txt</strong>
-bone$ <strong>sudo reboot</strong>
-</pre>
-<div class="paragraph">
-<p>To build the firmware files, you first need to install the TI PRU C compiler:</p>
-</div>
-<pre data-type="programlisting">
-bone$ <strong>sudo apt update</strong>
-bone$ <strong>sudo apt install ti-pru-cgt-installer</strong>
-Reading package lists... Done
-Building dependency tree
-Reading state information... Done
-The following NEW packages will be installed:
-  ti-pru-cgt-installer
-0 upgraded, 1 newly installed, 0 to remove and 30 not upgraded.
-Need to get 13.1 kB of archives.
-After this operation, 67.6 kB of additional disk space will be used.
-Get:1 http://repos.rcn-ee.net/debian/ wheezy/main ti-pru-cgt-installer \
-              all 2.1.0-1~bpo70+20141201+1 [13.1 kB]
-Fetched 13.1 kB in 0s (38.1 kB/s)
-Selecting previously unselected package ti-pru-cgt-installer.
-(Reading database ... 59608 files and directories currently installed.)
-Unpacking ti-pru-cgt-installer \
-              (from .../ti-pru-cgt-installer_2.1.0-1~bpo70+20141201+1_all.deb) ...
-Setting up ti-pru-cgt-installer (2.1.0-1~bpo70+20141201+1) ...
---2015-01-19 18:59:14--  http://downloads.ti.com/codegen/esd/cgt_public_sw/\
-PRU/2.1.0/ti_cgt_pru_2.1.0_armlinuxa8hf_busybox_installer.sh
-Resolving downloads.ti.com (downloads.ti.com)... 23.62.97.64, 23.62.97.66
-Connecting to downloads.ti.com (downloads.ti.com)|23.62.97.64|:80... connected.
-HTTP request sent, awaiting response... 200 OK
-Length: 39666613 (38M) [application/x-sh]
-Saving to: `ti_cgt_pru_2.1.0_armlinuxa8hf_busybox_installer.sh'
-
-100%[====================================>] 39,666,613  75.3K/s   in 7m 39s
-
-2015-01-19 19:06:54 (84.5 KB/s)-`ti_cgt_pru_2.1.0_arm..hf_busybox_installer.sh'\
-         saved [39666613/39666613]
-
-Installing PRU Code Generation tools version 2.1.0 into /
-  please wait, or press CTRL-C to abort
-
-Extracting archive
-Installing files
-[####################] 100%
-Installed successfully into /
-</pre>
-</div>
-<div class="sect4">
-<h5 id="_installation">Installation</h5>
-<div class="paragraph">
-<p>Clone the PRU Speak repository and run the <em>install.sh</em> shell script:</p>
-</div>
-<pre data-type="programlisting">
-bone$ <strong>git clone git://github.com/jadonk/pruspeak.git</strong>
-bone$ <strong>cd pruspeak</strong>
-bone$ <strong>./install.sh</strong>
-if [ ! -d "/lib/modules/3.8.13-bone68/build" ]; then apt install \
-        linux-headers-3.8.13-bone68; fi
-make -C /lib/modules/3.8.13-bone68/build M=/root/pruspeak/src/driver modules
-make[1]: Entering directory `/usr/src/linux-headers-3.8.13-bone68'
-  CC [M]  /root/pruspeak/src/driver/pru_speak.o
-  Building modules, stage 2.
-  MODPOST 1 modules
-  CC      /root/pruspeak/src/driver/pru_speak.mod.o
-  LD [M]  /root/pruspeak/src/driver/pru_speak.ko
-make[1]: Leaving directory `/usr/src/linux-headers-3.8.13-bone68'
-make -C /lib/modules/3.8.13-bone68/build M=/root/pruspeak/src/driver
-modules_install
-make[1]: Entering directory `/usr/src/linux-headers-3.8.13-bone68'
-  INSTALL /root/pruspeak/src/driver/pru_speak.ko
-  DEPMOD  3.8.13-bone68
-make[1]: Leaving directory `/usr/src/linux-headers-3.8.13-bone68'
-lnkpru -i/usr/share/ti/cgt-pru/lib pru0_firmware.obj pru0_syscall.obj \
-         AM3359_PRU.cmd -o=pru0_firmware
-lnkpru -i/usr/share/ti/cgt-pru/lib pru1_firmware.obj  AM3359_PRU.cmd
--o=pru1_firmware
-install -m 444 pru0_firmware /lib/firmware
-install -m 444 pru1_firmware /lib/firmware
-dtc -O dtb -o BB-PRUSPEAK-00A0.dtbo -b 0 -@ BB-PRUSPEAK-00A0.dts
-install -m 644 BB-PRUSPEAK-00A0.dtbo /lib/firmware
-python setup.py build
-running build
-running build_py
-python setup.py build
-running build
-running build_py
-python setup.py install
-running install
-.
-.
-.
-Processing pru_speak-0.0-py2.7.egg
-Removing /usr/local/lib/python2.7/dist-packages/pru_speak-0.0-py2.7.egg
-Copying pru_speak-0.0-py2.7.egg to /usr/local/lib/python2.7/dist-packages
-pru-speak 0.0 is already the active version in easy-install.pth
-
-Installed /usr/local/lib/python2.7/dist-packages/pru_speak-0.0-py2.7.egg
-Processing dependencies for pru-speak==0.0
-Searching for ply==3.4
-Best match: ply 3.4
-Processing ply-3.4-py2.7.egg
-ply 3.4 is already the active version in easy-install.pth
-
-Using /usr/local/lib/python2.7/dist-packages/ply-3.4-py2.7.egg
-Finished processing dependencies for pru-speak==0.0
-install -m 755 bs_tcp_server.py /usr/bin
-install -m 755 bs_shell.py /usr/bin
-</pre>
-</div>
-<div class="sect4">
-<h5 id="_runing_the_kernel_module">Runing the Kernel Module</h5>
-<div class="paragraph">
-<p>Use the modprobe command to load the kernel module and config-pin to load the device tree overlay:</p>
-</div>
-<pre data-type="programlisting">
-bone$ <strong>modprobe pru_speak</strong>
-bone$ <strong>config-pin overlay BB-PRUSPEAK</strong>
-</pre>
-<div class="paragraph">
-<p>The kernel module will need to be reloaded after rebooting, unless it&#8217;s been added to <em>/etc/modules-load.d/modules.conf</em> and <em>/boot/uEnv.txt</em>.</p>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_running_the_script">Running the Script</h5>
-<div class="paragraph">
-<p>The PRU is now ready to run code. Add the code in <a href="#realtime_pruSpeak_code">Code for copying P8_16 to P9_31 using the PRU (pruSpeak.py)</a> to a file named <em>pruSpeak.py</em>. This code copies the input on P8_16 to the output on P9_31.</p>
-</div>
-<div id="realtime_pruSpeak_code" class="exampleblock pagebreak-before">
-<div class="title">Example 6. Code for copying P8_16 to P9_31 using the PRU (pruSpeak.py)</div>
-<div class="content">
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-c" data-lang="c">#!/usr/bin/env python
-from pru_speak import pru_speak
-
-# Copy the signal on pin P8_16 to P9_31
-code = '''\
-SCRIPT
-SET var1, DIO[14]
-SET DIO[0], var1
-GOTO 0
-ENDSCRIPT
-RUN
-'''
-
-halt = '''\
-HALT
-'''
-
-ret = pru_speak.execute_instruction(code)
-print ret</code></pre>
-</div>
-</div>
-</div>
-</div>
-<div class="paragraph">
-<p>Then run the code by using the following command:</p>
-</div>
-<pre data-type="programlisting">
-bone$ <strong>./pruSpeak.py</strong>
-Generating LALR tables
-Initializing PRU Speak
-0       0x110000FF      SET var1, DIO[14]
-1       0x01400000      SET DIO[0], var1
-2       0x15000000      GOTO 0
-3       0x7F000000      ENDSCRIPT
-
-[285212927, 20971520, 352321536, 2130706432]
-[]
-PRU Speak object deleted
-</pre>
-<div class="paragraph">
-<p>The code will return immediately, but the PRU will continue to run.</p>
-</div>
-<div class="paragraph">
-<p>The PRU has quick access to only a subset of GPIO pins. This example reads GPIO P8_16 and writes to P9_31, so you have to wire up the pushbutton and LED as shown in <a href="#realtime_pushLEDpru_fig">Diagram for wiring a pushbutton and LED for the PRU</a>.</p>
-</div>
-<div id="realtime_pushLEDpru_fig" class="imageblock">
-<div class="content">
-<img src="figures/pushLEDpru_bb.png" alt="Bone with pushbutton and LED for PRU">
-</div>
-<div class="title">Figure 4. Diagram for wiring a pushbutton and LED for the PRU</div>
-</div>
-<div class="paragraph">
-<p>Now, when you push the button, the LED should respond.</p>
-</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_discussion_6">Discussion</h4>
-<div class="paragraph">
-<p>In addition to invoking PRU Speak scripts via Python, it is also possible to open a shell or TCP socket to the interpreter. When running a script, it is also possible to modify variables to communicate with the running script.</p>
-</div>
-<div class="sect4">
-<h5 id="_running_pru_speak_via_shell">Running PRU Speak via Shell</h5>
-<div class="paragraph">
-<p>To invoke a shell interface to PRU Speak, run <em>bs_shell.py</em>:</p>
-</div>
-<pre data-type="programlisting">
-bone$ <strong>bs_shell.py</strong>
-Generating LALR tables
-Initializing PRU Speak
-ps&gt;<strong>SCRIPT</strong>
-...<strong>SET DIO[0],var1</strong>
-...<strong>GOTO 0</strong>
-...<strong>ENDSCRIPT</strong>
-...
-0       0x01400001      SET DIO[0],var1
-1       0x15000000      GOTO 0
-2       0x7F000000      ENDSCRIPT
-
-[]
-ps&gt;<strong>RUN</strong>
-...
-[20971521, 352321536, 2130706432]
-[]
-ps&gt;<strong>SET var1,1</strong>
-...
-[1]
-ps&gt;<strong>SET var1,0</strong>
-...
-[0]
-ps&gt;Closing terminal
-PRU Speak object deleted
-</pre>
-<div class="paragraph">
-<p>Press Enter on a blank line to complete input to the shell. Press ^C (Ctrl-C) to exit the shell.</p>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_running_pru_speak_via_tcp_socket">Running PRU Speak via TCP socket</h5>
-<div class="paragraph">
-<p>Running the interpreter over a TCP socket enables tools like Labview to communicate with the Bone in a platform-independent way. Use netcat (nc) to interact with the interpreter from the command line:</p>
-</div>
-<pre data-type="programlisting">
-bone$ <strong>bs_tcp_server.py 2&amp;&gt;1 &gt; /var/log/pruspeak.log &amp;</strong>
-[1] 2594
-bone # <strong>nc localhost 6060</strong>
-<strong>SCRIPT</strong>
-
-<strong>SET DIO[0],1</strong>
-
-<strong>WAIT 100</strong>
-
-<strong>SET DIO[0],0</strong>
-
-<strong>WAIT 100</strong>
-
-<strong>GOTO 0</strong>
-
-<strong>ENDSCRIPT</strong>
-
-<strong>RUN</strong>
-
-<strong>^C</strong>
-</pre>
-<div class="paragraph">
-<p>Press ^C (Ctrl-C) to exit nc.</p>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<div class="title">Note</div>
-</td>
-<td class="content">
-<div class="paragraph">
-<p>Currently, pressing ^D (Ctrl-D) within nc will cause the socket listener script to close.</p>
-</div>
-</td>
-</tr>
-</table>
-</div>
-<div class="paragraph">
-<p>You should now see the LED blinking.</p>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_looking_ahead">Looking Ahead</h5>
-<div class="paragraph">
-<p>At the time of this writing, PRU Speak is still under heavy development. Be sure to check <a href="http://bit.ly/1B4DrsC">the README file</a> for the latest installation and usage guidelines. Currently, only direct PRU GPIO access is implemented, but support for ADCs and additional GPIOs is in the works.</p>
-</div>
-<div class="paragraph">
-<p>If you are looking to develop your own firmware for the PRUs, this example should provide a template for extending your own interface code.</p>
+<p>simpPRU</p>
 </div>
 </div>
 </div>
@@ -1603,7 +1365,7 @@ bone # <strong>nc localhost 6060</strong>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2022-07-18 13:57:10 -0400
+Last updated 2022-07-20 17:01:00 -0400
 </div>
 </div>
 </body>

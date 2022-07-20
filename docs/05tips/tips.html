@@ -451,7 +451,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p>In <a href="#basics">[basics]</a>, you learned how to set up BeagleBone Black, and <a href="#sensors">[sensors]</a>, <a href="#displays">[displays]</a>, and <a href="#motors">[motors]</a> showed how to interface to the physical world. <a href="#networking">[networking]</a> through the remainder of the book moves into some more exciting advanced topics, and this chapter gets you ready for them.</p>
 </div>
 <div class="paragraph">
-<p>The recipes in this chapter assume that you are running Linux on your host computer (<a href="#tips_pick_os">Selecting an OS for Your Development Host Computer</a>) and are comfortable with using Linux. We continue to assume that you are logged in as root on your Bone.</p>
+<p>The recipes in this chapter assume that you are running Linux on your host computer (<a href="#tips_pick_os">Selecting an OS for Your Development Host Computer</a>) and are comfortable with using Linux. We continue to assume that you are logged in as debian on your Bone.</p>
 </div>
 </div>
 <div class="sect2">
@@ -612,7 +612,10 @@ cape_disable=capemgr.disable_partno=BB-BONELT-HDMI</code></pre>
 <div class="sect3">
 <h4 id="_solution_2">Solution</h4>
 <div class="paragraph">
-<p>For projects that require a host computer, we assume that you are running <a href="http://bit.ly/1wXOwkw">Linux Ubuntu 14.04 LTS</a>. You can be running either a native installation, via a virtual machine such as <a href="https://www.virtualbox.org/">VirtualBox</a>, or in the cloud (<a href="http://bit.ly/1wu04LI">Microsoft Azure</a> or <a href="http://aws.amazon.com/ec2/">Amazon Elastic Compute Cloud</a> [EC2], for example).</p>
+<p>For projects that require a host computer, we assume that you are running <a href="http://bit.ly/1wXOwkw">Linux Ubuntu 20.04 LTS</a>. You can be running either a native installation, through <a href="https://docs.microsoft.com/en-us/windows/wsl/">Windows Subsystem for Linux</a>,via a virtual machine such as <a href="https://www.virtualbox.org/">VirtualBox</a>, or in the cloud (<a href="https://portal.azure.com/">Microsoft Azure</a> or <a href="http://aws.amazon.com/ec2/">Amazon Elastic Compute Cloud</a> [EC2], for example).</p>
+</div>
+<div class="paragraph">
+<p>Recently I&#8217;ve been prefering <a href="https://docs.microsoft.com/en-us/windows/wsl/">Windows Subsystem for Linux</a>.</p>
 </div>
 </div>
 <div class="sect3">
@@ -631,10 +634,10 @@ cape_disable=capemgr.disable_partno=BB-BONELT-HDMI</code></pre>
 <div class="sect3">
 <h4 id="_solution_3">Solution</h4>
 <div class="paragraph">
-<p><a href="#basics_cloud9_IDE">[basics_cloud9_IDE]</a> shows how to run shell commands in the Cloud9 bash tab. However, the Bone has Secure Shell (SSH) enabled right out of the box, so you can easily connect by using the following command to log in as superuser root, (note the # at the end of the prompt):</p>
+<p><a href="#basics_cloud9_IDE">[basics_cloud9_IDE]</a> shows how to run shell commands in the Cloud9 bash tab. However, the Bone has Secure Shell (SSH) enabled right out of the box, so you can easily connect by using the following command to log in as user debian, (note the $ at the end of the prompt):</p>
 </div>
 <pre data-type="programlisting">
-host$ <strong>ssh root@192.168.7.2</strong>
+host$ <strong>ssh debian@192.168.7.2</strong>
 Warning: Permanently added 'bone,192.168.7.2' (ECDSA) to the list of known hosts.
 Last login: Mon Dec 22 07:53:06 2014 from yoder-linux.local
 bone$
@@ -642,15 +645,8 @@ bone$
 <div class="paragraph">
 <p>Or you could log in as a normal user, debian (note the $ at the end of the prompt):</p>
 </div>
-<pre data-type="programlisting">
-host$ <strong>ssh debian@192.168.7.2</strong>
-Warning: Permanently added 'bone,192.168.7.2' (ECDSA) to the list of known hosts.
-debian@bone's password:
-Last login: Fri Dec  5 07:57:06 2014 from 192.168.7.1
-bone$
-</pre>
 <div class="paragraph">
-<p>root has no password. It&#8217;s best to change both passwords:</p>
+<p>root has passwords disabled. It&#8217;s best to change the password:</p>
 </div>
 <pre data-type="programlisting">
 bone$ <strong>passwd</strong>
@@ -688,10 +684,17 @@ host$ <strong>ls -ls /dev/ttyACM0</strong>
 </pre>
 <div class="paragraph">
 <p><em>/dev/ttyACM0</em> is a serial port on your host computer that the Bone creates when it boots up.
-The letters crw-rw---- show that you can&#8217;t access it as a normal user. However, you <em>can</em> access it if you are part of dialout group. Just add yourself to the group:</p>
+The letters crw-rw---- show that you can&#8217;t access it as a normal user. However, you <em>can</em> access it if you are part of dialout group. See if you are in the dialout group:</p>
 </div>
 <pre data-type="programlisting">
-host$ sudo adduser $USER dialout
+host$ <strong>groups</strong>
+yoder adm tty uucp <strong>dialout</strong> cdrom sudo dip plugdev lpadmin sambashare
+</pre>
+<div class="paragraph">
+<p>Looks like I&#8217;m already in the group, but if you aren&#8217;t, just add yourself to the group:</p>
+</div>
+<pre data-type="programlisting">
+host$ <strong>sudo adduser $USER dialout</strong>
 </pre>
 <div class="paragraph">
 <p>You have to run adduser only once. Your host computer will remember the next time you boot up. Now, install and run the screen command:</p>
@@ -723,7 +726,7 @@ tells the speed of the connection. In this case, it&#8217;s 115,200 bits per sec
 <div class="sect3">
 <h4 id="_problem_5">Problem</h4>
 <div class="paragraph">
-<p>You want to see the messages that are logged by BeagleBone Black come to life.</p>
+<p>You want to see the messages that are logged by BeagleBone Black as it comes to life.</p>
 </div>
 </div>
 <div class="sect3">
@@ -801,7 +804,7 @@ They are next to the P9 header and begin near pin 20. There is a white dot near 
 <p>Now, run the following commands on your host computer:</p>
 </div>
 <pre data-type="programlisting">
-host$ <strong>ls -ls /dev/ttyUSB0 </strong>
+host$ <strong>ls -ls /dev/ttyUSB0</strong>
 0 crw-rw---- 1 root dialout 188, 0 Jun 19 12:43 /dev/ttyUSB0
 host$ <strong>sudo adduser $USER dialout</strong>
 host$ <strong>screen /dev/ttyUSB0 115200</strong>
@@ -822,7 +825,7 @@ beaglebone login:
 </td>
 <td class="content">
 <div class="paragraph">
-<p>Your screen might initially be black. Press Enter a couple times to see the login prompt.</p>
+<p>Your screen might initially be blank. Press Enter a couple times to see the login prompt.</p>
 </div>
 </td>
 </tr>
@@ -849,7 +852,7 @@ beaglebone login:
 </div>
 <pre data-type="programlisting">
 bone$ <strong>cat /etc/dogtag</strong>
-BeagleBoard.org BeagleBone Debian Image 2014-11-11
+BeagleBoard.org Debian Bullseye IoT Image 2022-06-02
 </pre>
 </div>
 <div class="sect3">
@@ -860,7 +863,7 @@ BeagleBoard.org BeagleBone Debian Image 2014-11-11
 </div>
 </div>
 <div class="sect2">
-<h3 id="_controlling_the_bone_remotely_with_vnc">Controlling the Bone Remotely with VNC</h3>
+<h3 id="_controlling_the_bone_remotely_with_a_vnc">Controlling the Bone Remotely with a VNC</h3>
 <div class="sect3">
 <h4 id="_problem_7">Problem</h4>
 <div class="paragraph">
@@ -873,7 +876,7 @@ BeagleBoard.org BeagleBone Debian Image 2014-11-11
 <p>Run the installed Virtual Network Computing (VNC) server:</p>
 </div>
 <pre data-type="programlisting">
-bone$ <strong>sudo -u debian tightvncserver</strong>
+bone$ <strong>tightvncserver</strong>
 
 You will require a password to access your desktops.
 
@@ -888,20 +891,6 @@ Creating default startup script /root/.vnc/xstartup
 Starting applications specified in /root/.vnc/xstartup
 Log file is /root/.vnc/beaglebone:1.log
 </pre>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<div class="title">Note</div>
-</td>
-<td class="content">
-<div class="paragraph">
-<p>This solution assumes that you are logged in to the Bone as root. If you just started tightvncserver without sudo, the VNC would be running as root, which could cause some problems, because some programs (such as the Chrome web browser) won&#8217;t run as root. This example uses sudo to run tightvncserver as debian.</p>
-</div>
-</td>
-</tr>
-</table>
-</div>
 <div class="paragraph">
 <p>To connect to the Bone, you will need to run a VNC client. There are many to choose from. Remmina Remote Desktop Client is already installed on Ubuntu. Start and select the new remote desktop file button (<a href="#tips_vnc1_fig">Creating a new remote desktop file in Remmina Remote Desktop Client</a>).</p>
 </div>
@@ -1163,46 +1152,15 @@ bone$ <strong>nano file</strong>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_using_a_graphical_editor">Using a Graphical Editor</h3>
-<div class="sect3">
-<h4 id="_problem_10">Problem</h4>
-<div class="paragraph">
-<p>You want to use a graphical (rather than text-based) editor to edit a text file.</p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_solution_10">Solution</h4>
-<div class="paragraph">
-<p>leafpad is a simple graphics-based editor that&#8217;s already installed on your Bone. You can use it if your host computer supports X-Windows (Mac and Linux). Just run the following commands to open a new file to begin editing in leafpad (<a href="#tips_leafpad_fig">Editing a file with leafpad</a>):</p>
-</div>
-<pre data-type="programlisting">
-host$ <strong>ssh -X root@192.168.7.2</strong>
-bone$ <strong>leafpad file.txt</strong>
-</pre>
-<div class="paragraph">
-<p>Notice the -X on the ssh command. This instructs SSH to pass the graphics from the Bone to the host computer.</p>
-</div>
-<div id="tips_leafpad_fig" class="imageblock">
-<div class="content">
-<img src="figures/leafpad.png" alt="leafpad">
-</div>
-<div class="title">Figure 9. Editing a file with leafpad</div>
-</div>
-<div class="paragraph">
-<p>Now, you can use your mouse to move around and copy and paste as usual.</p>
-</div>
-</div>
-</div>
-<div class="sect2">
 <h3 id="networking_wired">Establishing an Ethernet-Based Internet Connection</h3>
 <div class="sect3">
-<h4 id="_problem_11">Problem</h4>
+<h4 id="_problem_10">Problem</h4>
 <div class="paragraph">
 <p>You want to connect your Bone to the Internet using the wired network connection.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_11">Solution</h4>
+<h4 id="_solution_10">Solution</h4>
 <div class="paragraph">
 <p>Plug one end of an Ethernet patch cable into the RJ45 connector on the Bone (see <a href="#networking_rj45">The RJ45 port on the Bone</a>) and the other end into your home hub/router. The yellow and green link lights on both ends should begin to flash.</p>
 </div>
@@ -1210,7 +1168,7 @@ bone$ <strong>leafpad file.txt</strong>
 <div class="content">
 <img src="figures/internLED.png" alt="RJ45">
 </div>
-<div class="title">Figure 10. The RJ45 port on the Bone</div>
+<div class="title">Figure 9. The RJ45 port on the Bone</div>
 </div>
 <div class="paragraph">
 <p>If your router is already configured to run DHCP (Dynamical Host Configuration Protocol), it will automatically assign an IP address to the Bone.</p>
@@ -1230,43 +1188,44 @@ bone$ <strong>leafpad file.txt</strong>
 </table>
 </div>
 <div class="paragraph">
-<p>To find the IP address, open a terminal window and run the ifconfig command:</p>
+<p>To find the IP address, open a terminal window and run the ip command:</p>
 </div>
 <pre data-type="programlisting">
-bone$ ifconfig
-eth0      Link encap:Ethernet  HWaddr c8:a0:30:b7:f9:6f
-          inet addr:137.112.41.36  Bcast:137.112.41.255  Mask:255.255.255.0
-          inet6 addr: fe80::caa0:30ff:feb7:f96f/64 Scope:Link
-          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
-          RX packets:238 errors:0 dropped:53 overruns:0 frame:0
-          TX packets:20 errors:0 dropped:0 overruns:0 carrier:0
-          collisions:0 txqueuelen:1000
-          RX bytes:25341 (24.7 KiB)  TX bytes:4339 (4.2 KiB)
-          Interrupt:40
-
-lo        Link encap:Local Loopback
-          inet addr:127.0.0.1  Mask:255.0.0.0
-          inet6 addr: ::1/128 Scope:Host
-          UP LOOPBACK RUNNING  MTU:65536  Metric:1
-          RX packets:1517 errors:0 dropped:0 overruns:0 frame:0
-          TX packets:1517 errors:0 dropped:0 overruns:0 carrier:0
-          collisions:0 txqueuelen:0
-          RX bytes:2542320 (2.4 MiB)  TX bytes:2542320 (2.4 MiB)
-
-usb0      Link encap:Ethernet  HWaddr aa:26:91:0e:a6:17
-          inet addr:192.168.7.2  Bcast:192.168.7.3  Mask:255.255.255.252
-          inet6 addr: fe80::a826:91ff:fe0e:a617/64 Scope:Link
-          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
-          RX packets:8672 errors:0 dropped:0 overruns:0 frame:0
-          TX packets:5069 errors:0 dropped:0 overruns:0 carrier:0
-          collisions:0 txqueuelen:1000
-          RX bytes:7474185 (7.1 MiB)  TX bytes:3262782 (3.1 MiB)
+bone$ <strong>ip a</strong>
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host
+       valid_lft forever preferred_lft forever
+2: eth0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc mq state UP group default qlen 1000
+    link/ether c8:a0:30:a6:26:e8 brd ff:ff:ff:ff:ff:ff
+    inet 10.0.5.144/24 brd 10.0.5.255 scope global dynamic eth0
+       valid_lft 80818sec preferred_lft 80818sec
+    inet6 fe80::caa0:30ff:fea6:26e8/64 scope link
+       valid_lft forever preferred_lft forever
+3: usb0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP group default qlen 1000
+    link/ether c2:3f:44:bb:41:0f brd ff:ff:ff:ff:ff:ff
+    inet 192.168.7.2/24 brd 192.168.7.255 scope global usb0
+       valid_lft forever preferred_lft forever
+    inet6 fe80::c03f:44ff:febb:410f/64 scope link
+       valid_lft forever preferred_lft forever
+4: usb1: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP group default qlen 1000
+    link/ether 76:7e:49:46:1b:78 brd ff:ff:ff:ff:ff:ff
+    inet 192.168.6.2/24 brd 192.168.6.255 scope global usb1
+       valid_lft forever preferred_lft forever
+    inet6 fe80::747e:49ff:fe46:1b78/64 scope link
+       valid_lft forever preferred_lft forever
+5: can0: <NOARP,ECHO> mtu 16 qdisc noop state DOWN group default qlen 10
+    link/can
+6: can1: <NOARP,ECHO> mtu 16 qdisc noop state DOWN group default qlen 10
+    link/can
 </pre>
 <div class="paragraph">
-<p>My Bone is connected to the Internet in two ways: via the RJ45 connection (eth0) and via the USB cable (usb0). The inet addr field shows that my Internet address is 137.112.41.36 for the RJ45 connector.</p>
+<p>My Bone is connected to the Internet in two ways: via the RJ45 connection (eth0) and via the USB cable (usb0). The inet field shows that my Internet address is 10.0.5.144 for the RJ45 connector.</p>
 </div>
 <div class="paragraph">
-<p>On my university campus, you must register your MAC address before any device will work on the network. The HWaddr field gives the MAC address. For eth0, it&#8217;s c8:a0:30:b7:f9:6f.</p>
+<p>On my university campus, you must register your MAC address before any device will work on the network. The HWaddr field gives the MAC address. For eth0, it&#8217;s c8:a0:30:a6:26:e8.</p>
 </div>
 <div class="paragraph">
 <p>The IP address of your Bone can change. If it&#8217;s been assigned by DHCP, it can change at any time. The MAC address, however, never changes;  it is assigned to your ethernet device when it&#8217;s manufactured.</p>
@@ -1298,13 +1257,46 @@ it becomes visible to the <em>world</em>. If you don&#8217;t secure your Bone, t
 <div class="sect2">
 <h3 id="networking_wireless">Establishing a WiFi-Based Internet Connection</h3>
 <div class="sect3">
-<h4 id="_problem_12">Problem</h4>
+<h4 id="_problem_11">Problem</h4>
 <div class="paragraph">
 <p>You want BeagleBone Black to talk to the Internet using a USB wireless adapter.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_12">Solution</h4>
+<h4 id="_solution_11">Solution</h4>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Tip</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>For the correct instructions for the image you are using, go to
+<a href="https://forum.beagleboard.org/tag/latest-images">latest-images</a> and click on the image you are using.</p>
+</div>
+<div class="paragraph">
+<p>I&#8217;m running Debian 11.x (Bullseye), the middle one.</p>
+</div>
+<div id="tips_latest-images_fig" class="imageblock">
+<div class="content">
+<img src="figures/latest-images.png" alt="Latest Image Page">
+</div>
+<div class="title">Figure 10. Latested Beagle Images</div>
+</div>
+<div class="paragraph">
+<p>Scroll to the top of the page and you&#8217;ll see instructions on setting up Wifi. The instructions here are based on using networkctl</p>
+</div>
+<div id="tips_networkfig" class="imageblock">
+<div class="content">
+<img src="figures/network.png" alt="Network Setup Instructions">
+</div>
+<div class="title">Figure 11. Instructions for setting up your network.</div>
+</div>
+</td>
+</tr>
+</table>
+</div>
 <div class="paragraph">
 <p>Several WiFi adapters work with the Bone. Check <a href="http://bit.ly/1EbEwUo">WiFi Adapters</a> for the latest list.</p>
 </div>
@@ -1363,112 +1355,80 @@ Bus 002 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
 </table>
 </div>
 <div class="paragraph">
-<p>Next, run iwconfig to find your adapter&#8217;s name.  Mine is called wlan0, but you might see other other names, such as ra0.</p>
+<p>Next, run networkctl to find your adapter&#8217;s name.  Mine is called wlan0, but you might see other names, such as ra0.</p>
 </div>
 <pre data-type="programlisting">
-bone$ <strong>iwconfig</strong>
-wlan0     unassociated  Nickname:"WIFI@REALTEK"
-          Mode:Auto  Frequency=2.412 GHz  Access Point: Not-Associated
-          Sensitivity:0/0
-          Retry:off   RTS thr:off   Fragment thr:off
-          Encryption key:off
-          Power Management:off
-          Link Quality=0/100  Signal level=0 dBm  Noise level=0 dBm
-          Rx invalid nwid:0  Rx invalid crypt:0  Rx invalid frag:0
-          Tx excessive retries:0  Invalid misc:0   Missed beacon:0
+bone$ <strong>networkctl</strong>
+IDX LINK    TYPE     OPERATIONAL SETUP
+  1 lo      loopback carrier     unmanaged
+  2 eth0    ether    no-carrier  configuring
+  3 usb0    gadget   routable    configured
+  4 usb1    gadget   routable    configured
+  5 can0    can      off         unmanaged
+  6 can1    can      off         unmanaged
+  7 wlan0   wlan     routable    configured
+  8 SoftAp0 wlan     routable    configured
 
-lo        no wireless extensions.
-
-eth0      no wireless extensions.
-
-usb0      no wireless extensions.
-
+8 links listed.
 </pre>
 <div class="paragraph">
-<p>If no name appears, try ifconfig -a:</p>
+<p>If no name appears, try ip a:</p>
 </div>
 <pre data-type="programlisting">
-bone$ <strong>ifconfig -a</strong>
+bone$ <strong>ip a</strong>
 ...
-usb0      Link encap:Ethernet  HWaddr 92:84:3f:a2:12:0f
-          inet addr:192.168.7.2  Bcast:192.168.7.3  Mask:255.255.255.252
-          inet6 addr: fe80::9084:3fff:fea2:120f/64 Scope:Link
-          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
-          RX packets:5789 errors:0 dropped:0 overruns:0 frame:0
-          TX packets:5158 errors:0 dropped:0 overruns:0 carrier:0
-          collisions:0 txqueuelen:1000
-          RX bytes:6401357 (6.1 MiB)  TX bytes:842982 (823.2 KiB)
-
-wlan0     Link encap:Ethernet  HWaddr 00:13:ef:d0:27:04
-          UP BROADCAST MULTICAST  MTU:1500  Metric:1
-          RX packets:0 errors:0 dropped:0 overruns:0 frame:0
-          TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
-          collisions:0 txqueuelen:1000
-          RX bytes:0 (0.0 B)  TX bytes:0 (0.0 B)
-
+2: eth0: <NO-CARRIER,BROADCAST,MULTICAST,UP> mtu 1500 qdisc pfifo_fast state DOWN group default qlen 1000
+    link/ether c8:a0:30:a6:26:e8 brd ff:ff:ff:ff:ff:ff
+3: usb0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP group default qlen 1000
+    link/ether c2:3f:44:bb:41:0f brd ff:ff:ff:ff:ff:ff
+    inet 192.168.7.2/24 brd 192.168.7.255 scope global usb0
+       valid_lft forever preferred_lft forever
+    inet6 fe80::c03f:44ff:febb:410f/64 scope link
+       valid_lft forever preferred_lft forever
+...
+7: wlan0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc mq state UP group default qlen 1000
+    link/ether 64:69:4e:7e:5c:e4 brd ff:ff:ff:ff:ff:ff
+    inet 10.0.7.21/24 brd 10.0.7.255 scope global dynamic wlan0
+       valid_lft 85166sec preferred_lft 85166sec
+    inet6 fe80::6669:4eff:fe7e:5ce4/64 scope link
+       valid_lft forever preferred_lft forever
 </pre>
 <div class="paragraph">
-<p>When you find the WiFi device name (mine is wlan0), remember it for later.</p>
-</div>
-<div class="paragraph">
-<p>Run wicd-curses to display the wireless networks your WiFi device is seeing:</p>
+<p>Next edit the configuration file /etc/wpa_supplicant/wpa_supplicant-wlan0.conf.</p>
 </div>
 <pre data-type="programlisting">
-bone$ <strong>wicd-curses</strong>
+bone$ <strong>sudo nano /etc/wpa_supplicant/wpa_supplicant-wlan0.conf</strong>
 </pre>
 <div class="paragraph">
-<p>In <a href="#tips_wicd_opening_view_fig">Using wicd to display available wireless networks</a>, you see one wireless network, my home wireless.</p>
+<p>In the file you&#8217;ll see:</p>
 </div>
-<div id="tips_wicd_opening_view_fig" class="imageblock">
-<div class="content">
-<img src="figures/wicd.png" alt="wicd opening view">
-</div>
-<div class="title">Figure 11. Using wicd to display available wireless networks</div>
-</div>
+<pre data-type="programlisting">
+ctrl_interface=DIR=/run/wpa_supplicant GROUP=netdev
+update_config=1
+#country=US
+
+network={
+	ssid="Your SSID"
+	psk="Your Password"
+}
+</pre>
 <div class="paragraph">
-<p>If nothing appears, press P and make sure the Wireless Interface matches the device name you noted from ifconfig. If it doesn&#8217;t match, press the down arrow and enter the device name, as shown in <a href="#tips_wicd_prefs_fig">Setting preferences in wicd</a>.</p>
+<p>Change the ssid and psk enteries for your network. Save your file, then run:</p>
 </div>
-<div id="tips_wicd_prefs_fig" class="imageblock">
-<div class="content">
-<img src="figures/wicdPrefs.png" alt="Setting preferences in wicd">
-</div>
-<div class="title">Figure 12. Setting preferences in wicd</div>
-</div>
+<pre>
+bone$ <strong>sudo systemctl restart systemd-networkd</strong>
+bone$ <strong> ip a</strong>
+bone$ <strong>ping -c2 google.com</strong>
+PING google.com (142.250.191.206) 56(84) bytes of data.
+64 bytes from ord38s31-in-f14.1e100.net (142.250.191.206): icmp_seq=1 ttl=115 time=19.5 ms
+64 bytes from ord38s31-in-f14.1e100.net (142.250.191.206): icmp_seq=2 ttl=115 time=19.4 ms
+
+--- google.com ping statistics ---
+2 packets transmitted, 2 received, 0% packet loss, time 1001ms
+rtt min/avg/max/mdev = 19.387/19.450/19.513/0.063 ms
+</pre>
 <div class="paragraph">
-<p>After you enter a name, press F10 to save and then press R to refresh the list. You&#8217;ll now see the available access points.</p>
-</div>
-<div class="paragraph">
-<p>Use the down arrow to select which network to use and then press the right arrow  to configure it, as shown in <a href="#tips_wicd_config_fig">Configuring a network in wicd</a>.</p>
-</div>
-<div id="tips_wicd_config_fig" class="imageblock">
-<div class="content">
-<img src="figures/wicdConfig.png" alt="Configuring a network in wicd">
-</div>
-<div class="title">Figure 13. Configuring a network in wicd</div>
-</div>
-<div class="paragraph">
-<p>Press the down arrow until you are near the bottom of the screen and then press Enter. Use the up/down arrows to select the type of authentication (as shown in <a href="#tips_wicd_auth_fig">Configuring authentication in wicd</a>) and then press Enter. My home system uses WPA 1/2 (Passphrase) (<a href="#tips_wicd_password_fig">Entering password in wicd</a>).</p>
-</div>
-<div id="tips_wicd_auth_fig" class="imageblock">
-<div class="content">
-<img src="figures/wicdSecure.png" alt="Configuring authentication in wicd">
-</div>
-<div class="title">Figure 14. Configuring authentication in wicd</div>
-</div>
-<div id="tips_wicd_password_fig" class="imageblock">
-<div class="content">
-<img src="figures/wicdPassword.png" alt="Entering password in wicd">
-</div>
-<div class="title">Figure 15. Entering password in wicd</div>
-</div>
-<div class="paragraph">
-<p>Press F10 and select the network again; then press C to connect. You&#8217;ll be connected in a moment, as shown in <a href="#tips_wicd_connected_fig">Connected to a network via wicd</a>.</p>
-</div>
-<div id="tips_wicd_connected_fig" class="imageblock">
-<div class="content">
-<img src="figures/wicdConnected.png" alt="Connected to a network via wicd">
-</div>
-<div class="title">Figure 16. Connected to a network via wicd</div>
+<p>wlan0 should now have an ip address and you should be on the network. If not, try rebooting.</p>
 </div>
 </div>
 <div class="sect3">
@@ -1479,13 +1439,13 @@ bone$ <strong>wicd-curses</strong>
 <div class="sect2">
 <h3 id="networking_usb">Sharing the Host&#8217;s Internet Connection over USB</h3>
 <div class="sect3">
-<h4 id="_problem_13">Problem</h4>
+<h4 id="_problem_12">Problem</h4>
 <div class="paragraph">
 <p>Your host computer is connected to the Bone via the USB cable, and you want to run the network between the two.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_13">Solution</h4>
+<h4 id="_solution_12">Solution</h4>
 <div class="paragraph">
 <p><a href="#networking_wired">Establishing an Ethernet-Based Internet Connection</a> shows how to connect BeagleBone Black to the Internet via the RJ45 Ethernet connector.  This recipe shows a way to connect without using the RJ45 <span class="keep-together">connector</span>.</p>
 </div>
@@ -1560,20 +1520,36 @@ host$ <strong>./ipMasquerade.sh eth0</strong>
 #  can access the Internet through the USB connection.
 # Run ./ipMasquerade.sh the first time. It will set up the host.
 # Run this script if the host is already set up.
+# Inspired by http://thoughtshubham.blogspot.com/2010/03/internet-over-usb-otg-on-beagleboard.html
 
 hostAddr=192.168.7.1
-beagleAddr=192.168.7.2
+beagleAddr=${1:-192.168.7.2}
 
-# Save the /etc/resolv.conf on the Bone in case we mess things up.
+# Save the /etc/resolv.conf on the Beagle in case we mess things up.
 ssh root@$beagleAddr "mv -n /etc/resolv.conf /etc/resolv.conf.orig"
 # Create our own resolv.conf
 cat - &lt;&lt; EOF &gt; /tmp/resolv.conf
-# This is installed by host.setDNS.sh on the host
+# This is installed by ./setDNS.sh on the host
 
 EOF
 
+TMP=/tmp/nmcli
 # Look up the nameserver of the host and add it to our resolv.conf
-nmcli dev list | grep IP4.DNS | sed 's/IP4.DNS\[.\]:/nameserver/' &gt;&gt; /tmp/resolv.conf
+# From: http://askubuntu.com/questions/197036/how-to-know-what-dns-am-i-using-in-ubuntu-12-04
+# Use nmcli dev list for older version nmcli
+# Use nmcli dev show for newer version nmcli
+nmcli dev show &gt; $TMP
+if [ $? -ne 0 ]; then   # $? is the return code, if not 0 something bad happened.
+    echo "nmcli failed, trying older 'list' instead of 'show'"
+    nmcli dev list &gt; $TMP
+    if [ $? -ne 0 ]; then
+        echo "nmcli failed again, giving up..."
+        exit 1
+    fi
+fi
+
+grep IP4.DNS $TMP | sed 's/IP4.DNS\[.\]:/nameserver/' &gt;&gt; /tmp/resolv.conf
+
 scp /tmp/resolv.conf root@$beagleAddr:/etc
 
 # Tell the beagle to use the host as the gateway.
@@ -1661,22 +1637,86 @@ host$ <strong>sudo iptables -t nat -A PREROUTING -p tcp -s 0/0 \
 <div class="sect2">
 <h3 id="tips_firewall">Setting Up a Firewall</h3>
 <div class="sect3">
-<h4 id="_problem_14">Problem</h4>
+<h4 id="_problem_13">Problem</h4>
 <div class="paragraph">
 <p>You have put your Bone on the network and want to limit which IP addresses can access it.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_14">Solution</h4>
+<h4 id="_solution_13">Solution</h4>
 <div class="paragraph">
-<p>The Bone already has a firewall installed. Just run the following command:</p>
+<p><a href="https://www.howtogeek.com/">How-To Geek</a> has a great posting on how do use ufw, the "uncomplicated firewall". Check out <a href="https://www.howtogeek.com/devops/how-to-secure-your-linux-server-with-a-ufw-firewall/">How to Secure Your Linux Server with a UFW Firewall</a>.  I&#8217;ll summarize the initial setup here.</p>
+</div>
+<div class="paragraph">
+<p>First install and check the status:</p>
 </div>
 <pre data-type="programlisting">
-bone$ <strong>iptables --policy INPUT DROP</strong>
-bone$ <strong>iptables -A INPUT -s 137.112.0.0/16 -j ACCEPT</strong>
+bone$ <strong>sudo apt install ufw</strong>
+bone$ <strong>sudo ufw status</strong>
+Status: inactive
 </pre>
 <div class="paragraph">
-<p>In this case, only users from my campus (IP addresses beginning with 137.112) will be able to access (or even see) your Bone.</p>
+<p>Now turn off everything coming in and leave on all outgoing.  Note, this won&#8217;t take effect until ufw is enabled.</p>
+</div>
+<pre data-type="programlisting">
+bone$ <strong>sudo ufw default deny incoming</strong>
+bone$ <strong>sudo ufw default allow outgoing</strong>
+</pre>
+<div class="paragraph">
+<p>Don&#8217;t enable yet, make sure ssh still has access</p>
+</div>
+<pre data-type="programlisting">
+bone$ <strong>sudo ufw allow 22</strong>
+</pre>
+<div class="paragraph">
+<p>Just to be sure, you can install nmap on your host computer to see what ports are currently open.</p>
+</div>
+<pre data-type="programlisting">
+host$ <strong>sudo apt uupdate</strong>
+host$ <strong>sudo apt install nmap</strong>
+host$ <strong>nmap 192.168.7.2</strong>
+Starting Nmap 7.80 ( https://nmap.org ) at 2022-07-09 13:37 EDT
+Nmap scan report for bone (192.168.7.2)
+Host is up (0.014s latency).
+Not shown: 997 closed ports
+PORT     STATE SERVICE
+22/tcp   open  ssh
+80/tcp   open  http
+3000/tcp open  ppp
+
+Nmap done: 1 IP address (1 host up) scanned in 0.19 seconds
+</pre>
+<div class="paragraph">
+<p>Currently there are three ports visible:  22, 80 and 3000(visual studio code) Now turn on the firewal and see what happends.</p>
+</div>
+<pre data-type="programlisting">
+bone$ <strong>sudo ufw enable</strong>
+Command may disrupt existing ssh connections. Proceed with operation (y|n)? y
+Firewall is active and enabled on system startup
+
+
+host$ <strong>nmap 192.168.7.2</strong>
+Starting Nmap 7.80 ( https://nmap.org ) at 2022-07-09 13:37 EDT
+Nmap scan report for bone (192.168.7.2)
+Host is up (0.014s latency).
+Not shown: 999 closed ports
+PORT     STATE SERVICE
+22/tcp   open  ssh
+
+Nmap done: 1 IP address (1 host up) scanned in 0.19 seconds
+</pre>
+<div class="paragraph">
+<p>Only port 22 (ssh) is accessable now.</p>
+</div>
+<div class="paragraph">
+<p>The firewall will remain on, even after a reboot. Disable it now if you don&#8217;t want it on.</p>
+</div>
+<pre data-type="programlisting">
+bone$ <strong>sudo ufw disable</strong>
+Firewall stopped and disabled on system startup
+</pre>
+<div class="paragraph">
+<p>See the How-To Geek article for more examples.</p>
 </div>
 </div>
 <div class="sect3">
@@ -1687,13 +1727,13 @@ bone$ <strong>iptables -A INPUT -s 137.112.0.0/16 -j ACCEPT</strong>
 <div class="sect2">
 <h3 id="tips_apt">Installing Additional Packages from the Debian Package Feed</h3>
 <div class="sect3">
-<h4 id="_problem_15">Problem</h4>
+<h4 id="_problem_14">Problem</h4>
 <div class="paragraph">
 <p>You want to do more cool things with your BeagleBone by installing more programs.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_15">Solution</h4>
+<h4 id="_solution_14">Solution</h4>
 <div class="admonitionblock warning">
 <table>
 <tr>
@@ -1716,7 +1756,7 @@ bone$ <strong>sudo apt update</strong>
 bone$ <strong>sudo apt install "name of software"</strong>
 </pre>
 <div class="paragraph">
-<p>A sudo is necessary if you aren&#8217;t running as root. The first command downloads package lists from various repositories and updates them to get information on the newest versions of packages and their dependencies. (You need to run it only once a week or so.) The second command fetches the software and installs it and all packages it depends on.</p>
+<p>A sudo is necessary since you aren&#8217;t running as root. The first command downloads package lists from various repositories and updates them to get information on the newest versions of packages and their dependencies. (You need to run it only once a week or so.) The second command fetches the software and installs it and all packages it depends on.</p>
 </div>
 <div class="paragraph">
 <p>How do you find out what software you can install?  Try running this:</p>
@@ -1724,11 +1764,11 @@ bone$ <strong>sudo apt install "name of software"</strong>
 <pre data-type="programlisting">
 bone$ <strong>apt-cache pkgnames | sort > /tmp/list</strong>
 bone$ <strong>wc /tmp/list</strong>
- 32121  32121 502707 /tmp/list
+  67303   67303 1348342 /tmp/list
 bone$ <strong>less /tmp/list</strong>
 </pre>
 <div class="paragraph">
-<p>The first command lists all the packages that apt knows about and sorts them and stores them in <em>/tmp/list</em>. The second command shows why you want to put the list in a file. The wc command counts the number of lines, words, and characters in a file. In our case, there are over 32,000 packages from which we can choose! The less command displays the sorted list, one page at a time. Press the space bar to go to the next page. Press Q to quit.</p>
+<p>The first command lists all the packages that apt knows about and sorts them and stores them in <em>/tmp/list</em>. The second command shows why you want to put the list in a file. The wc command counts the number of lines, words, and characters in a file. In our case, there are over 67,000 packages from which we can choose! The less command displays the sorted list, one page at a time. Press the space bar to go to the next page. Press Q to quit.</p>
 </div>
 <div class="paragraph">
 <p>Suppose that you would like to install an online dictionary (dict). Just run the following command:</p>
@@ -1748,13 +1788,13 @@ bone$ <strong>sudo apt install dict</strong>
 <div class="sect2">
 <h3 id="tips_apt_remove">Removing Packages Installed with apt</h3>
 <div class="sect3">
-<h4 id="_problem_16">Problem</h4>
+<h4 id="_problem_15">Problem</h4>
 <div class="paragraph">
 <p>You&#8217;ve been playing around and installing all sorts of things with apt and now you want to clean things up a bit.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_16">Solution</h4>
+<h4 id="_solution_15">Solution</h4>
 <div class="paragraph">
 <p>apt has a remove option, so you can run the following command:</p>
 </div>
@@ -1781,13 +1821,13 @@ Do you want to continue [Y/n]? <strong>y</strong>
 <div class="sect2">
 <h3 id="_copying_files_between_the_onboard_flash_and_the_microsd_card">Copying Files Between the Onboard Flash and the MicroSD Card</h3>
 <div class="sect3">
-<h4 id="_problem_17">Problem</h4>
+<h4 id="_problem_16">Problem</h4>
 <div class="paragraph">
 <p>You want to move files between the onboard flash and the microSD card.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_17">Solution</h4>
+<h4 id="_solution_16">Solution</h4>
 <div class="paragraph">
 <p>If you booted from the microSD card, run the following command:</p>
 </div>
@@ -1839,13 +1879,13 @@ bone$ <strong>umount /mnt/onboard</strong>
 <div class="sect2">
 <h3 id="_freeing_space_on_the_onboard_flash_or_microsd_card">Freeing Space on the Onboard Flash or MicroSD Card</h3>
 <div class="sect3">
-<h4 id="_problem_18">Problem</h4>
+<h4 id="_problem_17">Problem</h4>
 <div class="paragraph">
 <p>You are starting to run out of room on your microSD card (or onboard flash) and have removed several packages you had previously installed (<a href="#tips_apt_remove">Removing Packages Installed with apt</a>), but you still need to free up more space.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_18">Solution</h4>
+<h4 id="_solution_17">Solution</h4>
 <div class="paragraph">
 <p>To free up space, you can remove preinstalled packages or discover big files to remove.</p>
 </div>
@@ -2027,215 +2067,98 @@ e   4.0KiB [          ] /mnt
 </div>
 </div>
 <div class="sect2">
-<h3 id="_installing_additional_node_js_packages">Installing Additional Node.js Packages</h3>
-<div class="sect3">
-<h4 id="_problem_19">Problem</h4>
-<div class="paragraph">
-<p>You are working with JavaScript and want to build on what others have done.</p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_solution_19">Solution</h4>
-<div class="paragraph">
-<p>Node Package Manager (npm [<a href="https://www.npmjs.org/" class="bare">https://www.npmjs.org/</a>]) is used to install new packages. For example, suppose that you are wiring up a GPS (<a href="#sensors_GPS">[sensors_GPS]</a>) and want to use the nmea JavaScript package to decode the National Marine Electronics Association (NMEA) data from the GPS. Install the nmea package with the following command:</p>
-</div>
-<pre data-type="programlisting">
-bone$ <strong>npm install -g nmea</strong>
-npm http GET https://registry.npmjs.org/nmea
-npm http 200 https://registry.npmjs.org/nmea
-npm http GET https://registry.npmjs.org/nmea/-/nmea-0.0.7.tgz
-npm http 200 https://registry.npmjs.org/nmea/-/nmea-0.0.7.tgz
-nmea@0.0.7 /usr/local/lib/node_modules/nmea
-</pre>
-<div class="paragraph">
-<p>The -g instructs to install globally. That way, you can use nmea from any directory. If -g is not given, you can use nmea only in the directory in which you installed it.</p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_discussion_18">Discussion</h4>
-
-</div>
-</div>
-<div class="sect2">
-<h3 id="using_python">Using Python to Interact with the Physical World</h3>
-<div class="sect3">
-<h4 id="_problem_20">Problem</h4>
-<div class="paragraph">
-<p>You want to use Python on the Bone to talk to the world.</p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_solution_20">Solution</h4>
-<div class="paragraph">
-<p>So far, we&#8217;ve focused on using JavaScript and the BoneScript API for interfacing BeagleBone Black to the physical world.  BoneScript provides an easy way to interface the Bone to the world, but there are other programming languages out there.  This recipe provides the steps needed to work with Python, and <a href="#misc_libsoc">Using C to Interact with the Physical World</a> does the same for C.</p>
-</div>
-<div class="paragraph">
-<p><a href="http://www.adafruit.com/">Adafruit</a> has produced an excellent <a href="http://bit.ly/1Mt9kDS">library for the Bone</a>, and it&#8217;s already installed. Ensure that the BBIO library is up-to-date:</p>
-</div>
-<pre data-type="programlisting">
-bone$ <strong>pip install Adafruit_BBIO</strong>
-Requirement already satisfied (use --upgrade to upgrade):
-    Adafruit-BBIO in /usr/local/lib/python2.7/dist-packages
-Cleaning up...
-</pre>
-<div class="paragraph">
-<p>Now that you&#8217;re ready to go, add the code in <a href="#misc_python_blink">Use Python to blink an LED (blinkLED.py)</a> to a file called <em>blinkLED.py</em>.</p>
-</div>
-<div id="misc_python_blink" class="exampleblock pagebreak-before">
-<div class="title">Example 3. Use Python to blink an LED (blinkLED.py)</div>
-<div class="content">
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-python" data-lang="python">#!/usr/bin/env python
-import Adafruit_BBIO.GPIO as GPIO
-import time
-
-pin = "P9_14"
-
-GPIO.setup(pin, GPIO.OUT)
-
-while True:
-    GPIO.output(pin, GPIO.HIGH)
-    time.sleep(0.5)
-    GPIO.output(pin, GPIO.LOW)
-    time.sleep(0.5)</code></pre>
-</div>
-</div>
-</div>
-</div>
-<div class="paragraph">
-<p>Wire your LED as shown in <a href="#displays_externalLED">[displays_externalLED]</a> and run it with the following command:</p>
-</div>
-<pre data-type="programlisting">
-bone$ <strong>chmod +x blinkLED.py</strong>.
-bone$ <strong>./blinkLED.py</strong>.
-</pre>
-<div class="paragraph">
-<p>Adafruit&#8217;s <a href="http://bit.ly/1C5dkaK">Setting up IO Python Library on BeagleBone Black</a> does a nice job showing how to use the BBIO library.</p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_discussion_19">Discussion</h4>
-
-</div>
-</div>
-<div class="sect2">
 <h3 id="misc_libsoc">Using C to Interact with the Physical World</h3>
 <div class="sect3">
-<h4 id="_problem_21">Problem</h4>
+<h4 id="_problem_18">Problem</h4>
 <div class="paragraph">
 <p>You want to use C on the Bone to talk to the world.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_21">Solution</h4>
+<h4 id="_solution_18">Solution</h4>
 <div class="paragraph">
-<p>The C solution isn&#8217;t as simple as the BoneScript or Python solution (<a href="#using_python">Using Python to Interact with the Physical World</a>), but it does work and is much faster. <a href="https://github.com/jackmitch/libsoc">libsoc</a> is a "C library for interfacing with common SoC {system on chip} peripherals through generic kernel interfaces" by <a href="http://www.embed.me.uk/">Jack Mitchell</a>. Here&#8217;s how to get and install it:</p>
-</div>
-<pre data-type="programlisting">
-bone$ <strong>git clone https://github.com/jackmitch/libsoc.git</strong>
-bone$ <strong>cd libsoc</strong>
-bone$ <strong>./autogen.sh</strong>       # Takes about a minute
-bone$ <strong>./configure</strong>        # Another  minute
-bone$ <strong>make</strong>               # 30 seconds
-bone$ <strong>make install</strong>
-</pre>
-<div class="paragraph">
-<p>This installs the libsoc library in <em>/usr/local/lib</em>. Add the code in <a href="#misc_c_blink">Use C to blink an LED (blinkLED.c)</a> to a file called <em>blinkLED.c</em>.</p>
+<p>The C solution isn&#8217;t as simple as the JavaScript or Python solution, but it does work and is much faster.  The approach is the same, write to the /sys/class/gpio files.</p>
 </div>
 <div id="misc_c_blink" class="exampleblock">
-<div class="title">Example 4. Use C to blink an LED (blinkLED.c)</div>
+<div class="title">Example 3. Use C to blink an LED (blinkLED.c)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-c" data-lang="c">#include &lt;stdio.h&gt;
-#include &lt;stdlib.h&gt;
+<pre class="highlight"><code class="language-c" data-lang="c">////////////////////////////////////////
+//	blinkLED.c
+//	Blinks the P9_14 pin
+//	Wiring:
+//	Setup:
+//	See:
+////////////////////////////////////////
+#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
 #include &lt;unistd.h&gt;
-#include &lt;sys/wait.h&gt;
+#define MAXSTR 100
+// Look up P9.14 using gpioinfo | grep -e chip -e P9.14.  chip 1, line 18 maps to 50
+int main() {
+  FILE *fp;
+  char pin[] = "50";
+  char GPIOPATH[] = "/sys/class/gpio";
+  char path[MAXSTR] = "";
 
-#include "libsoc_gpio.h"
-#include "libsoc_debug.h"
-
-// Blinks an LED attached to P9_14 (gpio1_18, 32+18=50)
-#define GPIO_OUTPUT  50
-
-int main(void) {
-  gpio *gpio_output;    // Create gpio pointer
-  libsoc_set_debug(1);  // Enable debug output
-  // Request gpio
-  gpio_output = libsoc_gpio_request(GPIO_OUTPUT, LS_SHARED);
-  // Set direction to OUTPUT
-  libsoc_gpio_set_direction(gpio_output, OUTPUT);
-
-  libsoc_set_debug(0);   // Turn off debug printing for fast toggle
-
-  int i;
-  for (i=0; i&lt;1000000; i++) {     // Toggle the GPIO 100 times
-    libsoc_gpio_set_level(gpio_output, HIGH);
-    // usleep(100000);           // sleep 100,000 uS
-    libsoc_gpio_set_level(gpio_output, LOW);
-    // usleep(100000);
+  // Make sure pin is exported
+  snprintf(path, MAXSTR, "%s%s%s", GPIOPATH, "/gpio", pin);
+  if (!access(path, F_OK) == 0) {
+    snprintf(path, MAXSTR, "%s%s", GPIOPATH, "/export");
+    fp = fopen(path, "w");
+    fprintf(fp, "%s", pin);
+    fclose(fp);
   }
+ 
+  // Make it an output pin
+  snprintf(path, MAXSTR, "%s%s%s%s", GPIOPATH, "/gpio", pin, "/direction");
+  fp = fopen(path, "w");
+  fprintf(fp, "out");
+  fclose(fp);
 
-  if (gpio_output) {
-    libsoc_gpio_free(gpio_output);  // Free gpio request memory
+  // Blink every .25 sec
+  int state = 0;
+  snprintf(path, MAXSTR, "%s%s%s%s", GPIOPATH, "/gpio", pin, "/value");
+  fp = fopen(path, "w");
+  while (1) {
+    fseek(fp, 0, SEEK_SET);
+    if (state) {
+      fprintf(fp, "1");
+    } else {
+      fprintf(fp, "0");
+    }
+    state = ~state;
+    usleep(250000);   // sleep time in microseconds
   }
-
-  return EXIT_SUCCESS;
 }</code></pre>
 </div>
 </div>
 </div>
 </div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<div class="title">Note</div>
-</td>
-<td class="content">
 <div class="paragraph">
-<p>In BoneScript and Python, we refer to the GPIO pins by the header position (P9_14, for example). In libsoc, we refer to them by an internal GPIO number. <a href="#tips_cape_headers_digital">Mapping from header pin to internal GPIO number</a> shows how to map from header position to GPIO pin. For example, P9_14 has GPIO_50 next to it. That means libsoc needs to use GPIO 50 to interface with P9_14.</p>
-</div>
-</td>
-</tr>
-</table>
+<p>Here, as with JavaScript and Python, the gpio pins are refered to by the Linux gpio number.  <a href="#tips_cape_headers_digital">Mapping from header pin to internal GPIO number</a> shows how the P8 and P9 Headers numbers map to the gpio number.  For this example P9_14 is used, which the table shows in gpio 50.</p>
 </div>
 <div id="tips_cape_headers_digital" class="imageblock">
 <div class="content">
 <img src="figures/cape-headers-digital.png" alt="cape headers digital">
 </div>
-<div class="title">Figure 17. Mapping from header pin to internal GPIO number</div>
+<div class="title">Figure 12. Mapping from header pin to internal GPIO number</div>
 </div>
 <div class="paragraph">
 <p>Compile and run the code:</p>
 </div>
 <pre data-type="programlisting">
-bone$ <strong>gcc -o blinkLED blinkLED.c -lsoc</strong>
+bone$ <strong>gcc -o blinkLED blinkLED.c </strong>
 bone$ <strong>./blinkLED</strong>
-libsoc-debug: debug enabled (libsoc_set_debug)
-libsoc-gpio-debug: requested gpio (50, libsoc_gpio_request)
-libsoc-gpio-debug: GPIO already exported (50, libsoc_gpio_request)
-libsoc-gpio-debug: setting direction to out (50, libsoc_gpio_set_direction)
-libsoc-debug: debug disabled (libsoc_set_debug)
+^C
 </pre>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<div class="title">Note</div>
-</td>
-<td class="content">
 <div class="paragraph">
-<p>If you have an older image, you might need to install the libsoc library. You can do that with apt if you have network access and the right feeds on your Bone. Install libsoc2 for the library and libsoc-dev for the header files.</p>
-</div>
-</td>
-</tr>
-</table>
+<p>Hit ^C to stop the blinking.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_20">Discussion</h4>
+<h4 id="_discussion_18">Discussion</h4>
 
 </div>
 </div>
@@ -2253,7 +2176,7 @@ libsoc-debug: debug disabled (libsoc_set_debug)
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2022-06-28 16:39:48 -0400
+Last updated 2022-07-11 19:29:17 -0400
 </div>
 </div>
 </body>

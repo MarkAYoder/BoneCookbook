@@ -117,10 +117,10 @@ A cookbook for programming Beagles
 . link:08realtime/realtime.html[Real-Time I/O]
   ** [ ] Introduction
   ** [x] I/O with Python and JavaScript
-  ** [libsoc? ] I/O with C
+  ** [x] I/O with C
   ** [x] I/O with devmem2
   ** [x] I/O with C and mmap()
-  ** [replace with preemtn RT?] Modifying the Linux Kernel to Use Xenomai
+  ** [x] Modifying the Linux Kernel to Use PREMPT RT
   ** [update ] I/O with simpPRU
 
 . link:09capes/capes.html[Capes]
