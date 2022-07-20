@@ -10,8 +10,6 @@
 
 This chapter shows several ways to do real-time input/output (I/O), starting with the effortless, yet slower JavaScript and moving up with increasing speed (and effort) to using the PRUs.
 
-// TODO Is this still true?
-
 [NOTE]
 ====
 In this chapter, as in the others, we assume that you are logged in as +debian+ (as indicated by the +bone$+ prompt). This gives you quick access to the general-purpose input/output (GPIO) ports but you may have to use +sudo+ some times.
@@ -287,5 +285,140 @@ The AM335x processor on the Bone has an ARM processor that is running Linux, but
 simpPRU
 
 
-=== Tighter Delay Bounds with the PREEMPT RT Kernel
+=== Tighter Delay Bounds with the PREEMPT_RT Kernel
 
+==== Problem
+
+You want to run real-time processes on the Beagle, but the OS is slowing things down.
+
+==== Solution
+The Kernel can be compiled with PREEMPT_RT enabled which reduces the delay from when a thread is scheduled to when it runs.
+
+Switching to a PREEMPT_RT kernel is rather easy, but be sure to follow the steps in the Discussion to see how much the latencies are reduced.
+
+* First see which kernel you are running:
+++++
+<pre data-type="programlisting">
+bone$ <strong>uname -a</strong>
+Linux breadboard-home 5.10.120-ti-r47 #1bullseye SMP PREEMPT Tue Jul 12 18:59:38 UTC 2022 armv7l GNU/Linux
+</pre>
+++++
+I'm running a 5.10 kernel.  Remember the whole string, +5.10.120-ti-r47+, for later.
+* Go to https://forum.beagleboard.org/t/debian-10-x-11-x-kernel-updates/30928[kernel update] and look for +5.10+.
+
+[[realtime_kernel_update_fig]]
+.The regular and RT kernels
+image::figures/kernel_update.png[The regular and RT kernels]
+
+In <<realtime_kernel_update_fig>> you see the reular kernel on top and the RT below. 
+
+* We want the RT one.
+++++
+<pre data-type="programlisting">
+bone$ <strong>sudo apt update</strong>
+bone$ <strong>sudo apt install bbb.io-kernel-5.10-ti-rt-am335x</strong>
+</pre>
+++++
+
+* Before rebooting, edit +/boot/uEnv.txt+ to start with:
+++++
+<pre data-type="programlisting">
+#Docs: http://elinux.org/Beagleboard:U-boot_partitioning_layout_2.0
+
+# uname_r=5.10.120-ti-r47
+uname_r=5.10.120-ti-rt-r47
+#uuid=
+#dtb=
+</pre>
+++++
+
++uname_r+ tells the boot loader which kernel to boot.  Here we've commented out the regular kernel and left in the RT kernel.  Next time you boot you'll be running the RT kernel.  Don't reboot just yet.  Let's gather some latency data first.
+
+==== Discussion
+https://bootlin.com/doc/training/preempt-rt/[bootlin preempt_rt] looks like a good workshop on PREEMPT RT.  Their slides say:
+
+* One way to implement a multi-task Real-Time Operating System is to have a preemptible system
+* Any task can be interrupted at any point so that higher priority tasks can run
+* Userspace preemption already exists in Linux
+* The Linux Kernel also supports real-time scheduling policies
+* However, code that runs in kernel mode isn’t fully preemptible
+* The Preempt-RT patch aims at making all code running in kernel mode preemptible
+
+The workshop goes into many details on how to get real-time performance on Linux.
+
++cyclictest+ is one tool for measuring the latency from when a thread is schduled and when it runs.  The +code/rt+ directory in the git repo has some scripts for gathering latency ddata and plotting it.  Here's how to run the scripts.
+
+* First look in <<realtime_install_fig>> to see what to install.
+
+[[realtime_install_fig]]
+.install.sh
+====
+----
+include::code/rt/install.sh[install.sh]
+----
+====
+
+* Open up another window and start something that will create a load on the Bone, then run the following:
+++++
+<pre data-type="programlisting">
+bone$ <strong>time sudo ./hist.gen > nort.hist</strong>
+</pre>
+++++
+
+<<realtime_hist_gen_fig>> shows what's being run.  It defaults to 100,000 loops, so it take a while.  The data is saved in +nort.hist+, for no RT  histogram.
+[[realtime_hist_gen_fig]]
+.hist.gen
+====
+----
+include::code/rt/hist.gen[hist.gen]
+----
+====
+
+[NOTE]
+====
+If you get an error:
+
+Unable to change scheduling policy!
+Probably missing capabilities, either run as root or increase RLIMIT_RTPRIO limits
+
+try running ./setup.sh. If that doesn't work try:
+
+++++
+<pre data-type="programlisting">
+
+bone$ sudo bash
+bone# ulimit -r unlimited
+bone# ./hist.gen > nort.hist
+bone# exit
+</pre>
+++++
+====
+
+* Now you are ready to reboot into the RT kernel and run the test again.
+
+++++
+<pre data-type="programlisting">
+bone$ <strong>reboot</strong>
+</pre>
+++++
+* After rebooting:
+++++
+<pre data-type="programlisting">
+bone$ <strong>uname -a</strong>
+Linux breadboard-home 5.10.120-ti-rt-r47 #1bullseye SMP PREEMPT RT Tue Jul 12 18:59:38 UTC 2022 armv7l GNU/Linux
+</pre>
+++++
+
+Congratulations you are running the RT kernel. 
+
+[NOTE]
+====
+If the Beagle appears to be running (the LEDs are flashing) but you are having trouble connecting vis +ssh 192.168.7.2+, you can try the approach shown in <<tips_FTDI>>.
+====
+
+Now run the scipt again (note it's being saved in +rt.hist+ this time.)
+++++
+<pre data-type="programlisting">
+bone$ <strong>time sudo ./hist.gen > rt.hist</strong>
+</pre>
+++++
