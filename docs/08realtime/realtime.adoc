@@ -362,7 +362,7 @@ bone$ <strong>time sudo ./hist.gen > nort.hist</strong>
 </pre>
 ++++
 
-<<realtime_hist_gen_fig>> shows what's being run.  It defaults to 100,000 loops, so it take a while.  The data is saved in +nort.hist+, for no RT  histogram.
+<<realtime_hist_gen_fig>> shows what's being run.  It defaults to 100,000 loops, so it takes a while.  The data is saved in +nort.hist+, which stands for no RT  histogram.
 [[realtime_hist_gen_fig]]
 .hist.gen
 ====
@@ -410,7 +410,7 @@ Congratulations you are running the RT kernel.
 
 [NOTE]
 ====
-If the Beagle appears to be running (the LEDs are flashing) but you are having trouble connecting vis +ssh 192.168.7.2+, you can try connecting using the approach shown in <<tips_FTDI>>.
+If the Beagle appears to be running (the LEDs are flashing) but you are having trouble connecting via +ssh 192.168.7.2+, you can try connecting using the approach shown in <<tips_FTDI>>.
 ====
 
 Now run the scipt again (note it's being saved in +rt.hist+ this time.)
@@ -439,7 +439,7 @@ This will generate the file *cyclictest.png* which contains your plot.  It shoul
 .Histogram of Non-RT and RT kernels running cyclictest
 image::code/rt/cyclictest.png[Histogram of Non-RT and RT kernels running cyclictest]
 
-Notice the NON-RT data have much longer latenices. They may not happen ofen (fewer thatn 10 times in each bin), but they are occuring and may be enough to miss a real-time deadline.
+Notice the NON-RT data have much longer latenices. They may not happen often (fewer than 10 times in each bin), but they are occuring and may be enough to miss a real-time deadline.
 
 The PREEMPT-RT times are all under a 150 pass:[&mu;]s. 
 
