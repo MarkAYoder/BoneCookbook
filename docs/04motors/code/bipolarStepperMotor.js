@@ -2,14 +2,16 @@
 var b = require('bonescript');
 
 // Motor is attached here
-var controller = ["P9_11", "P9_13", "P9_15", "P9_17"]; 
+// var controller = ["P9_11", "P9_13", "P9_15", "P9_17"]; 
+// var controller = ["P9_14", "P9_16", "P9_18", "P9_22"]; 
+var controller = ["50", "51", "4", "2"]; 
 var states = [[1,0,0,0], [0,1,0,0], [0,0,1,0], [0,0,0,1]];
 var statesHiTorque = [[1,1,0,0], [0,1,1,0], [0,0,1,1], [1,0,0,1]];
 var statesHalfStep = [[1,0,0,0], [1,1,0,0], [0,1,0,0], [0,1,1,0],
                       [0,0,1,0], [0,0,1,1], [0,0,0,1], [1,0,0,1]];
 
 var curState = 0;   // Current state
-var ms = 100,       // Time between steps, in ms
+var ms = 1000,       // Time between steps, in ms
     max = 22,       // Number of steps to turn before turning around
     min = 0;        // Minimum step to turn back around on
 
@@ -17,7 +19,17 @@ var CW  =  1,       // Clockwise
     CCW = -1,
     pos = 0,        // current position and direction
     direction = CW;
+    GPIOPATH="/sys/class/gpio";
 
+// Make sure pins are exported
+var i;
+for(i=0; i<controller.length; i++) {
+    if(!fs.existsSync(GPIOPATH+"gpio"+controller[i])) {
+        fs.writeFileSync(GPIOPATH+"export", controller[i]);
+    // Make it an input pin
+    fs.writeFileSync(GPIOPATH+"gpio"+controller[i]+"/direction", "in");
+
+}
 // Initialize motor control pins to be OUTPUTs
 var i;
 for(i=0; i<controller.length; i++) {

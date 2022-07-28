@@ -91,7 +91,7 @@ A cookbook for programming Beagles
   ** [x] Accessing Your Host Computer's Files on the Bone
   ** [x] nginx: Serving Web Pages from the Bone
   ** [x] Flask: Interacting with the Bone via a Web Browser
-  ** [x Displaying GPIO Status in a Web Browser
+  ** [x] Displaying GPIO Status in a Web Browser
   ** [removed] Continuously Displaying the GPIO Value via jsfiddle
   ** [removee] Continuously Displaying the GPIO Value
   ** [x] gnuplot: Plotting Data
