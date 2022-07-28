@@ -59,8 +59,8 @@ A cookbook for programming Beagles
   ** [x] Controlling a Servo Motor
   ** [x] Controlling the Speed of a DC Motor
   ** [parts?] Controlling the Speed and Direction of a DC Motor
-  ** [parts? ] Driving a Bipolar Stepper Motor
-  ** [parts? ] Driving a Unipolar Stepper Motor
+  ** [x] Driving a Bipolar Stepper Motor
+  ** [x] Driving a Unipolar Stepper Motor
 
 . link:05tips/tips.html[Beyond Basics]
   ** [ ] Introduction
