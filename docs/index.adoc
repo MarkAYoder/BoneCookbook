@@ -16,7 +16,7 @@ A cookbook for programming Beagles
   ** [update which Beagles?] Picking Your Beagle
   ** [vs code] Getting Started, Out of the Box
   ** [ ] Verifying You Have the Latest Version of the OS on Your Bone
-  ** [python] Running the BoneScript API Tutorials
+  ** [python] === Running the Python and JavaScript Examples
   ** [ ] Wiring a Breadboard
   ** [vs code] Editing Code Using the Cloud9 IDE
   ** [vs code] Running JavaScript Applications from the Cloud9 IDE

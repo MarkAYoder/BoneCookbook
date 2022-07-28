@@ -48,11 +48,6 @@ image::figures/05GettingStartedVScode.png[Cloud9]
 
 Here, you'll find _Visual Studio Code_, a web-based integrated development environment (IDE) that lets you edit and run code on your Bone!  See <<basics_cloud9>> for more details.
 
-[NOTE]
-====
-((("Cloud9", "themes")))Cloud9 can have different themes.  If you see a white background, you can match the cookbook’s figures by clicking on the _Main Theme_ drop-down menu and selecting _Cloud9 Classic Dark Theme_.
-====
-
 [WARNING]
 ====
 ((("basic operations", "shut-down")))((("halt command")))((("shut down")))Make sure you turn off your Bone properly. It's best to run the +halt+ command:
@@ -79,7 +74,7 @@ The rest of this book goes into the details behind this quick out-of-the-box dem
 ((("operating system (OS)", "updating")))((("Debian", "determining version")))((("Linux", "Debian")))((("ID.txt")))((("software", "OS updates")))((("basic operations", "OS updates")))You just got BeagleBone Black, and you want to know which version of the operating system it's running.
 
 ==== Solution
-
+// TODO  update version
 This book uses https://www.debian.org[Debian], the Linux distribution that currently ships on the Bone. However this book is based on a newer version (2014-11-11 image) than what is shipping at the time of this writing. You can see which version your Bone is running by following the instructions in <<basics_out_of_the_box>> to open the USB drive that comes from the Bone, as shown in <<basics_02gettingStarted_fig>>. But instead of opening _START.html_, open _ID.txt_ (shown with the dashed arrow in <<basics_02gettingStarted_fig>>). You'll see something like <<basics_ID>>, in which +2014-11-11+ is the date of the image.
 
 ////
@@ -93,35 +88,19 @@ image::figures/ID.txt.png[Contents of ID.txt]
 ==== Discussion
 
 
-=== Running the BoneScript API Tutorials
-
+=== Running the Python and JavaScript Examples
+// TODO Update for VS Code
 ==== Problem
 
-((("basic operations", "BoneScript API tutorials")))((("BoneScript", "tutorials for")))((("JavaScript", "tutorials for")))You'd like to learn JavaScript and the BoneScript API to perform physical computing tasks without first learning Linux.
+((("basic operations", "BoneScript API tutorials")))((("BoneScript", "tutorials for")))((("JavaScript", "tutorials for")))You'd like to learn Python and JavaScript interact with the Bone to perform physical computing tasks without first learning Linux.
 
 ==== Solution
 
-Plug your board into the USB of your host computer and browse to http://192.168.7.2/Support/bone101/ using Google Chrome or Firefox (as shown in <<basics_out_of_the_box>>). In the left column, click the BoneScript title, which will take you to http://192.168.7.2/Support/BoneScript/ (<<basics_bonescript>>).
-
-[[basics_bonescript]]
-.The BoneScript API examples page
-image::figures/bonescript-examples.png[The BoneScript examples page]
+Plug your board into the USB of your host computer and browse to http://192.168.7.2:3000 using Google Chrome or Firefox (as shown in <<basics_out_of_the_box>>). In the left column, click on _EXAMPLES_, then _BeagleBone_ and then _Black_. Several sample scripts will appear.  Go and explore them.
 
 [TIP]
 ====
-((("BoneScript", "API examples page")))Explore the various demonstrations of the BoneScript API. The http://192.168.7.2/Support/BoneScript[BoneScript examples page] lists several places to learn more about JavaScript and BoneScript (<<basics_bonescript>>).
-====
-
-If the banner is green, the examples are live. Clicking the "run" button will make them run on your Bone. 
-
-[TIP]
-====
-Here's yet another place to explore. In the left column of <<basics_bonescript>>, click the function names. Take five minutes and see what you can find. 
-====
-
-[WARNING]
-====
-You can edit the JavaScript on the BoneScript API examples page, but you can't save it for later. If you want to edit and save it for later, fire up Cloud9 (<<basics_cloud9>>) and look in the _examples_ folder.
+((("BoneScript", "API examples page")))Explore the various demonstrations of Python and JavaScript. These are what come with the Bone.  Later you'll see how to load the examples for the Cookbook.
 ====
 
 ==== Discussion
@@ -152,7 +131,7 @@ image::figures/template_bb.png[Breadboad]
 
 
 [[basics_cloud9]]
-=== Editing Code Using the Cloud9 IDE
+=== Editing Code Using Visual Studio Code
 
 ==== Problem
 ((("Cloud9", "editing code using")))((("code", "editing with Cloud9")))((("host computer", "editing code using Cloud9")))((("blinked.js")))((("Workspace file tree")))((("basic operations", "editing code with Cloud9")))((("debugging", "using Cloud9")))((("editors", "web-based")))You want to edit and debug files on the Bone.
@@ -160,44 +139,33 @@ image::figures/template_bb.png[Breadboad]
 ==== Solution
 Plug your Bone into a host computer via the USB cable. Open a browser (either Google Chrome or FireFox will work) on your host computer (as shown in <<basics_out_of_the_box>>). After the Bone has booted up, browse to http://192.168.7.2:3000 on your host. You will see something like <<basics_05gettingStarted_fig>>.
 
-Click the _examples_ folder on the left and then double-click _blinkled.js_.
-You can now edit the file. If you would like to edit files in your home directory, on the left of the Cloud9 screen, go to the Preferences wheel in the Workspace browser and 
-select Add Home to Favorites (<<basics_addHome_fig>>). Now, your home directory will show up in the Workspace file tree.
-
-[[basics_addHome_fig]]
-.Making your home folder appear in Cloud9
-image::figures/addHome.png[add home]
+Click the _EXAMPLES_ folder on the left and then click _BeagleBoard_ and then _Black_, finally double-click _seqLEDs.py_.
+You can now edit the file. 
 
 [NOTE]
 ====
-If you edit line 13 of the _blinkled.js_ file (+setInterval(toggle, 1000);+), changing +1000+ to +500+, you must save the file before running it for the change to take effect. The blue LED next to the Ethernet port on your Bone will flash roughly twice as fast.
-====
-
-<<basics_addHome_fig>> shows _/root_ has been added under _FAVORITES_. 
-
-[NOTE]
-====
-The _cloud9_ folder that appears under _FILE SYSTEM_ is located in _/var/lib/cloud9_ on your Bone.
+If you edit lines 33 and 37 of the _seqLEDs.py_ file (time.sleep(0.25)), changing +0.25+ to +0.1+, the LEDs next to the Ethernet port on your Bone will flash roughly twice as fast.
 ====
 
 ==== Discussion
 
 
 [[basics_cloud9_IDE]]
-=== Running JavaScript Applications from the Cloud9 IDE
+=== Running Python and JavaScript Applications from Visual Studio Code
 
 ==== Problem
-((("basic operations", "running JavaScript applications from Cloud9")))((("Cloud9", "running JavaScript applications from")))((("JavaScript", "running applications from Cloud9")))((("applications", "running from Cloud9")))You have a file edited in Cloud9, and you want to run it.
+((("basic operations", "running JavaScript applications from Cloud9")))((("Cloud9", "running JavaScript applications from")))((("JavaScript", "running applications from Cloud9")))((("applications", "running from Cloud9")))You have a file edited in VS Code, and you want to run it.
 
 ==== Solution
-((("bash command window")))Cloud9 has a +bash+ command window built in at the bottom of the window. You can run your code from this window. To do so, add +#!/usr/bin/env node+ at the top of the file that you want to run and save.
+((("bash command window")))VS Code has a +bash+ command window built in at the bottom of the window. If it's not there, hit Ctrl-Shift-P and then type *terminal create new* then hit _Enter_.  The teerminal will appear at the bottom of the screen.
+You can run your code from this window. To do so, add +#!/usr/bin/env node+ at the top of the file that you want to run and save.
 
 [TIP]
 ====
-((("Python")))If you are running Python, replace the word +node+ in the line with +python+.
+((("Python")))If you are running JavaScript, replace the word +python+ in the line with +node+.
 ====
 
-At the bottom of the Cloud9 window are a series of tabs (<<basics_cloud9Bash_fig>>). 
+At the bottom of the VS Code window are a series of tabs (<<basics_cloud9Bash_fig>>). 
 Click the +bash+ tab (it should be the leftmost tab). Here, you have a command prompt. In my case, it's +root@yoder-debian-bone:/var/lib/cloud9#+. Yours will be slighly different, but it should end with a +#+.
 
 [[basics_cloud9Bash_fig]]
