@@ -27,7 +27,7 @@ for(i=0; i<controller.length; i++) {
     // Make sure pins are exported
     if(!fs.existsSync(GPIOPATH+"/gpio"+controller[i])) {
         fs.writeFileSync(GPIOPATH+"/export", controller[i]);
-    // Make it an input pin
+    // Make it an output pin
     fs.writeFileSync(GPIOPATH+"/gpio"+controller[i]+"/direction", "in");
     }
 }
@@ -66,7 +66,6 @@ function rotate(direction) {
 function updateState(state) {
     console.log("state: " + state);
 	for (i=0; i<controller.length; i++) {
-		// b.digitalWrite(controller[i], state[i]);
         fs.writeFileSync(GPIOPATH+"/gpio"+controller[i]+"/value", state[i])
 	}
 }

@@ -1,0 +1,85 @@
+#!/usr/bin/env python
+import time
+import os
+
+# Motor is attached here
+# controller = ["P9_11", "P9_13", "P9_15", "P9_17"]; 
+# controller = ["P9_14", "P9_16", "P9_18", "P9_22"]; 
+controller = ["50", "51", "4", "2"]
+states = [[1,0,0,0], [0,1,0,0], [0,0,1,0], [0,0,0,1]]
+statesHiTorque = [[1,1,0,0], [0,1,1,0], [0,0,1,1], [1,0,0,1]]
+statesHalfStep = [[1,0,0,0], [1,1,0,0], [0,1,0,0], [0,1,1,0],
+                      [0,0,1,0], [0,0,1,1], [0,0,0,1], [1,0,0,1]]
+
+curState = 0   # Current state
+ms = 250      # Time between steps, in ms
+max = 22       # Number of steps to turn before turning around
+min = 0       # Minimum step to turn back around on
+
+CW  =  1       # Clockwise
+CCW = -1
+pos = 0        # current position and direction
+direction = CW
+GPIOPATH="/sys/class/gpio"
+
+# Initialize motor control pins to be OUTPUTs
+
+def move():
+    global pos
+    global direction
+    global min
+    global max
+    pos += direction
+    print("pos: " + str(pos))
+    # Switch directions if at end.
+    if (pos >= max or pos <= min) :
+        direction *= -1
+    rotate(direction)
+
+# This is the general rotate
+def rotate(direction) :
+    global curState
+    global states
+	# print("rotate(%d)", direction);
+    # Rotate the state acording to the direction of rotation
+    curState +=  direction
+    if(curState >= len(states)) :
+        curState = 0;
+    elif(curState<0) :
+        curState = len(states)-1
+    updateState(states[curState])
+
+# Write the current input state to the controller
+def updateState(state) :
+    global controller
+    print(state)
+    # print("state: " + state)
+    for i in range(len(controller)) :
+        f = open(GPIOPATH+"/gpio"+controller[i]+"/value", "w")
+        f.write(str(state[i]))
+        f.close()
+        # fs.writeFileSync(GPIOPATH+"/gpio"+controller[i]+"/value", state[i])
+
+for i in range(len(controller)) :
+# Make sure pin is exported
+    if (not os.path.exists(GPIOPATH+"/gpio"+controller[i])):
+        f = open(GPIOPATH+"/export", "w")
+        f.write(pin)
+        f.close()
+    # Make it an output pin
+    f = open(GPIOPATH+"/gpio"+controller[i]+"/direction", "w")
+    f.write("out")
+    f.close()
+
+# Put the motor into a known state
+updateState(states[0])
+rotate(direction)
+
+# Rotate back and forth once
+while True:
+    move()
+    time.sleep(ms/1000)
+
+# process.on('exit', function() {
+#     updateState([0,0,0,0]);    # Turn motor off
+# });
