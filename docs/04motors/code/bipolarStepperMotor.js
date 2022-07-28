@@ -21,16 +21,15 @@ var CW  =  1,       // Clockwise
     direction = CW;
     GPIOPATH="/sys/class/gpio";
 
-// Make sure pins are exported
+// Initialize motor control pins to be OUTPUTs
 var i;
 for(i=0; i<controller.length; i++) {
+    // Make sure pins are exported
     if(!fs.existsSync(GPIOPATH+"gpio"+controller[i])) {
         fs.writeFileSync(GPIOPATH+"export", controller[i]);
     // Make it an input pin
     fs.writeFileSync(GPIOPATH+"gpio"+controller[i]+"/direction", "in");
-
 }
-// Initialize motor control pins to be OUTPUTs
 var i;
 for(i=0; i<controller.length; i++) {
     b.pinMode(controller[i], b.OUTPUT);
