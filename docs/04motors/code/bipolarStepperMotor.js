@@ -11,7 +11,7 @@ var statesHalfStep = [[1,0,0,0], [1,1,0,0], [0,1,0,0], [0,1,1,0],
                       [0,0,1,0], [0,0,1,1], [0,0,0,1], [1,0,0,1]];
 
 var curState = 0;   // Current state
-var ms = 250,       // Time between steps, in ms
+var ms = 100,       // Time between steps, in ms
     max = 22,       // Number of steps to turn before turning around
     min = 0;        // Minimum step to turn back around on
 

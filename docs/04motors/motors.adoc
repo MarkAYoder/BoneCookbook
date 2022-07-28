@@ -235,6 +235,17 @@ image:figures/bipolarStepperMotor_bb.png[Bipolar Stepper Motor]
 
 Use the code in <<motors_stepperMotor_code>> (_bipolarStepperMotor.js_) to drive the motor.
 
+[[motors_stepperMotor_code_py]]
+.Driving a bipolar stepper motor (bipolarStepperMotor.py)
+====
+[source, python]
+----
+
+include::code/bipolarStepperMotor.py[]
+
+----
+====
+
 [[motors_stepperMotor_code]]
 .Driving a bipolar stepper motor (bipolarStepperMotor.js)
 ====

@@ -15,7 +15,7 @@ statesHalfStep = [[1,0,0,0], [1,1,0,0], [0,1,0,0], [0,1,1,0],
                       [0,0,1,0], [0,0,1,1], [0,0,0,1], [1,0,0,1]]
 
 curState = 0    # Current state
-ms = 250        # Time between steps, in ms
+ms = 100        # Time between steps, in ms
 maxStep = 22    # Number of steps to turn before turning around
 minStep = 0     # minimum step to turn back around on
 
