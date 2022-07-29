@@ -191,33 +191,6 @@ You need to use the +chmod +x+ command only once. Finally, +./seqLEDs.py+ instru
 ==== Discussion
 
 
-[[basics_autorun]]
-=== Running Applications Automatically
-// TODO
-==== Problem
-((("basic operations", "running applications automatically")))((("applications", "running automatically")))((("BoneScript", "running applications automatically")))((("Cloud9", "running BoneScript applications from")))You have a BoneScript application that you would like to run every time the Bone starts.
-
-==== Solution
-((("autorun folder")))This is an easy one.  In Cloud9, notice the folder called _autorun_ (<<basics_autoRun_fig>>). Place any BoneScript files you want to run at boot time in this folder. The script will begin execution immediately and will stop execution when you remove the file from this folder.
-
-////
-To Do - is there an autorun?
-////
-
-[[basics_autoRun_fig]]
-.Making applications autorun at boot-up time
-image::figures/autoRun.png[autorun]
-
-You can drag and drop the script into the _autorun_ folder using the Cloud9 IDE workspace view, or you can move it using the bash prompt:
-
-++++
-<pre data-type="programlisting">
-bone$ <strong>mv myApp.js autorun</strong>
-</pre>
-++++
-
-==== Discussion
-
 [[basics_find_image]]
 === Finding the Latest Version of the OS for Your Bone
 
