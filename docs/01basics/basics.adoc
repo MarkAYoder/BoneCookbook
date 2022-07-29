@@ -184,12 +184,10 @@ debian@beagleboard:~/examples/BeagleBone/Black$ <strong>./seqLEDs.py</strong>
 </pre>
 ++++
 
-
 The +cd+ is the change directory command. After you +cd+, you are in a new directory, and the prompt reflects that change. The +chmod+ command changes the mode of the file. The ++x+ indicates that you want to add execute permission. 
 You need to use the +chmod +x+ command only once. Finally, +./seqLEDs.py+ instructs the JavaScript to run. You will need to press ^C (Ctrl-C) to stop your program.
 
 ==== Discussion
-
 
 [[basics_find_image]]
 === Finding the Latest Version of the OS for Your Bone
@@ -252,7 +250,7 @@ If you want to reflash the onboard flash memory, see <<basics_onboard_flash>>.
 I instruct my students to use the microSD for booting. I suggest they keep an extra microSD flashed with the current OS. If they mess up the one on the Bone, it takes only a moment to swap in the extra microSD, boot up, and continue running. If they are running off the onboard flash, it will take much longer to reflash and boot from it.
 ====
 
-((("host computer", "Windows OS")))((("operating system (OS)", "Windows ")))GDownload the image you found in <<basics_find_image>>. It's more than 500 MB, so be sure to have a fast Internet connection. Then go to http://beagleboard.org/getting-started#update and 
+((("host computer", "Windows OS")))((("operating system (OS)", "Windows ")))Download the image you found in <<basics_find_image>>. It's more than 500 MB, so be sure to have a fast Internet connection. Then go to http://beagleboard.org/getting-started#update and 
 follow the instructions there to install the image you downloaded.
 
 ==== Discussion
@@ -317,30 +315,21 @@ The http://elinux.org/Beagleboard[eLinux wiki] is the definitive place for the B
 === Updating the Onboard Flash
 
 ==== Problem
-((("onboard flash", "updating")))((("basic operations", "updating onboard flash")))You want to update the onboard flash rather than boot from the microSD card.
+((("onboard flash", "updating")))((("basic operations", "updating onboard flash")))You want to copy the microSD card to the onboard flash.
 
 ==== Solution
 
-[NOTE]
-====
-At the time of this writing, these instructions were up-to-date. Go to http://beagleboard.org/latest-images for the latest instructions.
-====
+If you want to update the onboard flash with the contents of the microSD card, 
 
-If you want to use the onboard flash, you need to repeat the steps in <<basics_install_os>>, substituting +BBB-eMMC-flasher-debian-7.7-lxde-4gb-armhf-2014-11-11-4gb.img.xz+ for +lxde-4gb/bone-debian-7.7-lxde-4gb-armhf-2014-11-11-4gb.img.xz+. 
-
-That is, download, uncompress, and copy to a microSD card by using the following commands:
-
-++++
-<pre data-type="programlisting">
-host$ <strong>wget http://rcn-ee.net/deb/testing/2014-11-11/\
-BBB-eMMC-flasher-debian-7.7-lxde-4gb-armhf-2014-11-11-4gb.img.xz</strong>
-host$ <strong>unxz BBB-eMMC-flasher-debian-7.7-lxde-4gb-armhf-2014-11-11-4gb.img.xz</strong>
-host$ <strong>sudo dd if=BBB-eMMC-flasher-debian-7.7-lxde-4gb-armhf-2014-11-11-4gb.img \
-      of=/dev/sdb bs=8M</strong>
-</pre>
-++++
-
-Again, you'll put the microSD card in the Bone and boot. However, there is one important difference: _you must be powered from an external 5 V source_. The flashing process requires more current than what typically can be pulled from USB.
+. Repeat the steps in <<basics_install_os>> to update the OS.
+. Attach to an external 5 V source. _you must be powered from an external 5 V source_. The flashing process requires more current than what typically can be pulled from USB.
+. Boot from the microSD card.
+. Log on to the bone and edit +/boot/uEnv.txt+.
+. Uncomment out the last line +cmdline=init=/usr/sbin/init-beagle-flasher+.
+. Save the file and reboot.
+. The USR LEDs will flash back and forth for a few minutes.
+. When they stop flashing, remove the SD card and reboot.
+. You are now running from the newly flashed onboard flash.
 
 [WARNING]
 ====

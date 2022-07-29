@@ -14,18 +14,18 @@ A cookbook for programming Beagles
   * Done Update Remove
   ** [ ] Introduction
   ** [update which Beagles?] Picking Your Beagle
-  ** [vs code] Getting Started, Out of the Box
-  ** [ ] Verifying You Have the Latest Version of the OS on Your Bone
-  ** [python] === Running the Python and JavaScript Examples
-  ** [ ] Wiring a Breadboard
-  ** [vs code] Editing Code Using the Cloud9 IDE
-  ** [vs code] Running JavaScript Applications from the Cloud9 IDE
-  ** [remove?] Running Applications Automatically
-  ** [update] Finding the Latest Version of the OS for Your Bone
-  ** [update] Running the Latest Version of the OS on Your Bone
-  ** [update] Updating the OS on Your Bone
+  ** [x] Getting Started, Out of the Box
+  ** [x] Verifying You Have the Latest Version of the OS on Your Bone
+  ** [x] === Running the Python and JavaScript Examples
+  ** [x] Wiring a Breadboard
+  ** [x] Editing Code Using VS Code
+  ** [x] Running Python Applications from VSC
+  ** [x] Removed: Running Applications Automatically
+  ** [x] Finding the Latest Version of the OS for Your Bone
+  ** [x] Running the Latest Version of the OS on Your Bone
+  ** [x] Updating the OS on Your Bone
   ** [update] Backing Up the Onboard Flash
-  ** [update] Updating the Onboard Flash
+  ** [x] Updating the Onboard Flash
   
 . link:02sensors/sensors.html[Sensors]
   ** [ ] Introduction
