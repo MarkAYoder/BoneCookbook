@@ -218,6 +218,7 @@ bone$ <strong>mv myApp.js autorun</strong>
 
 ==== Discussion
 
+[[basics_find_image]]
 === Finding the Latest Version of the OS for Your Bone
 
 ==== Problem
@@ -278,152 +279,8 @@ If you want to reflash the onboard flash memory, see <<basics_onboard_flash>>.
 I instruct my students to use the microSD for booting. I suggest they keep an extra microSD flashed with the current OS. If they mess up the one on the Bone, it takes only a moment to swap in the extra microSD, boot up, and continue running. If they are running off the onboard flash, it will take much longer to reflash and boot from it.
 ====
 
-===== Windows
-((("host computer", "Windows OS")))((("operating system (OS)", "Windows ")))If you are using a host computer running Windows, go to http://rcn-ee.net/deb/testing/2014-11-11/lxde-4gb/, and download _bone-debian-7.7-lxde-4gb-armhf-2014-11-11-4gb.img.xz_. It's more than 500 MB, so be sure to have a fast Internet connection. Then go to http://beagleboard.org/getting-started#update and 
+((("host computer", "Windows OS")))((("operating system (OS)", "Windows ")))GDownload the image you found in <<basics_find_image>>. It's more than 500 MB, so be sure to have a fast Internet connection. Then go to http://beagleboard.org/getting-started#update and 
 follow the instructions there to install the image you downloaded.
-
-===== Linux
-((("operating system (OS)", "Linux")))((("Linux", "running latest version of")))((("host computer", "Linux OS")))If you are running a Linux host, plug a 4 GB byte or bigger microSD card into a reader on your host and run +Disks+.
-
-Select the microSD Drive and unmount (<<basics_disks_fig>>) any partitions that have mounted. Note the path to the device (shown with an arrow in <<basics_disks_fig>>) at the top of the Disks window. In my case, it's _/dev/sdb_.  We'll use this path in a moment.
-
-[[basics_disks_fig]]
-.Unmounting the microSD card via the Disks application
-image::figures/disks.png[Disks]
-
-Run the following command to download the 2014-11-11 image (be sure that you have a fast Internet connection; it's more than 500 MB in size):
-
-++++
-<pre data-type="programlisting">
-host$ <strong>wget http://rcn-ee.net/deb/testing/2014-11-11/lxde-4gb/\
-bone-debian-7.7-lxde-4gb-armhf-2014-11-11-4gb.img.xz</strong>
-</pre>
-++++
-
-This will copy the disk image to the current directory the command was run from to your host computer. This will take a couple minutes on a fast connection.
-
-The downloaded file is compressed. Uncompress it by using the following command:
-
-++++
-<pre data-type="programlisting">
-host$ <strong>unxz bone-debian-7.7-lxde-4gb-armhf-2014-11-11-4gb.img.xz</strong>
-</pre>
-++++
-
-After a minute or so, the compressed _.imgxz_ file will be replaced by the uncompressed _.img_ file. Then write it to the microSD card by using the following command, substituting your device path noted earlier (+/dev/sdb+, in my case) for the device path given in the +dd+ command:
-
-++++
-<pre data-type="programlisting">
-host$ <strong>sudo dd if=bone-debian-7.7-lxde-4gb-armhf-2014-11-11-4gb.img \
-            of=/dev/sdb bs=8M</strong>
-</pre>
-++++
-
-((("dd command")))((("commands", "dd")))The +dd+ command takes 5 to 10 minutes.
-
-[WARNING]
-====
-This operation will wipe out everything on the microSD card. It might be worth plugging in your card, noting the path,  removing the card, noting it has disappeared, and then plugging it in again and checking the path. You can really mess up your host if you have selected the wrong disk and used the wrong path. Be careful.
-====
-
-[NOTE]
-====
-((("SD cards", "formatting")))((("bootable partitions")))((("partitions")))When formatting SD cards, you often need to be sure to have a _bootable partition_. Because you are completly rewriting the card, it doesn't matter how the card is configured before writing. The +dd+ command writes everything the way it needs to be.
-====
-
-When you have your microSD card flashed, put it in the Bone and power it up. The USB drive and other devices should appear as before. Open Cloud9 (<<basics_cloud9>>) and, in the +bash+ tab, enter:
-
-++++
-<pre data-type="programlisting">
-root@beaglebone:/var/lib/cloud9# <strong>df -h</strong>
-Filesystem      Size  Used Avail Use% Mounted on
-rootfs          3.2G  2.0G  1.0G  29% /
-udev             10M     0   10M   0% /dev
-tmpfs           100M  676K   99M   1% /run
-/dev/mmcblk0p2  7.2G  2.0G  5.0G  29% /
-tmpfs           249M     0  249M   0% /dev/shm
-tmpfs           249M     0  249M   0% /sys/fs/cgroup
-tmpfs           5.0M     0  5.0M   0% /run/lock
-tmpfs           100M     0  100M   0% /run/user
-/dev/mmcblk0p1   96M   62M   35M  65% /media/BEAGLEBONE
-/dev/mmcblk1p2  1.8G  290M  1.4G  18% /media/rootfs
-/dev/mmcblk1p1   16M  520K   16M   4% /media/BEAGLEBONE_
-</pre>
-++++
-
-((("disk space, determining")))This prints out how much of the disk is free.  The first line is the one we're interested in. If the +Size+ is much smaller than the size of your microSD card, you'll need to resize your partition.  Just enter the following:
-
-++++
-<pre data-type="programlisting">
-root@beaglebone:/var/lib/cloud9# <strong>cd /opt/scripts/tools/</strong>
-root@beaglebone:/opt/scripts/tools# <strong>./grow_partition.sh</strong>
-root@beaglebone:/opt/scripts/tools# <strong>reboot</strong>
-root@beaglebone:/var/lib/cloud9# <strong>df -h</strong>
-Filesystem      Size  Used Avail Use% Mounted on
-rootfs          7.2G  2.0G  5.0G  29% /
-udev             10M     0   10M   0% /dev
-tmpfs           100M  676K   99M   1% /run
-/dev/mmcblk0p2  7.2G  2.0G  5.0G  29% /
-tmpfs           249M     0  249M   0% /dev/shm
-tmpfs           249M     0  249M   0% /sys/fs/cgroup
-tmpfs           5.0M     0  5.0M   0% /run/lock
-tmpfs           100M     0  100M   0% /run/user
-/dev/mmcblk0p1   96M   62M   35M  65% /media/BEAGLEBONE
-/dev/mmcblk1p2  1.8G  290M  1.4G  18% /media/rootfs
-/dev/mmcblk1p1   16M  520K   16M   4% /media/BEAGLEBONE_</pre>
-++++
-
-This clever script will figure out how big the partition can be and grow it to that size. A reboot is necessary. 
-
-Here, I started by putting a 4 GB image on an 8 GB microSD card. Initially, only pass:[<span class="keep-together">3.2 GB</span>] were usable. After growing the partition, most of the card (7.2 GB) is available.
-
-===== Mac
-((("host computer", "Mac OS")))((("operating system (OS)", "Mac")))If you are running from a Mac host, the steps are fairly similar to running on a Linux host, except that you won't be able to view the Linux partition on the created microSD card.
-
-Begin by plugging a 4 GB or bigger microSD card into a reader on your host and then run Disk Utility. Select the disk and click Info. In <<basics_diskutility_fig>>, you can see the Disk Identifier is +disk1s1+.
-
-[[basics_diskutility_fig]]
-.Examining the microSD card via the Disk Utility application
-image::figures/diskutility.png[Disk Utility]
-
-The important part of the Disk Identifier is the number immediately following +disk+ (a +1+ in <<basics_diskutility_fig>>). We'll use this identifier to overwrite the microSD contents. 
-
-From your Mac's Terminal, run the following command to download the _2014-11-11_ image (again, be sure that you have a fast Internet connection, because it's more than 500 MB):
-
-++++
-<pre data-type="programlisting">
-mac$ <strong>curl -O http://rcn-ee.net/deb/testing/2014-11-11/lxde-4gb/\
-bone-debian-7.7-lxde-4gb-armhf-2014-11-11-4gb.img.xz</strong>
-</pre>
-++++
-
-((("xz utility")))((("Tukaani Project")))You'll need to have the +xz+ utility installed (download from The Tukaani Project [http://tukaani.org/xz/]). Uncompress the image by using the following command (this will take a minute or so):
-
-++++
-<pre data-type="programlisting">
-mac$ <strong>unxz bone-debian-7.7-lxde-4gb-armhf-2014-11-11-4gb.img.xz</strong>
-</pre>
-++++
-
-Then write it to the microSD card, substituting your device path noted earlier (+/dev/rdisk1+, in my case) for the device path given in the +dd+ command:
-
-++++
-<pre data-type="programlisting">
-mac$ <strong>sudo dd if=bone-debian-7.7-lxde-4gb-armhf-2014-11-11-4gb.img of=/dev/rdisk1</strong>
-</pre>
-++++
-
-You'll need to type in your password. The +dd+ command takes 5 to 10 minutes.
-
-[WARNING]
-====
-This operation will wipe out everything on the microSD card. It might be worth plugging in your card, noting the path,  removing the card, noting it has disappeared, and then plugging it in again and checking the path. You can really mess up your host if you have selected the wrong disk and used the wrong path. Be careful.
-====
-
-[NOTE]
-====
-Note that I used +rdisk1+ rather than +disk1+. According to http://bit.ly/1BqOxwW[the eLinux wiki], doing so will speed up writing quite a bit.
-====
 
 ==== Discussion
 
