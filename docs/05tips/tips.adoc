@@ -106,7 +106,7 @@ Recently I've been prefering https://docs.microsoft.com/en-us/windows/wsl/[Windo
 
 ==== Solution
 
-((("superusers")))((("root user")))<<basics_cloud9_IDE>> shows how to run shell commands in the Cloud9 +bash+ tab. However, the Bone has Secure Shell (SSH) enabled right out of the box, so you can easily connect by using the following command to log in as user +debian+, (note the +$+ at the end of the prompt):
+((("superusers")))((("root user")))<<basics_vsc_IDE>> shows how to run shell commands in the Cloud9 +bash+ tab. However, the Bone has Secure Shell (SSH) enabled right out of the box, so you can easily connect by using the following command to log in as user +debian+, (note the +$+ at the end of the prompt):
 
 ++++
 <pre data-type="programlisting">

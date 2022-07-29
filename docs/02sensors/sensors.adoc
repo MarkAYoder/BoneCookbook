@@ -20,7 +20,7 @@ and can be handled by an _input mode_ of one of the Bone's 65 general-purpose in
 
 <<displays>> discusses some of the _output mode_ usages of the GPIO pins. 
 
-All these examples assume that you know how to edit a file (<<basics_cloud9>>) and run it, either within the Visual Studio Code (VSC) integrated development environment (IDE) or from the command line (<<tips_shell>>).
+All these examples assume that you know how to edit a file (<<basics_vsc>>) and run it, either within the Visual Studio Code (VSC) integrated development environment (IDE) or from the command line (<<tips_shell>>).
 
 === Choosing a Method to Connect Your Sensor
 
@@ -51,7 +51,7 @@ Choosing the simplest solution available enables you to move on quickly to addre
 ((("Cloud9", "running JavaScript applications from")))((("bash command window")))You are just a few simple steps from running any of the recipes in this book.
 
 . Plug your Bone into a host computer via the USB cable (<<basics_out_of_the_box>>).
-. Start Cloud9 (<<basics_cloud9>>).
+. Start Cloud9 (<<basics_vsc>>).
 . In the +bash+ tab (as shown in <<sensors_cloud9_bash>>), run the following commands:
 
 ++++

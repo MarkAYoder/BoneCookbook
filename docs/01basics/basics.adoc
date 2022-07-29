@@ -48,7 +48,7 @@ image::figures/01GettingStarted.png[A new USB drive]
 .Visual Studio Code
 image::figures/05GettingStartedVScode.png[Cloud9]
 
-Here, you'll find _Visual Studio Code_, a web-based integrated development environment (IDE) that lets you edit and run code on your Bone!  See <<basics_cloud9>> for more details.
+Here, you'll find _Visual Studio Code_, a web-based integrated development environment (IDE) that lets you edit and run code on your Bone!  See <<basics_vsc>> for more details.
 
 [WARNING]
 ====
@@ -77,15 +77,16 @@ The rest of this book goes into the details behind this quick out-of-the-box dem
 
 ==== Solution
 // TODO  update version
-This book uses https://www.debian.org[Debian], the Linux distribution that currently ships on the Bone. However this book is based on a newer version (2014-11-11 image) than what is shipping at the time of this writing. You can see which version your Bone is running by following the instructions in <<basics_out_of_the_box>> to open the USB drive that comes from the Bone, as shown in <<basics_02gettingStarted_fig>>. But instead of opening _START.html_, open _ID.txt_ (shown with the dashed arrow in <<basics_02gettingStarted_fig>>). You'll see something like <<basics_ID>>, in which +2014-11-11+ is the date of the image.
+This book uses https://www.debian.org[Debian], the Linux distribution that currently ships on the Bone. However this book is based on a newer version (BeagleBoard.org Debian Bullseye IoT Image 2022-07-01) than what is shipping at the time of this writing. You can see which version your Bone is running by following the instructions in <<basics_out_of_the_box>> to log into the Bone.  Then run:
 
-////
-Note to update image reference in previous paragraph when new version ships.
-////
+++++
+<pre data-type="programlisting">
+bone$ <strong>cat /ID.txt</strong>
+BeagleBoard.org Debian Bullseye IoT Image 2022-07-01
+</pre>
+++++
 
-[[basics_ID]]
-.Contents of ID.txt
-image::figures/ID.txt.png[Contents of ID.txt]
+I'm running the 2022-07-01 version.
 
 ==== Discussion
 
@@ -148,7 +149,7 @@ image::figures/template_bb.png[Breadboad]
 ==== Discussion
 
 
-[[basics_cloud9]]
+[[basics_vsc]]
 === Editing Code Using Visual Studio Code
 
 ==== Problem
@@ -168,7 +169,7 @@ If you edit lines 33 and 37 of the _seqLEDs.py_ file (time.sleep(0.25)), changin
 ==== Discussion
 
 
-[[basics_cloud9_IDE]]
+[[basics_vsc_IDE]]
 === Running Python and JavaScript Applications from Visual Studio Code
 
 ==== Problem
@@ -194,14 +195,14 @@ image::figures/vscBash.png[Visual Studio Code showing bash terminal]
 
 ++++
 <pre data-type="programlisting">
-debian@beagleboard:~/BoneCookbook/docs$ <strong>cd ~/examples/BeagleBone/Black/</strong>
-debian@beagleboard:~/examples/BeagleBone/Black$ <strong>chmod +x seqLEDs.py</strong> 
-debian@beagleboard:~/examples/BeagleBone/Black$ <strong>./seqLEDs.py</strong>
+bone$ <strong>cd ~/examples/BeagleBone/Black/</strong>
+bone$ <strong>chmod +x seqLEDs.py</strong> 
+bone$ <strong>./seqLEDs.py</strong>
 </pre>
 ++++
 
 The +cd+ is the change directory command. After you +cd+, you are in a new directory, and the prompt reflects that change. The +chmod+ command changes the mode of the file. The ++x+ indicates that you want to add execute permission. 
-You need to use the +chmod +x+ command only once. Finally, +./seqLEDs.py+ instructs the JavaScript to run. You will need to press ^C (Ctrl-C) to stop your program.
+You need to use the +chmod +x+ command only once. Finally, +./seqLEDs.py+ instructs the python script to run. You will need to press ^C (Ctrl-C) to stop your program.
 
 ==== Discussion
 
@@ -227,9 +228,6 @@ image::figures/deb1.png[Latest Debian images]
 At the time of writing, we are using the _Bullseye_ image.  Click on it's link.
 Scroling up you'll find <<basics_deb2>>.  There are three types of snapshots, Minimal, IoT and Xfce Desktop.  IoT is the one we are running.
 
-
-Clicking a date will show you several variations for that particular date. <<basics_deb2>> shows the results of clicking _2014-11-11_.
-
 [[basics_deb2]]
 .Latest Debian images 
 image::figures/deb2.png[Latest Debian images]
@@ -243,8 +241,9 @@ The one beginning with _am57xx-debian-_ is for programming the Beagle AI's.
 ((("onboard flash", "programming")))The onboard flash is often called the _eMMC_ memory. We just call it _onboard flash_, but you'll often see _eMMC_ appearing in filenames of images used to update the onboard flash.((("eMMC memory", see="onboard flash")))
 ====
 
-==== Discussion
+Click the image you want to use and it will download.  The images are som 500M, so it might take a while.
 
+==== Discussion
 
 [[basics_install_os]]
 === Running the Latest Version of the OS on Your Bone
