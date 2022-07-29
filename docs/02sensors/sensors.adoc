@@ -678,7 +678,7 @@ bone$ <strong>cat temp1_input</strong>
 ====
 There is the temperature in milli-degrees C.
 
-Other i2c devices are supported by the kerenl.
+Other i2c devices are supported by the kernel.
 You can try the Linux Kernel Driver Database, https://cateee.net/lkddb/ to see them.
 
 Once the driver is in place, you can read it via code.

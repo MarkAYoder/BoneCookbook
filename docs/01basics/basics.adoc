@@ -12,7 +12,9 @@ When you buy BeagleBone Black, pretty much everything you need to get going come
 ((("BeagleBoards", "selecting")))((("BeagleBones", "selecting")))((("basic operations", "BeagleBone/BeagleBoard selection")))There are five different BeagleBoards. How do you pick which one to use?
 
 ==== Solution
-For someone new to the BeagleBoard.org boards, the BeagleBone Black is the obvious choice.  It’s the newest and cheapest (~$55 USD) of the inexpensive Bones, and there are nearly a quarter-million units out there. Many of the recipes in this book will work on the other Beagles, too, but the Black is where to begin. If you already have BeagleBone Black, you can move on to the next recipe. If you have another Beagle, your mileage may vary.
+// TODO
+
+Current list of boards: https://git.beagleboard.org/explore/projects/topics/boards
 
 ==== Discussion
 
@@ -157,40 +159,41 @@ If you edit lines 33 and 37 of the _seqLEDs.py_ file (time.sleep(0.25)), changin
 ((("basic operations", "running JavaScript applications from Cloud9")))((("Cloud9", "running JavaScript applications from")))((("JavaScript", "running applications from Cloud9")))((("applications", "running from Cloud9")))You have a file edited in VS Code, and you want to run it.
 
 ==== Solution
-((("bash command window")))VS Code has a +bash+ command window built in at the bottom of the window. If it's not there, hit Ctrl-Shift-P and then type *terminal create new* then hit _Enter_.  The teerminal will appear at the bottom of the screen.
-You can run your code from this window. To do so, add +#!/usr/bin/env node+ at the top of the file that you want to run and save.
+((("bash command window")))VS Code has a +bash+ command window built in at the bottom of the window. If it's not there, hit Ctrl-Shift-P and then type *terminal create new* then hit _Enter_.  The terminal will appear at the bottom of the screen.
+You can run your code from this window. To do so, add +#!/usr/bin/env python+ at the top of the file that you want to run and save.
 
 [TIP]
 ====
 ((("Python")))If you are running JavaScript, replace the word +python+ in the line with +node+.
 ====
 
-At the bottom of the VS Code window are a series of tabs (<<basics_cloud9Bash_fig>>). 
-Click the +bash+ tab (it should be the leftmost tab). Here, you have a command prompt. In my case, it's +root@yoder-debian-bone:/var/lib/cloud9#+. Yours will be slighly different, but it should end with a +#+.
+At the bottom of the VS Code window are a series of tabs (<<basics_vscBash_fig>>). 
+Click the +TERMINAL+ tab. Here, you have a command prompt.
 
-[[basics_cloud9Bash_fig]]
-.Cloud9 debugger
-image::figures/cloud9Bash.png[cloud9 bash]
+[[basics_vscBash_fig]]
+.Visual Studio Code showing bash terminal
+image::figures/vscBash.png[Visual Studio Code showing bash terminal]
 
 ((("directories", "changing")))((("cd (change directory) command")))((("commands", "cd (change directory)")))((("chmod (change mode) command")))((("commands", "chmod (change mode)")))((("debugging", "using Cloud9")))Change to the directory that contains your file, make it executable, and then run it:
 
 ++++
 <pre data-type="programlisting">
-root@bone:/var/lib/cloud9# <strong>cd examples</strong>
-root@bone:/var/lib/cloud9/examples# <strong>chmod +x blinkled.js</strong>
-root@bone:/var/lib/cloud9/examples# <strong>./blinkled.js</strong>
+debian@beagleboard:~/BoneCookbook/docs$ <strong>cd ~/examples/BeagleBone/Black/</strong>
+debian@beagleboard:~/examples/BeagleBone/Black$ <strong>chmod +x seqLEDs.py</strong> 
+debian@beagleboard:~/examples/BeagleBone/Black$ <strong>./seqLEDs.py</strong>
 </pre>
 ++++
 
+
 The +cd+ is the change directory command. After you +cd+, you are in a new directory, and the prompt reflects that change. The +chmod+ command changes the mode of the file. The ++x+ indicates that you want to add execute permission. 
-You need to use the +chmod +x+ command only once. Finally, +./blinkled.js+ instructs the JavaScript to run. You will need to press ^C (Ctrl-C) to stop your program.
+You need to use the +chmod +x+ command only once. Finally, +./seqLEDs.py+ instructs the JavaScript to run. You will need to press ^C (Ctrl-C) to stop your program.
 
 ==== Discussion
 
 
 [[basics_autorun]]
 === Running Applications Automatically
-
+// TODO
 ==== Problem
 ((("basic operations", "running applications automatically")))((("applications", "running automatically")))((("BoneScript", "running applications automatically")))((("Cloud9", "running BoneScript applications from")))You have a BoneScript application that you would like to run every time the Bone starts.
 
