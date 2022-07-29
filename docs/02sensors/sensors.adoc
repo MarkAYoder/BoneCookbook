@@ -20,7 +20,7 @@ and can be handled by an _input mode_ of one of the Bone's 65 general-purpose in
 
 <<displays>> discusses some of the _output mode_ usages of the GPIO pins. 
 
-All these examples assume that you know how to edit a file (<<basics_cloud9>>) and run it, either within the Cloud9 integrated development environment (IDE) or from the command line (<<tips_shell>>).
+All these examples assume that you know how to edit a file (<<basics_cloud9>>) and run it, either within the Visual Studio Code (VSC) integrated development environment (IDE) or from the command line (<<tips_shell>>).
 
 === Choosing a Method to Connect Your Sensor
 

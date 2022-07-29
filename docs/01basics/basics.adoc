@@ -89,9 +89,25 @@ image::figures/ID.txt.png[Contents of ID.txt]
 
 ==== Discussion
 
+[[basics_repo]]
+=== Cloning the Cookbook Repository
+
+==== Problem
+You want to run the Cookbook examples.
+
+==== Solution
+Connect your Bone to the Internet and log into it.  From the command line run:
+++++
+<pre data-type="programlisting">
+bone$ <strong>git clone git@github.com:MarkAYoder/BoneCookbook.git</strong>
+bone$ <strong>cd BoneCookbook/docs</strong>
+bone$ <strong>ls</strong>
+</pre>
+++++
+You can look around from the command line, or explore from Visual Sudio Code. If you ar using VSC, go to the _File_ menu and select _Open Folder ..._ and selet +BoneCookbook/docs+. Then explore.   You'll find there is a directory for each chapter and most chapters have a _code_ directory for the sample scripts and a _figures_ directory for the figures.  
 
 === Running the Python and JavaScript Examples
-// TODO Update for VS Code
+
 ==== Problem
 
 ((("basic operations", "BoneScript API tutorials")))((("BoneScript", "tutorials for")))((("JavaScript", "tutorials for")))You'd like to learn Python and JavaScript interact with the Bone to perform physical computing tasks without first learning Linux.
@@ -102,7 +118,7 @@ Plug your board into the USB of your host computer and browse to http://192.168.
 
 [TIP]
 ====
-((("BoneScript", "API examples page")))Explore the various demonstrations of Python and JavaScript. These are what come with the Bone.  Later you'll see how to load the examples for the Cookbook.
+((("BoneScript", "API examples page")))Explore the various demonstrations of Python and JavaScript. These are what come with the Bone.  In <<basics_repo>> you see how to load the examples for the Cookbook.
 ====
 
 ==== Discussion
