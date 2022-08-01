@@ -196,13 +196,11 @@ image::figures/vscBash.png[Visual Studio Code showing bash terminal]
 ++++
 <pre data-type="programlisting">
 bone$ <strong>cd ~/examples/BeagleBone/Black/</strong>
-bone$ <strong>chmod +x seqLEDs.py</strong> 
 bone$ <strong>./seqLEDs.py</strong>
 </pre>
 ++++
 
-The +cd+ is the change directory command. After you +cd+, you are in a new directory, and the prompt reflects that change. The +chmod+ command changes the mode of the file. The ++x+ indicates that you want to add execute permission. 
-You need to use the +chmod +x+ command only once. Finally, +./seqLEDs.py+ instructs the python script to run. You will need to press ^C (Ctrl-C) to stop your program.
+The +cd+ is the change directory command. After you +cd+, you are in a new directory. Finally, +./seqLEDs.py+ instructs the python script to run. You will need to press ^C (Ctrl-C) to stop your program.
 
 ==== Discussion
 
@@ -214,11 +212,6 @@ You need to use the +chmod +x+ command only once. Finally, +./seqLEDs.py+ instru
 
 ==== Solution
 
-[NOTE]
-====
-At the time they were written, these instructions were up-to-date.  Go to http://https://forum.beagleboard.org/tag/latest-images for the latest instructions.
-====
-
 On your host computer, open a browser and go to https://forum.beagleboard.org/tag/latest-images  This shows you a list of dates of the most recent Debian images (<<basics_deb1>>).
 
 [[basics_deb1]]
@@ -226,22 +219,20 @@ On your host computer, open a browser and go to https://forum.beagleboard.org/ta
 image::figures/deb1.png[Latest Debian images]
 
 At the time of writing, we are using the _Bullseye_ image.  Click on it's link.
-Scroling up you'll find <<basics_deb2>>.  There are three types of snapshots, Minimal, IoT and Xfce Desktop.  IoT is the one we are running.
+Scrolling up you'll find <<basics_deb2>>.  There are three types of snapshots, Minimal, IoT and Xfce Desktop.  IoT is the one we are running.
 
 [[basics_deb2]]
 .Latest Debian images 
 image::figures/deb2.png[Latest Debian images]
 
-These are the images you want to use if you are flashing a Rev C BeagleBone Black onboard flash, or flashing a 4 GB or bigger miscroSD card. The image beginning with _am335x-debian-11.3-iot-_ is used for programming the microSD card. 
-
-The one beginning with _am57xx-debian-_ is for programming the Beagle AI's.
+These are the images you want to use if you are flashing a Rev C BeagleBone Black onboard flash, or flashing a 4 GB or bigger miscroSD card. The image beginning with _am335x-debian-11.3-iot-_ is used for the non-AI boards. The one beginning with _am57xx-debian-_ is for programming the Beagle AI's.
 
 [NOTE]
 ====
 ((("onboard flash", "programming")))The onboard flash is often called the _eMMC_ memory. We just call it _onboard flash_, but you'll often see _eMMC_ appearing in filenames of images used to update the onboard flash.((("eMMC memory", see="onboard flash")))
 ====
 
-Click the image you want to use and it will download.  The images are som 500M, so it might take a while.
+Click the image you want to use and it will download.  The images are some 500M, so it might take a while.
 
 ==== Discussion
 
@@ -296,7 +287,7 @@ If you get the error +The following signatures were invalid: KEYEXPIRED 14188402
 After you have a current image running on the Bone, it's not at all difficult to keep it upgraded.
 
 === Backing Up the Onboard Flash
-
+// TODO keep?
 ==== Problem
 
 ((("onboard flash", "backing up")))((("backups, onboard flash")))((("basic operations", "backups")))((("onboard flash", "extracting")))You've modified the state of your Bone in a way that you'd like to preserve or share.
