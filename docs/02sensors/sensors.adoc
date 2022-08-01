@@ -952,7 +952,7 @@ Each temperature sensor has a unique serial number, so you can have several all 
 
 [[sensors_audio]]
 === Playing and Recording Audio
-
+// TODO Remove?
 ==== Problem
 
 ((("audio files", "recording")))((("recording audio files")))((("capes", "audio")))((("USB audio adapters")))((("files", "audio")))BeagleBone doesn't have audio built in, but you want to play and record files.

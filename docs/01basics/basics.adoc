@@ -42,7 +42,7 @@ image::figures/01GettingStarted.png[A new USB drive]
 
 
 [[basics_open_vsc]]
-((("integrated development environment (IDE)", seealso="Cloud9")))Browse to http://192.168.7.2:3000 from your host computer (<<basics_05gettingStarted_fig>>).
+((("integrated development environment (IDE)")))Browse to http://192.168.7.2:3000 from your host computer (<<basics_05gettingStarted_fig>>).
 
 [[basics_05gettingStarted_fig]]
 .Visual Studio Code
@@ -153,7 +153,7 @@ image::figures/template_bb.png[Breadboad]
 === Editing Code Using Visual Studio Code
 
 ==== Problem
-((("Cloud9", "editing code using")))((("code", "editing with Cloud9")))((("host computer", "editing code using Cloud9")))((("blinked.js")))((("Workspace file tree")))((("basic operations", "editing code with Cloud9")))((("debugging", "using Cloud9")))((("editors", "web-based")))You want to edit and debug files on the Bone.
+((("VSC", "editing code using")))((("code", "editing with VSC")))((("host computer", "editing code using VSC")))((("blinked.js")))((("Workspace file tree")))((("basic operations", "editing code with VSC")))((("debugging", "using VSC")))((("editors", "web-based")))You want to edit and debug files on the Bone.
 
 ==== Solution
 Plug your Bone into a host computer via the USB cable. Open a browser (either Google Chrome or FireFox will work) on your host computer (as shown in <<basics_out_of_the_box>>). After the Bone has booted up, browse to http://192.168.7.2:3000 on your host. You will see something like <<basics_05gettingStarted_fig>>.
@@ -173,7 +173,7 @@ If you edit lines 33 and 37 of the _seqLEDs.py_ file (time.sleep(0.25)), changin
 === Running Python and JavaScript Applications from Visual Studio Code
 
 ==== Problem
-((("basic operations", "running JavaScript applications from Cloud9")))((("Cloud9", "running JavaScript applications from")))((("JavaScript", "running applications from Cloud9")))((("applications", "running from Cloud9")))You have a file edited in VS Code, and you want to run it.
+((("basic operations", "running JavaScript applications from VSC")))((("VSC", "running JavaScript applications from")))((("JavaScript", "running applications from VSC")))((("applications", "running from VSC")))You have a file edited in VS Code, and you want to run it.
 
 ==== Solution
 ((("bash command window")))VS Code has a +bash+ command window built in at the bottom of the window. If it's not there, hit Ctrl-Shift-P and then type *terminal create new* then hit _Enter_.  The terminal will appear at the bottom of the screen.
@@ -191,7 +191,7 @@ Click the +TERMINAL+ tab. Here, you have a command prompt.
 .Visual Studio Code showing bash terminal
 image::figures/vscBash.png[Visual Studio Code showing bash terminal]
 
-((("directories", "changing")))((("cd (change directory) command")))((("commands", "cd (change directory)")))((("chmod (change mode) command")))((("commands", "chmod (change mode)")))((("debugging", "using Cloud9")))Change to the directory that contains your file, make it executable, and then run it:
+((("directories", "changing")))((("cd (change directory) command")))((("commands", "cd (change directory)")))((("chmod (change mode) command")))((("commands", "chmod (change mode)")))((("debugging", "using VSC")))Change to the directory that contains your file, make it executable, and then run it:
 
 ++++
 <pre data-type="programlisting">

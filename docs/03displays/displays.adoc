@@ -12,7 +12,7 @@ image::figures/P8P9_bb.png["Headers P8 and P9"]
 
 The purpose of this chapter is to give simple examples that show how to use various methods of output. Most solutions require a breadboard and some jumper wires.
 
-All these examples assume that you know how to edit a file (<<basics_vsc>>) and run it, either within Cloud9 integrated development environment (IDE) or from the command line (<<tips_shell>>).
+All these examples assume that you know how to edit a file (<<basics_vsc>>) and run it, either within Visual Studio Code (VSC) integrated development environment (IDE) or from the command line (<<tips_shell>>).
 
 [[displays_onboardLED]]
 === Toggling an Onboard LED
@@ -27,7 +27,7 @@ Locate the four onboard LEDs shown in <<js_internLED_fig>>. They are labeled +US
 .The four +USER+ LEDs
 image::figures/internLED.png["USER LEDs"]
 
-Place the code shown in <<js_internLED_code>> in a file called _internLED.js_. You can do this using Cloud9 to edit files (as shown in <<basics_vsc>>) or with a more traditional editor (as shown in <<tips_editing_files>>).
+Place the code shown in <<js_internLED_code>> in a file called _internLED.js_. You can do this using VSC to edit files (as shown in <<basics_vsc>>) or with a more traditional editor (as shown in <<tips_editing_files>>).
 
 [[py_internLED_code]]
 .Using an internal LED (internLED.py)
@@ -55,7 +55,7 @@ In the +bash+ command window, enter the following commands:
 
 ++++
 <pre data-type="programlisting">
-bone$ <strong>chmod +x internLED.js</strong>
+bone$ <strong>cd ~/BoneCookbook/docs/03displays/code</strong>
 bone$ <strong>./internLED.js</strong>
 </pre>
 ++++
@@ -89,8 +89,18 @@ The value of the current limiting resistor depends on the LED you are using. The
 .Diagram for using an external LED
 image::figures/externLED_bb.png["External LED"]
 
-After you've wired it, start Cloud9 (see <<basics_vsc>>) and enter the code shown in <<js_externLED_code>> in a file called _externLED.js_.
+After you've wired it, start VSC (see <<basics_vsc>>) and find the code shown in <<py_externLED_code>>.
 
+[[py_externLED_code]]
+.Code for using an external LED (externLED.py)
+====
+[source, python]
+----
+
+include::code/externLED.py[]
+
+----
+====
 [[js_externLED_code]]
 .Code for using an external LED (externLED.js)
 ====
@@ -124,7 +134,7 @@ To make this recipe, you will need:
 .Diagram for wiring PowerSwitch Tail II
 image::figures/powerSwitch_bb.png[Power Switch Tail II]
 
-After you've wired it, because this uses the same output pin as <<displays_externalLED>>, you can run the same code (<<js_externLED_code>>).
+After you've wired it, because this uses the same output pin as <<displays_externalLED>>, you can run the same code (<<py_externLED_code>>).
 
 ==== Discussion
 
@@ -136,7 +146,7 @@ After you've wired it, because this uses the same output pin as <<displays_exter
 
 ==== Solution
 
-((("analogWrite()")))((("b.analogWrite()")))((("pulse width modulation (PWM)"))) Use the Bone's pulse width modulation (PWM) hardware to fade an LED We'll use the same circuit as before (<<displays_externLED_fig>>). Add the code in <<js_fadeLED_code>> to a file called _fadeLED.js_.  Next configure the pins.  We are using P9_14 so run:
+((("analogWrite()")))((("b.analogWrite()")))((("pulse width modulation (PWM)"))) Use the Bone's pulse width modulation (PWM) hardware to fade an LED. We'll use the same circuit as before (<<displays_externLED_fig>>). Find the code in <<py_fadeLED_code>>Next configure the pins.  We are using P9_14 so run:
 
 ++++
 <pre>
@@ -177,29 +187,24 @@ The Bone has several outputs that can be use as pwm's as shown in <<cape-headers
 .Table of PWM outputs
 image::figures/cape-headers-pwm.png["PWM outputs"]
 
-The pwm's are accessed through +/sys/class/pwm+
+The pwm's are accessed through +/dev/bone/pwm+
 
 // TODO  Should this be /dev/bone/pwm?
 
 ++++
 <pre>
-bone$ <strong>cd /sys/class/pwm</strong>
+bone$ <strong>cd /dev/bone/pwm</strong>
 bone$ <strong>ls</strong>
-pwmchip0  pwmchip1  pwmchip2  pwmchip3  pwmchip5  pwmchip7
+0  1  2
 </pre>
 ++++
-Here we see six pwmchips that can be used.  Chips 3, 5 and 7 have pairs of pwm channels.  Explore one.
+Here we see six pwmchips that can be used, each has two channels.  Explore one.
 ++++
 <pre>
-bone$ <strong>cd pwmchip5</strong>
+bone$ <strong>cd 1</strong>
 bone$ <strong>ls</strong>
-device  export  npwm  power   subsystem  uevent  unexport
-bone$ <strong>cat npwm</strong>
-2
-bone$ <strong>echo 0 > export</strong>
-bone$ <strong>ls</strong>
-device  export  npwm  power  pwm0  subsystem  uevent  unexport
-bone$ <strong>cd pwm0</strong>
+a  b
+bone$ <strong>cd a</strong>
 bone$ <strong>ls</strong>
 capture  duty_cycle  enable  period  polarity  power  uevent
 </pre>
