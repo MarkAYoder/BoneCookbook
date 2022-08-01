@@ -337,7 +337,7 @@ include::code/ultrasonicRange.js[]
 
 [[sensors_hc-sr04]]
 === Reading a Distance Sensor (Variable Pulse Width Sensor)
-
+// TODO
 ==== Problem
 ((("sensors", "variable pulse width")))((("variable pulse width sensors")))((("pulse width sensors")))((("HC-SR04 Ultrasonic Range Sensor")))((("distance sensors")))You want to use a HC-SR04 Ultrasonic Range Sensor with BeagleBone Black.
 
@@ -475,8 +475,6 @@ data = 999972
 ----
 The values you get for +data+ will depend on which way you are turning the device and how quickly. You will need to press ^C (Ctrl-C) to end.
 
-[<span class="keep-together">program</span>].
-
 ==== Discussion
 
 
@@ -486,7 +484,7 @@ You can also measure rotation by using a variable resistor (see <<sensors_analog
 
 [[sensors_GPS]]
 === Acquiring Data by Using a Smart Sensor over a Serial Connection
-
+// TODO
 ==== Problem
 
 ((("sensors", "smart")))((("streaming data")))((("global positioning system (GPS)")))((("microcontrollers, reading data from")))((("data", "streaming")))You want to connect a smart sensor that uses a built-in microcontroller to stream data, such as a global positioning system (GPS), to the Bone and read the data from it.
@@ -666,7 +664,7 @@ Notice a new directory has appeared. It's for i2c bus 2, address 0x49. Look into
 ====
 ++++
 <pre data-type="programlisting">
-bone$ <strong>d 2-0048/hwmon/hwmon0</strong>
+bone$ <strong>cd 2-0048/hwmon/hwmon0</strong>
 bone$ <strong>ls -F</strong>
 device@  name  power/  subsystem@  temp1_input  temp1_max  
 temp1_max_hyst  uevent  update_interval
@@ -680,9 +678,9 @@ Other i2c devices are supported by the kernel.
 You can try the Linux Kernel Driver Database, https://cateee.net/lkddb/ to see them.
 
 Once the driver is in place, you can read it via code.
-<<js_i2cTemp_code>> shows how to read the TMP101 from BoneScript.
+<<py_i2cTemp_code>> shows how to read the TMP101 from BoneScript.
 
-[[pyi2cTemp_code]]
+[[py_i2cTemp_code]]
 .Reading an I^2^C  device (i2cTemp.py)
 ====
 [source, python]
@@ -782,7 +780,7 @@ Edit the file +/boot/uEnt.txt+.   Go to about line 19 and edit as shown:
 ++++
 Be sure to remove the +#+ at the beginning of the line.
 
-reboot the bone and then run the following commands:
+Reboot the bone:
 
 ++++
 <pre data-type="programlisting">
@@ -801,7 +799,7 @@ bone$ <strong>ls /sys/bus/w1/devices/</strong>
 
 I have two devices wired in parallel on the same P9_12 input. This shows the serial numbers for all the devices. 
 
-Finally, add the code in <<sensors_onewire__code>> in to a file named _w1.js_, edit the path assigned to +w1+ so that the path points to your device, and then run it.
+Finally, add the code in <<sensors_onewire__code>> in to a file named _w1.py_, edit the path assigned to +w1+ so that the path points to your device, and then run it.
 
 [[py_onewire__code]]
 .Reading a temperature with a DS18B20 (w1.py)
@@ -843,7 +841,7 @@ Each temperature sensor has a unique serial number, so you can have several all 
 
 [[sensors_sensortag]]
 === Sensing All Sorts of Things with SensorTag via Bluetooth v4.0
-
+//  TODO Remove
 ==== Problem
 ((("sensors", "Bluetooth 4.0 interface for")))((("Bluetooth Low Energy (BLE)")))((("TI SensorTag")))((("SensorTag")))((("environmental sensors", "TI SensorTag")))((("temperature sensors", "Sensor Tag")))((("humidity sensor")))((("accelerometers")))((("pressure sensors")))((("magnetometers")))((("gyroscopes")))((("motion sensors")))You have a TI SensorTag, and you want to interface it to BeagleBone Black via Bluetooth Low Energy (BLE).
 
