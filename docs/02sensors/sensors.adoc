@@ -839,116 +839,116 @@ temp (C) = 31.0
 
 Each temperature sensor has a unique serial number, so you can have several all sharing the same data line.
 
-[[sensors_sensortag]]
-=== Sensing All Sorts of Things with SensorTag via Bluetooth v4.0
-//  TODO Remove
-==== Problem
-((("sensors", "Bluetooth 4.0 interface for")))((("Bluetooth Low Energy (BLE)")))((("TI SensorTag")))((("SensorTag")))((("environmental sensors", "TI SensorTag")))((("temperature sensors", "Sensor Tag")))((("humidity sensor")))((("accelerometers")))((("pressure sensors")))((("magnetometers")))((("gyroscopes")))((("motion sensors")))You have a TI SensorTag, and you want to interface it to BeagleBone Black via Bluetooth Low Energy (BLE).
+// [[sensors_sensortag]]
+// === Sensing All Sorts of Things with SensorTag via Bluetooth v4.0
+// //  TODO Remove
+// ==== Problem
+// ((("sensors", "Bluetooth 4.0 interface for")))((("Bluetooth Low Energy (BLE)")))((("TI SensorTag")))((("SensorTag")))((("environmental sensors", "TI SensorTag")))((("temperature sensors", "Sensor Tag")))((("humidity sensor")))((("accelerometers")))((("pressure sensors")))((("magnetometers")))((("gyroscopes")))((("motion sensors")))You have a TI SensorTag, and you want to interface it to BeagleBone Black via Bluetooth Low Energy (BLE).
 
-==== Solution
-TI's http://bit.ly/1C58WIN[SensorTag] (shown in <<sensors_sensortag_fig>>) combines six sensors (temperature, humidity, accelerometer, pressure, magnetometer, and gyroscope) in one package that interfaces via http://bit.ly/1EzMo4x[Bluetooth Low Energy]. 
+// ==== Solution
+// TI's http://bit.ly/1C58WIN[SensorTag] (shown in <<sensors_sensortag_fig>>) combines six sensors (temperature, humidity, accelerometer, pressure, magnetometer, and gyroscope) in one package that interfaces via http://bit.ly/1EzMo4x[Bluetooth Low Energy]. 
 
-[[sensors_sensortag_fig]]
-.SensorTag
-image::figures/sensorTag.jpg[SensorTag]
+// [[sensors_sensortag_fig]]
+// .SensorTag
+// image::figures/sensorTag.jpg[SensorTag]
 
-To make this recipe, you will need:
+// To make this recipe, you will need:
 
-* BLE USB dongle (see <<app_misc>>)
-* SensorTag (see <<app_misc>>)
-* 5 V adapter for the Bone
+// * BLE USB dongle (see <<app_misc>>)
+// * SensorTag (see <<app_misc>>)
+// * 5 V adapter for the Bone
 
-Power up your Bone using the 5 V adapter. You need the adapter because the BLE dongle needs extra power for the radios it contains. After it is booted up, log in (<<tips_shell>>) and run the following commands:
+// Power up your Bone using the 5 V adapter. You need the adapter because the BLE dongle needs extra power for the radios it contains. After it is booted up, log in (<<tips_shell>>) and run the following commands:
 
-++++
-<pre data-type="programlisting">
-bone$ <strong>sudo apt install libbluetooth-dev</strong>
-bone$ <strong>npm install -g sensortag</strong>
-</pre>
-++++
+// ++++
+// <pre data-type="programlisting">
+// bone$ <strong>sudo apt install libbluetooth-dev</strong>
+// bone$ <strong>npm install -g sensortag</strong>
+// </pre>
+// ++++
 
-This installs the Bluetooth tools and the JavaScript library to talk to it.
+// This installs the Bluetooth tools and the JavaScript library to talk to it.
 
-Add the code in <<sensors_sensorTag_code>> to a file called _sensorTag.js_ and run it.
+// Add the code in <<sensors_sensorTag_code>> to a file called _sensorTag.js_ and run it.
 
-[[sensors_sensorTag_code]]
-.Code for reading the temperature from a SensorTag (sensorTag.js)
-====
-[source, js]
-----
+// [[sensors_sensorTag_code]]
+// .Code for reading the temperature from a SensorTag (sensorTag.js)
+// ====
+// [source, js]
+// ----
 
-include::code/sensorTag.js[sensorTag.js]
+// include::code/sensorTag.js[sensorTag.js]
 
-----
-====
-<1> Read in the various packages that are needed.
+// ----
+// ====
+// <1> Read in the various packages that are needed.
 
-<2> +SensorTag.discover+ checks what SensorTags are out there. When found, it calls the inline function that follows.
+// <2> +SensorTag.discover+ checks what SensorTags are out there. When found, it calls the inline function that follows.
 
-<3> pass:[<span id="callout_list_item_3">This</span>] function is called when the SensorTag is disconnected.
+// <3> pass:[<span id="callout_list_item_3">This</span>] function is called when the SensorTag is disconnected.
 
-<4> Normally JavaScript does everything synchronously. Here, we want to do the following asynchronously--that is, step-by-step, one after the other. We are passing an array to +async.series()+, which contains the functions to run in the order in which they appear in the array.
+// <4> Normally JavaScript does everything synchronously. Here, we want to do the following asynchronously--that is, step-by-step, one after the other. We are passing an array to +async.series()+, which contains the functions to run in the order in which they appear in the array.
 
-<5> Connect to the SensorTag.  
+// <5> Connect to the SensorTag.  
 
-<6> Discover what the SensorTag can do. This is necessary before we can give it any commands.
+// <6> Discover what the SensorTag can do. This is necessary before we can give it any commands.
 
-<7> Enable temperatures. We don't get a temperature reading yet. Rather, we're instructing it to begin reading and report back when they are ready.
+// <7> Enable temperatures. We don't get a temperature reading yet. Rather, we're instructing it to begin reading and report back when they are ready.
 
-<8> Wait a bit for the first temperatures to be read.
+// <8> Wait a bit for the first temperatures to be read.
 
-<9> This specifies the function to call every time a temperature is ready. The callback is passed +objectTemperature+ (what's read by the touchless IR sensors) and +ambientTemperature+ (the temperature inside the SensorTag). Try putting your hand in front of the device; the +objectTemperature+ should go up.
+// <9> This specifies the function to call every time a temperature is ready. The callback is passed +objectTemperature+ (what's read by the touchless IR sensors) and +ambientTemperature+ (the temperature inside the SensorTag). Try putting your hand in front of the device; the +objectTemperature+ should go up.
 
-<10> Define the callback for when the temperature changes.
+// <10> Define the callback for when the temperature changes.
 
-<11> This commented-out code is used when you want to turn off the temperature readings.
+// <11> This commented-out code is used when you want to turn off the temperature readings.
 
-<12> Assign a callback to respond to the +left+ and +right+ button pushes. 
+// <12> Assign a callback to respond to the +left+ and +right+ button pushes. 
 
-<13> If both buttons are pushed, pass the +callback+ function to +sensorTag.notifySimpleKey()+.
+// <13> If both buttons are pushed, pass the +callback+ function to +sensorTag.notifySimpleKey()+.
 
-<14> +sensorTag.notifySimpleKey()+ doesn't do anything in this case, but it does evaluate +callback+, allowing it to progress to the next and final state.
+// <14> +sensorTag.notifySimpleKey()+ doesn't do anything in this case, but it does evaluate +callback+, allowing it to progress to the next and final state.
 
-<15> When we get to here, we disconnect from the SensorTag, which causes the code to exit (see pass:[<a href="#callout_list_item_3"><img src="callouts/3.png" alt="3"/></a>]).
+// <15> When we get to here, we disconnect from the SensorTag, which causes the code to exit (see pass:[<a href="#callout_list_item_3"><img src="callouts/3.png" alt="3"/></a>]).
 
-[role="pagebreak-before"]
-Here's some output from the code:
+// [role="pagebreak-before"]
+// Here's some output from the code:
 
-[source, console]
-----
-Be sure sensorTag is on
-sensorTag = {"uuid":"9059af0b8457"}
-connect
-discoverServicesAndCharacteristics
-enableIrTemperature
-readIrTemperature
-    object  temperature = 2.8 °C
-	ambient temperature = 0 °C
-readSimpleRead
-notifyIrTemperature
-	object  temperature = 31.8 °C
-	ambient temperature = 24.8 °C
+// [source, console]
+// ----
+// Be sure sensorTag is on
+// sensorTag = {"uuid":"9059af0b8457"}
+// connect
+// discoverServicesAndCharacteristics
+// enableIrTemperature
+// readIrTemperature
+//     object  temperature = 2.8 °C
+// 	ambient temperature = 0 °C
+// readSimpleRead
+// notifyIrTemperature
+// 	object  temperature = 31.8 °C
+// 	ambient temperature = 24.8 °C
 
-	object  temperature = 25.9 °C
-	ambient temperature = 24.8 °C
+// 	object  temperature = 25.9 °C
+// 	ambient temperature = 24.8 °C
 
-	object  temperature = 27.4 °C
-	ambient temperature = 24.8 °C
+// 	object  temperature = 27.4 °C
+// 	ambient temperature = 24.8 °C
 
-	object  temperature = 32.2 °C
-	ambient temperature = 24.8 °C
+// 	object  temperature = 32.2 °C
+// 	ambient temperature = 24.8 °C
 
-left: false right: true
-left: true right: true
-left: false right: false
-disconnect
-disconnected!
-----
+// left: false right: true
+// left: true right: true
+// left: false right: false
+// disconnect
+// disconnected!
+// ----
 
-==== Discussion
+// ==== Discussion
 
 
-Here, you see examples of how to read all the sensors. Look in _index.js_ (in the same directory) to see all the methods that are defined.
+// Here, you see examples of how to read all the sensors. Look in _index.js_ (in the same directory) to see all the methods that are defined.
 
 [[sensors_audio]]
 === Playing and Recording Audio
