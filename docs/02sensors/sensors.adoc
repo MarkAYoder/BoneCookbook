@@ -5,6 +5,11 @@
 
 ((("USB 2.0 host port")))((("sensors", "interfaces for")))In this chapter, you will learn how to sense the physical world with BeagleBone Black. Various types of electronic sensors, such as cameras and microphones, can be connected to the Bone using one or more interfaces provided by the standard USB 2.0 host port, as shown in <<sensors_host_port>>. 
 
+[NOTE]
+====
+All the examples in the book assume you have cloned the Cookbook repository on www.github.com. Go here <<basics_repo>> for instructions.
+====
+
 [[sensors_host_port]]
 .The USB 2.0 host port
 image::figures/black_hardware_details.png[USB Host Port]
@@ -42,67 +47,51 @@ Choosing the simplest solution available enables you to move on quickly to addre
 
 
 [[sensors_getting_started]]
-=== Input and Run a JavaScript Application for Talking to Sensors
+=== Input and Run a Python or JavaScript Application for Talking to Sensors
 
 ==== Problem
 ((("sensors", "entering and running code")))((("code", "entering and running on sensors")))((("JavaScript", "sensor communication with")))You have your sensors all wired up and your Bone booted up, and you need to know how to enter and run your code.
 
 ==== Solution
-((("Cloud9", "running JavaScript applications from")))((("bash command window")))You are just a few simple steps from running any of the recipes in this book.
+((("vsc", "running JavaScript applications from")))((("bash command window")))You are just a few simple steps from running any of the recipes in this book.
 
 . Plug your Bone into a host computer via the USB cable (<<basics_out_of_the_box>>).
-. Start Cloud9 (<<basics_vsc>>).
-. In the +bash+ tab (as shown in <<sensors_cloud9_bash>>), run the following commands:
+. Start Visual Studio Code (<<basics_vsc>>).
+. In the +bash+ tab (as shown in <<sensors_vsc_bash>>), run the following commands:
 
 ++++
 <pre data-type="programlisting">
-root@beaglebone:/var/lib/cloud9# <strong>cd</strong>
-root@beaglebone:~#
+bone$ <strong>cd</strong>
+bone$ <strong>cd BoneCookbook/docs/02sensors/code</strong>
 </pre>
 ++++
 
-[[sensors_cloud9_bash]]
-.Entering commands in the Cloud9 bash tab
-image::figures/cloud9-bash-tab.png[Cloud9 bash tab]
+[[sensors_vsc_bash]]
+.Entering commands in the VSC bash tab
+image::figures/vsc-bash-tab.png[VSC bash tab]
 
-((("cd (change directory) command")))((("commands", "cd (change directory)")))((("~ character")))((("directories", "changing")))Here, we issued the _change directory_ (+cd+) command without specifying a target directory. By default, it takes you to your home directory. Notice that the prompt has changed to reflect the change. The path changed from +/var/lib/cloud9+ to +&#x7E;+. The +&#x7E;+ is a shorthand for your home directory.
+((("cd (change directory) command")))((("commands", "cd (change directory)")))((("~ character")))((("directories", "changing")))Here, we issued the _change directory_ (+cd+) command without specifying a target directory. By default, it takes you to your home directory. Notice that the prompt has changed to reflect the change. 
 
 [NOTE]
 ====
-If you log in as +root+, your home directory is _/root_.  That is, anyone can +cd /root+ to get into your home directory (though directories are initially locked).  If you log in as +debian+, your home is _/home/debian_. If you were to create a new user called +newuser+, that user's home would be _/home/newuser_. By default, all non-root (non-superuser) users have their home directories in _/home_.
+If you log in as +debian+, your home is _/home/debian_. If you were to create a new user called +newuser+, that user's home would be _/home/newuser_. By default, all non-root (non-superuser) users have their home directories in _/home_.
 ====
 
-((("directories", "creating new")))((("pushbutton.js file")))The following commands create a new directory for the sensor recipes, change to it, and use +touch+ to create an empty file called _pushbutton.js_:
+[NOTE]
+====
+All the examples in the book assume you have cloned the Cookbook repository on www.github.com. Go here <<basics_repo>> for instructions.
+====
 
-++++
-<pre data-type="programlisting">
-root@beaglebone:/var/lib/cloud9# <strong>cd /root</strong>
-root@beaglebone:~# <strong>mkdir boneSensors</strong>
-root@beaglebone:~# <strong>cd boneSensors</strong>
-root@beaglebone:~/boneSensors# <strong>touch pushbutton.js</strong>
-</pre>
-++++
-
-Now, add recipe code to the newly created _pushbutton.js_ file to enable it to run:
-
-. In Cloud9, in the Workspace browser on the left, go to the Preferences wheel and select Add Home to Favorites (<<basics_addHome_fig>>). Now, your home directory will show up in the Workspace file tree.
-. In the Workspace browser, expand +root+.
-. You will see your newly created _boneSensors_ directory; expand it. You will see your empty _pushbutton.js_
-. Double-click the _pushbutton.js_ file to open it.
-. Paste the code for the recipe you want to run. This example uses <<js_pushbutton_code>>.
-. Press ^S (Ctrl-S) to save the file. (You can also go to the File menu in Cloud9 and select Save to save the file, but Ctrl-S is easier.)
+. Double-click the _pushbutton.py_ file to open it.
+. Press ^S (Ctrl-S) to save the file. (You can also go to the File menu in VSC and select Save to save the file, but Ctrl-S is easier.) Even easier, VSC can be configured to autosave every so many seconds.
 . In the +bash+ tab, enter the following commands:
 
 ++++
 <pre data-type="programlisting">
-root@beaglebone:~/boneSensors# <strong>chmod +x pushbutton.js</strong>
 root@beaglebone:~/boneSensors# <strong>./pushbutton.js</strong>
 data= 0
-
 data= 0
-
 data= 1
-
 data= 1
 ^C
 </pre>
@@ -122,7 +111,7 @@ This process will work for any script in this book.
 
 ==== Solution
 
-((("pinMode()")))((("b.pinMode()")))((("attachInterrupt()")))((("b.attachInterrupt()")))Connect the switch to a GPIO pin and use BoneScript +pinMode()+ and +pass:[<span class="keep-together">attachInterrupt()</span>]+ functions.
+((("pinMode()")))((("b.pinMode()")))((("attachInterrupt()")))((("b.attachInterrupt()")))Connect the switch to a GPIO pin and read from the proper place in +/sys/class/gpio"+.
 
 To make this recipe, you will need:
 
@@ -139,7 +128,7 @@ image::figures/pushbutton_bb.png[Bone with pushbutton]
 The code in <<js_pushbutton_code>> reads GPIO port +P9_42+, which is attached to the pass:[<span class="keep-together">pushbutton</span>]. 
 
 [[py_pushbutton_code]]
-.Monitoring a pushbutton using a callback function (pushbutton.py)
+.Monitoring a pushbutton (pushbutton.py)
 ====
 [source, python]
 ----
@@ -150,7 +139,7 @@ include::code/pushbutton.py[]
 ====
 
 [[js_pushbutton_code]]
-.Monitoring a pushbutton using a callback function (pushbutton.js)
+.Monitoring a pushbutton (pushbutton.js)
 ====
 [source, javascript]
 ----
@@ -160,11 +149,10 @@ include::code/pushbutton.js[]
 ----
 ====
 
-((("pushbutton.js file")))Put this code in a file called _pushbutton.js_ following the steps in <<sensors_getting_started>>. In the Cloud9 +bash+ tab, run it by using the following commands:
+((("pushbutton.js file")))Put this code in a file called _pushbutton.js_ following the steps in <<sensors_getting_started>>. In the VSC +bash+ tab, run it by using the following commands:
 
 ++++
 <pre data-type="programlisting">
-bone$ <strong>chmod +x ./pushbutton.js</strong>
 bone$ <strong>./pushbutton.js</strong>
 data = 0
 data = 0
@@ -174,7 +162,7 @@ data = 1
 </pre>
 ++++
 
-The +chmod+ command makes it executable (you have to do this only once), and the second command runs it. Try pushing the button. The code reads the pin and prints its current value.
+The command runs it. Try pushing the button. The code reads the pin and prints its current value.
 
 ((("code", "stopping")))((("&#x005E;C (Ctrl-C) command")))((("commands", "&#x005E;C (Ctrl-C)")))You will have to press ^C (Ctrl-C) to stop the code.
 
@@ -292,7 +280,7 @@ across the flex sensor.
 .Reading a two-terminal flex resistor
 image::figures/flexResistor_bb.png[Flex Resistor]
 
-The code in <<sensors_analogIn_code>> also works for this setup.
+The code in <<py_analogIn_code>> and <<sensors_analogIn_code>> also works for this setup.
 
 ==== Discussion
 
@@ -323,6 +311,16 @@ image::figures/ultrasonicRange_bb.png[Analog]
 
 <<sensors_ultrasonicRange_code>> shows the code that reads the sensor at a fixed interval.
 
+[[py_ultrasonicRange_code]]
+.Reading an analog voltage (ultrasonicRange.py)
+====
+[source, python]
+----
+
+include::code/ultrasonicRange.py[]
+
+----
+====
 [[sensors_ultrasonicRange_code]]
 .Reading an analog voltage (ultrasonicRange.js)
 ====

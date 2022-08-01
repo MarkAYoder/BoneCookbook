@@ -9,7 +9,7 @@ When you buy BeagleBone Black, pretty much everything you need to get going come
 === Picking Your Beagle
 
 ==== Problem
-((("BeagleBoards", "selecting")))((("BeagleBones", "selecting")))((("basic operations", "BeagleBone/BeagleBoard selection")))There are five different BeagleBoards. How do you pick which one to use?
+((("BeagleBoards", "selecting")))((("BeagleBones", "selecting")))((("basic operations", "BeagleBone/BeagleBoard selection")))There are many different BeagleBoards. How do you pick which one to use?
 
 ==== Solution
 // TODO
@@ -41,12 +41,12 @@ image::figures/pluggingIn.jpg[Plugging In]
 image::figures/01GettingStarted.png[A new USB drive]
 
 
-[[basics_openCloud9]]
-((("Cloud9", "web page for")))((("integrated development environment (IDE)", seealso="Cloud9")))Browse to http://192.168.7.2:3000 from your host computer (<<basics_05gettingStarted_fig>>).
+[[basics_open_vsc]]
+((("integrated development environment (IDE)", seealso="Cloud9")))Browse to http://192.168.7.2:3000 from your host computer (<<basics_05gettingStarted_fig>>).
 
 [[basics_05gettingStarted_fig]]
 .Visual Studio Code
-image::figures/05GettingStartedVScode.png[Cloud9]
+image::figures/05GettingStartedVScode.png[Visual Studio Code]
 
 Here, you'll find _Visual Studio Code_, a web-based integrated development environment (IDE) that lets you edit and run code on your Bone!  See <<basics_vsc>> for more details.
 

@@ -1,12 +1,12 @@
 #!/usr/bin/env node
 //////////////////////////////////////
 //	ultrasonicRange.js
-// 	Reads the analog value of the light sensor.
+// 	Reads the analog value of the sensor.
 //////////////////////////////////////
 const fs = require("fs");
 const ms = 250;  // Time in milliseconds
 
-const pin = "0";        // light sensor, A0, P9_39
+const pin = "0";        // sensor, A0, P9_39
 
 const IIOPATH='/sys/bus/iio/devices/iio:device0/in_voltage'+pin+'_raw';
 
