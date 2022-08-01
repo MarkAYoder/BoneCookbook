@@ -6,6 +6,11 @@
 In this chapter, you will learn how to control physical hardware via 
 BeagleBone Black's general-purpose input/output (GPIO) pins. The Bone has 65 GPIO pins that are brought out on two 46-pin headers, called +P8+ and +P9+, as shown in <<js_P8P9_fig>>.
 
+[NOTE]
+====
+All the examples in the book assume you have cloned the Cookbook repository on www.github.com. Go here <<basics_repo>> for instructions.
+====
+
 [[js_P8P9_fig]]
 .The P8 and P9 GPIO headers
 image::figures/P8P9_bb.png["Headers P8 and P9"]

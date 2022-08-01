@@ -27,6 +27,11 @@ Motors come in many sizes and types. This chapter presents some of the more popu
 The Bone has built-in 3.3 V and 5 V supplies, which can supply enough current to drive some small motors. Many motors, however, draw enough current that an external power supply is needed. Therefore, an external 5 V power supply is listed as optional in many of the recipes.
 ====
 
+[NOTE]
+====
+All the examples in the book assume you have cloned the Cookbook repository on www.github.com. Go here <<basics_repo>> for instructions.
+====
+
 [[motors_servo]]
 === Controlling a Servo Motor
 
@@ -36,8 +41,8 @@ The Bone has built-in 3.3 V and 5 V supplies, which can supply enough current to
 
 ==== Solution
 
-We'll use the pulse width modulation (PWM) hardware of the Bone and control a 
-servo motor with the +analogWrite()+ function.
+We'll use the pulse width modulation (PWM) hardware of the Bone to control a 
+servo motor.
 
 To make the recipe, you will need:
 
@@ -59,7 +64,7 @@ There is no standard for how servo motor wires are colored. One of my servos is 
 .Driving a servo motor with the 3.3 V power supply
 image:figures/servoMotor_bb.png[Servo Motor]
 
-The code for controlling the servo motor is in _servoMotor.js_, shown in <<motors_servoMotor_code>>.
+The code for controlling the servo motor is in _servoMotor.py_, shown in <<py_servoMotor_code>>.
 
 [role="pagebreak-before"]
 [[py_servoMotor_code]]
