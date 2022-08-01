@@ -49,9 +49,9 @@ A cookbook for programming Beagles
   ** [python ] Toggling a High-Voltage External Device
   ** [x] Fading an External LED
   ** [x] Writing to an LED Matrix
-  ** [remove?] Driving a 5 V Device
-  ** [PRU?] Writing to a NeoPixel LED String
-  ** [ ] removed - Using a Nokia 5510 LCD Display
+  ** [x] Driving a 5 V Device
+  ** [x] PRU Cookbook: Writing to a NeoPixel LED String
+  ** [x] removed - Using a Nokia 5510 LCD Display
   ** [remove?] Making Your Bone Speak
 
  . link:04motors/motors.html[Motors]

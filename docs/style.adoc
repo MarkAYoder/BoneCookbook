@@ -46,6 +46,7 @@ image::sunset.jpg[Sunset,300,200]
 * GPIO
 * `P9`
 * TODO
+* I^2^C
 
 [TIP]
 ====

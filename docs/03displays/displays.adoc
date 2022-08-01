@@ -251,17 +251,12 @@ To make this recipe, you will need:
 The LED matrix is a 5 V device, but you can drive it from 3.3 V. Wire, as shown in <<displays_i2cMatrix_fig>>.
 
 [[displays_i2cMatrix_fig]]
-.Wiring an i2c LED matrix
-image::figures/i2cMatrix_bb.png["i2c LED matrix"]
+.Wiring an I^2^C LED matrix
+image::figures/i2cMatrix_bb.png["I^2^C LED matrix"]
 
-<<sensors_i2c_temp>> shows how to use +i2cdetect+ to discover the address of an I^2^C device. It also describes the difference between how Linux numbers the I^2^C buses (+0+ and +1+) versus how BoneScript numbers them (+1+ and +2+). Let's see how your display shows up. 
+<<sensors_i2c_temp>> shows how to use +i2cdetect+ to discover the address of an I^2^C device.
 
-[NOTE]
-====
-The BoneScript library convention is to use the index numbers provided in the hardware documentation. The version of the Linux kernel we use, however, begins index numbers at +0+ for the first one registered and increases by 1, so these numbers might not always match. The BoneScript library attempts to hide this complication from you.
-====
-
-Run the +i2cdetect -y -r 1+ command to discover the address of the display, as shown in <<displays_i2cdetect>>.
+Run the +i2cdetect -y -r 2+ command to discover the address of the display on I^2^C bus 2, as shown in <<displays_i2cdetect>>.
 
 [role="pagebreak-before"]
 [[displays_i2cdetect]]
@@ -269,7 +264,7 @@ Run the +i2cdetect -y -r 1+ command to discover the address of the display, as s
 ====
 ++++
 <pre data-type="programlisting">
-bone$ <strong>i2cdetect -y -r 1</strong>
+bone$ <strong>i2cdetect -y -r 2</strong>
      0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f
 00:          -- -- -- -- -- -- -- -- -- -- -- -- -- 
 10: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 
@@ -285,12 +280,12 @@ bone$ <strong>i2cdetect -y -r 1</strong>
 
 Here, you can see a device at +0x49+ and +0x70+. I know I have a temperature sensor at +0x49+, so the LED matrix must be at +0.70+. 
 
-Add the code in <<displays_matrix_i2c>> to a file called _matrixLEDi2c.js_ and run it by using the following command:
+Find the code in <<displays_matrix_i2c>> and run it by using the following command:
 
 ====
 ++++
 <pre data-type="programlisting">
-bone$ <strong>npm install -g sleep</strong>
+bone$ <strong>pip install smbus</strong>  # (Do this only once.)
 bone$ <strong>./matrixLEDi2c.py</strong>
 </pre>
 ++++
@@ -363,32 +358,32 @@ The PRU Cookbook has a nice discussion (https://markayoder.github.io/PRUCookbook
 image::figures/neo_bb.png["NeoPixel Ring"]
 
 === Writing to a NeoPixel LED String Using LEDscape
+// // TODO Remove?
+// ==== Problem
+// ((("displays", "NeoPixel LED strings")))((("outputs", "NeoPixel LED strings")))((("Adafruit Neopixel LED strings")))((("Neopixel LED strings")))((("LEDs", "Adafruit Neopixel LED strings")))You have an http://www.adafruit.com/products/1138[Adafruit NeoPixel LED string] or http://www.adafruit.com/products/1487[Adafruit NeoPixel LED matrix] and want to light it up.
 
-==== Problem
-((("displays", "NeoPixel LED strings")))((("outputs", "NeoPixel LED strings")))((("Adafruit Neopixel LED strings")))((("Neopixel LED strings")))((("LEDs", "Adafruit Neopixel LED strings")))You have an http://www.adafruit.com/products/1138[Adafruit NeoPixel LED string] or http://www.adafruit.com/products/1487[Adafruit NeoPixel LED matrix] and want to light it up.
+// ==== Solution
 
-==== Solution
+// Wire up an Adafruit NeoPixel LED 8-by-8 matrix as shown in <<js_neoPixelMatrix_fig>>.
 
-Wire up an Adafruit NeoPixel LED 8-by-8 matrix as shown in <<js_neoPixelMatrix_fig>>.
+// [[js_neoPixelMatrix_fig]]
+// .Wiring an Adafruit NeoPixel LED matrix to +P8_30+
+// image::figures/neoPixelMatrix_bb.png["NeoPixel Matrix"]
 
-[[js_neoPixelMatrix_fig]]
-.Wiring an Adafruit NeoPixel LED matrix to +P8_30+
-image::figures/neoPixelMatrix_bb.png["NeoPixel Matrix"]
+// <<js_neoPixel_code>> shows how to install LEDscape and run the LEDs.
 
-<<js_neoPixel_code>> shows how to install LEDscape and run the LEDs.
+// [[js_neoPixel_code]]
+// .Installing and running LEDscape and OpenPixelControl (neoPixel.sh)
+// ====
+// [source, bash]
+// ----
 
-[[js_neoPixel_code]]
-.Installing and running LEDscape and OpenPixelControl (neoPixel.sh)
-====
-[source, bash]
-----
+// include::code/neoPixel.sh[]
 
-include::code/neoPixel.sh[]
+// ----
+// ====
 
-----
-====
-
-==== Discussion
+// ==== Discussion
 
 === Making Your Bone Speak
 
