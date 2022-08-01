@@ -456,12 +456,12 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_picking_your_beagle">Picking Your Beagle</a></li>
 <li><a href="#basics_out_of_the_box">Getting Started, Out of the Box</a></li>
 <li><a href="#basics_latest_os">Verifying You Have the Latest Version of the OS on Your Bone</a></li>
-<li><a href="#_running_the_bonescript_api_tutorials">Running the BoneScript API Tutorials</a></li>
+<li><a href="#basics_repo">Cloning the Cookbook Repository</a></li>
+<li><a href="#_running_the_python_and_javascript_examples">Running the Python and JavaScript Examples</a></li>
 <li><a href="#basics_wire_breadboard">Wiring a Breadboard</a></li>
-<li><a href="#basics_cloud9">Editing Code Using the Cloud9 IDE</a></li>
-<li><a href="#basics_cloud9_IDE">Running JavaScript Applications from the Cloud9 IDE</a></li>
-<li><a href="#basics_autorun">Running Applications Automatically</a></li>
-<li><a href="#_finding_the_latest_version_of_the_os_for_your_bone">Finding the Latest Version of the OS for Your Bone</a></li>
+<li><a href="#basics_vsc">Editing Code Using Visual Studio Code</a></li>
+<li><a href="#basics_vsc_IDE">Running Python and JavaScript Applications from Visual Studio Code</a></li>
+<li><a href="#basics_find_image">Finding the Latest Version of the OS for Your Bone</a></li>
 <li><a href="#basics_install_os">Running the Latest Version of the OS on Your Bone</a></li>
 <li><a href="#_updating_the_os_on_your_bone">Updating the OS on Your Bone</a></li>
 <li><a href="#_backing_up_the_onboard_flash">Backing Up the Onboard Flash</a></li>
@@ -567,11 +567,12 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#realtime">Real-Time I/O</a>
 <ul class="sectlevel2">
 <li><a href="#_introduction_8">Introduction</a></li>
-<li><a href="#realtime_BoneScript">I/O with BoneScript</a></li>
-<li><a href="#realtime_libsoc">I/O with C and libsoc</a></li>
+<li><a href="#realtime_JavaScript">I/O with JavaScript</a></li>
+<li><a href="#realtime_c">I/O with C</a></li>
 <li><a href="#realtime_devmem2">I/O with devmem2</a></li>
 <li><a href="#realtime_mmap">I/O with C and mmap()</a></li>
-<li><a href="#realtime_PRUSpeak">I/O with PRU Speak</a></li>
+<li><a href="#_tighter_delay_bounds_with_the_preempt_rt_kernel">Tighter Delay Bounds with the PREEMPT_RT Kernel</a></li>
+<li><a href="#realtime_simpPRU">I/O with simpPRU</a></li>
 </ul>
 </li>
 <li><a href="#capes">Capes</a>
@@ -632,7 +633,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="sect3">
 <h4 id="_solution">Solution</h4>
 <div class="paragraph">
-<p>For someone new to the BeagleBoard.org boards, the BeagleBone Black is the obvious choice.  It’s the newest and cheapest (~$55 USD) of the inexpensive Bones, and there are nearly a quarter-million units out there. Many of the recipes in this book will work on the other Beagles, too, but the Black is where to begin. If you already have BeagleBone Black, you can move on to the next recipe. If you have another Beagle, your mileage may vary.</p>
+<p>Current list of boards: <a href="https://git.beagleboard.org/explore/projects/topics/boards" class="bare">https://git.beagleboard.org/explore/projects/topics/boards</a></p>
 </div>
 </div>
 <div class="sect3">
@@ -679,21 +680,7 @@ Plug the USB cable into your host computer (Mac, Windows, or Linux) and plug the
 <div class="title">Figure 3. Visual Studio Code</div>
 </div>
 <div class="paragraph">
-<p>Here, you&#8217;ll find <em>Visual Studio Code</em>, a web-based integrated development environment (IDE) that lets you edit and run code on your Bone!  See <a href="#basics_cloud9">Editing Code Using the Cloud9 IDE</a> for more details.</p>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<div class="title">Note</div>
-</td>
-<td class="content">
-<div class="paragraph">
-<p>Cloud9 can have different themes.  If you see a white background, you can match the cookbook’s figures by clicking on the <em>Main Theme</em> drop-down menu and selecting <em>Cloud9 Classic Dark Theme</em>.</p>
-</div>
-</td>
-</tr>
-</table>
+<p>Here, you&#8217;ll find <em>Visual Studio Code</em>, a web-based integrated development environment (IDE) that lets you edit and run code on your Bone!  See <a href="#basics_vsc">Editing Code Using Visual Studio Code</a> for more details.</p>
 </div>
 <div class="admonitionblock warning">
 <table>
@@ -735,13 +722,14 @@ The system is going down for system halt NOW! (pts/0)
 <div class="sect3">
 <h4 id="_solution_3">Solution</h4>
 <div class="paragraph">
-<p>This book uses <a href="https://www.debian.org">Debian</a>, the Linux distribution that currently ships on the Bone. However this book is based on a newer version (2014-11-11 image) than what is shipping at the time of this writing. You can see which version your Bone is running by following the instructions in <a href="#basics_out_of_the_box">Getting Started, Out of the Box</a> to open the USB drive that comes from the Bone, as shown in <a href="#basics_02gettingStarted_fig">[basics_02gettingStarted_fig]</a>. But instead of opening <em>START.html</em>, open <em>ID.txt</em> (shown with the dashed arrow in <a href="#basics_02gettingStarted_fig">[basics_02gettingStarted_fig]</a>). You&#8217;ll see something like <a href="#basics_ID">Contents of ID.txt</a>, in which 2014-11-11 is the date of the image.</p>
+<p>This book uses <a href="https://www.debian.org">Debian</a>, the Linux distribution that currently ships on the Bone. However this book is based on a newer version (BeagleBoard.org Debian Bullseye IoT Image 2022-07-01) than what is shipping at the time of this writing. You can see which version your Bone is running by following the instructions in <a href="#basics_out_of_the_box">Getting Started, Out of the Box</a> to log into the Bone.  Then run:</p>
 </div>
-<div id="basics_ID" class="imageblock">
-<div class="content">
-<img src="./01basics/figures/ID.txt.png" alt="Contents of ID.txt">
-</div>
-<div class="title">Figure 4. Contents of ID.txt</div>
+<pre data-type="programlisting">
+bone$ <strong>cat /ID.txt</strong>
+BeagleBoard.org Debian Bullseye IoT Image 2022-07-01
+</pre>
+<div class="paragraph">
+<p>I&#8217;m running the 2022-07-01 version.</p>
 </div>
 </div>
 <div class="sect3">
@@ -750,23 +738,40 @@ The system is going down for system halt NOW! (pts/0)
 </div>
 </div>
 <div class="sect2">
-<h3 id="_running_the_bonescript_api_tutorials">Running the BoneScript API Tutorials</h3>
+<h3 id="basics_repo">Cloning the Cookbook Repository</h3>
 <div class="sect3">
 <h4 id="_problem_4">Problem</h4>
 <div class="paragraph">
-<p>You&#8217;d like to learn JavaScript and the BoneScript API to perform physical computing tasks without first learning Linux.</p>
+<p>You want to run the Cookbook examples.</p>
 </div>
 </div>
 <div class="sect3">
 <h4 id="_solution_4">Solution</h4>
 <div class="paragraph">
-<p>Plug your board into the USB of your host computer and browse to <a href="http://192.168.7.2/Support/bone101/" class="bare">http://192.168.7.2/Support/bone101/</a> using Google Chrome or Firefox (as shown in <a href="#basics_out_of_the_box">Getting Started, Out of the Box</a>). In the left column, click the BoneScript title, which will take you to <a href="http://192.168.7.2/Support/BoneScript/" class="bare">http://192.168.7.2/Support/BoneScript/</a> (<a href="#basics_bonescript">The BoneScript API examples page</a>).</p>
+<p>Connect your Bone to the Internet and log into it.  From the command line run:</p>
 </div>
-<div id="basics_bonescript" class="imageblock">
-<div class="content">
-<img src="./01basics/figures/bonescript-examples.png" alt="The BoneScript examples page">
+<pre data-type="programlisting">
+bone$ <strong>git clone git@github.com:MarkAYoder/BoneCookbook.git</strong>
+bone$ <strong>cd BoneCookbook/docs</strong>
+bone$ <strong>ls</strong>
+</pre>
+<div class="paragraph">
+<p>You can look around from the command line, or explore from Visual Sudio Code. If you ar using VSC, go to the <em>File</em> menu and select <em>Open Folder &#8230;&#8203;</em> and selet BoneCookbook/docs. Then explore.   You&#8217;ll find there is a directory for each chapter and most chapters have a <em>code</em> directory for the sample scripts and a <em>figures</em> directory for the figures.</p>
 </div>
-<div class="title">Figure 5. The BoneScript API examples page</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_running_the_python_and_javascript_examples">Running the Python and JavaScript Examples</h3>
+<div class="sect3">
+<h4 id="_problem_5">Problem</h4>
+<div class="paragraph">
+<p>You&#8217;d like to learn Python and JavaScript interact with the Bone to perform physical computing tasks without first learning Linux.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_solution_5">Solution</h4>
+<div class="paragraph">
+<p>Plug your board into the USB of your host computer and browse to <a href="http://192.168.7.2:3000" class="bare">http://192.168.7.2:3000</a> using Google Chrome or Firefox (as shown in <a href="#basics_out_of_the_box">Getting Started, Out of the Box</a>). In the left column, click on <em>EXAMPLES</em>, then <em>BeagleBone</em> and then <em>Black</em>. Several sample scripts will appear.  Go and explore them.</p>
 </div>
 <div class="admonitionblock tip">
 <table>
@@ -776,38 +781,7 @@ The system is going down for system halt NOW! (pts/0)
 </td>
 <td class="content">
 <div class="paragraph">
-<p>Explore the various demonstrations of the BoneScript API. The <a href="http://192.168.7.2/Support/BoneScript">BoneScript examples page</a> lists several places to learn more about JavaScript and BoneScript (<a href="#basics_bonescript">The BoneScript API examples page</a>).</p>
-</div>
-</td>
-</tr>
-</table>
-</div>
-<div class="paragraph">
-<p>If the banner is green, the examples are live. Clicking the "run" button will make them run on your Bone.</p>
-</div>
-<div class="admonitionblock tip">
-<table>
-<tr>
-<td class="icon">
-<div class="title">Tip</div>
-</td>
-<td class="content">
-<div class="paragraph">
-<p>Here&#8217;s yet another place to explore. In the left column of <a href="#basics_bonescript">The BoneScript API examples page</a>, click the function names. Take five minutes and see what you can find.</p>
-</div>
-</td>
-</tr>
-</table>
-</div>
-<div class="admonitionblock warning">
-<table>
-<tr>
-<td class="icon">
-<div class="title">Warning</div>
-</td>
-<td class="content">
-<div class="paragraph">
-<p>You can edit the JavaScript on the BoneScript API examples page, but you can&#8217;t save it for later. If you want to edit and save it for later, fire up Cloud9 (<a href="#basics_cloud9">Editing Code Using the Cloud9 IDE</a>) and look in the <em>examples</em> folder.</p>
+<p>Explore the various demonstrations of Python and JavaScript. These are what come with the Bone.  In <a href="#basics_repo">Cloning the Cookbook Repository</a> you see how to load the examples for the Cookbook.</p>
 </div>
 </td>
 </tr>
@@ -822,13 +796,13 @@ The system is going down for system halt NOW! (pts/0)
 <div class="sect2">
 <h3 id="basics_wire_breadboard">Wiring a Breadboard</h3>
 <div class="sect3">
-<h4 id="_problem_5">Problem</h4>
+<h4 id="_problem_6">Problem</h4>
 <div class="paragraph">
 <p>You would like to use a breadboard to wire things to the Bone.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_5">Solution</h4>
+<h4 id="_solution_6">Solution</h4>
 <div class="paragraph">
 <p>Many of the projects in this book involve interfacing things to the Bone. Some plug in directly, like the USB port.  Others need to be wired. If it&#8217;s simple, you might be able to plug the wires directly into the P8 or P9 headers. Nevertheless, many require a breadboard for the fastest and simplest wiring.</p>
 </div>
@@ -849,7 +823,7 @@ The system is going down for system halt NOW! (pts/0)
 <div class="content">
 <img src="./01basics/figures/template_bb.png" alt="Breadboad">
 </div>
-<div class="title">Figure 6. Breadboard wired to BeagleBone Black</div>
+<div class="title">Figure 4. Breadboard wired to BeagleBone Black</div>
 </div>
 </div>
 <div class="sect3">
@@ -858,28 +832,21 @@ The system is going down for system halt NOW! (pts/0)
 </div>
 </div>
 <div class="sect2">
-<h3 id="basics_cloud9">Editing Code Using the Cloud9 IDE</h3>
+<h3 id="basics_vsc">Editing Code Using Visual Studio Code</h3>
 <div class="sect3">
-<h4 id="_problem_6">Problem</h4>
+<h4 id="_problem_7">Problem</h4>
 <div class="paragraph">
 <p>You want to edit and debug files on the Bone.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_6">Solution</h4>
+<h4 id="_solution_7">Solution</h4>
 <div class="paragraph">
 <p>Plug your Bone into a host computer via the USB cable. Open a browser (either Google Chrome or FireFox will work) on your host computer (as shown in <a href="#basics_out_of_the_box">Getting Started, Out of the Box</a>). After the Bone has booted up, browse to <a href="http://192.168.7.2:3000" class="bare">http://192.168.7.2:3000</a> on your host. You will see something like <a href="#basics_05gettingStarted_fig">Visual Studio Code</a>.</p>
 </div>
 <div class="paragraph">
-<p>Click the <em>examples</em> folder on the left and then double-click <em>blinkled.js</em>.
-You can now edit the file. If you would like to edit files in your home directory, on the left of the Cloud9 screen, go to the Preferences wheel in the Workspace browser and
-select Add Home to Favorites (<a href="#basics_addHome_fig">Making your home folder appear in Cloud9</a>). Now, your home directory will show up in the Workspace file tree.</p>
-</div>
-<div id="basics_addHome_fig" class="imageblock">
-<div class="content">
-<img src="./01basics/figures/addHome.png" alt="add home">
-</div>
-<div class="title">Figure 7. Making your home folder appear in Cloud9</div>
+<p>Click the <em>EXAMPLES</em> folder on the left and then click <em>BeagleBoard</em> and then <em>Black</em>, finally double-click <em>seqLEDs.py</em>.
+You can now edit the file.</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -889,24 +856,7 @@ select Add Home to Favorites (<a href="#basics_addHome_fig">Making your home fol
 </td>
 <td class="content">
 <div class="paragraph">
-<p>If you edit line 13 of the <em>blinkled.js</em> file (setInterval(toggle, 1000);), changing 1000 to 500, you must save the file before running it for the change to take effect. The blue LED next to the Ethernet port on your Bone will flash roughly twice as fast.</p>
-</div>
-</td>
-</tr>
-</table>
-</div>
-<div class="paragraph">
-<p><a href="#basics_addHome_fig">Making your home folder appear in Cloud9</a> shows <em>/root</em> has been added under <em>FAVORITES</em>.</p>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<div class="title">Note</div>
-</td>
-<td class="content">
-<div class="paragraph">
-<p>The <em>cloud9</em> folder that appears under <em>FILE SYSTEM</em> is located in <em>/var/lib/cloud9</em> on your Bone.</p>
+<p>If you edit lines 33 and 37 of the <em>seqLEDs.py</em> file (time.sleep(0.25)), changing 0.25 to 0.1, the LEDs next to the Ethernet port on your Bone will flash roughly twice as fast.</p>
 </div>
 </td>
 </tr>
@@ -919,17 +869,18 @@ select Add Home to Favorites (<a href="#basics_addHome_fig">Making your home fol
 </div>
 </div>
 <div class="sect2">
-<h3 id="basics_cloud9_IDE">Running JavaScript Applications from the Cloud9 IDE</h3>
+<h3 id="basics_vsc_IDE">Running Python and JavaScript Applications from Visual Studio Code</h3>
 <div class="sect3">
-<h4 id="_problem_7">Problem</h4>
+<h4 id="_problem_8">Problem</h4>
 <div class="paragraph">
-<p>You have a file edited in Cloud9, and you want to run it.</p>
+<p>You have a file edited in VS Code, and you want to run it.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_7">Solution</h4>
+<h4 id="_solution_8">Solution</h4>
 <div class="paragraph">
-<p>Cloud9 has a bash command window built in at the bottom of the window. You can run your code from this window. To do so, add #!/usr/bin/env node at the top of the file that you want to run and save.</p>
+<p>VS Code has a bash command window built in at the bottom of the window. If it&#8217;s not there, hit Ctrl-Shift-P and then type <strong>terminal create new</strong> then hit <em>Enter</em>.  The terminal will appear at the bottom of the screen.
+You can run your code from this window. To do so, add #!/usr/bin/env python at the top of the file that you want to run and save.</p>
 </div>
 <div class="admonitionblock tip">
 <table>
@@ -939,33 +890,31 @@ select Add Home to Favorites (<a href="#basics_addHome_fig">Making your home fol
 </td>
 <td class="content">
 <div class="paragraph">
-<p>If you are running Python, replace the word node in the line with python.</p>
+<p>If you are running JavaScript, replace the word python in the line with node.</p>
 </div>
 </td>
 </tr>
 </table>
 </div>
 <div class="paragraph">
-<p>At the bottom of the Cloud9 window are a series of tabs (<a href="#basics_cloud9Bash_fig">Cloud9 debugger</a>).
-Click the bash tab (it should be the leftmost tab). Here, you have a command prompt. In my case, it&#8217;s root@yoder-debian-bone:/var/lib/cloud9#. Yours will be slighly different, but it should end with a #.</p>
+<p>At the bottom of the VS Code window are a series of tabs (<a href="#basics_vscBash_fig">Visual Studio Code showing bash terminal</a>).
+Click the TERMINAL tab. Here, you have a command prompt.</p>
 </div>
-<div id="basics_cloud9Bash_fig" class="imageblock">
+<div id="basics_vscBash_fig" class="imageblock">
 <div class="content">
-<img src="./01basics/figures/cloud9Bash.png" alt="cloud9 bash">
+<img src="./01basics/figures/vscBash.png" alt="Visual Studio Code showing bash terminal">
 </div>
-<div class="title">Figure 8. Cloud9 debugger</div>
+<div class="title">Figure 5. Visual Studio Code showing bash terminal</div>
 </div>
 <div class="paragraph">
 <p>Change to the directory that contains your file, make it executable, and then run it:</p>
 </div>
 <pre data-type="programlisting">
-root@bone:/var/lib/cloud9# <strong>cd examples</strong>
-root@bone:/var/lib/cloud9/examples# <strong>chmod +x blinkled.js</strong>
-root@bone:/var/lib/cloud9/examples# <strong>./blinkled.js</strong>
+bone$ <strong>cd ~/examples/BeagleBone/Black/</strong>
+bone$ <strong>./seqLEDs.py</strong>
 </pre>
 <div class="paragraph">
-<p>The cd is the change directory command. After you cd, you are in a new directory, and the prompt reflects that change. The chmod command changes the mode of the file. The +x indicates that you want to add execute permission.
-You need to use the chmod +x command only once. Finally, ./blinkled.js instructs the JavaScript to run. You will need to press ^C (Ctrl-C) to stop your program.</p>
+<p>The cd is the change directory command. After you cd, you are in a new directory. Finally, ./seqLEDs.py instructs the python script to run. You will need to press ^C (Ctrl-C) to stop your program.</p>
 </div>
 </div>
 <div class="sect3">
@@ -974,38 +923,7 @@ You need to use the chmod +x command only once. Finally, ./blinkled.js instructs
 </div>
 </div>
 <div class="sect2">
-<h3 id="basics_autorun">Running Applications Automatically</h3>
-<div class="sect3">
-<h4 id="_problem_8">Problem</h4>
-<div class="paragraph">
-<p>You have a BoneScript application that you would like to run every time the Bone starts.</p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_solution_8">Solution</h4>
-<div class="paragraph">
-<p>This is an easy one.  In Cloud9, notice the folder called <em>autorun</em> (<a href="#basics_autoRun_fig">Making applications autorun at boot-up time</a>). Place any BoneScript files you want to run at boot time in this folder. The script will begin execution immediately and will stop execution when you remove the file from this folder.</p>
-</div>
-<div id="basics_autoRun_fig" class="imageblock">
-<div class="content">
-<img src="./01basics/figures/autoRun.png" alt="autorun">
-</div>
-<div class="title">Figure 9. Making applications autorun at boot-up time</div>
-</div>
-<div class="paragraph">
-<p>You can drag and drop the script into the <em>autorun</em> folder using the Cloud9 IDE workspace view, or you can move it using the bash prompt:</p>
-</div>
-<pre data-type="programlisting">
-bone$ <strong>mv myApp.js autorun</strong>
-</pre>
-</div>
-<div class="sect3">
-<h4 id="_discussion_8">Discussion</h4>
-
-</div>
-</div>
-<div class="sect2">
-<h3 id="_finding_the_latest_version_of_the_os_for_your_bone">Finding the Latest Version of the OS for Your Bone</h3>
+<h3 id="basics_find_image">Finding the Latest Version of the OS for Your Bone</h3>
 <div class="sect3">
 <h4 id="_problem_9">Problem</h4>
 <div class="paragraph">
@@ -1014,20 +932,6 @@ bone$ <strong>mv myApp.js autorun</strong>
 </div>
 <div class="sect3">
 <h4 id="_solution_9">Solution</h4>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<div class="title">Note</div>
-</td>
-<td class="content">
-<div class="paragraph">
-<p>At the time they were written, these instructions were up-to-date.  Go to <a href="http://https://forum.beagleboard.org/tag/latest-images" class="bare">http://https://forum.beagleboard.org/tag/latest-images</a> for the latest instructions.</p>
-</div>
-</td>
-</tr>
-</table>
-</div>
 <div class="paragraph">
 <p>On your host computer, open a browser and go to <a href="https://forum.beagleboard.org/tag/latest-images" class="bare">https://forum.beagleboard.org/tag/latest-images</a>  This shows you a list of dates of the most recent Debian images (<a href="#basics_deb1">Latest Debian images</a>).</p>
 </div>
@@ -1035,26 +939,20 @@ bone$ <strong>mv myApp.js autorun</strong>
 <div class="content">
 <img src="./01basics/figures/deb1.png" alt="Latest Debian images">
 </div>
-<div class="title">Figure 10. Latest Debian images</div>
+<div class="title">Figure 6. Latest Debian images</div>
 </div>
 <div class="paragraph">
 <p>At the time of writing, we are using the <em>Bullseye</em> image.  Click on it&#8217;s link.
-Scroling up you&#8217;ll find <a href="#basics_deb2">Latest Debian images</a>.  There are three types of snapshots, Minimal, IoT and Xfce Desktop.  IoT is the one we are running.</p>
-</div>
-<div class="paragraph">
-<p>Clicking a date will show you several variations for that particular date. <a href="#basics_deb2">Latest Debian images</a> shows the results of clicking <em>2014-11-11</em>.</p>
+Scrolling up you&#8217;ll find <a href="#basics_deb2">Latest Debian images</a>.  There are three types of snapshots, Minimal, IoT and Xfce Desktop.  IoT is the one we are running.</p>
 </div>
 <div id="basics_deb2" class="imageblock">
 <div class="content">
 <img src="./01basics/figures/deb2.png" alt="Latest Debian images">
 </div>
-<div class="title">Figure 11. Latest Debian images</div>
+<div class="title">Figure 7. Latest Debian images</div>
 </div>
 <div class="paragraph">
-<p>These are the images you want to use if you are flashing a Rev C BeagleBone Black onboard flash, or flashing a 4 GB or bigger miscroSD card. The image beginning with <em>am335x-debian-11.3-iot-</em> is used for programming the microSD card.</p>
-</div>
-<div class="paragraph">
-<p>The one beginning with <em>am57xx-debian-</em> is for programming the Beagle AI&#8217;s.</p>
+<p>These are the images you want to use if you are flashing a Rev C BeagleBone Black onboard flash, or flashing a 4 GB or bigger miscroSD card. The image beginning with <em>am335x-debian-11.3-iot-</em> is used for the non-AI boards. The one beginning with <em>am57xx-debian-</em> is for programming the Beagle AI&#8217;s.</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -1070,9 +968,12 @@ Scroling up you&#8217;ll find <a href="#basics_deb2">Latest Debian images</a>.  
 </tr>
 </table>
 </div>
+<div class="paragraph">
+<p>Click the image you want to use and it will download.  The images are some 500M, so it might take a while.</p>
+</div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_9">Discussion</h4>
+<h4 id="_discussion_8">Discussion</h4>
 
 </div>
 </div>
@@ -1117,197 +1018,13 @@ Scroling up you&#8217;ll find <a href="#basics_deb2">Latest Debian images</a>.  
 </tr>
 </table>
 </div>
-<div class="sect4">
-<h5 id="_windows">Windows</h5>
 <div class="paragraph">
-<p>If you are using a host computer running Windows, go to <a href="http://rcn-ee.net/deb/testing/2014-11-11/lxde-4gb/" class="bare">http://rcn-ee.net/deb/testing/2014-11-11/lxde-4gb/</a>, and download <em>bone-debian-7.7-lxde-4gb-armhf-2014-11-11-4gb.img.xz</em>. It&#8217;s more than 500 MB, so be sure to have a fast Internet connection. Then go to <a href="http://beagleboard.org/getting-started#update" class="bare">http://beagleboard.org/getting-started#update</a> and
+<p>Download the image you found in <a href="#basics_find_image">Finding the Latest Version of the OS for Your Bone</a>. It&#8217;s more than 500 MB, so be sure to have a fast Internet connection. Then go to <a href="http://beagleboard.org/getting-started#update" class="bare">http://beagleboard.org/getting-started#update</a> and
 follow the instructions there to install the image you downloaded.</p>
 </div>
 </div>
-<div class="sect4">
-<h5 id="_linux">Linux</h5>
-<div class="paragraph">
-<p>If you are running a Linux host, plug a 4 GB byte or bigger microSD card into a reader on your host and run Disks.</p>
-</div>
-<div class="paragraph">
-<p>Select the microSD Drive and unmount (<a href="#basics_disks_fig">Unmounting the microSD card via the Disks application</a>) any partitions that have mounted. Note the path to the device (shown with an arrow in <a href="#basics_disks_fig">Unmounting the microSD card via the Disks application</a>) at the top of the Disks window. In my case, it&#8217;s <em>/dev/sdb</em>.  We&#8217;ll use this path in a moment.</p>
-</div>
-<div id="basics_disks_fig" class="imageblock">
-<div class="content">
-<img src="./01basics/figures/disks.png" alt="Disks">
-</div>
-<div class="title">Figure 12. Unmounting the microSD card via the Disks application</div>
-</div>
-<div class="paragraph">
-<p>Run the following command to download the 2014-11-11 image (be sure that you have a fast Internet connection; it&#8217;s more than 500 MB in size):</p>
-</div>
-<pre data-type="programlisting">
-host$ <strong>wget http://rcn-ee.net/deb/testing/2014-11-11/lxde-4gb/\
-bone-debian-7.7-lxde-4gb-armhf-2014-11-11-4gb.img.xz</strong>
-</pre>
-<div class="paragraph">
-<p>This will copy the disk image to the current directory the command was run from to your host computer. This will take a couple minutes on a fast connection.</p>
-</div>
-<div class="paragraph">
-<p>The downloaded file is compressed. Uncompress it by using the following command:</p>
-</div>
-<pre data-type="programlisting">
-host$ <strong>unxz bone-debian-7.7-lxde-4gb-armhf-2014-11-11-4gb.img.xz</strong>
-</pre>
-<div class="paragraph">
-<p>After a minute or so, the compressed <em>.imgxz</em> file will be replaced by the uncompressed <em>.img</em> file. Then write it to the microSD card by using the following command, substituting your device path noted earlier (/dev/sdb, in my case) for the device path given in the dd command:</p>
-</div>
-<pre data-type="programlisting">
-host$ <strong>sudo dd if=bone-debian-7.7-lxde-4gb-armhf-2014-11-11-4gb.img \
-            of=/dev/sdb bs=8M</strong>
-</pre>
-<div class="paragraph">
-<p>The dd command takes 5 to 10 minutes.</p>
-</div>
-<div class="admonitionblock warning">
-<table>
-<tr>
-<td class="icon">
-<div class="title">Warning</div>
-</td>
-<td class="content">
-<div class="paragraph">
-<p>This operation will wipe out everything on the microSD card. It might be worth plugging in your card, noting the path,  removing the card, noting it has disappeared, and then plugging it in again and checking the path. You can really mess up your host if you have selected the wrong disk and used the wrong path. Be careful.</p>
-</div>
-</td>
-</tr>
-</table>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<div class="title">Note</div>
-</td>
-<td class="content">
-<div class="paragraph">
-<p>When formatting SD cards, you often need to be sure to have a <em>bootable partition</em>. Because you are completly rewriting the card, it doesn&#8217;t matter how the card is configured before writing. The dd command writes everything the way it needs to be.</p>
-</div>
-</td>
-</tr>
-</table>
-</div>
-<div class="paragraph">
-<p>When you have your microSD card flashed, put it in the Bone and power it up. The USB drive and other devices should appear as before. Open Cloud9 (<a href="#basics_cloud9">Editing Code Using the Cloud9 IDE</a>) and, in the bash tab, enter:</p>
-</div>
-<pre data-type="programlisting">
-root@beaglebone:/var/lib/cloud9# <strong>df -h</strong>
-Filesystem      Size  Used Avail Use% Mounted on
-rootfs          3.2G  2.0G  1.0G  29% /
-udev             10M     0   10M   0% /dev
-tmpfs           100M  676K   99M   1% /run
-/dev/mmcblk0p2  7.2G  2.0G  5.0G  29% /
-tmpfs           249M     0  249M   0% /dev/shm
-tmpfs           249M     0  249M   0% /sys/fs/cgroup
-tmpfs           5.0M     0  5.0M   0% /run/lock
-tmpfs           100M     0  100M   0% /run/user
-/dev/mmcblk0p1   96M   62M   35M  65% /media/BEAGLEBONE
-/dev/mmcblk1p2  1.8G  290M  1.4G  18% /media/rootfs
-/dev/mmcblk1p1   16M  520K   16M   4% /media/BEAGLEBONE_
-</pre>
-<div class="paragraph">
-<p>This prints out how much of the disk is free.  The first line is the one we&#8217;re interested in. If the Size is much smaller than the size of your microSD card, you&#8217;ll need to resize your partition.  Just enter the following:</p>
-</div>
-<pre data-type="programlisting">
-root@beaglebone:/var/lib/cloud9# <strong>cd /opt/scripts/tools/</strong>
-root@beaglebone:/opt/scripts/tools# <strong>./grow_partition.sh</strong>
-root@beaglebone:/opt/scripts/tools# <strong>reboot</strong>
-root@beaglebone:/var/lib/cloud9# <strong>df -h</strong>
-Filesystem      Size  Used Avail Use% Mounted on
-rootfs          7.2G  2.0G  5.0G  29% /
-udev             10M     0   10M   0% /dev
-tmpfs           100M  676K   99M   1% /run
-/dev/mmcblk0p2  7.2G  2.0G  5.0G  29% /
-tmpfs           249M     0  249M   0% /dev/shm
-tmpfs           249M     0  249M   0% /sys/fs/cgroup
-tmpfs           5.0M     0  5.0M   0% /run/lock
-tmpfs           100M     0  100M   0% /run/user
-/dev/mmcblk0p1   96M   62M   35M  65% /media/BEAGLEBONE
-/dev/mmcblk1p2  1.8G  290M  1.4G  18% /media/rootfs
-/dev/mmcblk1p1   16M  520K   16M   4% /media/BEAGLEBONE_</pre>
-<div class="paragraph">
-<p>This clever script will figure out how big the partition can be and grow it to that size. A reboot is necessary.</p>
-</div>
-<div class="paragraph">
-<p>Here, I started by putting a 4 GB image on an 8 GB microSD card. Initially, only <span class="keep-together">3.2 GB</span> were usable. After growing the partition, most of the card (7.2 GB) is available.</p>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_mac">Mac</h5>
-<div class="paragraph">
-<p>If you are running from a Mac host, the steps are fairly similar to running on a Linux host, except that you won&#8217;t be able to view the Linux partition on the created microSD card.</p>
-</div>
-<div class="paragraph">
-<p>Begin by plugging a 4 GB or bigger microSD card into a reader on your host and then run Disk Utility. Select the disk and click Info. In <a href="#basics_diskutility_fig">Examining the microSD card via the Disk Utility application</a>, you can see the Disk Identifier is disk1s1.</p>
-</div>
-<div id="basics_diskutility_fig" class="imageblock">
-<div class="content">
-<img src="./01basics/figures/diskutility.png" alt="Disk Utility">
-</div>
-<div class="title">Figure 13. Examining the microSD card via the Disk Utility application</div>
-</div>
-<div class="paragraph">
-<p>The important part of the Disk Identifier is the number immediately following disk (a 1 in <a href="#basics_diskutility_fig">Examining the microSD card via the Disk Utility application</a>). We&#8217;ll use this identifier to overwrite the microSD contents.</p>
-</div>
-<div class="paragraph">
-<p>From your Mac&#8217;s Terminal, run the following command to download the <em>2014-11-11</em> image (again, be sure that you have a fast Internet connection, because it&#8217;s more than 500 MB):</p>
-</div>
-<pre data-type="programlisting">
-mac$ <strong>curl -O http://rcn-ee.net/deb/testing/2014-11-11/lxde-4gb/\
-bone-debian-7.7-lxde-4gb-armhf-2014-11-11-4gb.img.xz</strong>
-</pre>
-<div class="paragraph">
-<p>You&#8217;ll need to have the xz utility installed (download from The Tukaani Project [<a href="http://tukaani.org/xz/" class="bare">http://tukaani.org/xz/</a>]). Uncompress the image by using the following command (this will take a minute or so):</p>
-</div>
-<pre data-type="programlisting">
-mac$ <strong>unxz bone-debian-7.7-lxde-4gb-armhf-2014-11-11-4gb.img.xz</strong>
-</pre>
-<div class="paragraph">
-<p>Then write it to the microSD card, substituting your device path noted earlier (/dev/rdisk1, in my case) for the device path given in the dd command:</p>
-</div>
-<pre data-type="programlisting">
-mac$ <strong>sudo dd if=bone-debian-7.7-lxde-4gb-armhf-2014-11-11-4gb.img of=/dev/rdisk1</strong>
-</pre>
-<div class="paragraph">
-<p>You&#8217;ll need to type in your password. The dd command takes 5 to 10 minutes.</p>
-</div>
-<div class="admonitionblock warning">
-<table>
-<tr>
-<td class="icon">
-<div class="title">Warning</div>
-</td>
-<td class="content">
-<div class="paragraph">
-<p>This operation will wipe out everything on the microSD card. It might be worth plugging in your card, noting the path,  removing the card, noting it has disappeared, and then plugging it in again and checking the path. You can really mess up your host if you have selected the wrong disk and used the wrong path. Be careful.</p>
-</div>
-</td>
-</tr>
-</table>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<div class="title">Note</div>
-</td>
-<td class="content">
-<div class="paragraph">
-<p>Note that I used rdisk1 rather than disk1. According to <a href="http://bit.ly/1BqOxwW">the eLinux wiki</a>, doing so will speed up writing quite a bit.</p>
-</div>
-</td>
-</tr>
-</table>
-</div>
-</div>
-</div>
 <div class="sect3">
-<h4 id="_discussion_10">Discussion</h4>
+<h4 id="_discussion_9">Discussion</h4>
 
 </div>
 </div>
@@ -1347,7 +1064,7 @@ bone$ <strong>sudo apt upgrade</strong>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_11">Discussion</h4>
+<h4 id="_discussion_10">Discussion</h4>
 <div class="paragraph">
 <p>After you have a current image running on the Bone, it&#8217;s not at all difficult to keep it upgraded.</p>
 </div>
@@ -1421,7 +1138,7 @@ bone$ <strong>sudo apt upgrade</strong>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_12">Discussion</h4>
+<h4 id="_discussion_11">Discussion</h4>
 
 </div>
 </div>
@@ -1430,40 +1147,44 @@ bone$ <strong>sudo apt upgrade</strong>
 <div class="sect3">
 <h4 id="_problem_13">Problem</h4>
 <div class="paragraph">
-<p>You want to update the onboard flash rather than boot from the microSD card.</p>
+<p>You want to copy the microSD card to the onboard flash.</p>
 </div>
 </div>
 <div class="sect3">
 <h4 id="_solution_13">Solution</h4>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<div class="title">Note</div>
-</td>
-<td class="content">
 <div class="paragraph">
-<p>At the time of this writing, these instructions were up-to-date. Go to <a href="http://beagleboard.org/latest-images" class="bare">http://beagleboard.org/latest-images</a> for the latest instructions.</p>
+<p>If you want to update the onboard flash with the contents of the microSD card,</p>
 </div>
-</td>
-</tr>
-</table>
-</div>
-<div class="paragraph">
-<p>If you want to use the onboard flash, you need to repeat the steps in <a href="#basics_install_os">Running the Latest Version of the OS on Your Bone</a>, substituting BBB-eMMC-flasher-debian-7.7-lxde-4gb-armhf-2014-11-11-4gb.img.xz for lxde-4gb/bone-debian-7.7-lxde-4gb-armhf-2014-11-11-4gb.img.xz.</p>
-</div>
-<div class="paragraph">
-<p>That is, download, uncompress, and copy to a microSD card by using the following commands:</p>
-</div>
-<pre data-type="programlisting">
-host$ <strong>wget http://rcn-ee.net/deb/testing/2014-11-11/\
-BBB-eMMC-flasher-debian-7.7-lxde-4gb-armhf-2014-11-11-4gb.img.xz</strong>
-host$ <strong>unxz BBB-eMMC-flasher-debian-7.7-lxde-4gb-armhf-2014-11-11-4gb.img.xz</strong>
-host$ <strong>sudo dd if=BBB-eMMC-flasher-debian-7.7-lxde-4gb-armhf-2014-11-11-4gb.img \
-      of=/dev/sdb bs=8M</strong>
-</pre>
-<div class="paragraph">
-<p>Again, you&#8217;ll put the microSD card in the Bone and boot. However, there is one important difference: <em>you must be powered from an external 5 V source</em>. The flashing process requires more current than what typically can be pulled from USB.</p>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Repeat the steps in <a href="#basics_install_os">Running the Latest Version of the OS on Your Bone</a> to update the OS.</p>
+</li>
+<li>
+<p>Attach to an external 5 V source. <em>you must be powered from an external 5 V source</em>. The flashing process requires more current than what typically can be pulled from USB.</p>
+</li>
+<li>
+<p>Boot from the microSD card.</p>
+</li>
+<li>
+<p>Log on to the bone and edit /boot/uEnv.txt.</p>
+</li>
+<li>
+<p>Uncomment out the last line cmdline=init=/usr/sbin/init-beagle-flasher.</p>
+</li>
+<li>
+<p>Save the file and reboot.</p>
+</li>
+<li>
+<p>The USR LEDs will flash back and forth for a few minutes.</p>
+</li>
+<li>
+<p>When they stop flashing, remove the SD card and reboot.</p>
+</li>
+<li>
+<p>You are now running from the newly flashed onboard flash.</p>
+</li>
+</ol>
 </div>
 <div class="admonitionblock warning">
 <table>
@@ -1499,7 +1220,7 @@ host$ <strong>sudo dd if=BBB-eMMC-flasher-debian-7.7-lxde-4gb-armhf-2014-11-11-4
 <div class="content">
 <img src="./02sensors/figures/black_hardware_details.png" alt="USB Host Port">
 </div>
-<div class="title">Figure 14. The USB 2.0 host port</div>
+<div class="title">Figure 8. The USB 2.0 host port</div>
 </div>
 <div class="paragraph">
 <p>The two 46-pin cape headers (called P8 and P9) along the long edges of the board (<a href="#sensors_P8P9_fig">The P8 and P9 cape headers</a>) provide connections for cape add-on boards, digital and analog sensors, and more.</p>
@@ -1508,7 +1229,7 @@ host$ <strong>sudo dd if=BBB-eMMC-flasher-debian-7.7-lxde-4gb-armhf-2014-11-11-4
 <div class="content">
 <img src="./02sensors/figures/P8P9_bb.png" alt="Cape Headers P8 and P9">
 </div>
-<div class="title">Figure 15. The P8 and P9 cape headers</div>
+<div class="title">Figure 9. The P8 and P9 cape headers</div>
 </div>
 <div class="paragraph">
 <p>The simplest kind of sensor provides a single digital status, such as off or on,
@@ -1518,7 +1239,7 @@ and can be handled by an <em>input mode</em> of one of the Bone&#8217;s 65 gener
 <p><a href="#displays">Displays and Other Outputs</a> discusses some of the <em>output mode</em> usages of the GPIO pins.</p>
 </div>
 <div class="paragraph">
-<p>All these examples assume that you know how to edit a file (<a href="#basics_cloud9">Editing Code Using the Cloud9 IDE</a>) and run it, either within the Cloud9 integrated development environment (IDE) or from the command line (<a href="#tips_shell">Getting to the Command Shell via SSH</a>).</p>
+<p>All these examples assume that you know how to edit a file (<a href="#basics_vsc">Editing Code Using Visual Studio Code</a>) and run it, either within the Visual Studio Code (VSC) integrated development environment (IDE) or from the command line (<a href="#tips_shell">Getting to the Command Shell via SSH</a>).</p>
 </div>
 </div>
 <div class="sect2">
@@ -1538,14 +1259,14 @@ and can be handled by an <em>input mode</em> of one of the Bone&#8217;s 65 gener
 <div class="content">
 <img src="./02sensors/figures/cape-headers.png" alt="Sensor Connection Modes">
 </div>
-<div class="title">Figure 16. Some of the many sensor connection options on the Bone</div>
+<div class="title">Figure 10. Some of the many sensor connection options on the Bone</div>
 </div>
 <div class="paragraph">
 <p>Choosing the simplest solution available enables you to move on quickly to addressing other system aspects. By exploring each connection type, you can make more informed decisions as you seek to optimize and troubleshoot your design.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_13">Discussion</h4>
+<h4 id="_discussion_12">Discussion</h4>
 
 </div>
 </div>
@@ -1568,7 +1289,7 @@ and can be handled by an <em>input mode</em> of one of the Bone&#8217;s 65 gener
 <p>Plug your Bone into a host computer via the USB cable (<a href="#basics_out_of_the_box">Getting Started, Out of the Box</a>).</p>
 </li>
 <li>
-<p>Start Cloud9 (<a href="#basics_cloud9">Editing Code Using the Cloud9 IDE</a>).</p>
+<p>Start Cloud9 (<a href="#basics_vsc">Editing Code Using Visual Studio Code</a>).</p>
 </li>
 <li>
 <p>In the bash tab (as shown in <a href="#sensors_cloud9_bash">Entering commands in the Cloud9 bash tab</a>), run the following commands:</p>
@@ -1583,7 +1304,7 @@ root@beaglebone:~#
 <div class="content">
 <img src="./02sensors/figures/cloud9-bash-tab.png" alt="Cloud9 bash tab">
 </div>
-<div class="title">Figure 17. Entering commands in the Cloud9 bash tab</div>
+<div class="title">Figure 11. Entering commands in the Cloud9 bash tab</div>
 </div>
 <div class="paragraph">
 <p>Here, we issued the <em>change directory</em> (cd) command without specifying a target directory. By default, it takes you to your home directory. Notice that the prompt has changed to reflect the change. The path changed from /var/lib/cloud9 to &amp;#x7E;. The &amp;#x7E; is a shorthand for your home directory.</p>
@@ -1617,7 +1338,7 @@ root@beaglebone:~/boneSensors# <strong>touch pushbutton.js</strong>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>In Cloud9, in the Workspace browser on the left, go to the Preferences wheel and select Add Home to Favorites (<a href="#basics_addHome_fig">Making your home folder appear in Cloud9</a>). Now, your home directory will show up in the Workspace file tree.</p>
+<p>In Cloud9, in the Workspace browser on the left, go to the Preferences wheel and select Add Home to Favorites (<a href="#basics_addHome_fig">[basics_addHome_fig]</a>). Now, your home directory will show up in the Workspace file tree.</p>
 </li>
 <li>
 <p>In the Workspace browser, expand root.</p>
@@ -1656,7 +1377,7 @@ data= 1
 </div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_14">Discussion</h4>
+<h4 id="_discussion_13">Discussion</h4>
 
 </div>
 </div>
@@ -1696,7 +1417,7 @@ data= 1
 <div class="content">
 <img src="./02sensors/figures/pushbutton_bb.png" alt="Bone with pushbutton">
 </div>
-<div class="title">Figure 18. Diagram for wiring a pushbutton and magnetic reed switch input</div>
+<div class="title">Figure 12. Diagram for wiring a pushbutton and magnetic reed switch input</div>
 </div>
 <div class="paragraph">
 <p>The code in <a href="#js_pushbutton_code">Monitoring a pushbutton using a callback function (pushbutton.js)</a> reads GPIO port P9_42, which is attached to the <span class="keep-together">pushbutton</span>.</p>
@@ -1803,7 +1524,7 @@ data = 1
 </div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_15">Discussion</h4>
+<h4 id="_discussion_14">Discussion</h4>
 
 </div>
 </div>
@@ -1867,7 +1588,7 @@ gpiochip3 - 32 lines:
 <div class="content">
 <img src="./02sensors/figures/cape-headers-analog.png" alt="Seven analog inputs on P9 header">
 </div>
-<div class="title">Figure 19. Seven analog inputs on the P9 header</div>
+<div class="title">Figure 13. Seven analog inputs on the P9 header</div>
 </div>
 <div class="paragraph">
 <p>To make this recipe, you will need:</p>
@@ -1898,7 +1619,7 @@ or</p>
 <div class="content">
 <img src="./02sensors/figures/analogIn_bb.png" alt="Analog">
 </div>
-<div class="title">Figure 20. Wiring a 10k&#8486; variable resistor (trimpot) to an ADC port</div>
+<div class="title">Figure 14. Wiring a 10k&#8486; variable resistor (trimpot) to an ADC port</div>
 </div>
 <div class="paragraph">
 <p><a href="#sensors_analogIn_code">Reading an analog voltage (analogIn.js)</a> shows the BoneScript code used to read the variable resistor.
@@ -2011,7 +1732,7 @@ across the flex sensor.</p>
 <div class="content">
 <img src="./02sensors/figures/flexResistor_bb.png" alt="Flex Resistor">
 </div>
-<div class="title">Figure 21. Reading a two-terminal flex resistor</div>
+<div class="title">Figure 15. Reading a two-terminal flex resistor</div>
 </div>
 <div class="paragraph">
 <p>The code in <a href="#sensors_analogIn_code">Reading an analog voltage (analogIn.js)</a> also works for this setup.</p>
@@ -2019,7 +1740,7 @@ across the flex sensor.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_16">Discussion</h4>
+<h4 id="_discussion_15">Discussion</h4>
 
 </div>
 </div>
@@ -2067,7 +1788,7 @@ across the flex sensor.</p>
 <div class="content">
 <img src="./02sensors/figures/ultrasonicRange_bb.png" alt="Analog">
 </div>
-<div class="title">Figure 22. Wiring the LV-MaxSonar-EZ1 Sonar Range Finder to the P9_33 analog-in port</div>
+<div class="title">Figure 16. Wiring the LV-MaxSonar-EZ1 Sonar Range Finder to the P9_33 analog-in port</div>
 </div>
 <div class="paragraph">
 <p><a href="#sensors_ultrasonicRange_code">Reading an analog voltage (ultrasonicRange.js)</a> shows the code that reads the sensor at a fixed interval.</p>
@@ -2113,7 +1834,7 @@ function readPin() {
 </div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_17">Discussion</h4>
+<h4 id="_discussion_16">Discussion</h4>
 
 </div>
 </div>
@@ -2134,7 +1855,7 @@ function readPin() {
 <div class="content">
 <img src="./02sensors/figures/hc-sr04.jpg" alt="HC-SR04 Ultrasonic Sensor">
 </div>
-<div class="title">Figure 23. HC-SR04 Ultrasonic range sensor</div>
+<div class="title">Figure 17. HC-SR04 Ultrasonic range sensor</div>
 </div>
 <div class="paragraph">
 <p>To make this recipe, you will need:</p>
@@ -2160,7 +1881,7 @@ device, so the <em>banded</em> wire (running from P9_7 on the Bone to VCC on the
 <div class="content">
 <img src="./02sensors/figures/hc-sr04-ultraSonic_bb.png" alt="Wiring an HC-SR04 Ultrasonic Sensor">
 </div>
-<div class="title">Figure 24. Wiring an HC-SR04 ultrasonic sensor</div>
+<div class="title">Figure 18. Wiring an HC-SR04 ultrasonic sensor</div>
 </div>
 <div class="paragraph">
 <p><a href="#sensors_hc-sr04_code">Driving a HC-SR04 ultrasound sensor (hc-sr04-ultraSonic.js)</a> shows BoneScript code used to drive the HC-SR04.</p>
@@ -2230,7 +1951,7 @@ function pingEnd(x) {
 </div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_18">Discussion</h4>
+<h4 id="_discussion_17">Discussion</h4>
 
 </div>
 </div>
@@ -2251,7 +1972,7 @@ function pingEnd(x) {
 <div class="content">
 <img src="./02sensors/figures/rotaryEncoder_bb.png" alt="rotaryEncoder">
 </div>
-<div class="title">Figure 25. Wiring a rotary encoder using eQEP2</div>
+<div class="title">Figure 19. Wiring a rotary encoder using eQEP2</div>
 </div>
 <div class="paragraph">
 <p>On the BeagleBone and PocketBeage the three encoders are:</p>
@@ -2464,7 +2185,7 @@ data = 999972
 </div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_19">Discussion</h4>
+<h4 id="_discussion_18">Discussion</h4>
 
 </div>
 <div class="sect3">
@@ -2507,7 +2228,7 @@ data = 999972
 <div class="content">
 <img src="./02sensors/figures/GPS_bb.png" alt="GPS">
 </div>
-<div class="title">Figure 26. Wiring a GPS to UART 4</div>
+<div class="title">Figure 20. Wiring a GPS to UART 4</div>
 </div>
 <div class="paragraph">
 <p>The GPS will produce raw National Marine Electronics Association (NMEA) data that&#8217;s easy for a computer to read, but not for a human.
@@ -2585,12 +2306,12 @@ function onSerial(x) {
 </div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_20">Discussion</h4>
+<h4 id="_discussion_19">Discussion</h4>
 <div id="cape-headers-serial_fig" class="imageblock">
 <div class="content">
 <img src="./02sensors/figures/cape-headers-serial.png" alt="UART outputs">
 </div>
-<div class="title">Figure 27. Table of UART outputs</div>
+<div class="title">Figure 21. Table of UART outputs</div>
 </div>
 </div>
 </div>
@@ -2630,7 +2351,7 @@ function onSerial(x) {
 <div class="content">
 <img src="./02sensors/figures/i2cTemp_bb.png" alt="I^2^C  Temp">
 </div>
-<div class="title">Figure 28. Wiring an I<sup>2</sup>C TMP101 temperature sensor</div>
+<div class="title">Figure 22. Wiring an I<sup>2</sup>C TMP101 temperature sensor</div>
 </div>
 <div class="paragraph">
 <p>There are two I<sup>2</sup>C buses brought out to the headers. <a href="#sensors_cape_headers_i2c">Table of I<sup>2</sup>C outputs</a> shows that you have wired your device to I<sup>2</sup>C bus 2.</p>
@@ -2639,7 +2360,7 @@ function onSerial(x) {
 <div class="content">
 <img src="./02sensors/figures/cape-headers-i2c.png" alt="I^2^C  Temp">
 </div>
-<div class="title">Figure 29. Table of I<sup>2</sup>C outputs</div>
+<div class="title">Figure 23. Table of I<sup>2</sup>C outputs</div>
 </div>
 <div class="paragraph">
 <p>Once the I<sup>2</sup>C  device is wired up, you can use a couple handy I<sup>2</sup>C tools to test the device. Because these are Linux command-line tools, you have to use 2 as the bus number. i2cdetect, shown in <a href="#js_i2cTools">I<sup>2</sup>C tools</a>, shows which I<sup>2</sup>C  devices are on the bus. The -r flag indicates which bus to use. Our TMP101 is appearing at address 0x49. You can use the i2cget command to read the value. It returns the temperature in hexidecimal and degrees C. In this example, 0x18 = 24&#176;C, which is 75.2&#176;F. (Hmmm, the office is a bit warm today.) Try warming up the TMP101 with your finger and running i2cget again.</p>
@@ -2745,7 +2466,7 @@ bone$ <strong>cat temp1_input</strong>
 <p>There is the temperature in milli-degrees C.</p>
 </div>
 <div class="paragraph">
-<p>Other i2c devices are supported by the kerenl.
+<p>Other i2c devices are supported by the kernel.
 You can try the Linux Kernel Driver Database, <a href="https://cateee.net/lkddb/" class="bare">https://cateee.net/lkddb/</a> to see them.</p>
 </div>
 <div class="paragraph">
@@ -2878,7 +2599,7 @@ while True:
 </div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_21">Discussion</h4>
+<h4 id="_discussion_20">Discussion</h4>
 
 </div>
 </div>
@@ -2918,7 +2639,7 @@ while True:
 <div class="content">
 <img src="./02sensors/figures/onewire_bb.png" alt="1-wire">
 </div>
-<div class="title">Figure 30. Wiring a Dallas 1-Wire temperature sensor <sup class="footnote">[<a id="_footnoteref_1" class="footnote" href="#_footnotedef_1" title="View footnote.">1</a>]</sup></div>
+<div class="title">Figure 24. Wiring a Dallas 1-Wire temperature sensor <sup class="footnote">[<a id="_footnoteref_1" class="footnote" href="#_footnotedef_1" title="View footnote.">1</a>]</sup></div>
 </div>
 <div class="paragraph">
 <p>Edit the file /boot/uEnt.txt.   Go to about line 19 and edit as shown:</p>
@@ -3029,7 +2750,7 @@ temp (C) = 31.0
 </div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_22">Discussion</h4>
+<h4 id="_discussion_21">Discussion</h4>
 <div class="paragraph">
 <p>Each temperature sensor has a unique serial number, so you can have several all sharing the same data line.</p>
 </div>
@@ -3052,7 +2773,7 @@ temp (C) = 31.0
 <div class="content">
 <img src="./02sensors/figures/sensorTag.jpg" alt="SensorTag">
 </div>
-<div class="title">Figure 31. SensorTag</div>
+<div class="title">Figure 25. SensorTag</div>
 </div>
 <div class="paragraph">
 <p>To make this recipe, you will need:</p>
@@ -3280,7 +3001,7 @@ disconnected!</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_23">Discussion</h4>
+<h4 id="_discussion_22">Discussion</h4>
 <div class="paragraph">
 <p>Here, you see examples of how to read all the sensors. Look in <em>index.js</em> (in the same directory) to see all the methods that are defined.</p>
 </div>
@@ -3304,7 +3025,7 @@ such as the one shown in <a href="#usb_audio_dongle">A USB audio dongle</a>. Som
 <div class="content">
 <img src="./02sensors/figures/audioDongle.jpg" alt="Audio Dongle">
 </div>
-<div class="title">Figure 32. A USB audio dongle</div>
+<div class="title">Figure 26. A USB audio dongle</div>
 </div>
 <div class="paragraph">
 <p>Drivers for the <a href="http://bit.ly/1MrAJUR">Advanced Linux Sound Architecture</a> (ALSA) are already installed on the Bone. You can list the recording and playing devices on your Bone by using aplay and arecord, as shown in <a href="#sensors_alsa">Listing the ALSA audio output and input devices on the Bone</a>. BeagleBone Black has audio-out on the HDMI interface. It&#8217;s listed as card 0 in <a href="#sensors_alsa">Listing the ALSA audio output and input devices on the Bone</a>. card 1 is my USB audio adapter&#8217;s audio out.</p>
@@ -3368,7 +3089,7 @@ bone$ <strong>mplayer test.mp3</strong>
 </pre>
 </div>
 <div class="sect3">
-<h4 id="_discussion_24">Discussion</h4>
+<h4 id="_discussion_23">Discussion</h4>
 <div class="paragraph">
 <p>Adding the simple USB audio adapter opens up a world of audio I/O on the Bone.</p>
 </div>
@@ -3390,13 +3111,13 @@ BeagleBone Black&#8217;s general-purpose input/output (GPIO) pins. The Bone has 
 <div class="content">
 <img src="./03displays/figures/P8P9_bb.png" alt="Headers P8 and P9">
 </div>
-<div class="title">Figure 33. The P8 and P9 GPIO headers</div>
+<div class="title">Figure 27. The P8 and P9 GPIO headers</div>
 </div>
 <div class="paragraph">
 <p>The purpose of this chapter is to give simple examples that show how to use various methods of output. Most solutions require a breadboard and some jumper wires.</p>
 </div>
 <div class="paragraph">
-<p>All these examples assume that you know how to edit a file (<a href="#basics_cloud9">Editing Code Using the Cloud9 IDE</a>) and run it, either within Cloud9 integrated development environment (IDE) or from the command line (<a href="#tips_shell">Getting to the Command Shell via SSH</a>).</p>
+<p>All these examples assume that you know how to edit a file (<a href="#basics_vsc">Editing Code Using Visual Studio Code</a>) and run it, either within Cloud9 integrated development environment (IDE) or from the command line (<a href="#tips_shell">Getting to the Command Shell via SSH</a>).</p>
 </div>
 </div>
 <div class="sect2">
@@ -3416,10 +3137,10 @@ BeagleBone Black&#8217;s general-purpose input/output (GPIO) pins. The Bone has 
 <div class="content">
 <img src="./03displays/figures/internLED.png" alt="USER LEDs">
 </div>
-<div class="title">Figure 34. The four USER LEDs</div>
+<div class="title">Figure 28. The four USER LEDs</div>
 </div>
 <div class="paragraph">
-<p>Place the code shown in <a href="#js_internLED_code">Using an internal LED (internLED.js)</a> in a file called <em>internLED.js</em>. You can do this using Cloud9 to edit files (as shown in <a href="#basics_cloud9">Editing Code Using the Cloud9 IDE</a>) or with a more traditional editor (as shown in <a href="#tips_editing_files">Editing a Text File from the GNU/Linux Command Shell</a>).</p>
+<p>Place the code shown in <a href="#js_internLED_code">Using an internal LED (internLED.js)</a> in a file called <em>internLED.js</em>. You can do this using Cloud9 to edit files (as shown in <a href="#basics_vsc">Editing Code Using Visual Studio Code</a>) or with a more traditional editor (as shown in <a href="#tips_editing_files">Editing a Text File from the GNU/Linux Command Shell</a>).</p>
 </div>
 <div id="py_internLED_code" class="exampleblock">
 <div class="title">Example 20. Using an internal LED (internLED.py)</div>
@@ -3502,7 +3223,7 @@ bone$ <strong>./internLED.js</strong>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_25">Discussion</h4>
+<h4 id="_discussion_24">Discussion</h4>
 
 </div>
 </div>
@@ -3553,10 +3274,10 @@ bone$ <strong>./internLED.js</strong>
 <div class="content">
 <img src="./03displays/figures/externLED_bb.png" alt="External LED">
 </div>
-<div class="title">Figure 35. Diagram for using an external LED</div>
+<div class="title">Figure 29. Diagram for using an external LED</div>
 </div>
 <div class="paragraph">
-<p>After you&#8217;ve wired it, start Cloud9 (see <a href="#basics_cloud9">Editing Code Using the Cloud9 IDE</a>) and enter the code shown in <a href="#js_externLED_code">Code for using an external LED (externLED.js)</a> in a file called <em>externLED.js</em>.</p>
+<p>After you&#8217;ve wired it, start Cloud9 (see <a href="#basics_vsc">Editing Code Using Visual Studio Code</a>) and enter the code shown in <a href="#js_externLED_code">Code for using an external LED (externLED.js)</a> in a file called <em>externLED.js</em>.</p>
 </div>
 <div id="js_externLED_code" class="exampleblock">
 <div class="title">Example 22. Code for using an external LED (externLED.js)</div>
@@ -3605,7 +3326,7 @@ function toggle() {
 </div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_26">Discussion</h4>
+<h4 id="_discussion_25">Discussion</h4>
 
 </div>
 </div>
@@ -3639,14 +3360,14 @@ function toggle() {
 <div class="content">
 <img src="./03displays/figures/powerSwitch_bb.png" alt="Power Switch Tail II">
 </div>
-<div class="title">Figure 36. Diagram for wiring PowerSwitch Tail II</div>
+<div class="title">Figure 30. Diagram for wiring PowerSwitch Tail II</div>
 </div>
 <div class="paragraph">
 <p>After you&#8217;ve wired it, because this uses the same output pin as <a href="#displays_externalLED">Toggling an External LED</a>, you can run the same code (<a href="#js_externLED_code">Code for using an external LED (externLED.js)</a>).</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_27">Discussion</h4>
+<h4 id="_discussion_26">Discussion</h4>
 
 </div>
 </div>
@@ -3777,7 +3498,7 @@ function fade() {
 </div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_28">Discussion</h4>
+<h4 id="_discussion_27">Discussion</h4>
 <div class="paragraph">
 <p>The Bone has several outputs that can be use as pwm&#8217;s as shown in <a href="#cape-headers-pwm_fig">Table of PWM outputs</a>.  There are three EHRPWM's which each has a pair  of pwm channels.  Each pair must have the same period.</p>
 </div>
@@ -3785,7 +3506,7 @@ function fade() {
 <div class="content">
 <img src="./03displays/figures/cape-headers-pwm.png" alt="PWM outputs">
 </div>
-<div class="title">Figure 37. Table of PWM outputs</div>
+<div class="title">Figure 31. Table of PWM outputs</div>
 </div>
 <div class="paragraph">
 <p>The pwm&#8217;s are accessed through /sys/class/pwm</p>
@@ -3909,7 +3630,7 @@ bone$ <strong>echo 1 > enable</strong>
 <div class="content">
 <img src="./03displays/figures/i2cMatrix_bb.png" alt="i2c LED matrix">
 </div>
-<div class="title">Figure 38. Wiring an i2c LED matrix</div>
+<div class="title">Figure 32. Wiring an i2c LED matrix</div>
 </div>
 <div class="paragraph">
 <p><a href="#sensors_i2c_temp">Measuring a Temperature</a> shows how to use i2cdetect to discover the address of an I<sup>2</sup>C device. It also describes the difference between how Linux numbers the I<sup>2</sup>C buses (0 and 1) versus how BoneScript numbers them (1 and 2). Let&#8217;s see how your display shows up.</p>
@@ -4036,7 +3757,7 @@ bus.write_i2c_block_data(matrix, 0, smile)</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_29">Discussion</h4>
+<h4 id="_discussion_28">Discussion</h4>
 
 </div>
 </div>
@@ -4076,7 +3797,7 @@ bus.write_i2c_block_data(matrix, 0, smile)</code></pre>
 <div class="content">
 <img src="./03displays/figures/i2cMatrixLevelTrans_bb.png" alt="PCA9306 level translator">
 </div>
-<div class="title">Figure 39. Wiring a PCA9306 level translator to an LED matrix</div>
+<div class="title">Figure 33. Wiring a PCA9306 level translator to an LED matrix</div>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -4094,7 +3815,7 @@ bus.write_i2c_block_data(matrix, 0, smile)</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_30">Discussion</h4>
+<h4 id="_discussion_29">Discussion</h4>
 
 </div>
 </div>
@@ -4115,7 +3836,7 @@ bus.write_i2c_block_data(matrix, 0, smile)</code></pre>
 <div class="content">
 <img src="./03displays/figures/neo_bb.png" alt="NeoPixel Ring">
 </div>
-<div class="title">Figure 40. Wiring an Adafruit NeoPixel LED matrix to P9_29</div>
+<div class="title">Figure 34. Wiring an Adafruit NeoPixel LED matrix to P9_29</div>
 </div>
 </div>
 </div>
@@ -4136,7 +3857,7 @@ bus.write_i2c_block_data(matrix, 0, smile)</code></pre>
 <div class="content">
 <img src="./03displays/figures/neoPixelMatrix_bb.png" alt="NeoPixel Matrix">
 </div>
-<div class="title">Figure 41. Wiring an Adafruit NeoPixel LED matrix to P8_30</div>
+<div class="title">Figure 35. Wiring an Adafruit NeoPixel LED matrix to P8_30</div>
 </div>
 <div class="paragraph">
 <p><a href="#js_neoPixel_code">Installing and running LEDscape and OpenPixelControl (neoPixel.sh)</a> shows how to install LEDscape and run the LEDs.</p>
@@ -4171,7 +3892,7 @@ modprobe uio_pruss
 </div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_31">Discussion</h4>
+<h4 id="_discussion_30">Discussion</h4>
 
 </div>
 </div>
@@ -4235,7 +3956,7 @@ speakForSelf("Hello, My name is Borris. " +
 </div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_32">Discussion</h4>
+<h4 id="_discussion_31">Discussion</h4>
 <div style="page-break-after: always;"></div>
 </div>
 </div>
@@ -4490,7 +4211,7 @@ process.on('SIGINT', function() {
 </div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_33">Discussion</h4>
+<h4 id="_discussion_32">Discussion</h4>
 
 </div>
 </div>
@@ -4784,7 +4505,7 @@ process.on('SIGINT', function() {
 </div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_34">Discussion</h4>
+<h4 id="_discussion_33">Discussion</h4>
 
 </div>
 <div class="sect3">
@@ -4902,7 +4623,7 @@ process.on('SIGINT', function() {
 </div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_35">Discussion</h4>
+<h4 id="_discussion_34">Discussion</h4>
 
 </div>
 </div>
@@ -4945,16 +4666,118 @@ process.on('SIGINT', function() {
 <div class="paragraph">
 <p>Use the code in <a href="#motors_stepperMotor_code">Driving a bipolar stepper motor (bipolarStepperMotor.js)</a> (<em>bipolarStepperMotor.js</em>) to drive the motor.</p>
 </div>
+<div id="motors_stepperMotor_code_py" class="exampleblock">
+<div class="title">Example 35. Driving a bipolar stepper motor (bipolarStepperMotor.py)</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-python" data-lang="python">#!/usr/bin/env python
+import time
+import os
+import signal
+import sys
+
+# Motor is attached here
+# controller = ["P9_11", "P9_13", "P9_15", "P9_17"]; 
+# controller = ["30", "31", "48", "5"]
+# controller = ["P9_14", "P9_16", "P9_18", "P9_22"]; 
+controller = ["50", "51", "4", "2"]
+states = [[1,0,0,0], [0,1,0,0], [0,0,1,0], [0,0,0,1]]
+statesHiTorque = [[1,1,0,0], [0,1,1,0], [0,0,1,1], [1,0,0,1]]
+statesHalfStep = [[1,0,0,0], [1,1,0,0], [0,1,0,0], [0,1,1,0],
+                      [0,0,1,0], [0,0,1,1], [0,0,0,1], [1,0,0,1]]
+
+curState = 0    # Current state
+ms = 100        # Time between steps, in ms
+maxStep = 22    # Number of steps to turn before turning around
+minStep = 0     # minimum step to turn back around on
+
+CW  =  1       # Clockwise
+CCW = -1
+pos =  0       # current position and direction
+direction = CW
+GPIOPATH="/sys/class/gpio"
+
+def signal_handler(sig, frame):
+    print('Got SIGINT, turning motor off')
+    for i in range(len(controller)) :
+        f = open(GPIOPATH+"/gpio"+controller[i]+"/value", "w")
+        f.write('0')
+        f.close()
+    sys.exit(0)
+signal.signal(signal.SIGINT, signal_handler)
+print('Hit ^C to stop')
+
+def move():
+    global pos
+    global direction
+    global minStep
+    global maxStep
+    pos += direction
+    print("pos: " + str(pos))
+    # Switch directions if at end.
+    if (pos &gt;= maxStep or pos &lt;= minStep) :
+        direction *= -1
+    rotate(direction)
+
+# This is the general rotate
+def rotate(direction) :
+    global curState
+    global states
+	# print("rotate(%d)", direction);
+    # Rotate the state acording to the direction of rotation
+    curState +=  direction
+    if(curState &gt;= len(states)) :
+        curState = 0;
+    elif(curState&lt;0) :
+        curState = len(states)-1
+    updateState(states[curState])
+
+# Write the current input state to the controller
+def updateState(state) :
+    global controller
+    print(state)
+    for i in range(len(controller)) :
+        f = open(GPIOPATH+"/gpio"+controller[i]+"/value", "w")
+        f.write(str(state[i]))
+        f.close()
+
+# Initialize motor control pins to be OUTPUTs
+for i in range(len(controller)) :
+    # Make sure pin is exported
+    if (not os.path.exists(GPIOPATH+"/gpio"+controller[i])):
+        f = open(GPIOPATH+"/export", "w")
+        f.write(pin)
+        f.close()
+    # Make it an output pin
+    f = open(GPIOPATH+"/gpio"+controller[i]+"/direction", "w")
+    f.write("out")
+    f.close()
+
+# Put the motor into a known state
+updateState(states[0])
+rotate(direction)
+
+# Rotate
+while True:
+    move()
+    time.sleep(ms/1000)</code></pre>
+</div>
+</div>
+</div>
+</div>
 <div id="motors_stepperMotor_code" class="exampleblock">
-<div class="title">Example 35. Driving a bipolar stepper motor (bipolarStepperMotor.js)</div>
+<div class="title">Example 36. Driving a bipolar stepper motor (bipolarStepperMotor.js)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
 <pre class="highlight"><code class="language-js" data-lang="js">#!/usr/bin/env node
-var b = require('bonescript');
+var fs = require('fs');
 
 // Motor is attached here
-var controller = ["P9_11", "P9_13", "P9_15", "P9_17"]; 
+// var controller = ["P9_11", "P9_13", "P9_15", "P9_17"]; 
+// var controller = ["P9_14", "P9_16", "P9_18", "P9_22"]; 
+var controller = ["50", "51", "4", "2"]; 
 var states = [[1,0,0,0], [0,1,0,0], [0,0,1,0], [0,0,0,1]];
 var statesHiTorque = [[1,1,0,0], [0,1,1,0], [0,0,1,1], [1,0,0,1]];
 var statesHalfStep = [[1,0,0,0], [1,1,0,0], [0,1,0,0], [0,1,1,0],
@@ -4969,11 +4792,17 @@ var CW  =  1,       // Clockwise
     CCW = -1,
     pos = 0,        // current position and direction
     direction = CW;
+const GPIOPATH="/sys/class/gpio";
 
 // Initialize motor control pins to be OUTPUTs
 var i;
 for(i=0; i&lt;controller.length; i++) {
-    b.pinMode(controller[i], b.OUTPUT);
+    // Make sure pins are exported
+    if(!fs.existsSync(GPIOPATH+"/gpio"+controller[i])) {
+        fs.writeFileSync(GPIOPATH+"/export", controller[i]);
+    // Make it an output pin
+    fs.writeFileSync(GPIOPATH+"/gpio"+controller[i]+"/direction", "in");
+    }
 }
 
 // Put the motor into a known state
@@ -5010,7 +4839,7 @@ function rotate(direction) {
 function updateState(state) {
     console.log("state: " + state);
 	for (i=0; i&lt;controller.length; i++) {
-		b.digitalWrite(controller[i], state[i]);
+        fs.writeFileSync(GPIOPATH+"/gpio"+controller[i]+"/value", state[i])
 	}
 }
 
@@ -5026,7 +4855,7 @@ process.on('exit', function() {
 </div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_36">Discussion</h4>
+<h4 id="_discussion_35">Discussion</h4>
 
 </div>
 </div>
@@ -5089,7 +4918,7 @@ The stepper motor I&#8217;m using runs better at 5 V, so I&#8217;m using the Bon
 <p>The code for driving the motor is in <em>unipolarStepperMotor.js</em>; however, it is almost identical to the bipolar stepper code (<a href="#motors_stepperMotor_code">Driving a bipolar stepper motor (bipolarStepperMotor.js)</a>), so <a href="#motors_unistepperMotor_code">Changes to bipolar code to drive a unipolar stepper motor (unipolarStepperMotor.diff)</a> shows only the lines that you need to change.</p>
 </div>
 <div id="motors_unistepperMotor_code" class="exampleblock">
-<div class="title">Example 36. Changes to bipolar code to drive a unipolar stepper motor (unipolarStepperMotor.diff)</div>
+<div class="title">Example 37. Changes to bipolar code to drive a unipolar stepper motor (unipolarStepperMotor.diff)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -5120,7 +4949,7 @@ var ms = 100,       // Time between steps, in ms
 </div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_37">Discussion</h4>
+<h4 id="_discussion_36">Discussion</h4>
 <div style="page-break-after: always;"></div>
 </div>
 </div>
@@ -5208,7 +5037,7 @@ var ms = 100,       // Time between steps, in ms
 <div class="content">
 <img src="./05tips/figures/hdmiConverter.jpg" alt="HDMI Adaptor">
 </div>
-<div class="title">Figure 42. Female HDMI-to-male microHDMI adapter</div>
+<div class="title">Figure 36. Female HDMI-to-male microHDMI adapter</div>
 </div>
 <div class="paragraph">
 <p>Plug the small end into the microHDMI input on the Bone and plug your HDMI cable into the other end of the adapter and your monitor. If nothing displays on your Bone, reboot.</p>
@@ -5279,7 +5108,7 @@ cape_disable=capemgr.disable_partno=BB-BONELT-HDMI</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_38">Discussion</h4>
+<h4 id="_discussion_37">Discussion</h4>
 <div class="paragraph">
 <p>This recipe disables the HDMI audio, which allows the Bone to try other resolutions. If this fails, see <a href="http://bit.ly/1GEPcOH">BeagleBoneBlack HDMI</a> for how to force the Bone&#8217;s resolution to match your monitor.</p>
 </div>
@@ -5303,7 +5132,7 @@ cape_disable=capemgr.disable_partno=BB-BONELT-HDMI</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_39">Discussion</h4>
+<h4 id="_discussion_38">Discussion</h4>
 
 </div>
 </div>
@@ -5318,7 +5147,7 @@ cape_disable=capemgr.disable_partno=BB-BONELT-HDMI</code></pre>
 <div class="sect3">
 <h4 id="_solution_44">Solution</h4>
 <div class="paragraph">
-<p><a href="#basics_cloud9_IDE">Running JavaScript Applications from the Cloud9 IDE</a> shows how to run shell commands in the Cloud9 bash tab. However, the Bone has Secure Shell (SSH) enabled right out of the box, so you can easily connect by using the following command to log in as user debian, (note the $ at the end of the prompt):</p>
+<p><a href="#basics_vsc_IDE">Running Python and JavaScript Applications from Visual Studio Code</a> shows how to run shell commands in the Cloud9 bash tab. However, the Bone has Secure Shell (SSH) enabled right out of the box, so you can easily connect by using the following command to log in as user debian, (note the $ at the end of the prompt):</p>
 </div>
 <pre data-type="programlisting">
 host$ <strong>ssh debian@192.168.7.2</strong>
@@ -5342,7 +5171,7 @@ passwd: password updated successfully
 </pre>
 </div>
 <div class="sect3">
-<h4 id="_discussion_40">Discussion</h4>
+<h4 id="_discussion_39">Discussion</h4>
 
 </div>
 </div>
@@ -5401,7 +5230,7 @@ tells the speed of the connection. In this case, it&#8217;s 115,200 bits per sec
 </div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_41">Discussion</h4>
+<h4 id="_discussion_40">Discussion</h4>
 
 </div>
 </div>
@@ -5460,7 +5289,7 @@ tells the speed of the connection. In this case, it&#8217;s 115,200 bits per sec
 <div class="content">
 <img src="./05tips/figures/FTDIcable.jpg" alt="FTDI Cable">
 </div>
-<div class="title">Figure 43. FTDI cable</div>
+<div class="title">Figure 37. FTDI cable</div>
 </div>
 <div class="paragraph">
 <p>Look for a small triangle at the end of the FTDI cable (<a href="#tips_FTDIconnector_fig">FTDI connector</a>).  It&#8217;s often connected to the black wire.</p>
@@ -5469,7 +5298,7 @@ tells the speed of the connection. In this case, it&#8217;s 115,200 bits per sec
 <div class="content">
 <img src="./05tips/figures/FTDIconnector.jpg" alt="FTDI Connector">
 </div>
-<div class="title">Figure 44. FTDI connector</div>
+<div class="title">Figure 38. FTDI connector</div>
 </div>
 <div class="paragraph">
 <p>Next, look for the FTDI pins of the Bone (labeled J1 on the Bone), shown in <a href="#tips_black_hardware_details_fig">FTDI pins for the FTDI connector <sup class="footnote">[3]</sup></sup> was originally posted by Jason Kridner at http://beagleboard.org/media under a Creative Commons Attribution-ShareAlike 3.0 Unported License.]</a>.
@@ -5479,7 +5308,7 @@ They are next to the P9 header and begin near pin 20. There is a white dot near 
 <div class="content">
 <img src="./05tips/figures/FTDIPins.png" alt="Serial Debug Pins">
 </div>
-<div class="title">Figure 45. FTDI pins for the FTDI connector <sup class="footnote">[<a id="_footnoteref_3" class="footnote" href="#_footnotedef_3" title="View footnote.">3</a>]</sup></sup></a> was originally posted by Jason Kridner at <a href="http://beagleboard.org/media" class="bare">http://beagleboard.org/media</a> under a <a href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons Attribution-ShareAlike 3.0 Unported License</a>.]</div>
+<div class="title">Figure 39. FTDI pins for the FTDI connector <sup class="footnote">[<a id="_footnoteref_3" class="footnote" href="#_footnotedef_3" title="View footnote.">3</a>]</sup></sup></a> was originally posted by Jason Kridner at <a href="http://beagleboard.org/media" class="bare">http://beagleboard.org/media</a> under a <a href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons Attribution-ShareAlike 3.0 Unported License</a>.]</div>
 </div>
 <div class="paragraph">
 <p>Plug the FTDI connector into the FTDI pins, being sure to connect the <em>triangle</em> pin on the connector to the <em>white dot</em> pin of the FTDI connector.</p>
@@ -5517,7 +5346,7 @@ beaglebone login:
 </div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_42">Discussion</h4>
+<h4 id="_discussion_41">Discussion</h4>
 
 </div>
 </div>
@@ -5540,7 +5369,7 @@ BeagleBoard.org Debian Bullseye IoT Image 2022-06-02
 </pre>
 </div>
 <div class="sect3">
-<h4 id="_discussion_43">Discussion</h4>
+<h4 id="_discussion_42">Discussion</h4>
 <div class="paragraph">
 <p><a href="#basics_latest_os">Verifying You Have the Latest Version of the OS on Your Bone</a> shows how to open the <em>ID.txt</em> file to see the OS version. The <em>/etc/dogtag</em> file has the same contents and is easier to find if you already have a command prompt. See <a href="#basics_install_os">Running the Latest Version of the OS on Your Bone</a> if you need to update your OS.</p>
 </div>
@@ -5582,7 +5411,7 @@ Log file is /root/.vnc/beaglebone:1.log
 <div class="content">
 <img src="./05tips/figures/vnc1.png" alt="Create a new remote desktop">
 </div>
-<div class="title">Figure 46. Creating a new remote desktop file in Remmina Remote Desktop Client</div>
+<div class="title">Figure 40. Creating a new remote desktop file in Remmina Remote Desktop Client</div>
 </div>
 <div class="paragraph">
 <p>Give your connection a name, being sure to select "VNC - Virtual Network Computing." Also, be sure to add :1 after the server address, as shown in <a href="#tips_vnc2_fig">Configuring the Remmina Remote Desktop Client</a>. This should match the :1 that was displayed when you started vncserver.</p>
@@ -5591,7 +5420,7 @@ Log file is /root/.vnc/beaglebone:1.log
 <div class="content">
 <img src="./05tips/figures/vnc2.png" alt="Configuring">
 </div>
-<div class="title">Figure 47. Configuring the Remmina Remote Desktop Client</div>
+<div class="title">Figure 41. Configuring the Remmina Remote Desktop Client</div>
 </div>
 <div class="paragraph">
 <p>Click Connect to start graphical access to your Bone, as shown in <a href="#tips_vnc3_fig">The Remmina Remote Desktop Client showing the BeagleBone desktop</a>.</p>
@@ -5600,7 +5429,7 @@ Log file is /root/.vnc/beaglebone:1.log
 <div class="content">
 <img src="./05tips/figures/vnc3.png" alt="Desktop">
 </div>
-<div class="title">Figure 48. The Remmina Remote Desktop Client showing the BeagleBone desktop</div>
+<div class="title">Figure 42. The Remmina Remote Desktop Client showing the BeagleBone desktop</div>
 </div>
 <div class="admonitionblock tip">
 <table>
@@ -5618,7 +5447,7 @@ Log file is /root/.vnc/beaglebone:1.log
 </div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_44">Discussion</h4>
+<h4 id="_discussion_43">Discussion</h4>
 
 </div>
 </div>
@@ -5784,7 +5613,7 @@ Log file is /root/.vnc/beaglebone:1.log
 </table>
 </div>
 <div class="sect3">
-<h4 id="_discussion_45">Discussion</h4>
+<h4 id="_discussion_44">Discussion</h4>
 
 </div>
 </div>
@@ -5811,7 +5640,7 @@ bone$ <strong>nano file</strong>
 <div class="content">
 <img src="./05tips/figures/nano.png" alt="nano">
 </div>
-<div class="title">Figure 49. Editing a file with nano</div>
+<div class="title">Figure 43. Editing a file with nano</div>
 </div>
 <div class="admonitionblock tip">
 <table>
@@ -5829,7 +5658,7 @@ bone$ <strong>nano file</strong>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_46">Discussion</h4>
+<h4 id="_discussion_45">Discussion</h4>
 <div class="paragraph">
 <p>Many other text editors will run on the Bone. vi, vim, emacs, and  even eclipse are all supported. See <a href="#tips_apt">Installing Additional Packages from the Debian Package Feed</a> to learn if your favorite is one of them.</p>
 </div>
@@ -5852,7 +5681,7 @@ bone$ <strong>nano file</strong>
 <div class="content">
 <img src="./05tips/figures/internLED.png" alt="RJ45">
 </div>
-<div class="title">Figure 50. The RJ45 port on the Bone</div>
+<div class="title">Figure 44. The RJ45 port on the Bone</div>
 </div>
 <div class="paragraph">
 <p>If your router is already configured to run DHCP (Dynamical Host Configuration Protocol), it will automatically assign an IP address to the Bone.</p>
@@ -5934,7 +5763,7 @@ it becomes visible to the <em>world</em>. If you don&#8217;t secure your Bone, t
 </div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_47">Discussion</h4>
+<h4 id="_discussion_46">Discussion</h4>
 
 </div>
 </div>
@@ -5966,7 +5795,7 @@ it becomes visible to the <em>world</em>. If you don&#8217;t secure your Bone, t
 <div class="content">
 <img src="./05tips/figures/latest-images.png" alt="Latest Image Page">
 </div>
-<div class="title">Figure 51. Latested Beagle Images</div>
+<div class="title">Figure 45. Latested Beagle Images</div>
 </div>
 <div class="paragraph">
 <p>Scroll to the top of the page and you&#8217;ll see instructions on setting up Wifi. The instructions here are based on using networkctl</p>
@@ -5975,7 +5804,7 @@ it becomes visible to the <em>world</em>. If you don&#8217;t secure your Bone, t
 <div class="content">
 <img src="./05tips/figures/network.png" alt="Network Setup Instructions">
 </div>
-<div class="title">Figure 52. Instructions for setting up your network.</div>
+<div class="title">Figure 46. Instructions for setting up your network.</div>
 </div>
 </td>
 </tr>
@@ -6116,7 +5945,7 @@ rtt min/avg/max/mdev = 19.387/19.450/19.513/0.063 ms
 </div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_48">Discussion</h4>
+<h4 id="_discussion_47">Discussion</h4>
 
 </div>
 </div>
@@ -6142,7 +5971,7 @@ rtt min/avg/max/mdev = 19.387/19.450/19.513/0.063 ms
 <p>You need to set up IP masquerading on your host and configure your Bone to use it. Here is a solution that works with a host computer running Linux. Add the code in <a href="#tips_ipmasq_code">Code for IP Masquerading (ipMasquerade.sh)</a> to a file called <em>ipMasquerade.sh</em> on your host computer.</p>
 </div>
 <div id="tips_ipmasq_code" class="exampleblock">
-<div class="title">Example 37. Code for IP Masquerading (ipMasquerade.sh)</div>
+<div class="title">Example 38. Code for IP Masquerading (ipMasquerade.sh)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -6195,7 +6024,7 @@ host$ <strong>./ipMasquerade.sh eth0</strong>
 <p>Now let&#8217;s set up your host to instruct the Bone what to do. Add the code in <a href="#tips_setDNS">Code for setting the DNS on the Bone (setDNS.sh)</a> to <em>setDNS.sh</em> on your host computer.</p>
 </div>
 <div id="tips_setDNS" class="exampleblock">
-<div class="title">Example 38. Code for setting the DNS on the Bone (setDNS.sh)</div>
+<div class="title">Example 39. Code for setting the DNS on the Bone (setDNS.sh)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -6314,7 +6143,7 @@ host$ <strong>sudo iptables -t nat -A PREROUTING -p tcp -s 0/0 \
 </div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_49">Discussion</h4>
+<h4 id="_discussion_48">Discussion</h4>
 
 </div>
 </div>
@@ -6404,7 +6233,7 @@ Firewall stopped and disabled on system startup
 </div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_50">Discussion</h4>
+<h4 id="_discussion_49">Discussion</h4>
 
 </div>
 </div>
@@ -6465,7 +6294,7 @@ bone$ <strong>sudo apt install dict</strong>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_51">Discussion</h4>
+<h4 id="_discussion_50">Discussion</h4>
 
 </div>
 </div>
@@ -6498,7 +6327,7 @@ Do you want to continue [Y/n]? <strong>y</strong>
 </pre>
 </div>
 <div class="sect3">
-<h4 id="_discussion_52">Discussion</h4>
+<h4 id="_discussion_51">Discussion</h4>
 
 </div>
 </div>
@@ -6551,7 +6380,7 @@ dev   ID.txt  media       opt           run   srv      usr
 </div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_53">Discussion</h4>
+<h4 id="_discussion_52">Discussion</h4>
 <div class="paragraph">
 <p>This same process should also work if you have booted from the onboard flash. When you are done with the onboard flash, you can unmount it by using this command:</p>
 </div>
@@ -6746,7 +6575,7 @@ e   4.0KiB [          ] /mnt
 </div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_54">Discussion</h4>
+<h4 id="_discussion_53">Discussion</h4>
 
 </div>
 </div>
@@ -6764,7 +6593,7 @@ e   4.0KiB [          ] /mnt
 <p>The C solution isn&#8217;t as simple as the JavaScript or Python solution, but it does work and is much faster.  The approach is the same, write to the /sys/class/gpio files.</p>
 </div>
 <div id="misc_c_blink" class="exampleblock">
-<div class="title">Example 39. Use C to blink an LED (blinkLED.c)</div>
+<div class="title">Example 40. Use C to blink an LED (blinkLED.c)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -6827,7 +6656,7 @@ int main() {
 <div class="content">
 <img src="./05tips/figures/cape-headers-digital.png" alt="cape headers digital">
 </div>
-<div class="title">Figure 53. Mapping from header pin to internal GPIO number</div>
+<div class="title">Figure 47. Mapping from header pin to internal GPIO number</div>
 </div>
 <div class="paragraph">
 <p>Compile and run the code:</p>
@@ -6842,7 +6671,7 @@ bone$ <strong>./blinkLED</strong>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_55">Discussion</h4>
+<h4 id="_discussion_54">Discussion</h4>
 <div style="page-break-after: always;"></div>
 </div>
 </div>
@@ -6908,7 +6737,7 @@ host$ <strong>ls</strong>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_56">Discussion</h4>
+<h4 id="_discussion_55">Discussion</h4>
 <div class="paragraph">
 <p>The sshfs command gives you easy access from one computer to another. When you are done, you can unmount the files by using the following commands:</p>
 </div>
@@ -6935,7 +6764,7 @@ bone$ <strong>umount home</strong>
 <p>When you point your browser to <em>192.168.7.2</em>, you are using the nginx web server.  The web pages are served from <em>/var/www/html/. Add the HTML in <a href="#networking_index_html">A sample web page (test.html)</a> to a file called _/var/www/html/test.html</em>, and then point your browser to <em>192.168.7.2://test.html</em>.</p>
 </div>
 <div id="networking_index_html" class="exampleblock pagebreak-before">
-<div class="title">Example 40. A sample web page (test.html)</div>
+<div class="title">Example 41. A sample web page (test.html)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -6960,11 +6789,11 @@ bone$ <strong>umount home</strong>
 <div class="content">
 <img src="./0iot/figures/nginxTest.png" alt="test.html served by nginx">
 </div>
-<div class="title">Figure 54. test.html as served by nginx</div>
+<div class="title">Figure 48. test.html as served by nginx</div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_57">Discussion</h4>
+<h4 id="_discussion_56">Discussion</h4>
 
 </div>
 </div>
@@ -7001,7 +6830,7 @@ bone$ <strong>cd BoneCookbook/doc/06iod/code/flash</strong>
 <p>Our first example is <strong>helloWorld.py</strong></p>
 </div>
 <div id="flask_hello_world" class="exampleblock">
-<div class="title">Example 41. Python code for flask hello world (helloWorld.py)</div>
+<div class="title">Example 42. Python code for flask hello world (helloWorld.py)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -7042,7 +6871,7 @@ if __name__ == '__main__':
 <div class="content">
 <img src="./0iot/figures/flaskServer.png" alt="Test page">
 </div>
-<div class="title">Figure 55. Test page served by our custom flask server</div>
+<div class="title">Figure 49. Test page served by our custom flask server</div>
 </div>
 </div>
 <div class="sect4">
@@ -7054,7 +6883,7 @@ if __name__ == '__main__':
 <p>Here&#8217;s what&#8217;s in <strong>templates/index1.html</strong>:</p>
 </div>
 <div id="flask_index1" class="exampleblock">
-<div class="title">Example 42. Python code for flask hello world (helloWorld.py)</div>
+<div class="title">Example 43. Python code for flask hello world (helloWorld.py)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -7078,7 +6907,7 @@ if __name__ == '__main__':
 <p>Observe that anything in double curly braces within the HTML template is interpreted as a variable that would be passed to it from the Python script via the render_template function. Now, let’s create a new Python script. We will name it app1.py:</p>
 </div>
 <div id="flask_app1" class="exampleblock">
-<div class="title">Example 43. Python code for flask index1.html (app1.py)</div>
+<div class="title">Example 44. Python code for flask index1.html (app1.py)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -7122,11 +6951,11 @@ bone$ <strong>.\app.py</strong>
 <div class="paragraph">
 <p>Open any web browser and browse to 192.168.7.2:8080. You should see:</p>
 </div>
-<div id="flask_app1" class="imageblock">
+<div id="flask_app1_fig" class="imageblock">
 <div class="content">
 <img src="./0iot/figures/flaskapp1.png" alt="app1.py">
 </div>
-<div class="title">Figure 56. Test page served by app1.py</div>
+<div class="title">Figure 50. Test page served by app1.py</div>
 </div>
 <div class="paragraph">
 <p>Note that the page’s content changes dynamically any time that you refresh it with the actual variable data passed by Python script. In our case, “title” is a fixed value, but “time” change it every second.</p>
@@ -7170,7 +6999,7 @@ bone$ <strong>.\app.py</strong>
 <p>Let’s use a new Python script named <strong>app2.py</strong>.</p>
 </div>
 <div id="flask_app2" class="exampleblock">
-<div class="title">Example 44. A simple Flask-based web server to read a GPIO (app2.py)</div>
+<div class="title">Example 45. A simple Flask-based web server to read a GPIO (app2.py)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -7221,7 +7050,7 @@ if __name__ == "__main__":
 <p>Let’s also see the new <strong>index2.html</strong> to show the GPIO status:</p>
 </div>
 <div id="flask_index2" class="exampleblock">
-<div class="title">Example 45. A simple Flask-based web server to read a GPIO (index2.html)</div>
+<div class="title">Example 46. A simple Flask-based web server to read a GPIO (index2.html)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -7252,14 +7081,14 @@ bone$ <strong>./app2.py</strong>
 <div class="content">
 <img src="./0iot/figures/flaskapp2.png" alt="GPIO status">
 </div>
-<div class="title">Figure 57. Status of a GPIO pin on a web page</div>
+<div class="title">Figure 51. Status of a GPIO pin on a web page</div>
 </div>
 <div class="paragraph">
 <p>Currently, the 0 shows that the button isn&#8217;t pressed. Try refreshing the page while pushing the button, and you will see 1 displayed.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_58">Discussion</h4>
+<h4 id="_discussion_57">Discussion</h4>
 <div class="paragraph">
 <p>It&#8217;s not hard to assemble your own HTML with the GPIO data. It&#8217;s an easy extension to write a program to display the status of all the GPIO pins.</p>
 </div>
@@ -7282,7 +7111,7 @@ bone$ <strong>./app2.py</strong>
 <p>The python script Let’s create a new Python script and named it <strong>app3.py</strong>.</p>
 </div>
 <div id="flask_app3" class="exampleblock">
-<div class="title">Example 46. A simple Flask-based web server to read a GPIO (app3.py)</div>
+<div class="title">Example 47. A simple Flask-based web server to read a GPIO (app3.py)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -7414,7 +7243,7 @@ If “action = on” for example, we must use the command: GPIO.output(actuator,
 <p>Let’s now create an index.html to show the GPIO status of each actuator and more important, create “buttons” to send the commands:</p>
 </div>
 <div id="flask_index3" class="exampleblock">
-<div class="title">Example 47. A simple Flask-based web server to write a GPIO (index3.html)</div>
+<div class="title">Example 48. A simple Flask-based web server to write a GPIO (index3.html)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -7448,7 +7277,7 @@ bone$ <strong>./app3.py</strong>
 <div class="content">
 <img src="./0iot/figures/flaskapp3.png" alt="Control LED">
 </div>
-<div class="title">Figure 58. Status of a GPIO pin on a web page</div>
+<div class="title">Figure 52. Status of a GPIO pin on a web page</div>
 </div>
 <div class="paragraph">
 <p>Try clicking the "TURN ON" and "TURN OFF" buttons and your LED will respond.</p>
@@ -7523,13 +7352,13 @@ bone$ <strong>echo 1 > buffer/enable</strong>
 <div class="content">
 <img src="./0iot/figures/Sine1k.png" alt="1KHz sine wave sampled at 8KHz">
 </div>
-<div class="title">Figure 59. 1KHz sine wave sampled at 8KHz</div>
+<div class="title">Figure 53. 1KHz sine wave sampled at 8KHz</div>
 </div>
 <div class="paragraph">
 <p>An example Python program that does the above and the reads and plot the buffer is here: analogInContinuous.py</p>
 </div>
 <div id="analog_code" class="exampleblock">
-<div class="title">Example 48. Code to read and plot a continuous analog input(analogInContinuous.py)</div>
+<div class="title">Example 49. Code to read and plot a continuous analog input(analogInContinuous.py)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -7727,7 +7556,7 @@ Hit ^C to stop
 <div class="content">
 <img src="./0iot/figures/Tri10k.png" alt="10KHz triangle wave sampled at 200KHz">
 </div>
-<div class="title">Figure 60. 10KHz triangle wave sampled at 200KHz</div>
+<div class="title">Figure 54. 10KHz triangle wave sampled at 200KHz</div>
 </div>
 <div class="paragraph">
 <p>It&#8217;s still a good idea to disable the buffer when done.</p>
@@ -7769,7 +7598,7 @@ First, you need to <a href="https://mail.google.com">set up a Gmail account</a>,
 </ul>
 </div>
 <div id="networking_nodemailer_code" class="exampleblock">
-<div class="title">Example 49. Sending email using nodemailer (emailtTest.py)</div>
+<div class="title">Example 50. Sending email using nodemailer (emailtTest.py)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -7824,7 +7653,7 @@ bone$ <strong>.\emailTest.py</strong>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_59">Discussion</h4>
+<h4 id="_discussion_58">Discussion</h4>
 <div class="paragraph">
 <p>Be careful about putting this into a loop.  Gmail presently limits you to <a href="http://group-mail.com/email-marketing/how-to-send-bulk-emails-using-gmail/">500 emails per day and 10 MB per message</a>.</p>
 </div>
@@ -7856,7 +7685,7 @@ bone$ <strong>npm install -g twilio</strong>
 <p>Finally, add the code in <a href="#networking_twilio_code">Sending SMS messages using Twilio (<em>twilio-test.js</em>)</a> to a file named <em>twilio-test.js</em> and run it. Your text will be sent.</p>
 </div>
 <div id="networking_twilio_code" class="exampleblock">
-<div class="title">Example 50. Sending SMS messages using Twilio (<em>twilio-test.js</em>)</div>
+<div class="title">Example 51. Sending SMS messages using Twilio (<em>twilio-test.js</em>)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -7905,7 +7734,7 @@ client.messages.create({
 </div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_60">Discussion</h4>
+<h4 id="_discussion_59">Discussion</h4>
 <div class="paragraph">
 <p>Twilio allows a small number of free text messages, enough to test your code and to play around some.</p>
 </div>
@@ -7951,7 +7780,7 @@ bash$ <strong>export APPID="Your key"</strong>
 </ul>
 </div>
 <div id="networking_weather_code" class="exampleblock">
-<div class="title">Example 51. Code for getting current weather conditions (<em>weather.py</em>)</div>
+<div class="title">Example 52. Code for getting current weather conditions (<em>weather.py</em>)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -8033,7 +7862,7 @@ sunrise: 2022-07-14 14:32:46
 </pre>
 </div>
 <div class="sect3">
-<h4 id="_discussion_61">Discussion</h4>
+<h4 id="_discussion_60">Discussion</h4>
 <div class="paragraph">
 <p>The weather API returns lots of information. Use Python to extract the information you want.</p>
 </div>
@@ -8118,7 +7947,7 @@ bash$ <strong>source twitterKeys.sh</strong>
 <p>Add the code in <a href="#twitter_create_code">Create a Tweet (<em>twitter_create_tweet.py</em>)</a> to a file called <em>twitter_create_tweet</em>.py_ and run it to see your timeline.</p>
 </div>
 <div id="twitter_create_code" class="exampleblock">
-<div class="title">Example 52. Create a Tweet (<em>twitter_create_tweet.py</em>)</div>
+<div class="title">Example 53. Create a Tweet (<em>twitter_create_tweet.py</em>)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -8228,7 +8057,7 @@ Record the <strong>id</strong> number and we&#8217;ll use it next to delete the 
 <p>Use the code in <a href="#twitter_delete_code">Code to delete a tweet  (twitter_delete_tweet.py_)</a> to delete a tweet.  Around line 15 is the <strong>id</strong> number.  Paste in the value returned above.</p>
 </div>
 <div id="twitter_delete_code" class="exampleblock">
-<div class="title">Example 53. Code to delete a tweet  (twitter_delete_tweet.py_)</div>
+<div class="title">Example 54. Code to delete a tweet  (twitter_delete_tweet.py_)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -8312,7 +8141,7 @@ print(json_response)</code></pre>
 <p>The code in <a href="#networking_pushbutton_code">Tweet when a button is pushed (twitterPushbutton.js)</a> sends a tweet whenever a button is pushed.</p>
 </div>
 <div id="networking_pushbutton_code" class="exampleblock">
-<div class="title">Example 54. Tweet when a button is pushed (twitterPushbutton.js)</div>
+<div class="title">Example 55. Tweet when a button is pushed (twitterPushbutton.js)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -8365,7 +8194,7 @@ function sendTweet() {
 </div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_62">Discussion</h4>
+<h4 id="_discussion_61">Discussion</h4>
 <div class="paragraph">
 <p>This opens up many new possibilities. You can read a temperature sensor and tweet its value whenever it changes, or you can turn on an LED whenever a certain hashtag is used. What are you going to tweet?</p>
 </div>
@@ -8425,7 +8254,7 @@ Welcome to Node-RED
 <div class="content">
 <img src="./0iot/figures/node-red.png" alt="node-red">
 </div>
-<div class="title">Figure 61. The Node-RED web page</div>
+<div class="title">Figure 55. The Node-RED web page</div>
 </div>
 </div>
 <div class="sect4">
@@ -8447,7 +8276,7 @@ Welcome to Node-RED
 <div class="content">
 <img src="./0iot/figures/node-twitter.png" alt="node-red">
 </div>
-<div class="title">Figure 62. Node-RED twitter node</div>
+<div class="title">Figure 56. Node-RED twitter node</div>
 </div>
 <div class="olist arabic">
 <ol class="arabic" start="3">
@@ -8460,7 +8289,7 @@ Welcome to Node-RED
 <div class="content">
 <img src="./0iot/figures/node-twitter-auth.png" alt="node-red authentication">
 </div>
-<div class="title">Figure 63. Node-RED Twitter authorization, step 1</div>
+<div class="title">Figure 57. Node-RED Twitter authorization, step 1</div>
 </div>
 <div class="olist arabic">
 <ol class="arabic" start="4">
@@ -8473,7 +8302,7 @@ Welcome to Node-RED
 <div class="content">
 <img src="./0iot/figures/node-twitter-auth2.png" alt="node-red authentication2">
 </div>
-<div class="title">Figure 64. Node-RED twitter authorization, step 2</div>
+<div class="title">Figure 58. Node-RED twitter authorization, step 2</div>
 </div>
 <div class="olist arabic">
 <ol class="arabic" start="5">
@@ -8489,7 +8318,7 @@ Welcome to Node-RED
 <div class="content">
 <img src="./0iot/figures/node-twitter-auth3.png" alt="node-red authentication3">
 </div>
-<div class="title">Figure 65. Node-RED Twitter site authorization</div>
+<div class="title">Figure 59. Node-RED Twitter site authorization</div>
 </div>
 <div class="olist arabic">
 <ol class="arabic" start="7">
@@ -8502,7 +8331,7 @@ Welcome to Node-RED
 <div class="content">
 <img src="./0iot/figures/node-twitter-beagle.png" alt="node-red beagle hash">
 </div>
-<div class="title">Figure 66. Node-RED adding the #BeagleBone hashtag</div>
+<div class="title">Figure 60. Node-RED adding the #BeagleBone hashtag</div>
 </div>
 <div class="olist arabic">
 <ol class="arabic" start="8">
@@ -8518,7 +8347,7 @@ Welcome to Node-RED
 <div class="content">
 <img src="./0iot/figures/node-twitter-debug.png" alt="node-red debug">
 </div>
-<div class="title">Figure 67. Node-RED Twitter adding debug node and connecting</div>
+<div class="title">Figure 61. Node-RED Twitter adding debug node and connecting</div>
 </div>
 <div class="olist arabic">
 <ol class="arabic" start="10">
@@ -8553,7 +8382,7 @@ Welcome to Node-RED
 <div class="content">
 <img src="./0iot/figures/node-disc-out.png" alt="node-red discrete out node">
 </div>
-<div class="title">Figure 68. Node-RED adding bbb-discrete-out node</div>
+<div class="title">Figure 62. Node-RED adding bbb-discrete-out node</div>
 </div>
 <div class="olist arabic">
 <ol class="arabic" start="3">
@@ -8566,7 +8395,7 @@ Welcome to Node-RED
 <div class="content">
 <img src="./0iot/figures/node-disc-out-setup.png" alt="node-red discrete out setup">
 </div>
-<div class="title">Figure 69. Node-RED adding bbb-discrete-out configuration</div>
+<div class="title">Figure 63. Node-RED adding bbb-discrete-out configuration</div>
 </div>
 <div class="olist arabic">
 <ol class="arabic" start="4">
@@ -8581,7 +8410,7 @@ Welcome to Node-RED
 </div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_63">Discussion</h4>
+<h4 id="_discussion_62">Discussion</h4>
 
 </div>
 </div>
@@ -8616,13 +8445,13 @@ Welcome to Node-RED
 <div class="content">
 <img src="./0iot/figures/launchPad_bb.png" alt="MSP430 LaunchPad">
 </div>
-<div class="title">Figure 70. Wiring a LaunchPad to a Bone via the common serial port</div>
+<div class="title">Figure 64. Wiring a LaunchPad to a Bone via the common serial port</div>
 </div>
 <div class="paragraph">
 <p>Add the code (or <em>sketch</em>, as it&#8217;s called in Arduino-speak) in <a href="#js_launchPad_code">LaunchPad code for communicating via the UART (launchPad.ino)</a> to a file called <em>launchPad.ino</em> and run it on your LaunchPad.</p>
 </div>
 <div id="js_launchPad_code" class="exampleblock">
-<div class="title">Example 55. LaunchPad code for communicating via the UART (launchPad.ino)</div>
+<div class="title">Example 56. LaunchPad code for communicating via the UART (launchPad.ino)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -8699,7 +8528,7 @@ void loop()
 <p>On the Bone, add the script in <a href="#js_launchPadBeagle_code">Code for communicating via the UART (launchPad.js)</a> to a file called <em>launchPad.js</em> and run it.</p>
 </div>
 <div id="js_launchPadBeagle_code" class="exampleblock">
-<div class="title">Example 56. Code for communicating via the UART (launchPad.js)</div>
+<div class="title">Example 57. Code for communicating via the UART (launchPad.js)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -8779,11 +8608,11 @@ function sendCommand() {
 <div class="content">
 <img src="./0iot/figures/cape-headers-serial.png" alt="UART outputs">
 </div>
-<div class="title">Figure 71. Table of UART outputs</div>
+<div class="title">Figure 65. Table of UART outputs</div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_64">Discussion</h4>
+<h4 id="_discussion_63">Discussion</h4>
 <div class="paragraph">
 <p>When you run the script in <a href="#js_launchPadBeagle_code">Code for communicating via the UART (launchPad.js)</a>, the Bone opens up the serial port and every second sends a new command, either r or g. The LaunchPad waits for the command and, when it arrives, responds by toggling the corresponding LED.</p>
 </div>
@@ -8868,7 +8697,7 @@ Linux beaglebone 3.14.23-ti-r35 #1 SMP PREEMPT Wed Nov 19 21:11:08 UTC 2014 armv
 </div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_65">Discussion</h4>
+<h4 id="_discussion_64">Discussion</h4>
 
 </div>
 </div>
@@ -8889,7 +8718,7 @@ Linux beaglebone 3.14.23-ti-r35 #1 SMP PREEMPT Wed Nov 19 21:11:08 UTC 2014 armv
 <p>For our example module, add the code in <a href="#kernel_simple_module">Simple Kernel Module (hello.c)</a> to a file called <em>hello.c</em>.</p>
 </div>
 <div id="kernel_simple_module" class="exampleblock">
-<div class="title">Example 57. Simple Kernel Module (hello.c)</div>
+<div class="title">Example 58. Simple Kernel Module (hello.c)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -8946,7 +8775,7 @@ bone$ <strong>sudo apt install linux-headers-`uname -r`</strong>
 <p>Next, add the code in <a href="#kernel_Makefle">Simple Kernel Module (<em>Makefile</em>)</a> to a file called <em>Makefile</em>.</p>
 </div>
 <div id="kernel_Makefle" class="exampleblock">
-<div class="title">Example 58. Simple Kernel Module (<em>Makefile</em>)</div>
+<div class="title">Example 59. Simple Kernel Module (<em>Makefile</em>)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -9015,7 +8844,7 @@ bone$ <strong>dmesg | tail -4</strong>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_66">Discussion</h4>
+<h4 id="_discussion_65">Discussion</h4>
 
 </div>
 </div>
@@ -9076,7 +8905,7 @@ bone$ <strong>echo 0 > brightness</strong>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_67">Discussion</h4>
+<h4 id="_discussion_66">Discussion</h4>
 
 </div>
 </div>
@@ -9102,7 +8931,7 @@ bone$ <strong>echo 0 > brightness</strong>
 <div class="content">
 <img src="./07kernel/figures/cape-headers-digitalGPIO7.png" alt="Mapping Header Position to GPIO Numbers">
 </div>
-<div class="title">Figure 72. Mapping P9_42 header position to GPIO 7</div>
+<div class="title">Figure 66. Mapping P9_42 header position to GPIO 7</div>
 </div>
 <div class="paragraph">
 <p>Next, change to the GPIO sysfs directory:</p>
@@ -9179,7 +9008,7 @@ bone$ <strong>echo 0 > value</strong>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_68">Discussion</h4>
+<h4 id="_discussion_67">Discussion</h4>
 
 </div>
 </div>
@@ -9247,7 +9076,7 @@ host$ ./build_kernel.sh # <b class="conum">(4)</b></code></pre>
 <div class="content">
 <img src="./07kernel/figures/KernelConfig3.16.png" alt="Kernel configuration menu">
 </div>
-<div class="title">Figure 73. Kernel configuration menu</div>
+<div class="title">Figure 67. Kernel configuration menu</div>
 </div>
 <div class="paragraph">
 <p>You can use the arrow keys to navigate. No changes need to be made, so you can just press the right arrow and Enter to start the kernel compiling. The entire process took about 25 minutes on my 8-core host.</p>
@@ -9306,7 +9135,7 @@ Are you 100% sure, on selecting [/dev/sdb] (y/n)? y
 </div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_69">Discussion</h4>
+<h4 id="_discussion_68">Discussion</h4>
 
 </div>
 </div>
@@ -9435,7 +9264,7 @@ host$ <strong>export CROSS_COMPILE=arm-linux-gnueabihf-</strong>
 <p>These lines set up the standard environmental variables so that you can determine which cross-development tools to use. Test the cross compiler by adding <a href="#kernel_helloWorld">Simple helloWorld.c to test cross compiling (helloWorld.c)</a> to a file named <em>helloWorld.c</em>.</p>
 </div>
 <div id="kernel_helloWorld" class="exampleblock">
-<div class="title">Example 59. Simple helloWorld.c to test cross compiling (helloWorld.c)</div>
+<div class="title">Example 60. Simple helloWorld.c to test cross compiling (helloWorld.c)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -9463,7 +9292,7 @@ a.out: ELF 32-bit LSB executable, ARM, version 1 (SYSV),
 </div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_70">Discussion</h4>
+<h4 id="_discussion_69">Discussion</h4>
 
 </div>
 </div>
@@ -9481,7 +9310,7 @@ a.out: ELF 32-bit LSB executable, ARM, version 1 (SYSV),
 <p><a href="#kernel_hello_patch">Simple kernel patch file (hello.patch)</a> shows a patch file that you can use on the kernel.</p>
 </div>
 <div id="kernel_hello_patch" class="exampleblock">
-<div class="title">Example 60. Simple kernel patch file (hello.patch)</div>
+<div class="title">Example 61. Simple kernel patch file (hello.patch)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -9577,7 +9406,7 @@ hello.c  Makefile
 </pre>
 </div>
 <div class="sect3">
-<h4 id="_discussion_71">Discussion</h4>
+<h4 id="_discussion_70">Discussion</h4>
 <div class="paragraph">
 <p><a href="#kernel_building_modules">Building and Installing Kernel Modules</a> shows how to build and install a module, and <a href="#kernel_create_patch">Creating Your Own Patch File</a> shows how to create your own patch file.</p>
 </div>
@@ -9660,7 +9489,7 @@ host$ <strong>git format-patch master --stdout &gt; hello1.patch</strong>
  </pre>
 </div>
 <div class="sect3">
-<h4 id="_discussion_72">Discussion</h4>
+<h4 id="_discussion_71">Discussion</h4>
 <div style="page-break-after: always;"></div>
 </div>
 </div>
@@ -9681,7 +9510,7 @@ host$ <strong>git format-patch master --stdout &gt; hello1.patch</strong>
 <p>Systems running Linux generally can&#8217;t do 100 percent hard real-time processing, because Linux gets in the way. However, the Bone has an ARM processor running Linux and two additional 32-bit programmable real-time units (PRUs <a href="http://bit.ly/1EzTPZv">Ti AM33XX PRUSSv2</a>) available to do real-time processing. Although the PRUs can achieve 100 percent hard real-time, they take some effort to use.</p>
 </div>
 <div class="paragraph">
-<p>This chapter shows several ways to do real-time input/output (I/O), starting with the effortless, yet slower BoneScript and moving up with increasing speed (and effort) to using the PRUs.</p>
+<p>This chapter shows several ways to do real-time input/output (I/O), starting with the effortless, yet slower JavaScript and moving up with increasing speed (and effort) to using the PRUs.</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -9691,7 +9520,7 @@ host$ <strong>git format-patch master --stdout &gt; hello1.patch</strong>
 </td>
 <td class="content">
 <div class="paragraph">
-<p>In this chapter, as in the others, we assume that you are logged in as root (as indicated by the bone$ prompt). This gives you quick access to the general-purpose input/output (GPIO) ports without having to use sudo each time.</p>
+<p>In this chapter, as in the others, we assume that you are logged in as debian (as indicated by the bone$ prompt). This gives you quick access to the general-purpose input/output (GPIO) ports but you may have to use sudo some times.</p>
 </div>
 </td>
 </tr>
@@ -9699,11 +9528,11 @@ host$ <strong>git format-patch master --stdout &gt; hello1.patch</strong>
 </div>
 </div>
 <div class="sect2">
-<h3 id="realtime_BoneScript">I/O with BoneScript</h3>
+<h3 id="realtime_JavaScript">I/O with JavaScript</h3>
 <div class="sect3">
 <h4 id="_problem_80">Problem</h4>
 <div class="paragraph">
-<p>You want to read an input pin and write it to the output as quickly as possible with BoneScript.</p>
+<p>You want to read an input pin and write it to the output as quickly as possible with JavaScript.</p>
 </div>
 </div>
 <div class="sect3">
@@ -9728,19 +9557,77 @@ host$ <strong>git format-patch master --stdout &gt; hello1.patch</strong>
 </ul>
 </div>
 <div class="paragraph">
-<p>Wire up the pushbutton and LED as shown in <a href="#realtime_pushLED_fig">Diagram for wiring a pushbutton and LED with the LED attached to P9_12</a>.</p>
+<p>Wire up the pushbutton and LED as shown in <a href="#realtime_pushLED_fig">Diagram for wiring a pushbutton and LED with the LED attached to P9_14</a>.</p>
 </div>
 <div id="realtime_pushLED_fig" class="imageblock">
 <div class="content">
 <img src="./08realtime/figures/pushLED_bb.png" alt="Bone with pushbutton and LED">
 </div>
-<div class="title">Figure 74. Diagram for wiring a pushbutton and LED with the LED attached to P9_12</div>
+<div class="title">Figure 68. Diagram for wiring a pushbutton and LED with the LED attached to P9_14</div>
 </div>
 <div class="paragraph">
-<p>The code in <a href="#realtime_pushLED_code">Monitoring a pushbutton using a callback function (pushLED.js)</a> reads GPIO port P9_42, which is attached to the <span class="keep-together">pushbutton</span>, and turns on the LED attached to P9_12 when the button is pushed.</p>
+<p>The code in <a href="#realtime_pushLED_code">Monitoring a pushbutton (pushLED.js)</a> reads GPIO port P9_42, which is attached to the <span class="keep-together">pushbutton</span>, and turns on the LED attached to P9_12 when the button is pushed.</p>
+</div>
+<div id="py_pushLED_code" class="exampleblock">
+<div class="title">Example 62. Monitoring a pushbutton (pushLED.py)</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-python" data-lang="python">#!/usr/bin/env python
+# ////////////////////////////////////////
+# //	pushLED.py
+# //	Blinks an LED attached to P9_12 when the button at P9_42 is pressed
+# //	Wiring:
+# //	Setup:
+# //	See:
+# ////////////////////////////////////////
+import time
+import os
+
+ms = 50   # Read time in ms
+
+LED="50"   # Look up P9.14 using gpioinfo | grep -e chip -e P9.14.  chip 1, line 18 maps to 50
+button="7" # P9_42 mapps to 7
+
+GPIOPATH="/sys/class/gpio/"
+
+# Make sure LED is exported
+if (not os.path.exists(GPIOPATH+"gpio"+LED)):
+    f = open(GPIOPATH+"export", "w")
+    f.write(LED)
+    f.close()
+
+# Make it an output pin
+f = open(GPIOPATH+"gpio"+LED+"/direction", "w")
+f.write("out")
+f.close()
+
+# Make sure button is exported
+if (not os.path.exists(GPIOPATH+"gpio"+button)):
+    f = open(GPIOPATH+"export", "w")
+    f.write(button)
+    f.close()
+
+# Make it an output pin
+f = open(GPIOPATH+"gpio"+button+"/direction", "w")
+f.write("in")
+f.close()
+
+# Read every ms
+fin  = open(GPIOPATH+"gpio"+button+"/value", "r")
+fout = open(GPIOPATH+"gpio"+LED+"/value", "w")
+
+while True:
+    fin.seek(0)
+    fout.seek(0)
+    fout.write(fin.read())
+    time.sleep(ms/1000)</code></pre>
+</div>
+</div>
+</div>
 </div>
 <div id="realtime_pushLED_code" class="exampleblock">
-<div class="title">Example 61. Monitoring a pushbutton using a callback function (pushLED.js)</div>
+<div class="title">Example 63. Monitoring a pushbutton (pushLED.js)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -9793,117 +9680,109 @@ function flashLED() {
 <pre data-type="programlisting">
 bone$ <strong>chmod +x pushLED.js</strong>
 bone$ <strong>./pushLED.js</strong>
+data = 0
+data = 0
+data = 1
+data = 1
+^C
 </pre>
 <div class="paragraph">
 <p>Press ^C (Ctrl-C) to stop the code.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_73">Discussion</h4>
+<h4 id="_discussion_72">Discussion</h4>
 
 </div>
 </div>
 <div class="sect2">
-<h3 id="realtime_libsoc">I/O with C and libsoc</h3>
+<h3 id="realtime_c">I/O with C</h3>
 <div class="sect3">
 <h4 id="_problem_81">Problem</h4>
 <div class="paragraph">
-<p>You want to use the C language to process inputs in real time, or BoneScript isn&#8217;t fast enough.</p>
+<p>You want to use the C language to process inputs in real time, or Python/JavaScript isn&#8217;t fast enough.</p>
 </div>
 </div>
 <div class="sect3">
 <h4 id="_solution_81">Solution</h4>
 <div class="paragraph">
-<p><a href="#realtime_BoneScript">I/O with BoneScript</a> shows how to control an LED with a pushbutton using BoneScript. This recipe accomplishes the same thing using C and libsoc. <a href="#misc_libsoc">Using C to Interact with the Physical World</a> shows how to use C and libsoc to access the GPIO pins.</p>
+<p><a href="#realtime_JavaScript">I/O with JavaScript</a> shows how to control an LED with a pushbutton using JavaScript. This recipe accomplishes the same thing using C. It does it in the same way, opening the correct /sys/class/gpio files and reading an writing them.</p>
 </div>
 <div class="paragraph">
-<p>Wire up the pushbutton and LED as shown in <a href="#realtime_pushLED_fig">Diagram for wiring a pushbutton and LED with the LED attached to P9_12</a>. Follow the instructions in <a href="#misc_libsoc">Using C to Interact with the Physical World</a> to install libsoc. Then add the code in <a href="#realtime_pushLED_c_code">Code for reading a switch and blinking an LED using libsoc (pushLED.c)</a> to a file named <em>pushLED.c</em>.</p>
+<p>Wire up the pushbutton and LED as shown in <a href="#realtime_pushLED_fig">Diagram for wiring a pushbutton and LED with the LED attached to P9_14</a>. Then add the code in <a href="#realtime_pushLED_c_code">Code for reading a switch and blinking an LED (pushLED.c)</a> to a file named <em>pushLED.c</em>.</p>
 </div>
 <div id="realtime_pushLED_c_code" class="exampleblock">
-<div class="title">Example 62. Code for reading a switch and blinking an LED using libsoc (pushLED.c)</div>
+<div class="title">Example 64. Code for reading a switch and blinking an LED (pushLED.c)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-c" data-lang="c">#include &lt;stdio.h&gt;
-#include &lt;stdlib.h&gt;
+<pre class="highlight"><code class="language-c" data-lang="c">////////////////////////////////////////
+//	blinkLED.c
+//	Blinks the P9_14 pin based on the P9_42 pin
+//	Wiring:
+//	Setup:
+//	See:
+////////////////////////////////////////
+#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
 #include &lt;unistd.h&gt;
-#include &lt;sys/wait.h&gt;
+#define MAXSTR 100
 
-#include "libsoc_gpio.h"
-#include "libsoc_debug.h"
+int main() {
+  FILE *fpbutton, *fpLED;
+  char LED[] = "50";   // Look up P9.14 using gpioinfo | grep -e chip -e P9.14.  chip 1, line 18 maps to 50
+  char button[] = "7"; // Look up P9.42 using gpioinfo | grep -e chip -e P9.42.  chip 0, line 7 maps to 7
+  char GPIOPATH[] = "/sys/class/gpio";
+  char path[MAXSTR] = "";
 
-/**
- * 
- * This gpio_test is intended to be run on BeagleBone
- * and reads pin P9_42 (gpio7) and write the value to P9_12 (gpio60).
- *
- * The GPIO_OUTPUT and INPUT defines can be changed to support any two pins.
- * 
- */
- 
-#define GPIO_OUTPUT  60
-#define GPIO_INPUT   7
-
-// Create both gpio pointers
- gpio *gpio_output, *gpio_input;
-
-static int interrupt_count = 0;
-
-int callback_test(void* arg) {
-  int* tmp_count = (int*) arg;
-  int value;
-  
-  *tmp_count = *tmp_count + 1;
-  value = libsoc_gpio_get_level (gpio_input);
-  libsoc_gpio_set_level(gpio_output, value);
-  // Comment out the following line to make the code respond faster
-  printf("Got it (%d), button = %d\n", *tmp_count, value);
-  
-  return EXIT_SUCCESS;
-}
-
-int main(void) {
-  // Enable debug output
-  libsoc_set_debug(1);
-
-  // Request gpios
-  gpio_output = libsoc_gpio_request(GPIO_OUTPUT, LS_SHARED);
-  gpio_input = libsoc_gpio_request(GPIO_INPUT, LS_SHARED);
-
-  // Set direction to OUTPUT
-  libsoc_gpio_set_direction(gpio_output, OUTPUT);
-  
-  // Set direction to INPUT
-  libsoc_gpio_set_direction(gpio_input, INPUT);
-
-  // Set edge to BOTH
-  libsoc_gpio_set_edge(gpio_input, BOTH);
-
-  // Set up callback
-  libsoc_gpio_callback_interrupt(gpio_input, &amp;callback_test, 
-                      (void*) &amp;interrupt_count);
-  
-  printf("Push the button...\n"); 
-  // Disaple debug output so the code will respond faster
-  libsoc_set_debug(0);
-
-  sleep(10);
-  
-  libsoc_set_debug(1);
- 
-  // Cancel the callback on interrupt
-  libsoc_gpio_callback_interrupt_cancel(gpio_input);
-  
-  //If gpio_request was successful
-  if (gpio_input) { // Free gpio request memory
-    libsoc_gpio_free(gpio_input);
+  // Make sure LED is exported
+  snprintf(path, MAXSTR, "%s%s%s", GPIOPATH, "/gpio", LED);
+  if (!access(path, F_OK) == 0) {
+    snprintf(path, MAXSTR, "%s%s", GPIOPATH, "/export");
+    fpLED = fopen(path, "w");
+    fprintf(fpLED, "%s", LED);
+    fclose(fpLED);
   }
-  
-  if (gpio_output) { // Free gpio request memory
-    libsoc_gpio_free(gpio_output);
+ 
+  // Make it an output LED
+  snprintf(path, MAXSTR, "%s%s%s%s", GPIOPATH, "/gpio", LED, "/direction");
+  fpLED = fopen(path, "w");
+  fprintf(fpLED, "out");
+  fclose(fpLED);
+
+  // Make sure bbuttonutton is exported
+  snprintf(path, MAXSTR, "%s%s%s", GPIOPATH, "/gpio", button);
+  if (!access(path, F_OK) == 0) {
+    snprintf(path, MAXSTR, "%s%s", GPIOPATH, "/export");
+    fpbutton = fopen(path, "w");
+    fprintf(fpbutton, "%s", button);
+    fclose(fpbutton);
   }
+ 
+  // Make it an input button
+  snprintf(path, MAXSTR, "%s%s%s%s", GPIOPATH, "/gpio", button, "/direction");
+  fpbutton = fopen(path, "w");
+  fprintf(fpbutton, "in");
+  fclose(fpbutton);
+
+  // I don't know why I can open the LED outside the loop and use fseek before
+  //  each read, but I can't do the same for the button.  It appears it needs
+  //  to be opened every time.
+  snprintf(path, MAXSTR, "%s%s%s%s", GPIOPATH, "/gpio", LED,    "/value");
+  fpLED    = fopen(path, "w");
   
-  return EXIT_SUCCESS;
+  char state = '0';
+
+  while (1) {
+    snprintf(path, MAXSTR, "%s%s%s%s", GPIOPATH, "/gpio", button, "/value");
+    fpbutton = fopen(path, "r");
+    fseek(fpLED, 0L, SEEK_SET);
+    fscanf(fpbutton, "%c", &amp;state);
+    printf("state: %c\n", state);
+    fprintf(fpLED, "%c", state);
+    fclose(fpbutton);
+    usleep(250000);   // sleep time in microseconds
+  }
 }</code></pre>
 </div>
 </div>
@@ -9913,38 +9792,22 @@ int main(void) {
 <p>Compile and run the code:</p>
 </div>
 <pre data-type="programlisting">
-bone$ <strong>gcc -o pushLED pushLED.c /usr/local/lib/libsoc.so</strong>
+bone$ <strong>gcc -o pushLED pushLED.c</strong>
 bone$ <strong>./pushLED</strong>
-libsoc-debug: debug enabled (libsoc_set_debug)
-libsoc-gpio-debug: requested gpio (60, libsoc_gpio_request)
-libsoc-gpio-debug: GPIO already exported (60, libsoc_gpio_request)
-libsoc-gpio-debug: requested gpio (7, libsoc_gpio_request)
-libsoc-gpio-debug: GPIO already exported (7, libsoc_gpio_request)
-libsoc-gpio-debug: setting direction to out (60, libsoc_gpio_set_direction)
-libsoc-gpio-debug: setting direction to in (7, libsoc_gpio_set_direction)
-BOTH: 3
-libsoc-gpio-debug: setting edge to both (7, libsoc_gpio_set_edge)
-BOTH: 3
-libsoc-gpio-debug: creating new callback (7, libsoc_gpio_callback_interrupt)
-Push the button...
-libsoc-debug: debug disabled (libsoc_set_debug)
-Got it (1), button = 1
-Got it (2), button = 0
-Got it (3), button = 1
-Got it (4), button = 1
-Got it (5), button = 0
-libsoc-debug: debug enabled (libsoc_set_debug)
-libsoc-gpio-debug: callback thread was stopped
-           (7, libsoc_gpio_callback_interrupt_cancel)
-libsoc-gpio-debug: freeing gpio (7, libsoc_gpio_free)
-libsoc-gpio-debug: freeing gpio (60, libsoc_gpio_free)
+state: 1
+state: 1
+state: 0
+state: 0
+state: 0
+state: 1
+^C
 </pre>
 <div class="paragraph">
-<p>The code responds quickly to the pushbutton. If you need more speed, comment-out the printf command in the interrupt service routine.</p>
+<p>The code responds quickly to the pushbutton. If you need more speed, comment-out the printf() and the sleep().</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_74">Discussion</h4>
+<h4 id="_discussion_73">Discussion</h4>
 
 </div>
 </div>
@@ -9953,7 +9816,7 @@ libsoc-gpio-debug: freeing gpio (60, libsoc_gpio_free)
 <div class="sect3">
 <h4 id="_problem_82">Problem</h4>
 <div class="paragraph">
-<p>Your C code using libsoc isn&#8217;t responding fast enough to the input signal. You want to read the GPIO registers directly.</p>
+<p>Your C code isn&#8217;t responding fast enough to the input signal. You want to read the GPIO registers directly.</p>
 </div>
 </div>
 <div class="sect3">
@@ -9990,7 +9853,7 @@ bone$ <strong>sudo mv devmem2 /usr/bin</strong>
 <div class="content">
 <img src="./08realtime/figures/pushLEDmmap_bb.png" alt="Bone with pushbutton and LED wired to P9_13">
 </div>
-<div class="title">Figure 75. Diagram for wiring a pushbutton and LED with the LED attached to P9_13</div>
+<div class="title">Figure 69. Diagram for wiring a pushbutton and LED with the LED attached to P9_13</div>
 </div>
 <div class="paragraph">
 <p>Now, flash the LED attached to P9_13 using the Linux sysfs interface (<a href="#kernel_gpio_sysfs">Controlling GPIOs by Using SYSFS Entries</a>). To do this, first look up which GPIO number P9_13 is attached to by referring to <a href="#tips_cape_headers_digital">Mapping from header pin to internal GPIO number</a>. Finding P9_13 at GPIO 31, export GPIO 31 and make it an output:</p>
@@ -10046,7 +9909,7 @@ Value at address 0x44E07138 (0xb6fe2138): 0x4000C484
 </div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_75">Discussion</h4>
+<h4 id="_discussion_74">Discussion</h4>
 <div class="paragraph">
 <p>This is much more tedious than the previous methods, but it&#8217;s what&#8217;s necessary if you need to minimize the time to read an input. <a href="#realtime_mmap">I/O with C and mmap()</a> shows how to read and write these addresses from C.</p>
 </div>
@@ -10103,7 +9966,7 @@ Value at address 0x44E07138 (0xb6fe2138): 0x4000C484
 <p>Add the code in <a href="#realtime_pushLEDmmap_h">Memory address definitions (pushLEDmmap.h)</a> to a file named <em>pushLEDmmap.h</em>.</p>
 </div>
 <div id="realtime_pushLEDmmap_h" class="exampleblock">
-<div class="title">Example 63. Memory address definitions (pushLEDmmap.h)</div>
+<div class="title">Example 65. Memory address definitions (pushLEDmmap.h)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -10150,7 +10013,7 @@ Value at address 0x44E07138 (0xb6fe2138): 0x4000C484
 <p>Add the code in <a href="#realtime_pushLEDmmap_c">Code for directly reading memory addresses (pushLEDmmap.c)</a> to a file named <em>pushLEDmmap.c</em>.</p>
 </div>
 <div id="realtime_pushLEDmmap_c" class="exampleblock">
-<div class="title">Example 64. Code for directly reading memory addresses (pushLEDmmap.c)</div>
+<div class="title">Example 66. Code for directly reading memory addresses (pushLEDmmap.c)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -10245,311 +10108,184 @@ Ctrl-C pressed, cleaning up and exiting...
 </div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_76">Discussion</h4>
+<h4 id="_discussion_75">Discussion</h4>
 
 </div>
 </div>
 <div class="sect2">
-<h3 id="realtime_PRUSpeak">I/O with PRU Speak</h3>
+<h3 id="_tighter_delay_bounds_with_the_preempt_rt_kernel">Tighter Delay Bounds with the PREEMPT_RT Kernel</h3>
 <div class="sect3">
 <h4 id="_problem_84">Problem</h4>
 <div class="paragraph">
-<p>You require better timing than running C on the ARM can give you.</p>
+<p>You want to run real-time processes on the Beagle, but the OS is slowing things down.</p>
 </div>
 </div>
 <div class="sect3">
 <h4 id="_solution_84">Solution</h4>
 <div class="paragraph">
-<p>The AM335x processor on the Bone has an ARM processor that is running Linux, but it also has two 32-bit PRUs that are available for processing I/O. It takes a fair amount of understanding to program the PRU. Fortunately, a <a href="http://bit.ly/1AjlarF">2014 Google Summer of Code</a> project produced <a href="http://bit.ly/1wXT1eO">PRU Speak</a>, an adaptation of the <a href="http://botspeak.org/">BotSpeak</a> language for the PRU. This solution shows how to use it.</p>
+<p>The Kernel can be compiled with PREEMPT_RT enabled which reduces the delay from when a thread is scheduled to when it runs.</p>
 </div>
-<div class="sect4">
-<h5 id="_background">Background</h5>
 <div class="paragraph">
-<p>PRU Speak comprises three main parts:</p>
+<p>Switching to a PREEMPT_RT kernel is rather easy, but be sure to follow the steps in the Discussion to see how much the latencies are reduced.</p>
 </div>
-<div class="dlist">
-<dl>
-<dt class="hdlist1">Kernel</dt>
-<dd>
-<p>The pru_speak.ko Linux kernel driver module loads PRU code and provides communication between the kernel and the firmware running on the PRU. An associated device tree overlay called BB_PRUSPEAK-00A0.dtbo configures the pin access and firmware loaded on to the PRUs.</p>
-</dd>
-<dt class="hdlist1">Firmware</dt>
-<dd>
-<p>pru0_firmware and pru1_firmware are the firmware files for each of the two PRUs.</p>
-</dd>
-<dt class="hdlist1">Userspace</dt>
-<dd>
-<p>A Python user space component includes bs_tcp_server.py; a TCP socket listener that provides an interface to the PRU Speak interpreter; and pru_speak.py, a library for invoking PRU Speak commands from within a Python script.</p>
-</dd>
-</dl>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_prerequisites">Prerequisites</h5>
-<div class="paragraph">
-<p>Many of the pins easily accessible by the PRU are taken up by the HDMI interface discussed in <a href="#tips_hdmi">Running Your Bone Standalone</a>. If you haven&#8217;t already edited <em>uEnv.txt</em>, you can run these commands to disable the HDMI interface and reboot:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>First see which kernel you are running:</p>
+</li>
+</ul>
 </div>
 <pre data-type="programlisting">
-bone$ <strong>sed -i \
- '/cape_disable=capemgr.disable_partno=BB-BONELT-HDMI,BB-BONELT-HDMIN$/ \
-      \s/^#//' /boot/uEnv.txt</strong>
-bone$ <strong>sudo reboot</strong>
+bone$ <strong>uname -a</strong>
+Linux breadboard-home 5.10.120-ti-r47 #1bullseye SMP PREEMPT Tue Jul 12 18:59:38 UTC 2022 armv7l GNU/Linux
 </pre>
 <div class="paragraph">
-<p>To build the firmware files, you first need to install the TI PRU C compiler:</p>
+<p>I&#8217;m running a 5.10 kernel.  Remember the whole string, 5.10.120-ti-r47, for later.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Go to <a href="https://forum.beagleboard.org/t/debian-10-x-11-x-kernel-updates/30928">kernel update</a> and look for 5.10.</p>
+</li>
+</ul>
+</div>
+<div id="realtime_kernel_update_fig" class="imageblock">
+<div class="content">
+<img src="./08realtime/figures/kernel_update.png" alt="The regular and RT kernels">
+</div>
+<div class="title">Figure 70. The regular and RT kernels</div>
+</div>
+<div class="paragraph">
+<p>In <a href="#realtime_kernel_update_fig">The regular and RT kernels</a> you see the reular kernel on top and the RT below.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>We want the RT one.</p>
+</li>
+</ul>
 </div>
 <pre data-type="programlisting">
 bone$ <strong>sudo apt update</strong>
-bone$ <strong>sudo apt install ti-pru-cgt-installer</strong>
-Reading package lists... Done
-Building dependency tree
-Reading state information... Done
-The following NEW packages will be installed:
-  ti-pru-cgt-installer
-0 upgraded, 1 newly installed, 0 to remove and 30 not upgraded.
-Need to get 13.1 kB of archives.
-After this operation, 67.6 kB of additional disk space will be used.
-Get:1 http://repos.rcn-ee.net/debian/ wheezy/main ti-pru-cgt-installer \
-              all 2.1.0-1~bpo70+20141201+1 [13.1 kB]
-Fetched 13.1 kB in 0s (38.1 kB/s)
-Selecting previously unselected package ti-pru-cgt-installer.
-(Reading database ... 59608 files and directories currently installed.)
-Unpacking ti-pru-cgt-installer \
-              (from .../ti-pru-cgt-installer_2.1.0-1~bpo70+20141201+1_all.deb) ...
-Setting up ti-pru-cgt-installer (2.1.0-1~bpo70+20141201+1) ...
---2015-01-19 18:59:14--  http://downloads.ti.com/codegen/esd/cgt_public_sw/\
-PRU/2.1.0/ti_cgt_pru_2.1.0_armlinuxa8hf_busybox_installer.sh
-Resolving downloads.ti.com (downloads.ti.com)... 23.62.97.64, 23.62.97.66
-Connecting to downloads.ti.com (downloads.ti.com)|23.62.97.64|:80... connected.
-HTTP request sent, awaiting response... 200 OK
-Length: 39666613 (38M) [application/x-sh]
-Saving to: `ti_cgt_pru_2.1.0_armlinuxa8hf_busybox_installer.sh'
-
-100%[====================================>] 39,666,613  75.3K/s   in 7m 39s
-
-2015-01-19 19:06:54 (84.5 KB/s)-`ti_cgt_pru_2.1.0_arm..hf_busybox_installer.sh'\
-         saved [39666613/39666613]
-
-Installing PRU Code Generation tools version 2.1.0 into /
-  please wait, or press CTRL-C to abort
-
-Extracting archive
-Installing files
-[####################] 100%
-Installed successfully into /
+bone$ <strong>sudo apt install bbb.io-kernel-5.10-ti-rt-am335x</strong>
 </pre>
-</div>
-<div class="sect4">
-<h5 id="_installation">Installation</h5>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
 <div class="paragraph">
-<p>Clone the PRU Speak repository and run the <em>install.sh</em> shell script:</p>
+<p>Use the <strong>am57xx</strong> if you are using the BeagleBoard AI or AI64.</p>
 </div>
-<pre data-type="programlisting">
-bone$ <strong>git clone git://github.com/jadonk/pruspeak.git</strong>
-bone$ <strong>cd pruspeak</strong>
-bone$ <strong>./install.sh</strong>
-if [ ! -d "/lib/modules/3.8.13-bone68/build" ]; then apt install \
-        linux-headers-3.8.13-bone68; fi
-make -C /lib/modules/3.8.13-bone68/build M=/root/pruspeak/src/driver modules
-make[1]: Entering directory `/usr/src/linux-headers-3.8.13-bone68'
-  CC [M]  /root/pruspeak/src/driver/pru_speak.o
-  Building modules, stage 2.
-  MODPOST 1 modules
-  CC      /root/pruspeak/src/driver/pru_speak.mod.o
-  LD [M]  /root/pruspeak/src/driver/pru_speak.ko
-make[1]: Leaving directory `/usr/src/linux-headers-3.8.13-bone68'
-make -C /lib/modules/3.8.13-bone68/build M=/root/pruspeak/src/driver
-modules_install
-make[1]: Entering directory `/usr/src/linux-headers-3.8.13-bone68'
-  INSTALL /root/pruspeak/src/driver/pru_speak.ko
-  DEPMOD  3.8.13-bone68
-make[1]: Leaving directory `/usr/src/linux-headers-3.8.13-bone68'
-lnkpru -i/usr/share/ti/cgt-pru/lib pru0_firmware.obj pru0_syscall.obj \
-         AM3359_PRU.cmd -o=pru0_firmware
-lnkpru -i/usr/share/ti/cgt-pru/lib pru1_firmware.obj  AM3359_PRU.cmd
--o=pru1_firmware
-install -m 444 pru0_firmware /lib/firmware
-install -m 444 pru1_firmware /lib/firmware
-dtc -O dtb -o BB-PRUSPEAK-00A0.dtbo -b 0 -@ BB-PRUSPEAK-00A0.dts
-install -m 644 BB-PRUSPEAK-00A0.dtbo /lib/firmware
-python setup.py build
-running build
-running build_py
-python setup.py build
-running build
-running build_py
-python setup.py install
-running install
-.
-.
-.
-Processing pru_speak-0.0-py2.7.egg
-Removing /usr/local/lib/python2.7/dist-packages/pru_speak-0.0-py2.7.egg
-Copying pru_speak-0.0-py2.7.egg to /usr/local/lib/python2.7/dist-packages
-pru-speak 0.0 is already the active version in easy-install.pth
-
-Installed /usr/local/lib/python2.7/dist-packages/pru_speak-0.0-py2.7.egg
-Processing dependencies for pru-speak==0.0
-Searching for ply==3.4
-Best match: ply 3.4
-Processing ply-3.4-py2.7.egg
-ply 3.4 is already the active version in easy-install.pth
-
-Using /usr/local/lib/python2.7/dist-packages/ply-3.4-py2.7.egg
-Finished processing dependencies for pru-speak==0.0
-install -m 755 bs_tcp_server.py /usr/bin
-install -m 755 bs_shell.py /usr/bin
-</pre>
+</td>
+</tr>
+</table>
 </div>
-<div class="sect4">
-<h5 id="_runing_the_kernel_module">Runing the Kernel Module</h5>
-<div class="paragraph">
-<p>Use the modprobe command to load the kernel module and config-pin to load the device tree overlay:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Before rebooting, edit /boot/uEnv.txt to start with:</p>
+</li>
+</ul>
 </div>
-<pre data-type="programlisting">
-bone$ <strong>modprobe pru_speak</strong>
-bone$ <strong>config-pin overlay BB-PRUSPEAK</strong>
-</pre>
-<div class="paragraph">
-<p>The kernel module will need to be reloaded after rebooting, unless it&#8217;s been added to <em>/etc/modules-load.d/modules.conf</em> and <em>/boot/uEnv.txt</em>.</p>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_running_the_script">Running the Script</h5>
-<div class="paragraph">
-<p>The PRU is now ready to run code. Add the code in <a href="#realtime_pruSpeak_code">Code for copying P8_16 to P9_31 using the PRU (pruSpeak.py)</a> to a file named <em>pruSpeak.py</em>. This code copies the input on P8_16 to the output on P9_31.</p>
-</div>
-<div id="realtime_pruSpeak_code" class="exampleblock pagebreak-before">
-<div class="title">Example 65. Code for copying P8_16 to P9_31 using the PRU (pruSpeak.py)</div>
+<div class="exampleblock">
 <div class="content">
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-c" data-lang="c">#!/usr/bin/env python
-from pru_speak import pru_speak
-
-# Copy the signal on pin P8_16 to P9_31
-code = '''\
-SCRIPT
-SET var1, DIO[14]
-SET DIO[0], var1
-GOTO 0
-ENDSCRIPT
-RUN
-'''
-
-halt = '''\
-HALT
-'''
-
-ret = pru_speak.execute_instruction(code)
-print ret</code></pre>
-</div>
-</div>
-</div>
-</div>
-<div class="paragraph">
-<p>Then run the code by using the following command:</p>
-</div>
 <pre data-type="programlisting">
-bone$ <strong>./pruSpeak.py</strong>
-Generating LALR tables
-Initializing PRU Speak
-0       0x110000FF      SET var1, DIO[14]
-1       0x01400000      SET DIO[0], var1
-2       0x15000000      GOTO 0
-3       0x7F000000      ENDSCRIPT
+#Docs: http://elinux.org/Beagleboard:U-boot_partitioning_layout_2.0
 
-[285212927, 20971520, 352321536, 2130706432]
-[]
-PRU Speak object deleted
+# uname_r=5.10.120-ti-r47
+uname_r=5.10.120-ti-rt-r47
+#uuid=
+#dtb=
 </pre>
-<div class="paragraph">
-<p>The code will return immediately, but the PRU will continue to run.</p>
+</div>
 </div>
 <div class="paragraph">
-<p>The PRU has quick access to only a subset of GPIO pins. This example reads GPIO P8_16 and writes to P9_31, so you have to wire up the pushbutton and LED as shown in <a href="#realtime_pushLEDpru_fig">Diagram for wiring a pushbutton and LED for the PRU</a>.</p>
-</div>
-<div id="realtime_pushLEDpru_fig" class="imageblock">
-<div class="content">
-<img src="./08realtime/figures/pushLEDpru_bb.png" alt="Bone with pushbutton and LED for PRU">
-</div>
-<div class="title">Figure 76. Diagram for wiring a pushbutton and LED for the PRU</div>
-</div>
-<div class="paragraph">
-<p>Now, when you push the button, the LED should respond.</p>
-</div>
+<p>uname_r tells the boot loader which kernel to boot.  Here we&#8217;ve commented out the regular kernel and left in the RT kernel.  Next time you boot you&#8217;ll be running the RT kernel.  Don&#8217;t reboot just yet.  Let&#8217;s gather some latency data first.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_77">Discussion</h4>
+<h4 id="_discussion_76">Discussion</h4>
 <div class="paragraph">
-<p>In addition to invoking PRU Speak scripts via Python, it is also possible to open a shell or TCP socket to the interpreter. When running a script, it is also possible to modify variables to communicate with the running script.</p>
+<p><a href="https://bootlin.com/doc/training/preempt-rt/">Bootlin&#8217;s preempt_rt workshop</a> looks like a good workshop on PREEMPT RT.  Their slides say:</p>
 </div>
-<div class="sect4">
-<h5 id="_running_pru_speak_via_shell">Running PRU Speak via Shell</h5>
+<div class="ulist">
+<ul>
+<li>
+<p>One way to implement a multi-task Real-Time Operating System is to have a preemptible system</p>
+</li>
+<li>
+<p>Any task can be interrupted at any point so that higher priority tasks can run</p>
+</li>
+<li>
+<p>Userspace preemption already exists in Linux</p>
+</li>
+<li>
+<p>The Linux Kernel also supports real-time scheduling policies</p>
+</li>
+<li>
+<p>However, code that runs in kernel mode isn’t fully preemptible</p>
+</li>
+<li>
+<p>The Preempt-RT patch aims at making all code running in kernel mode preemptible</p>
+</li>
+</ul>
+</div>
 <div class="paragraph">
-<p>To invoke a shell interface to PRU Speak, run <em>bs_shell.py</em>:</p>
+<p>The workshop goes into many details on how to get real-time performance on Linux.  Checkout their <a href="https://bootlin.com/doc/training/preempt-rt/preempt-rt-slides.pdf">slides</a> and <a href="https://bootlin.com/doc/training/preempt-rt/preempt-rt-labs.pdf">labs</a>. Though you can skip the first lab since we present a simpler way to get the RT kernel running.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_cyclictest">Cyclictest</h4>
+<div class="paragraph">
+<p>cyclictest is one tool for measuring the latency from when a thread is schduled and when it runs.  The code/rt directory in the git repo has some scripts for gathering latency data and plotting it.  Here&#8217;s how to run the scripts.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>First look in <a href="#realtime_install_fig">install.sh</a> to see what to install.</p>
+</li>
+</ul>
+</div>
+<div id="realtime_install_fig" class="exampleblock">
+<div class="title">Example 67. install.sh</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre>sudo apt install rt-tests
+# You can run gnuplot on the host
+sudo apt install gnuplot</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Open up another window and start something that will create a load on the Bone, then run the following:</p>
+</li>
+</ul>
 </div>
 <pre data-type="programlisting">
-bone$ <strong>bs_shell.py</strong>
-Generating LALR tables
-Initializing PRU Speak
-ps&gt;<strong>SCRIPT</strong>
-...<strong>SET DIO[0],var1</strong>
-...<strong>GOTO 0</strong>
-...<strong>ENDSCRIPT</strong>
-...
-0       0x01400001      SET DIO[0],var1
-1       0x15000000      GOTO 0
-2       0x7F000000      ENDSCRIPT
-
-[]
-ps&gt;<strong>RUN</strong>
-...
-[20971521, 352321536, 2130706432]
-[]
-ps&gt;<strong>SET var1,1</strong>
-...
-[1]
-ps&gt;<strong>SET var1,0</strong>
-...
-[0]
-ps&gt;Closing terminal
-PRU Speak object deleted
+bone$ <strong>time sudo ./hist.gen > nort.hist</strong>
 </pre>
 <div class="paragraph">
-<p>Press Enter on a blank line to complete input to the shell. Press ^C (Ctrl-C) to exit the shell.</p>
+<p><a href="#realtime_hist_gen_fig">hist.gen</a> shows what&#8217;s being run.  It defaults to 100,000 loops, so it takes a while.  The data is saved in nort.hist, which stands for no RT  histogram.</p>
+</div>
+<div id="realtime_hist_gen_fig" class="exampleblock">
+<div class="title">Example 68. hist.gen</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre>#!/bin/sh
+# This code is from Julia Cartwright julia@kernel.org
+
+cyclictest -m -S -p 90 -h 400 -l "${1:-100000}"</pre>
 </div>
 </div>
-<div class="sect4">
-<h5 id="_running_pru_speak_via_tcp_socket">Running PRU Speak via TCP socket</h5>
-<div class="paragraph">
-<p>Running the interpreter over a TCP socket enables tools like Labview to communicate with the Bone in a platform-independent way. Use netcat (nc) to interact with the interpreter from the command line:</p>
 </div>
-<pre data-type="programlisting">
-bone$ <strong>bs_tcp_server.py 2&amp;&gt;1 &gt; /var/log/pruspeak.log &amp;</strong>
-[1] 2594
-bone # <strong>nc localhost 6060</strong>
-<strong>SCRIPT</strong>
-
-<strong>SET DIO[0],1</strong>
-
-<strong>WAIT 100</strong>
-
-<strong>SET DIO[0],0</strong>
-
-<strong>WAIT 100</strong>
-
-<strong>GOTO 0</strong>
-
-<strong>ENDSCRIPT</strong>
-
-<strong>RUN</strong>
-
-<strong>^C</strong>
-</pre>
-<div class="paragraph">
-<p>Press ^C (Ctrl-C) to exit nc.</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -10559,23 +10295,124 @@ bone # <strong>nc localhost 6060</strong>
 </td>
 <td class="content">
 <div class="paragraph">
-<p>Currently, pressing ^D (Ctrl-D) within nc will cause the socket listener script to close.</p>
+<p>If you get an error:</p>
+</div>
+<div class="paragraph">
+<p>Unable to change scheduling policy!
+Probably missing capabilities, either run as root or increase RLIMIT_RTPRIO limits</p>
+</div>
+<div class="paragraph">
+<p>try running ./setup.sh. If that doesn&#8217;t work try:</p>
+</div>
+<pre data-type="programlisting">
+
+bone$ sudo bash
+bone# ulimit -r unlimited
+bone# ./hist.gen > nort.hist
+bone# exit
+</pre>
+</td>
+</tr>
+</table>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Now you are ready to reboot into the RT kernel and run the test again.</p>
+</li>
+</ul>
+</div>
+<pre data-type="programlisting">
+bone$ <strong>reboot</strong>
+</pre>
+<div class="ulist">
+<ul>
+<li>
+<p>After rebooting:</p>
+</li>
+</ul>
+</div>
+<pre data-type="programlisting">
+bone$ <strong>uname -a</strong>
+Linux breadboard-home 5.10.120-ti-rt-r47 #1bullseye SMP PREEMPT RT Tue Jul 12 18:59:38 UTC 2022 armv7l GNU/Linux
+</pre>
+<div class="paragraph">
+<p>Congratulations you are running the RT kernel.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>If the Beagle appears to be running (the LEDs are flashing) but you are having trouble connecting via ssh 192.168.7.2, you can try connecting using the approach shown in <a href="#tips_FTDI">Viewing and Debugging the Kernel and u-boot Messages at Boot Time</a>.</p>
 </div>
 </td>
 </tr>
 </table>
 </div>
 <div class="paragraph">
-<p>You should now see the LED blinking.</p>
+<p>Now run the scipt again (note it&#8217;s being saved in rt.hist this time.)</p>
 </div>
+<pre data-type="programlisting">
+bone$ <strong>time sudo ./hist.gen > rt.hist</strong>
+</pre>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>At this point yoou can edit /boot/uEnt.txt to boot the non RT kernel and reboot.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Now it&#8217;s time to plot the results.</p>
+</div>
+<pre data-type="programlisting">
+bone$ <strong>gnuplot hist.plt</strong>
+</pre>
+<div class="paragraph">
+<p>This will generate the file <strong>cyclictest.png</strong> which contains your plot.  It should look like:</p>
+</div>
+<div id="realtime_cyclictest_fig" class="imageblock">
+<div class="content">
+<img src="./08realtime/code/rt/cyclictest.png" alt="Histogram of Non-RT and RT kernels running cyclictest">
+</div>
+<div class="title">Figure 71. Histogram of Non-RT and RT kernels running cyclictest</div>
+</div>
+<div class="paragraph">
+<p>Notice the NON-RT data have much longer latenices. They may not happen often (fewer than 10 times in each bin), but they are occuring and may be enough to miss a real-time deadline.</p>
+</div>
+<div class="paragraph">
+<p>The PREEMPT-RT times are all under a 150 &mu;s.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="realtime_simpPRU">I/O with simpPRU</h3>
+<div class="sect3">
+<h4 id="_problem_85">Problem</h4>
+<div class="paragraph">
+<p>You require better timing than running C on the ARM can give you.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_solution_85">Solution</h4>
+<div class="paragraph">
+<p>The AM335x processor on the Bone has an ARM processor that is running Linux, but it also has two 32-bit PRUs that are available for processing I/O. It takes a fair amount of understanding to program the PRU. Fortunately, <a href="https://simppru.readthedocs.io/en/latest/">simpPRU</a> is an intuitive language for PRU which compiles down to PRU C. This solution shows how to use it.</p>
 </div>
 <div class="sect4">
-<h5 id="_looking_ahead">Looking Ahead</h5>
+<h5 id="_background">Background</h5>
 <div class="paragraph">
-<p>At the time of this writing, PRU Speak is still under heavy development. Be sure to check <a href="http://bit.ly/1B4DrsC">the README file</a> for the latest installation and usage guidelines. Currently, only direct PRU GPIO access is implemented, but support for ADCs and additional GPIOs is in the works.</p>
-</div>
-<div class="paragraph">
-<p>If you are looking to develop your own firmware for the PRUs, this example should provide a template for extending your own interface code.</p>
+<p>simpPRU</p>
 </div>
 <div style="page-break-after: always;"></div>
 </div>
@@ -10601,13 +10438,13 @@ bone # <strong>nc localhost 6060</strong>
 <div class="sect2">
 <h3 id="capes_7inLCD">Using a Seven-Inch LCD Cape</h3>
 <div class="sect3">
-<h4 id="_problem_85">Problem</h4>
+<h4 id="_problem_86">Problem</h4>
 <div class="paragraph">
 <p>You want to display the Bone&#8217;s desktop on a portable LCD.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_85">Solution</h4>
+<h4 id="_solution_86">Solution</h4>
 <div class="paragraph">
 <p>A number of <a href="http://bit.ly/1AjlXJ9">LCD capes</a> are built for the Bone, ranging in size from three to seven inches. This recipe attaches a seven-inch <a href="http://bit.ly/1NK8Hra">BeagleBone LCD7</a> from <a href="http://circuitco.com/">CircuitCo</a> (shown in <a href="#capes_7inLCD_fig">Seven-inch LCD from CircuitCo <sup class="footnote">[5]</sup></sup> was originally posted by CircuitCo at http://elinux.org/File:BeagleBone-LCD7-Front.jpg under a Creative Commons Attribution-ShareAlike 3.0 Unported License.]</a>) to the Bone.</p>
 </div>
@@ -10615,7 +10452,7 @@ bone # <strong>nc localhost 6060</strong>
 <div class="content">
 <img src="./09capes/figures/LCD.png" alt="7 inch LCD">
 </div>
-<div class="title">Figure 77. Seven-inch LCD from CircuitCo <sup class="footnote">[<a id="_footnoteref_5" class="footnote" href="#_footnotedef_5" title="View footnote.">5</a>]</sup></sup></a> was originally posted by CircuitCo at <a href="http://elinux.org/File:BeagleBone-LCD7-Front.jpg" class="bare">http://elinux.org/File:BeagleBone-LCD7-Front.jpg</a> under a <a href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons Attribution-ShareAlike 3.0 Unported License</a>.]</div>
+<div class="title">Figure 72. Seven-inch LCD from CircuitCo <sup class="footnote">[<a id="_footnoteref_5" class="footnote" href="#_footnotedef_5" title="View footnote.">5</a>]</sup></sup></a> was originally posted by CircuitCo at <a href="http://elinux.org/File:BeagleBone-LCD7-Front.jpg" class="bare">http://elinux.org/File:BeagleBone-LCD7-Front.jpg</a> under a <a href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons Attribution-ShareAlike 3.0 Unported License</a>.]</div>
 </div>
 <div class="paragraph">
 <p>To make this recipe, you will need:</p>
@@ -10637,27 +10474,27 @@ bone # <strong>nc localhost 6060</strong>
 <div class="content">
 <img src="./09capes/figures/LCD7Desktop.png" alt="7 inch LCD desktop">
 </div>
-<div class="title">Figure 78. Seven-inch LCD desktop</div>
+<div class="title">Figure 73. Seven-inch LCD desktop</div>
 </div>
 <div class="paragraph">
 <p>Attach a USB keyboard and mouse, and you have a portable Bone. <a href="https://www.adafruit.com/products/922">Wireless keyboard and mouse combinations</a> make a nice solution to avoid the need to add a USB hub.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_78">Discussion</h4>
+<h4 id="_discussion_77">Discussion</h4>
 
 </div>
 </div>
 <div class="sect2">
 <h3 id="capes_miniDisplay">Using a 128 x 128-Pixel LCD Cape</h3>
 <div class="sect3">
-<h4 id="_problem_86">Problem</h4>
+<h4 id="_problem_87">Problem</h4>
 <div class="paragraph">
 <p>You want to use a small LCD to display things other than the desktop.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_86">Solution</h4>
+<h4 id="_solution_87">Solution</h4>
 <div class="paragraph">
 <p>The <a href="http://bit.ly/1xd0r8p">MiniDisplay</a> is a 128 x 128 full-color LCD cape that just fits on the Bone, as shown in <a href="#capes_miniDisplay_fig">MiniDisplay 128 x 128-pixel LCD from CircuitCo</a>.</p>
 </div>
@@ -10665,7 +10502,7 @@ bone # <strong>nc localhost 6060</strong>
 <div class="content">
 <img src="./09capes/figures/MiniDisplay-A1.jpg" alt="miniDisplay LCD">
 </div>
-<div class="title">Figure 79. MiniDisplay 128 x 128-pixel LCD from CircuitCo</div>
+<div class="title">Figure 74. MiniDisplay 128 x 128-pixel LCD from CircuitCo</div>
 </div>
 <div class="paragraph">
 <p>To make this recipe, you will need:</p>
@@ -10810,24 +10647,24 @@ bone$ <strong>./minidisplay-test</strong>
 <div class="content">
 <img src="./09capes/figures/miniDisplay_Boris.png" alt="miniDisplay LCD showing Boris">
 </div>
-<div class="title">Figure 80. MiniDisplay showing Boris <sup class="footnote">[<a id="_footnoteref_7" class="footnote" href="#_footnotedef_7" title="View footnote.">7</a>]</sup></sup></a> was originally posted by David Anders at <a href="http://elinux.org/File:Minidisplay-boris.jpg" class="bare">http://elinux.org/File:Minidisplay-boris.jpg</a> under a <a href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons Attribution-ShareAlike 3.0 Unported License</a>.]</div>
+<div class="title">Figure 75. MiniDisplay showing Boris <sup class="footnote">[<a id="_footnoteref_7" class="footnote" href="#_footnotedef_7" title="View footnote.">7</a>]</sup></sup></a> was originally posted by David Anders at <a href="http://elinux.org/File:Minidisplay-boris.jpg" class="bare">http://elinux.org/File:Minidisplay-boris.jpg</a> under a <a href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons Attribution-ShareAlike 3.0 Unported License</a>.]</div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_79">Discussion</h4>
+<h4 id="_discussion_78">Discussion</h4>
 
 </div>
 </div>
 <div class="sect2">
 <h3 id="_connecting_multiple_capes">Connecting Multiple Capes</h3>
 <div class="sect3">
-<h4 id="_problem_87">Problem</h4>
+<h4 id="_problem_88">Problem</h4>
 <div class="paragraph">
 <p>You want to use more than one cape at a time.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_87">Solution</h4>
+<h4 id="_solution_88">Solution</h4>
 <div class="paragraph">
 <p>First, look at each cape that you want to stack mechanically. Are they all using stacking
 headers like the ones shown in <a href="#capes_stacking_headers">Stacking headers</a>? No more than one should be using non-stacking headers.</p>
@@ -10836,7 +10673,7 @@ headers like the ones shown in <a href="#capes_stacking_headers">Stacking header
 <div class="content">
 <img src="./09capes/figures/stacking_headers.JPG" alt="stacking headers">
 </div>
-<div class="title">Figure 81. Stacking headers</div>
+<div class="title">Figure 76. Stacking headers</div>
 </div>
 <div class="paragraph">
 <p>Note that larger LCD panels might provide expansion headers, such as the ones
@@ -10847,7 +10684,7 @@ additional capes.</p>
 <div class="content">
 <img src="./09capes/figures/LCD7back.png" alt="LCD7back">
 </div>
-<div class="title">Figure 82. Back side of LCD7 cape <sup class="footnote">[<a id="_footnoteref_9" class="footnote" href="#_footnotedef_9" title="View footnote.">9</a>]</sup></sup></a> was originally posted by CircuitCo at <a href="http://elinux.org/File:BeagleBone-LCD-Backside.jpg" class="bare">http://elinux.org/File:BeagleBone-LCD-Backside.jpg</a> under a <a href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons Attribution-ShareAlike 3.0 Unported License</a>.]</div>
+<div class="title">Figure 77. Back side of LCD7 cape <sup class="footnote">[<a id="_footnoteref_9" class="footnote" href="#_footnotedef_9" title="View footnote.">9</a>]</sup></sup></a> was originally posted by CircuitCo at <a href="http://elinux.org/File:BeagleBone-LCD-Backside.jpg" class="bare">http://elinux.org/File:BeagleBone-LCD-Backside.jpg</a> under a <a href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons Attribution-ShareAlike 3.0 Unported License</a>.]</div>
 </div>
 <div class="paragraph">
 <p>Next, take a note of each pin utilized by each cape. The <a href="http://beaglebonecapes.com">BeagleBone Capes catalog</a> provides a graphical representation for the pin usage of most capes, as shown in <a href="#Audio_cape_pins_fig">Pins utilized by CircuitCo Audio Cape <sup class="footnote">[11]</sup></sup> was originally posted by Djackson at http://elinux.org/File:Audio_pins_revb.png under a Creative Commons Attribution-ShareAlike 3.0 Unported License.]</a> for the Circuitco Audio Cape.</p>
@@ -10856,7 +10693,7 @@ additional capes.</p>
 <div class="content">
 <img src="./09capes/figures/audioCape.png" alt="CircuitCo Audio Cape">
 </div>
-<div class="title">Figure 83. Pins utilized by CircuitCo Audio Cape <sup class="footnote">[<a id="_footnoteref_11" class="footnote" href="#_footnotedef_11" title="View footnote.">11</a>]</sup></sup></a> was originally posted by Djackson at <a href="http://elinux.org/File:Audio_pins_revb.png" class="bare">http://elinux.org/File:Audio_pins_revb.png</a> under a <a href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons Attribution-ShareAlike 3.0 Unported License</a>.]</div>
+<div class="title">Figure 78. Pins utilized by CircuitCo Audio Cape <sup class="footnote">[<a id="_footnoteref_11" class="footnote" href="#_footnotedef_11" title="View footnote.">11</a>]</sup></sup></a> was originally posted by Djackson at <a href="http://elinux.org/File:Audio_pins_revb.png" class="bare">http://elinux.org/File:Audio_pins_revb.png</a> under a <a href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons Attribution-ShareAlike 3.0 Unported License</a>.]</div>
 </div>
 <div class="paragraph">
 <p>In most cases, the same pin should never be used on two different capes, though in some cases, pins can be shared. Here are some exceptions:</p>
@@ -10891,20 +10728,20 @@ additional capes.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_80">Discussion</h4>
+<h4 id="_discussion_79">Discussion</h4>
 
 </div>
 </div>
 <div class="sect2">
 <h3 id="capes_soldering">Moving from a Breadboard to a Protoboard</h3>
 <div class="sect3">
-<h4 id="_problem_88">Problem</h4>
+<h4 id="_problem_89">Problem</h4>
 <div class="paragraph">
 <p>You have your circuit working fine on the breadboard, but you want a more reliable solution.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_88">Solution</h4>
+<h4 id="_solution_89">Solution</h4>
 <div class="paragraph">
 <p>Solder your components to a protoboard.</p>
 </div>
@@ -10931,27 +10768,27 @@ additional capes.</p>
 <div class="content">
 <img src="./09capes/figures/breadboard.png" alt="BeagleBone Breadboard">
 </div>
-<div class="title">Figure 84. BeagleBone breadboard <sup class="footnote">[<a id="_footnoteref_13" class="footnote" href="#_footnotedef_13" title="View footnote.">13</a>]</sup></sup></a> was originally posted by William Traynor at <a href="http://elinux.org/File:BeagleBone-Breadboard.jpg" class="bare">http://elinux.org/File:BeagleBone-Breadboard.jpg</a> under a <a href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons Attribution-ShareAlike 3.0 Unported License</a>.]</div>
+<div class="title">Figure 79. BeagleBone breadboard <sup class="footnote">[<a id="_footnoteref_13" class="footnote" href="#_footnotedef_13" title="View footnote.">13</a>]</sup></sup></a> was originally posted by William Traynor at <a href="http://elinux.org/File:BeagleBone-Breadboard.jpg" class="bare">http://elinux.org/File:BeagleBone-Breadboard.jpg</a> under a <a href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons Attribution-ShareAlike 3.0 Unported License</a>.]</div>
 </div>
 <div class="paragraph">
 <p>You just solder your parts on the protoboard as you had them on the breadboard.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_81">Discussion</h4>
+<h4 id="_discussion_80">Discussion</h4>
 
 </div>
 </div>
 <div class="sect2">
 <h3 id="capes_creating_prototype_schematic">Creating a Prototype Schematic</h3>
 <div class="sect3">
-<h4 id="_problem_89">Problem</h4>
+<h4 id="_problem_90">Problem</h4>
 <div class="paragraph">
 <p>You&#8217;ve wired up a circuit on a breadboard. How do you turn that prototype into a schematic others can read and that you can import into other design tools?</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_89">Solution</h4>
+<h4 id="_solution_90">Solution</h4>
 <div class="paragraph">
 <p>In <a href="#tips_fritzing">[tips_fritzing]</a>, we introduced Fritzing as a useful tool for drawing block diagrams. Fritzing can also do circuit schematics and printed-circuit layout. For example, <a href="#capes_quickRobo_fig">A simple robot controller diagram (quickBot.fzz)</a> shows a block diagram for a simple robot controller (<em><span class="keep-together">quickBot.fzz</span></em> is the name of the Fritzing file used to create the diagram).</p>
 </div>
@@ -10959,7 +10796,7 @@ additional capes.</p>
 <div class="content">
 <img src="./09capes/figures/quickBot_bb.png" alt="Simple robot diagram">
 </div>
-<div class="title">Figure 85. A simple robot controller diagram (quickBot.fzz)</div>
+<div class="title">Figure 80. A simple robot controller diagram (quickBot.fzz)</div>
 </div>
 <div class="paragraph">
 <p>The controller has an H-bridge to drive two DC motors (<a href="#motors_dcDirection">Controlling the Speed and Direction of a DC Motor</a>), an IR range sensor, and two headers for attaching analog encoders for the motors. Both the IR sensor and the encoders have analog outputs that exceed 1.8 V, so each is run through a voltage divider (two resistors) to scale the voltage to the correct range (see <a href="#sensors_hc-sr04">Reading a Distance Sensor (Variable Pulse Width Sensor)</a> for a voltage divider example).</p>
@@ -10971,7 +10808,7 @@ additional capes.</p>
 <div class="content">
 <img src="./09capes/figures/quickBot_schemRaw.png" alt="Autogenerated schematic">
 </div>
-<div class="title">Figure 86. Automatically generated schematic</div>
+<div class="title">Figure 81. Automatically generated schematic</div>
 </div>
 <div class="paragraph">
 <p><a href="#capes_quickRobo_schem">Cleaned-up schematic</a> shows my cleaned-up schematic. I did it by moving the parts around until it looked better.</p>
@@ -10980,16 +10817,16 @@ additional capes.</p>
 <div class="content">
 <img src="./09capes/figures/quickBot_schem.png" alt="Cleaned up schematic">
 </div>
-<div class="title">Figure 87. Cleaned-up schematic</div>
+<div class="title">Figure 82. Cleaned-up schematic</div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_82">Discussion</h4>
+<h4 id="_discussion_81">Discussion</h4>
 <div id="capes_quickRobo_schemZoom" class="imageblock">
 <div class="content">
 <img src="./09capes/figures/quickBot_schemZoom.png" alt="Zoomed in schematic">
 </div>
-<div class="title">Figure 88. Zoomed-in schematic</div>
+<div class="title">Figure 83. Zoomed-in schematic</div>
 </div>
 <div class="paragraph">
 <p>You might find that you want to create your design in a more advanced design tool, perhaps because it has the library components you desire, it integrates better with other tools you are using, or it has some other feature (such as simulation) of which you&#8217;d like to take advantage.</p>
@@ -10999,13 +10836,13 @@ additional capes.</p>
 <div class="sect2">
 <h3 id="capes_verify">Verifying Your Cape Design</h3>
 <div class="sect3">
-<h4 id="_problem_90">Problem</h4>
+<h4 id="_problem_91">Problem</h4>
 <div class="paragraph">
 <p>You&#8217;ve got a design. How do you quickly verify that it works?</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_90">Solution</h4>
+<h4 id="_solution_91">Solution</h4>
 <div class="paragraph">
 <p>To make this recipe, you will need:</p>
 </div>
@@ -11020,7 +10857,7 @@ additional capes.</p>
 <p>Break down your design into functional subcomponents and write tests for each. Use components you already know are working, such as the onboard LEDs, to display the test status with the code in <a href="#capes_quickBot_motor_test_code">Testing the quickBot motors interface (quickBot_motor_test.js)</a>.</p>
 </div>
 <div id="capes_quickBot_motor_test_code" class="exampleblock">
-<div class="title">Example 66. Testing the quickBot motors interface (quickBot_motor_test.js)</div>
+<div class="title">Example 69. Testing the quickBot motors interface (quickBot_motor_test.js)</div>
 <div class="content">
 <pre data-type="programlisting">#!/usr/bin/env node
 var b = require('bonescript');
@@ -11167,16 +11004,16 @@ function M2_set(speed) {
 <div class="content">
 <img src="./09capes/figures/quickBot_motor_kickback.JPG" alt="quickBot kicking back">
 </div>
-<div class="title">Figure 89. quickBot motor test showing kickback</div>
+<div class="title">Figure 84. quickBot motor test showing kickback</div>
 </div>
 <div class="paragraph">
-<p>Using the solution in <a href="#basics_autorun">Running Applications Automatically</a>, you can untether from your coding station to test your design at your lab workbench, as shown in <a href="#quickBot_scope_fig">quickBot motor test code under scope</a>.</p>
+<p>Using the solution in <a href="#basics_autorun">[basics_autorun]</a>, you can untether from your coding station to test your design at your lab workbench, as shown in <a href="#quickBot_scope_fig">quickBot motor test code under scope</a>.</p>
 </div>
 <div id="quickBot_scope_fig" class="imageblock">
 <div class="content">
 <img src="./09capes/figures/quickBot_motor_test_scope.JPG" alt="quickBot under scope">
 </div>
-<div class="title">Figure 90. quickBot motor test code under scope</div>
+<div class="title">Figure 85. quickBot motor test code under scope</div>
 </div>
 <div class="paragraph">
 <p>SparkFun provides a <a href="http://bit.ly/18AzuoR">useful guide to using an oscilloscope</a>. You might want to check it out if you&#8217;ve never used an oscilloscope before.
@@ -11184,20 +11021,20 @@ Looking at the stimulus you&#8217;ll generate <em>before</em> you connect up you
 </div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_83">Discussion</h4>
+<h4 id="_discussion_82">Discussion</h4>
 
 </div>
 </div>
 <div class="sect2">
 <h3 id="capes_layout">Laying Out Your Cape PCB</h3>
 <div class="sect3">
-<h4 id="_problem_91">Problem</h4>
+<h4 id="_problem_92">Problem</h4>
 <div class="paragraph">
 <p>You&#8217;ve generated a diagram and schematic for your circuit and verified that they are correct. How do you create a PCB?</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_91">Solution</h4>
+<h4 id="_solution_92">Solution</h4>
 <div class="paragraph">
 <p>If you&#8217;ve been using Fritzing, all you need to do is click the PCB tab, and there&#8217;s your board. Well, almost. Much like the schematic view shown in <a href="#capes_creating_prototype_schematic">Creating a Prototype Schematic</a>, you need to do some layout work before it&#8217;s actually usable. I just moved the components around until they seemed to be grouped logically and then clicked the Autoroute button.  After a minute or two of trying various layouts, Fritzing picked the one it determined to be the best. <a href="#capes_quickRobo_pcb">Simple robot PCB</a> shows the results.</p>
 </div>
@@ -11205,14 +11042,14 @@ Looking at the stimulus you&#8217;ll generate <em>before</em> you connect up you
 <div class="content">
 <img src="./09capes/figures/quickBot_pcb.png" alt="Simple robot PCB">
 </div>
-<div class="title">Figure 91. Simple robot PCB</div>
+<div class="title">Figure 86. Simple robot PCB</div>
 </div>
 <div class="paragraph">
 <p>The <a href="http://bit.ly/1HCxokQ">Fritzing pre-fab web page</a> has a few helpful hints, including checking the widths of all your traces and cleaning up any questionable routing created by the autorouter.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_84">Discussion</h4>
+<h4 id="_discussion_83">Discussion</h4>
 <div class="paragraph">
 <p>The PCB in <a href="#capes_quickRobo_pcb">Simple robot PCB</a> is a two-sided board. One color (or shade of gray in the printed book) represents traces on one side of the board, and the other color (or shade of gray) is the other side. Sometimes, you&#8217;ll see a trace come to a small circle and then change colors. This is where it is switching sides of the board through what&#8217;s called a <em>via</em>. One of the goals of PCB design is to minimize the number of vias.</p>
 </div>
@@ -11242,7 +11079,7 @@ Looking at the stimulus you&#8217;ll generate <em>before</em> you connect up you
 <p>The <a href="http://bit.ly/1xd1aGV">Fritzing custom PCB outline page</a> describes how to create and use a custom board outline. Although it is possible to use a drawing tool like <a href="https://inkscape.org/en/">Inkscape</a>, I chose to use <a href="http://bit.ly/1b2aZmn">the SVG <em>path</em> command</a> directly to create <a href="#capes_boardoutline_code">Outline SVG for BeagleBone cape (beaglebone_cape_boardoutline.svg)</a>.</p>
 </div>
 <div id="capes_boardoutline_code" class="exampleblock">
-<div class="title">Example 67. Outline SVG for BeagleBone cape (beaglebone_cape_boardoutline.svg)</div>
+<div class="title">Example 70. Outline SVG for BeagleBone cape (beaglebone_cape_boardoutline.svg)</div>
 <div class="content">
 <pre data-type="programlisting">&lt;?xml version='1.0' encoding='UTF-8' standalone='no'?&gt;
 &lt;svg xmlns="http://www.w3.org/2000/svg" version="1.1"
@@ -11269,7 +11106,7 @@ Looking at the stimulus you&#8217;ll generate <em>before</em> you connect up you
 <div class="content">
 <img src="./09capes/figures/srm_cape_dimensions.png" alt="Cape dimensions in SRM">
 </div>
-<div class="title">Figure 92. Cape dimensions</div>
+<div class="title">Figure 87. Cape dimensions</div>
 </div>
 <div class="paragraph">
 <p>You can observe the rendered output of <a href="#capes_boardoutline_code">Outline SVG for BeagleBone cape (beaglebone_cape_boardoutline.svg)</a> quickly by opening the file in a web browser, as shown in <a href="#capes_boardoutline_fig">Rendered cape outline in Chrome</a>.</p>
@@ -11278,7 +11115,7 @@ Looking at the stimulus you&#8217;ll generate <em>before</em> you connect up you
 <div class="content">
 <img src="./09capes/figures/beaglebone_cape_boardoutline.png" alt="Board outline in Chrome">
 </div>
-<div class="title">Figure 93. Rendered cape outline in Chrome</div>
+<div class="title">Figure 88. Rendered cape outline in Chrome</div>
 </div>
 <div class="paragraph">
 <p>After you have the SVG outline, you&#8217;ll need to select the PCB in Fritzing and select a custom shape in the Inspector box. Begin with the original background, as shown in <a href="#capes_fritzing1">PCB with original board, without notch for Ethernet connector</a>.</p>
@@ -11287,7 +11124,7 @@ Looking at the stimulus you&#8217;ll generate <em>before</em> you connect up you
 <div class="content">
 <img src="./09capes/figures/fritzing1.png" alt="PCB orginal baord">
 </div>
-<div class="title">Figure 94. PCB with original board, without notch for Ethernet connector</div>
+<div class="title">Figure 89. PCB with original board, without notch for Ethernet connector</div>
 </div>
 <div class="paragraph">
 <p>Hide all but the Board Layer (<a href="#capes_fritzing2">PCB with all but the Board Layer hidden</a>).</p>
@@ -11296,7 +11133,7 @@ Looking at the stimulus you&#8217;ll generate <em>before</em> you connect up you
 <div class="content">
 <img src="./09capes/figures/fritzing2.png" alt="PCB orginal baord hidden">
 </div>
-<div class="title">Figure 95. PCB with all but the Board Layer hidden</div>
+<div class="title">Figure 90. PCB with all but the Board Layer hidden</div>
 </div>
 <div class="paragraph">
 <p>Select the PCB1 object and  then, in the Inspector pane, scroll down to the "load image file" button (<a href="#capes_fritzing3">Clicking :load image file: with PCB1 selected</a>).</p>
@@ -11305,7 +11142,7 @@ Looking at the stimulus you&#8217;ll generate <em>before</em> you connect up you
 <div class="content">
 <img src="./09capes/figures/fritzing3.png" alt="PCB load image file">
 </div>
-<div class="title">Figure 96. Clicking :load image file: with PCB1 selected</div>
+<div class="title">Figure 91. Clicking :load image file: with PCB1 selected</div>
 </div>
 <div class="paragraph">
 <p>Navigate to the <em>beaglebone_cape_boardoutline.svg</em> file created in <a href="#capes_boardoutline_code">Outline SVG for BeagleBone cape (beaglebone_cape_boardoutline.svg)</a>, as shown in <a href="#capes_fritzing4">Selecting the .svg file</a>.</p>
@@ -11314,7 +11151,7 @@ Looking at the stimulus you&#8217;ll generate <em>before</em> you connect up you
 <div class="content">
 <img src="./09capes/figures/fritzing4.png" alt="PCB selecting svg file">
 </div>
-<div class="title">Figure 97. Selecting the .svg file</div>
+<div class="title">Figure 92. Selecting the .svg file</div>
 </div>
 <div class="paragraph">
 <p>Turn on the other layers and line up the Board Layer with the rest of the PCB, as shown in <a href="#capes_fritzing_inspector_fig">PCB Inspector</a>.</p>
@@ -11323,7 +11160,7 @@ Looking at the stimulus you&#8217;ll generate <em>before</em> you connect up you
 <div class="content">
 <img src="./09capes/figures/Fritzing_Inspector.png" alt="PCB Inspector">
 </div>
-<div class="title">Figure 98. PCB Inspector</div>
+<div class="title">Figure 93. PCB Inspector</div>
 </div>
 <div class="paragraph">
 <p>Now, you can save your file and send it off to be made, as described in <a href="#capes_prototype">Producing a Prototype</a>.</p>
@@ -11344,13 +11181,13 @@ Looking at the stimulus you&#8217;ll generate <em>before</em> you connect up you
 <div class="content">
 <img src="./09capes/figures/miniDisplay_Cape_schem.png" alt="Schematic for miniDisplay">
 </div>
-<div class="title">Figure 99. Schematic for the MiniDisplay cape</div>
+<div class="title">Figure 94. Schematic for the MiniDisplay cape</div>
 </div>
 <div id="capes_miniDisplay_pcb" class="imageblock">
 <div class="content">
 <img src="./09capes/figures/miniDisplay_Cape_pcb.png" alt="PCB for miniDisplay">
 </div>
-<div class="title">Figure 100. PCB for MiniDisplay cape</div>
+<div class="title">Figure 95. PCB for MiniDisplay cape</div>
 </div>
 <div class="paragraph">
 <p>A good starting point is to take the PCB layout for the MiniDisplay and edit it for your project. The connectors for P8 and P9 are already in place and ready to go.</p>
@@ -11391,7 +11228,7 @@ host$ <strong>eagle</strong>
 <div class="content">
 <img src="./09capes/figures/EagleLicense.png" alt="Eagle License">
 </div>
-<div class="title">Figure 101. Eagle PCB startup screen</div>
+<div class="title">Figure 96. Eagle PCB startup screen</div>
 </div>
 <div class="paragraph">
 <p>Click "Run as Freeware." When my Eagle started, it said it needed to be updated. To update on Linux, follow the link provided by Eagle and download <em>eagle-lin-7.2.0.run</em> (or whatever version is current.). Then run the following commands:</p>
@@ -11407,7 +11244,7 @@ host$ <strong>./eagle-lin-7.2.0.run</strong>
 <div class="content">
 <img src="./09capes/figures/eagle3.png" alt="Eagle install destination directory">
 </div>
-<div class="title">Figure 102. The Eagle installation destination directory</div>
+<div class="title">Figure 97. The Eagle installation destination directory</div>
 </div>
 <div class="paragraph">
 <p>Continue clicking Next until it&#8217;s installed. Then run the following commands (where ~/eagle-7.2.0 is the path you noted in <a href="#capes_eagle3">The Eagle installation destination directory</a>):</p>
@@ -11426,7 +11263,7 @@ host$ <strong>eagle</strong>
 <div class="content">
 <img src="./09capes/figures/eagle7.png" alt="Eagle start screen">
 </div>
-<div class="title">Figure 103. The Eagle start screen</div>
+<div class="title">Figure 98. The Eagle start screen</div>
 </div>
 <div class="paragraph">
 <p>Ensure that the correct version number appears.</p>
@@ -11472,13 +11309,13 @@ host$ <strong>eagle</strong>
 <div class="sect2">
 <h3 id="capes_schematic_migration">Migrating a Fritzing Schematic to Another Tool</h3>
 <div class="sect3">
-<h4 id="_problem_92">Problem</h4>
+<h4 id="_problem_93">Problem</h4>
 <div class="paragraph">
 <p>You created your schematic in Fritzing, but it doesn&#8217;t integrate with everything you need. How can you move the schematic to another tool?</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_92">Solution</h4>
+<h4 id="_solution_93">Solution</h4>
 <div class="paragraph">
 <p>Use the <a href="http://bit.ly/1wXUkdM">Upverter schematic-file-converter</a> Python script. For example, suppose that you want to convert the Fritzing file for the diagram shown in <a href="#capes_quickRobo_fig">A simple robot controller diagram (quickBot.fzz)</a>. First, install Upverter.</p>
 </div>
@@ -11649,14 +11486,14 @@ drwxrwxr-x 9 ubuntu ubuntu   4096 Nov 25 19:42 schematic-file-converter
 <div class="content">
 <img src="./09capes/figures/quickBot_eaglexml.png" alt="Converter Output">
 </div>
-<div class="title">Figure 104. Output of Upverter conversion</div>
+<div class="title">Figure 99. Output of Upverter conversion</div>
 </div>
 <div class="paragraph">
 <p>No one said it would be pretty!</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_85">Discussion</h4>
+<h4 id="_discussion_84">Discussion</h4>
 <div class="paragraph">
 <p>I found that Eagle was more generous at reading in the eaglexml format than the eagle format. This also made it easier to hand-edit any translation issues.</p>
 </div>
@@ -11665,13 +11502,13 @@ drwxrwxr-x 9 ubuntu ubuntu   4096 Nov 25 19:42 schematic-file-converter
 <div class="sect2">
 <h3 id="capes_prototype">Producing a Prototype</h3>
 <div class="sect3">
-<h4 id="_problem_93">Problem</h4>
+<h4 id="_problem_94">Problem</h4>
 <div class="paragraph">
 <p>You have your PCB all designed. How do you get it made?</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_93">Solution</h4>
+<h4 id="_solution_94">Solution</h4>
 <div class="paragraph">
 <p>To make this recipe, you will need:</p>
 </div>
@@ -11701,7 +11538,7 @@ drwxrwxr-x 9 ubuntu ubuntu   4096 Nov 25 19:42 schematic-file-converter
 <div class="content">
 <img src="./09capes/figures/quickBot_oshpark_share.png" alt="quickBot oshpark share">
 </div>
-<div class="title">Figure 105. The OSH Park QuickBot Cape shared project page</div>
+<div class="title">Figure 100. The OSH Park QuickBot Cape shared project page</div>
 </div>
 <div class="paragraph">
 <p>Within Fritzing, click the menu next to "Export for PCB" and choose "Extended Gerber," as shown in <a href="#capes_fritzing_export_fig">Choosing "Extended Gerber" in Fritzing</a>. You&#8217;ll need to choose a directory in which to save them and then compress them all into a <a href="http://bit.ly/1Br5lEh">Zip file</a>. The <a href="http://bit.ly/1B4GqRU">WikiHow article on creating Zip files</a> might be helpful if you aren&#8217;t very experienced at making these.</p>
@@ -11710,7 +11547,7 @@ drwxrwxr-x 9 ubuntu ubuntu   4096 Nov 25 19:42 schematic-file-converter
 <div class="content">
 <img src="./09capes/figures/quickBot_fritzing_export.png" alt="quickBot fritzing export">
 </div>
-<div class="title">Figure 106. Choosing "Extended Gerber" in Fritzing</div>
+<div class="title">Figure 101. Choosing "Extended Gerber" in Fritzing</div>
 </div>
 <div class="paragraph">
 <p>Things on the <a href="http://oshpark.com">OSH Park website</a> are reasonably self-explanatory. You&#8217;ll need to create an account and upload the Zip file containing the <a href="http://bit.ly/1B4GzEZ">Gerber files</a> you created. If you are a cautious person, you might choose to examine the Gerber files with a Gerber file viewer first. The <a href="http://bit.ly/18bUgeA">Fritzing fabrication FAQ</a> offers several suggestions, including <a href="http://gerbv.sourceforge.net/">gerbv</a> for Windows and Linux users.</p>
@@ -11722,7 +11559,7 @@ drwxrwxr-x 9 ubuntu ubuntu   4096 Nov 25 19:42 schematic-file-converter
 <div class="content">
 <img src="./09capes/figures/quickBot_pcb.JPG" alt="quickBot pcb">
 </div>
-<div class="title">Figure 107. QuickBot PCB</div>
+<div class="title">Figure 102. QuickBot PCB</div>
 </div>
 <div class="paragraph">
 <p>Now is a good time to ensure that you have all of your components and a soldering station set up as in <a href="#capes_soldering">Moving from a Breadboard to a Protoboard</a>, as well as an oscilloscope, as used in <a href="#capes_verify">Verifying Your Cape Design</a>.</p>
@@ -11740,10 +11577,29 @@ drwxrwxr-x 9 ubuntu ubuntu   4096 Nov 25 19:42 schematic-file-converter
 <div class="content">
 <img src="./09capes/figures/quickBot_motors.jpg" alt="quickBot motors">
 </div>
-<div class="title">Figure 108. QuickBot motors under test</div>
+<div class="title">Figure 103. QuickBot motors under test</div>
 </div>
 <div class="paragraph">
 <p>Continue assembling and testing your board until you are happy. If you find issues, you might choose to cut traces and use point-to-point wiring to resolve your issues before placing an order for a new PCB. Better right the second time than the third!</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_discussion_85">Discussion</h4>
+
+</div>
+</div>
+<div class="sect2">
+<h3 id="_creating_contents_for_your_cape_configuration_eeprom">Creating Contents for Your Cape Configuration EEPROM</h3>
+<div class="sect3">
+<h4 id="_problem_95">Problem</h4>
+<div class="paragraph">
+<p>Your cape is ready to go, and you want it to automatically initialize when the Bone boots up.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_solution_95">Solution</h4>
+<div class="paragraph">
+<p>Complete capes have an I<sup>2</sup>C EEPROM on board that contains configuration information that is read at boot time. <a href="http://bit.ly/1Fb64uF">Adventures in BeagleBone Cape EEPROMs</a> gives a helpful description of two methods for programming the EEPROM.  <a href="http://bit.ly/1E5M7RJ">How to Roll your own BeagleBone Capes</a> is a good four-part series on creating a cape, including how to wire and program the EEPROM.</p>
 </div>
 </div>
 <div class="sect3">
@@ -11752,34 +11608,15 @@ drwxrwxr-x 9 ubuntu ubuntu   4096 Nov 25 19:42 schematic-file-converter
 </div>
 </div>
 <div class="sect2">
-<h3 id="_creating_contents_for_your_cape_configuration_eeprom">Creating Contents for Your Cape Configuration EEPROM</h3>
-<div class="sect3">
-<h4 id="_problem_94">Problem</h4>
-<div class="paragraph">
-<p>Your cape is ready to go, and you want it to automatically initialize when the Bone boots up.</p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_solution_94">Solution</h4>
-<div class="paragraph">
-<p>Complete capes have an I<sup>2</sup>C EEPROM on board that contains configuration information that is read at boot time. <a href="http://bit.ly/1Fb64uF">Adventures in BeagleBone Cape EEPROMs</a> gives a helpful description of two methods for programming the EEPROM.  <a href="http://bit.ly/1E5M7RJ">How to Roll your own BeagleBone Capes</a> is a good four-part series on creating a cape, including how to wire and program the EEPROM.</p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_discussion_87">Discussion</h4>
-
-</div>
-</div>
-<div class="sect2">
 <h3 id="capes_production">Putting Your Cape Design into Production</h3>
 <div class="sect3">
-<h4 id="_problem_95">Problem</h4>
+<h4 id="_problem_96">Problem</h4>
 <div class="paragraph">
 <p>You want to share your cape with others.  How do you scale up?</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_95">Solution</h4>
+<h4 id="_solution_96">Solution</h4>
 <div class="paragraph">
 <p><a href="https://circuithub.com/">CircuitHub</a> offers a great tool to get a quick quote on assembled PCBs. To make things simple, I downloaded the <a href="http://bit.ly/1C5uvJc">CircuitCo MiniDisplay Cape Eagle design materials</a> and uploaded them to CircuitHub.</p>
 </div>
@@ -11790,7 +11627,7 @@ drwxrwxr-x 9 ubuntu ubuntu   4096 Nov 25 19:42 schematic-file-converter
 <div class="content">
 <img src="./09capes/figures/circuithub_part_matching.png" alt="circuithub part matching">
 </div>
-<div class="title">Figure 109. CircuitHub part matching</div>
+<div class="title">Figure 104. CircuitHub part matching</div>
 </div>
 <div class="paragraph">
 <p>When you&#8217;ve selected all of your parts, a quote tool appears at the bottom of the page, as shown in <a href="#capes_circuithub_quote">CircuitHub quote generation</a>.</p>
@@ -11799,7 +11636,7 @@ drwxrwxr-x 9 ubuntu ubuntu   4096 Nov 25 19:42 schematic-file-converter
 <div class="content">
 <img src="./09capes/figures/circuithub_quote.png" alt="circuithub quote">
 </div>
-<div class="title">Figure 110. CircuitHub quote generation</div>
+<div class="title">Figure 105. CircuitHub quote generation</div>
 </div>
 <div class="paragraph">
 <p>Checking out the pricing on the MiniDisplay Cape (without including the LCD itself) in <a href="#capes_circuithub_pricing_table">CircuitHub price examples (all prices USD)</a>, you can get a quick idea of how increased volume can dramatically impact the per-unit costs.</p>
@@ -11914,7 +11751,7 @@ drwxrwxr-x 9 ubuntu ubuntu   4096 Nov 25 19:42 schematic-file-converter
 </div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_88">Discussion</h4>
+<h4 id="_discussion_87">Discussion</h4>
 <div class="paragraph">
 <p>There&#8217;s no real substitute for getting to know your contract manufacturer, its capabilities, communication style, strengths, and weaknesses. Look around your town to see if anyone is doing this type of work and see if they&#8217;ll give you a tour.</p>
 </div>
@@ -12351,7 +12188,7 @@ drwxrwxr-x 9 ubuntu ubuntu   4096 Nov 25 19:42 schematic-file-converter
 <div id="footer">
 <div id="footer-text">
 Version 2.0 beta<br>
-Last updated 2022-07-19 11:25:46 -0400
+Last updated 2022-07-20 17:02:23 -0400
 </div>
 </div>
 </body>

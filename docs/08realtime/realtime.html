@@ -639,11 +639,11 @@ data = 1
 </div>
 <div class="sect3">
 <h4 id="_discussion">Discussion</h4>
-<div class="paragraph">
-<p>[[realtime_c]
-=== I/O with C</p>
+
 </div>
 </div>
+<div class="sect2">
+<h3 id="realtime_c">I/O with C</h3>
 <div class="sect3">
 <h4 id="_problem_2">Problem</h4>
 <div class="paragraph">
@@ -1137,6 +1137,8 @@ bone$ <strong>sudo apt install bbb.io-kernel-5.10-ti-rt-am335x</strong>
 </li>
 </ul>
 </div>
+<div class="exampleblock">
+<div class="content">
 <pre data-type="programlisting">
 #Docs: http://elinux.org/Beagleboard:U-boot_partitioning_layout_2.0
 
@@ -1145,6 +1147,8 @@ uname_r=5.10.120-ti-rt-r47
 #uuid=
 #dtb=
 </pre>
+</div>
+</div>
 <div class="paragraph">
 <p>uname_r tells the boot loader which kernel to boot.  Here we&#8217;ve commented out the regular kernel and left in the RT kernel.  Next time you boot you&#8217;ll be running the RT kernel.  Don&#8217;t reboot just yet.  Let&#8217;s gather some latency data first.</p>
 </div>
@@ -1215,7 +1219,7 @@ sudo apt install gnuplot</pre>
 bone$ <strong>time sudo ./hist.gen > nort.hist</strong>
 </pre>
 <div class="paragraph">
-<p><a href="#realtime_hist_gen_fig">hist.gen</a> shows what&#8217;s being run.  It defaults to 100,000 loops, so it take a while.  The data is saved in nort.hist, for no RT  histogram.</p>
+<p><a href="#realtime_hist_gen_fig">hist.gen</a> shows what&#8217;s being run.  It defaults to 100,000 loops, so it takes a while.  The data is saved in nort.hist, which stands for no RT  histogram.</p>
 </div>
 <div id="realtime_hist_gen_fig" class="exampleblock">
 <div class="title">Example 7. hist.gen</div>
@@ -1290,7 +1294,7 @@ Linux breadboard-home 5.10.120-ti-rt-r47 #1bullseye SMP PREEMPT RT Tue Jul 12 18
 </td>
 <td class="content">
 <div class="paragraph">
-<p>If the Beagle appears to be running (the LEDs are flashing) but you are having trouble connecting vis ssh 192.168.7.2, you can try connecting using the approach shown in <a href="#tips_FTDI">[tips_FTDI]</a>.</p>
+<p>If the Beagle appears to be running (the LEDs are flashing) but you are having trouble connecting via ssh 192.168.7.2, you can try connecting using the approach shown in <a href="#tips_FTDI">[tips_FTDI]</a>.</p>
 </div>
 </td>
 </tr>
@@ -1332,7 +1336,7 @@ bone$ <strong>gnuplot hist.plt</strong>
 <div class="title">Figure 4. Histogram of Non-RT and RT kernels running cyclictest</div>
 </div>
 <div class="paragraph">
-<p>Notice the NON-RT data have much longer latenices. They may not happen ofen (fewer thatn 10 times in each bin), but they are occuring and may be enough to miss a real-time deadline.</p>
+<p>Notice the NON-RT data have much longer latenices. They may not happen often (fewer than 10 times in each bin), but they are occuring and may be enough to miss a real-time deadline.</p>
 </div>
 <div class="paragraph">
 <p>The PREEMPT-RT times are all under a 150 &mu;s.</p>
@@ -1365,7 +1369,7 @@ bone$ <strong>gnuplot hist.plt</strong>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2022-07-20 17:01:00 -0400
+Last updated 2022-07-27 16:41:20 -0400
 </div>
 </div>
 </body>

@@ -25,7 +25,7 @@ include::04motors/motors.adoc[]
 include::05tips/tips.adoc[]
 
 <<<
-:imagesdir: ./0iot
+:imagesdir: ./06iot
 include::06iot/iot.adoc[]
 
 <<<

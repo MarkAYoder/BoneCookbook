@@ -462,7 +462,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="sect3">
 <h4 id="_solution">Solution</h4>
 <div class="paragraph">
-<p>For someone new to the BeagleBoard.org boards, the BeagleBone Black is the obvious choice.  It’s the newest and cheapest (~$55 USD) of the inexpensive Bones, and there are nearly a quarter-million units out there. Many of the recipes in this book will work on the other Beagles, too, but the Black is where to begin. If you already have BeagleBone Black, you can move on to the next recipe. If you have another Beagle, your mileage may vary.</p>
+<p>Current list of boards: <a href="https://git.beagleboard.org/explore/projects/topics/boards" class="bare">https://git.beagleboard.org/explore/projects/topics/boards</a></p>
 </div>
 </div>
 <div class="sect3">
@@ -509,21 +509,7 @@ Plug the USB cable into your host computer (Mac, Windows, or Linux) and plug the
 <div class="title">Figure 3. Visual Studio Code</div>
 </div>
 <div class="paragraph">
-<p>Here, you&#8217;ll find <em>Visual Studio Code</em>, a web-based integrated development environment (IDE) that lets you edit and run code on your Bone!  See <a href="#basics_cloud9">Editing Code Using the Cloud9 IDE</a> for more details.</p>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<div class="title">Note</div>
-</td>
-<td class="content">
-<div class="paragraph">
-<p>Cloud9 can have different themes.  If you see a white background, you can match the cookbook’s figures by clicking on the <em>Main Theme</em> drop-down menu and selecting <em>Cloud9 Classic Dark Theme</em>.</p>
-</div>
-</td>
-</tr>
-</table>
+<p>Here, you&#8217;ll find <em>Visual Studio Code</em>, a web-based integrated development environment (IDE) that lets you edit and run code on your Bone!  See <a href="#basics_vsc">Editing Code Using Visual Studio Code</a> for more details.</p>
 </div>
 <div class="admonitionblock warning">
 <table>
@@ -565,13 +551,14 @@ The system is going down for system halt NOW! (pts/0)
 <div class="sect3">
 <h4 id="_solution_3">Solution</h4>
 <div class="paragraph">
-<p>This book uses <a href="https://www.debian.org">Debian</a>, the Linux distribution that currently ships on the Bone. However this book is based on a newer version (2014-11-11 image) than what is shipping at the time of this writing. You can see which version your Bone is running by following the instructions in <a href="#basics_out_of_the_box">Getting Started, Out of the Box</a> to open the USB drive that comes from the Bone, as shown in <a href="#basics_02gettingStarted_fig">[basics_02gettingStarted_fig]</a>. But instead of opening <em>START.html</em>, open <em>ID.txt</em> (shown with the dashed arrow in <a href="#basics_02gettingStarted_fig">[basics_02gettingStarted_fig]</a>). You&#8217;ll see something like <a href="#basics_ID">Contents of ID.txt</a>, in which 2014-11-11 is the date of the image.</p>
+<p>This book uses <a href="https://www.debian.org">Debian</a>, the Linux distribution that currently ships on the Bone. However this book is based on a newer version (BeagleBoard.org Debian Bullseye IoT Image 2022-07-01) than what is shipping at the time of this writing. You can see which version your Bone is running by following the instructions in <a href="#basics_out_of_the_box">Getting Started, Out of the Box</a> to log into the Bone.  Then run:</p>
 </div>
-<div id="basics_ID" class="imageblock">
-<div class="content">
-<img src="figures/ID.txt.png" alt="Contents of ID.txt">
-</div>
-<div class="title">Figure 4. Contents of ID.txt</div>
+<pre data-type="programlisting">
+bone$ <strong>cat /ID.txt</strong>
+BeagleBoard.org Debian Bullseye IoT Image 2022-07-01
+</pre>
+<div class="paragraph">
+<p>I&#8217;m running the 2022-07-01 version.</p>
 </div>
 </div>
 <div class="sect3">
@@ -580,23 +567,40 @@ The system is going down for system halt NOW! (pts/0)
 </div>
 </div>
 <div class="sect2">
-<h3 id="_running_the_bonescript_api_tutorials">Running the BoneScript API Tutorials</h3>
+<h3 id="basics_repo">Cloning the Cookbook Repository</h3>
 <div class="sect3">
 <h4 id="_problem_4">Problem</h4>
 <div class="paragraph">
-<p>You&#8217;d like to learn JavaScript and the BoneScript API to perform physical computing tasks without first learning Linux.</p>
+<p>You want to run the Cookbook examples.</p>
 </div>
 </div>
 <div class="sect3">
 <h4 id="_solution_4">Solution</h4>
 <div class="paragraph">
-<p>Plug your board into the USB of your host computer and browse to <a href="http://192.168.7.2/Support/bone101/" class="bare">http://192.168.7.2/Support/bone101/</a> using Google Chrome or Firefox (as shown in <a href="#basics_out_of_the_box">Getting Started, Out of the Box</a>). In the left column, click the BoneScript title, which will take you to <a href="http://192.168.7.2/Support/BoneScript/" class="bare">http://192.168.7.2/Support/BoneScript/</a> (<a href="#basics_bonescript">The BoneScript API examples page</a>).</p>
+<p>Connect your Bone to the Internet and log into it.  From the command line run:</p>
 </div>
-<div id="basics_bonescript" class="imageblock">
-<div class="content">
-<img src="figures/bonescript-examples.png" alt="The BoneScript examples page">
+<pre data-type="programlisting">
+bone$ <strong>git clone git@github.com:MarkAYoder/BoneCookbook.git</strong>
+bone$ <strong>cd BoneCookbook/docs</strong>
+bone$ <strong>ls</strong>
+</pre>
+<div class="paragraph">
+<p>You can look around from the command line, or explore from Visual Sudio Code. If you ar using VSC, go to the <em>File</em> menu and select <em>Open Folder &#8230;&#8203;</em> and selet BoneCookbook/docs. Then explore.   You&#8217;ll find there is a directory for each chapter and most chapters have a <em>code</em> directory for the sample scripts and a <em>figures</em> directory for the figures.</p>
 </div>
-<div class="title">Figure 5. The BoneScript API examples page</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_running_the_python_and_javascript_examples">Running the Python and JavaScript Examples</h3>
+<div class="sect3">
+<h4 id="_problem_5">Problem</h4>
+<div class="paragraph">
+<p>You&#8217;d like to learn Python and JavaScript interact with the Bone to perform physical computing tasks without first learning Linux.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_solution_5">Solution</h4>
+<div class="paragraph">
+<p>Plug your board into the USB of your host computer and browse to <a href="http://192.168.7.2:3000" class="bare">http://192.168.7.2:3000</a> using Google Chrome or Firefox (as shown in <a href="#basics_out_of_the_box">Getting Started, Out of the Box</a>). In the left column, click on <em>EXAMPLES</em>, then <em>BeagleBone</em> and then <em>Black</em>. Several sample scripts will appear.  Go and explore them.</p>
 </div>
 <div class="admonitionblock tip">
 <table>
@@ -606,38 +610,7 @@ The system is going down for system halt NOW! (pts/0)
 </td>
 <td class="content">
 <div class="paragraph">
-<p>Explore the various demonstrations of the BoneScript API. The <a href="http://192.168.7.2/Support/BoneScript">BoneScript examples page</a> lists several places to learn more about JavaScript and BoneScript (<a href="#basics_bonescript">The BoneScript API examples page</a>).</p>
-</div>
-</td>
-</tr>
-</table>
-</div>
-<div class="paragraph">
-<p>If the banner is green, the examples are live. Clicking the "run" button will make them run on your Bone.</p>
-</div>
-<div class="admonitionblock tip">
-<table>
-<tr>
-<td class="icon">
-<div class="title">Tip</div>
-</td>
-<td class="content">
-<div class="paragraph">
-<p>Here&#8217;s yet another place to explore. In the left column of <a href="#basics_bonescript">The BoneScript API examples page</a>, click the function names. Take five minutes and see what you can find.</p>
-</div>
-</td>
-</tr>
-</table>
-</div>
-<div class="admonitionblock warning">
-<table>
-<tr>
-<td class="icon">
-<div class="title">Warning</div>
-</td>
-<td class="content">
-<div class="paragraph">
-<p>You can edit the JavaScript on the BoneScript API examples page, but you can&#8217;t save it for later. If you want to edit and save it for later, fire up Cloud9 (<a href="#basics_cloud9">Editing Code Using the Cloud9 IDE</a>) and look in the <em>examples</em> folder.</p>
+<p>Explore the various demonstrations of Python and JavaScript. These are what come with the Bone.  In <a href="#basics_repo">Cloning the Cookbook Repository</a> you see how to load the examples for the Cookbook.</p>
 </div>
 </td>
 </tr>
@@ -652,13 +625,13 @@ The system is going down for system halt NOW! (pts/0)
 <div class="sect2">
 <h3 id="basics_wire_breadboard">Wiring a Breadboard</h3>
 <div class="sect3">
-<h4 id="_problem_5">Problem</h4>
+<h4 id="_problem_6">Problem</h4>
 <div class="paragraph">
 <p>You would like to use a breadboard to wire things to the Bone.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_5">Solution</h4>
+<h4 id="_solution_6">Solution</h4>
 <div class="paragraph">
 <p>Many of the projects in this book involve interfacing things to the Bone. Some plug in directly, like the USB port.  Others need to be wired. If it&#8217;s simple, you might be able to plug the wires directly into the P8 or P9 headers. Nevertheless, many require a breadboard for the fastest and simplest wiring.</p>
 </div>
@@ -679,7 +652,7 @@ The system is going down for system halt NOW! (pts/0)
 <div class="content">
 <img src="figures/template_bb.png" alt="Breadboad">
 </div>
-<div class="title">Figure 6. Breadboard wired to BeagleBone Black</div>
+<div class="title">Figure 4. Breadboard wired to BeagleBone Black</div>
 </div>
 </div>
 <div class="sect3">
@@ -688,28 +661,21 @@ The system is going down for system halt NOW! (pts/0)
 </div>
 </div>
 <div class="sect2">
-<h3 id="basics_cloud9">Editing Code Using the Cloud9 IDE</h3>
+<h3 id="basics_vsc">Editing Code Using Visual Studio Code</h3>
 <div class="sect3">
-<h4 id="_problem_6">Problem</h4>
+<h4 id="_problem_7">Problem</h4>
 <div class="paragraph">
 <p>You want to edit and debug files on the Bone.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_6">Solution</h4>
+<h4 id="_solution_7">Solution</h4>
 <div class="paragraph">
 <p>Plug your Bone into a host computer via the USB cable. Open a browser (either Google Chrome or FireFox will work) on your host computer (as shown in <a href="#basics_out_of_the_box">Getting Started, Out of the Box</a>). After the Bone has booted up, browse to <a href="http://192.168.7.2:3000" class="bare">http://192.168.7.2:3000</a> on your host. You will see something like <a href="#basics_05gettingStarted_fig">Visual Studio Code</a>.</p>
 </div>
 <div class="paragraph">
-<p>Click the <em>examples</em> folder on the left and then double-click <em>blinkled.js</em>.
-You can now edit the file. If you would like to edit files in your home directory, on the left of the Cloud9 screen, go to the Preferences wheel in the Workspace browser and
-select Add Home to Favorites (<a href="#basics_addHome_fig">Making your home folder appear in Cloud9</a>). Now, your home directory will show up in the Workspace file tree.</p>
-</div>
-<div id="basics_addHome_fig" class="imageblock">
-<div class="content">
-<img src="figures/addHome.png" alt="add home">
-</div>
-<div class="title">Figure 7. Making your home folder appear in Cloud9</div>
+<p>Click the <em>EXAMPLES</em> folder on the left and then click <em>BeagleBoard</em> and then <em>Black</em>, finally double-click <em>seqLEDs.py</em>.
+You can now edit the file.</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -719,24 +685,7 @@ select Add Home to Favorites (<a href="#basics_addHome_fig">Making your home fol
 </td>
 <td class="content">
 <div class="paragraph">
-<p>If you edit line 13 of the <em>blinkled.js</em> file (setInterval(toggle, 1000);), changing 1000 to 500, you must save the file before running it for the change to take effect. The blue LED next to the Ethernet port on your Bone will flash roughly twice as fast.</p>
-</div>
-</td>
-</tr>
-</table>
-</div>
-<div class="paragraph">
-<p><a href="#basics_addHome_fig">Making your home folder appear in Cloud9</a> shows <em>/root</em> has been added under <em>FAVORITES</em>.</p>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<div class="title">Note</div>
-</td>
-<td class="content">
-<div class="paragraph">
-<p>The <em>cloud9</em> folder that appears under <em>FILE SYSTEM</em> is located in <em>/var/lib/cloud9</em> on your Bone.</p>
+<p>If you edit lines 33 and 37 of the <em>seqLEDs.py</em> file (time.sleep(0.25)), changing 0.25 to 0.1, the LEDs next to the Ethernet port on your Bone will flash roughly twice as fast.</p>
 </div>
 </td>
 </tr>
@@ -749,17 +698,18 @@ select Add Home to Favorites (<a href="#basics_addHome_fig">Making your home fol
 </div>
 </div>
 <div class="sect2">
-<h3 id="basics_cloud9_IDE">Running JavaScript Applications from the Cloud9 IDE</h3>
+<h3 id="basics_vsc_IDE">Running Python and JavaScript Applications from Visual Studio Code</h3>
 <div class="sect3">
-<h4 id="_problem_7">Problem</h4>
+<h4 id="_problem_8">Problem</h4>
 <div class="paragraph">
-<p>You have a file edited in Cloud9, and you want to run it.</p>
+<p>You have a file edited in VS Code, and you want to run it.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_7">Solution</h4>
+<h4 id="_solution_8">Solution</h4>
 <div class="paragraph">
-<p>Cloud9 has a bash command window built in at the bottom of the window. You can run your code from this window. To do so, add #!/usr/bin/env node at the top of the file that you want to run and save.</p>
+<p>VS Code has a bash command window built in at the bottom of the window. If it&#8217;s not there, hit Ctrl-Shift-P and then type <strong>terminal create new</strong> then hit <em>Enter</em>.  The terminal will appear at the bottom of the screen.
+You can run your code from this window. To do so, add #!/usr/bin/env python at the top of the file that you want to run and save.</p>
 </div>
 <div class="admonitionblock tip">
 <table>
@@ -769,33 +719,31 @@ select Add Home to Favorites (<a href="#basics_addHome_fig">Making your home fol
 </td>
 <td class="content">
 <div class="paragraph">
-<p>If you are running Python, replace the word node in the line with python.</p>
+<p>If you are running JavaScript, replace the word python in the line with node.</p>
 </div>
 </td>
 </tr>
 </table>
 </div>
 <div class="paragraph">
-<p>At the bottom of the Cloud9 window are a series of tabs (<a href="#basics_cloud9Bash_fig">Cloud9 debugger</a>).
-Click the bash tab (it should be the leftmost tab). Here, you have a command prompt. In my case, it&#8217;s root@yoder-debian-bone:/var/lib/cloud9#. Yours will be slighly different, but it should end with a #.</p>
+<p>At the bottom of the VS Code window are a series of tabs (<a href="#basics_vscBash_fig">Visual Studio Code showing bash terminal</a>).
+Click the TERMINAL tab. Here, you have a command prompt.</p>
 </div>
-<div id="basics_cloud9Bash_fig" class="imageblock">
+<div id="basics_vscBash_fig" class="imageblock">
 <div class="content">
-<img src="figures/cloud9Bash.png" alt="cloud9 bash">
+<img src="figures/vscBash.png" alt="Visual Studio Code showing bash terminal">
 </div>
-<div class="title">Figure 8. Cloud9 debugger</div>
+<div class="title">Figure 5. Visual Studio Code showing bash terminal</div>
 </div>
 <div class="paragraph">
 <p>Change to the directory that contains your file, make it executable, and then run it:</p>
 </div>
 <pre data-type="programlisting">
-root@bone:/var/lib/cloud9# <strong>cd examples</strong>
-root@bone:/var/lib/cloud9/examples# <strong>chmod +x blinkled.js</strong>
-root@bone:/var/lib/cloud9/examples# <strong>./blinkled.js</strong>
+bone$ <strong>cd ~/examples/BeagleBone/Black/</strong>
+bone$ <strong>./seqLEDs.py</strong>
 </pre>
 <div class="paragraph">
-<p>The cd is the change directory command. After you cd, you are in a new directory, and the prompt reflects that change. The chmod command changes the mode of the file. The +x indicates that you want to add execute permission.
-You need to use the chmod +x command only once. Finally, ./blinkled.js instructs the JavaScript to run. You will need to press ^C (Ctrl-C) to stop your program.</p>
+<p>The cd is the change directory command. After you cd, you are in a new directory. Finally, ./seqLEDs.py instructs the python script to run. You will need to press ^C (Ctrl-C) to stop your program.</p>
 </div>
 </div>
 <div class="sect3">
@@ -804,38 +752,7 @@ You need to use the chmod +x command only once. Finally, ./blinkled.js instructs
 </div>
 </div>
 <div class="sect2">
-<h3 id="basics_autorun">Running Applications Automatically</h3>
-<div class="sect3">
-<h4 id="_problem_8">Problem</h4>
-<div class="paragraph">
-<p>You have a BoneScript application that you would like to run every time the Bone starts.</p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_solution_8">Solution</h4>
-<div class="paragraph">
-<p>This is an easy one.  In Cloud9, notice the folder called <em>autorun</em> (<a href="#basics_autoRun_fig">Making applications autorun at boot-up time</a>). Place any BoneScript files you want to run at boot time in this folder. The script will begin execution immediately and will stop execution when you remove the file from this folder.</p>
-</div>
-<div id="basics_autoRun_fig" class="imageblock">
-<div class="content">
-<img src="figures/autoRun.png" alt="autorun">
-</div>
-<div class="title">Figure 9. Making applications autorun at boot-up time</div>
-</div>
-<div class="paragraph">
-<p>You can drag and drop the script into the <em>autorun</em> folder using the Cloud9 IDE workspace view, or you can move it using the bash prompt:</p>
-</div>
-<pre data-type="programlisting">
-bone$ <strong>mv myApp.js autorun</strong>
-</pre>
-</div>
-<div class="sect3">
-<h4 id="_discussion_8">Discussion</h4>
-
-</div>
-</div>
-<div class="sect2">
-<h3 id="_finding_the_latest_version_of_the_os_for_your_bone">Finding the Latest Version of the OS for Your Bone</h3>
+<h3 id="basics_find_image">Finding the Latest Version of the OS for Your Bone</h3>
 <div class="sect3">
 <h4 id="_problem_9">Problem</h4>
 <div class="paragraph">
@@ -844,20 +761,6 @@ bone$ <strong>mv myApp.js autorun</strong>
 </div>
 <div class="sect3">
 <h4 id="_solution_9">Solution</h4>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<div class="title">Note</div>
-</td>
-<td class="content">
-<div class="paragraph">
-<p>At the time they were written, these instructions were up-to-date.  Go to <a href="http://https://forum.beagleboard.org/tag/latest-images" class="bare">http://https://forum.beagleboard.org/tag/latest-images</a> for the latest instructions.</p>
-</div>
-</td>
-</tr>
-</table>
-</div>
 <div class="paragraph">
 <p>On your host computer, open a browser and go to <a href="https://forum.beagleboard.org/tag/latest-images" class="bare">https://forum.beagleboard.org/tag/latest-images</a>  This shows you a list of dates of the most recent Debian images (<a href="#basics_deb1">Latest Debian images</a>).</p>
 </div>
@@ -865,26 +768,20 @@ bone$ <strong>mv myApp.js autorun</strong>
 <div class="content">
 <img src="figures/deb1.png" alt="Latest Debian images">
 </div>
-<div class="title">Figure 10. Latest Debian images</div>
+<div class="title">Figure 6. Latest Debian images</div>
 </div>
 <div class="paragraph">
 <p>At the time of writing, we are using the <em>Bullseye</em> image.  Click on it&#8217;s link.
-Scroling up you&#8217;ll find <a href="#basics_deb2">Latest Debian images</a>.  There are three types of snapshots, Minimal, IoT and Xfce Desktop.  IoT is the one we are running.</p>
-</div>
-<div class="paragraph">
-<p>Clicking a date will show you several variations for that particular date. <a href="#basics_deb2">Latest Debian images</a> shows the results of clicking <em>2014-11-11</em>.</p>
+Scrolling up you&#8217;ll find <a href="#basics_deb2">Latest Debian images</a>.  There are three types of snapshots, Minimal, IoT and Xfce Desktop.  IoT is the one we are running.</p>
 </div>
 <div id="basics_deb2" class="imageblock">
 <div class="content">
 <img src="figures/deb2.png" alt="Latest Debian images">
 </div>
-<div class="title">Figure 11. Latest Debian images</div>
+<div class="title">Figure 7. Latest Debian images</div>
 </div>
 <div class="paragraph">
-<p>These are the images you want to use if you are flashing a Rev C BeagleBone Black onboard flash, or flashing a 4 GB or bigger miscroSD card. The image beginning with <em>am335x-debian-11.3-iot-</em> is used for programming the microSD card.</p>
-</div>
-<div class="paragraph">
-<p>The one beginning with <em>am57xx-debian-</em> is for programming the Beagle AI&#8217;s.</p>
+<p>These are the images you want to use if you are flashing a Rev C BeagleBone Black onboard flash, or flashing a 4 GB or bigger miscroSD card. The image beginning with <em>am335x-debian-11.3-iot-</em> is used for the non-AI boards. The one beginning with <em>am57xx-debian-</em> is for programming the Beagle AI&#8217;s.</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -900,9 +797,12 @@ Scroling up you&#8217;ll find <a href="#basics_deb2">Latest Debian images</a>.  
 </tr>
 </table>
 </div>
+<div class="paragraph">
+<p>Click the image you want to use and it will download.  The images are some 500M, so it might take a while.</p>
+</div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_9">Discussion</h4>
+<h4 id="_discussion_8">Discussion</h4>
 
 </div>
 </div>
@@ -947,197 +847,13 @@ Scroling up you&#8217;ll find <a href="#basics_deb2">Latest Debian images</a>.  
 </tr>
 </table>
 </div>
-<div class="sect4">
-<h5 id="_windows">Windows</h5>
 <div class="paragraph">
-<p>If you are using a host computer running Windows, go to <a href="http://rcn-ee.net/deb/testing/2014-11-11/lxde-4gb/" class="bare">http://rcn-ee.net/deb/testing/2014-11-11/lxde-4gb/</a>, and download <em>bone-debian-7.7-lxde-4gb-armhf-2014-11-11-4gb.img.xz</em>. It&#8217;s more than 500 MB, so be sure to have a fast Internet connection. Then go to <a href="http://beagleboard.org/getting-started#update" class="bare">http://beagleboard.org/getting-started#update</a> and
+<p>Download the image you found in <a href="#basics_find_image">Finding the Latest Version of the OS for Your Bone</a>. It&#8217;s more than 500 MB, so be sure to have a fast Internet connection. Then go to <a href="http://beagleboard.org/getting-started#update" class="bare">http://beagleboard.org/getting-started#update</a> and
 follow the instructions there to install the image you downloaded.</p>
 </div>
 </div>
-<div class="sect4">
-<h5 id="_linux">Linux</h5>
-<div class="paragraph">
-<p>If you are running a Linux host, plug a 4 GB byte or bigger microSD card into a reader on your host and run Disks.</p>
-</div>
-<div class="paragraph">
-<p>Select the microSD Drive and unmount (<a href="#basics_disks_fig">Unmounting the microSD card via the Disks application</a>) any partitions that have mounted. Note the path to the device (shown with an arrow in <a href="#basics_disks_fig">Unmounting the microSD card via the Disks application</a>) at the top of the Disks window. In my case, it&#8217;s <em>/dev/sdb</em>.  We&#8217;ll use this path in a moment.</p>
-</div>
-<div id="basics_disks_fig" class="imageblock">
-<div class="content">
-<img src="figures/disks.png" alt="Disks">
-</div>
-<div class="title">Figure 12. Unmounting the microSD card via the Disks application</div>
-</div>
-<div class="paragraph">
-<p>Run the following command to download the 2014-11-11 image (be sure that you have a fast Internet connection; it&#8217;s more than 500 MB in size):</p>
-</div>
-<pre data-type="programlisting">
-host$ <strong>wget http://rcn-ee.net/deb/testing/2014-11-11/lxde-4gb/\
-bone-debian-7.7-lxde-4gb-armhf-2014-11-11-4gb.img.xz</strong>
-</pre>
-<div class="paragraph">
-<p>This will copy the disk image to the current directory the command was run from to your host computer. This will take a couple minutes on a fast connection.</p>
-</div>
-<div class="paragraph">
-<p>The downloaded file is compressed. Uncompress it by using the following command:</p>
-</div>
-<pre data-type="programlisting">
-host$ <strong>unxz bone-debian-7.7-lxde-4gb-armhf-2014-11-11-4gb.img.xz</strong>
-</pre>
-<div class="paragraph">
-<p>After a minute or so, the compressed <em>.imgxz</em> file will be replaced by the uncompressed <em>.img</em> file. Then write it to the microSD card by using the following command, substituting your device path noted earlier (/dev/sdb, in my case) for the device path given in the dd command:</p>
-</div>
-<pre data-type="programlisting">
-host$ <strong>sudo dd if=bone-debian-7.7-lxde-4gb-armhf-2014-11-11-4gb.img \
-            of=/dev/sdb bs=8M</strong>
-</pre>
-<div class="paragraph">
-<p>The dd command takes 5 to 10 minutes.</p>
-</div>
-<div class="admonitionblock warning">
-<table>
-<tr>
-<td class="icon">
-<div class="title">Warning</div>
-</td>
-<td class="content">
-<div class="paragraph">
-<p>This operation will wipe out everything on the microSD card. It might be worth plugging in your card, noting the path,  removing the card, noting it has disappeared, and then plugging it in again and checking the path. You can really mess up your host if you have selected the wrong disk and used the wrong path. Be careful.</p>
-</div>
-</td>
-</tr>
-</table>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<div class="title">Note</div>
-</td>
-<td class="content">
-<div class="paragraph">
-<p>When formatting SD cards, you often need to be sure to have a <em>bootable partition</em>. Because you are completly rewriting the card, it doesn&#8217;t matter how the card is configured before writing. The dd command writes everything the way it needs to be.</p>
-</div>
-</td>
-</tr>
-</table>
-</div>
-<div class="paragraph">
-<p>When you have your microSD card flashed, put it in the Bone and power it up. The USB drive and other devices should appear as before. Open Cloud9 (<a href="#basics_cloud9">Editing Code Using the Cloud9 IDE</a>) and, in the bash tab, enter:</p>
-</div>
-<pre data-type="programlisting">
-root@beaglebone:/var/lib/cloud9# <strong>df -h</strong>
-Filesystem      Size  Used Avail Use% Mounted on
-rootfs          3.2G  2.0G  1.0G  29% /
-udev             10M     0   10M   0% /dev
-tmpfs           100M  676K   99M   1% /run
-/dev/mmcblk0p2  7.2G  2.0G  5.0G  29% /
-tmpfs           249M     0  249M   0% /dev/shm
-tmpfs           249M     0  249M   0% /sys/fs/cgroup
-tmpfs           5.0M     0  5.0M   0% /run/lock
-tmpfs           100M     0  100M   0% /run/user
-/dev/mmcblk0p1   96M   62M   35M  65% /media/BEAGLEBONE
-/dev/mmcblk1p2  1.8G  290M  1.4G  18% /media/rootfs
-/dev/mmcblk1p1   16M  520K   16M   4% /media/BEAGLEBONE_
-</pre>
-<div class="paragraph">
-<p>This prints out how much of the disk is free.  The first line is the one we&#8217;re interested in. If the Size is much smaller than the size of your microSD card, you&#8217;ll need to resize your partition.  Just enter the following:</p>
-</div>
-<pre data-type="programlisting">
-root@beaglebone:/var/lib/cloud9# <strong>cd /opt/scripts/tools/</strong>
-root@beaglebone:/opt/scripts/tools# <strong>./grow_partition.sh</strong>
-root@beaglebone:/opt/scripts/tools# <strong>reboot</strong>
-root@beaglebone:/var/lib/cloud9# <strong>df -h</strong>
-Filesystem      Size  Used Avail Use% Mounted on
-rootfs          7.2G  2.0G  5.0G  29% /
-udev             10M     0   10M   0% /dev
-tmpfs           100M  676K   99M   1% /run
-/dev/mmcblk0p2  7.2G  2.0G  5.0G  29% /
-tmpfs           249M     0  249M   0% /dev/shm
-tmpfs           249M     0  249M   0% /sys/fs/cgroup
-tmpfs           5.0M     0  5.0M   0% /run/lock
-tmpfs           100M     0  100M   0% /run/user
-/dev/mmcblk0p1   96M   62M   35M  65% /media/BEAGLEBONE
-/dev/mmcblk1p2  1.8G  290M  1.4G  18% /media/rootfs
-/dev/mmcblk1p1   16M  520K   16M   4% /media/BEAGLEBONE_</pre>
-<div class="paragraph">
-<p>This clever script will figure out how big the partition can be and grow it to that size. A reboot is necessary.</p>
-</div>
-<div class="paragraph">
-<p>Here, I started by putting a 4 GB image on an 8 GB microSD card. Initially, only <span class="keep-together">3.2 GB</span> were usable. After growing the partition, most of the card (7.2 GB) is available.</p>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_mac">Mac</h5>
-<div class="paragraph">
-<p>If you are running from a Mac host, the steps are fairly similar to running on a Linux host, except that you won&#8217;t be able to view the Linux partition on the created microSD card.</p>
-</div>
-<div class="paragraph">
-<p>Begin by plugging a 4 GB or bigger microSD card into a reader on your host and then run Disk Utility. Select the disk and click Info. In <a href="#basics_diskutility_fig">Examining the microSD card via the Disk Utility application</a>, you can see the Disk Identifier is disk1s1.</p>
-</div>
-<div id="basics_diskutility_fig" class="imageblock">
-<div class="content">
-<img src="figures/diskutility.png" alt="Disk Utility">
-</div>
-<div class="title">Figure 13. Examining the microSD card via the Disk Utility application</div>
-</div>
-<div class="paragraph">
-<p>The important part of the Disk Identifier is the number immediately following disk (a 1 in <a href="#basics_diskutility_fig">Examining the microSD card via the Disk Utility application</a>). We&#8217;ll use this identifier to overwrite the microSD contents.</p>
-</div>
-<div class="paragraph">
-<p>From your Mac&#8217;s Terminal, run the following command to download the <em>2014-11-11</em> image (again, be sure that you have a fast Internet connection, because it&#8217;s more than 500 MB):</p>
-</div>
-<pre data-type="programlisting">
-mac$ <strong>curl -O http://rcn-ee.net/deb/testing/2014-11-11/lxde-4gb/\
-bone-debian-7.7-lxde-4gb-armhf-2014-11-11-4gb.img.xz</strong>
-</pre>
-<div class="paragraph">
-<p>You&#8217;ll need to have the xz utility installed (download from The Tukaani Project [<a href="http://tukaani.org/xz/" class="bare">http://tukaani.org/xz/</a>]). Uncompress the image by using the following command (this will take a minute or so):</p>
-</div>
-<pre data-type="programlisting">
-mac$ <strong>unxz bone-debian-7.7-lxde-4gb-armhf-2014-11-11-4gb.img.xz</strong>
-</pre>
-<div class="paragraph">
-<p>Then write it to the microSD card, substituting your device path noted earlier (/dev/rdisk1, in my case) for the device path given in the dd command:</p>
-</div>
-<pre data-type="programlisting">
-mac$ <strong>sudo dd if=bone-debian-7.7-lxde-4gb-armhf-2014-11-11-4gb.img of=/dev/rdisk1</strong>
-</pre>
-<div class="paragraph">
-<p>You&#8217;ll need to type in your password. The dd command takes 5 to 10 minutes.</p>
-</div>
-<div class="admonitionblock warning">
-<table>
-<tr>
-<td class="icon">
-<div class="title">Warning</div>
-</td>
-<td class="content">
-<div class="paragraph">
-<p>This operation will wipe out everything on the microSD card. It might be worth plugging in your card, noting the path,  removing the card, noting it has disappeared, and then plugging it in again and checking the path. You can really mess up your host if you have selected the wrong disk and used the wrong path. Be careful.</p>
-</div>
-</td>
-</tr>
-</table>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<div class="title">Note</div>
-</td>
-<td class="content">
-<div class="paragraph">
-<p>Note that I used rdisk1 rather than disk1. According to <a href="http://bit.ly/1BqOxwW">the eLinux wiki</a>, doing so will speed up writing quite a bit.</p>
-</div>
-</td>
-</tr>
-</table>
-</div>
-</div>
-</div>
 <div class="sect3">
-<h4 id="_discussion_10">Discussion</h4>
+<h4 id="_discussion_9">Discussion</h4>
 
 </div>
 </div>
@@ -1177,7 +893,7 @@ bone$ <strong>sudo apt upgrade</strong>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_11">Discussion</h4>
+<h4 id="_discussion_10">Discussion</h4>
 <div class="paragraph">
 <p>After you have a current image running on the Bone, it&#8217;s not at all difficult to keep it upgraded.</p>
 </div>
@@ -1251,7 +967,7 @@ bone$ <strong>sudo apt upgrade</strong>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_12">Discussion</h4>
+<h4 id="_discussion_11">Discussion</h4>
 
 </div>
 </div>
@@ -1260,40 +976,44 @@ bone$ <strong>sudo apt upgrade</strong>
 <div class="sect3">
 <h4 id="_problem_13">Problem</h4>
 <div class="paragraph">
-<p>You want to update the onboard flash rather than boot from the microSD card.</p>
+<p>You want to copy the microSD card to the onboard flash.</p>
 </div>
 </div>
 <div class="sect3">
 <h4 id="_solution_13">Solution</h4>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<div class="title">Note</div>
-</td>
-<td class="content">
 <div class="paragraph">
-<p>At the time of this writing, these instructions were up-to-date. Go to <a href="http://beagleboard.org/latest-images" class="bare">http://beagleboard.org/latest-images</a> for the latest instructions.</p>
+<p>If you want to update the onboard flash with the contents of the microSD card,</p>
 </div>
-</td>
-</tr>
-</table>
-</div>
-<div class="paragraph">
-<p>If you want to use the onboard flash, you need to repeat the steps in <a href="#basics_install_os">Running the Latest Version of the OS on Your Bone</a>, substituting BBB-eMMC-flasher-debian-7.7-lxde-4gb-armhf-2014-11-11-4gb.img.xz for lxde-4gb/bone-debian-7.7-lxde-4gb-armhf-2014-11-11-4gb.img.xz.</p>
-</div>
-<div class="paragraph">
-<p>That is, download, uncompress, and copy to a microSD card by using the following commands:</p>
-</div>
-<pre data-type="programlisting">
-host$ <strong>wget http://rcn-ee.net/deb/testing/2014-11-11/\
-BBB-eMMC-flasher-debian-7.7-lxde-4gb-armhf-2014-11-11-4gb.img.xz</strong>
-host$ <strong>unxz BBB-eMMC-flasher-debian-7.7-lxde-4gb-armhf-2014-11-11-4gb.img.xz</strong>
-host$ <strong>sudo dd if=BBB-eMMC-flasher-debian-7.7-lxde-4gb-armhf-2014-11-11-4gb.img \
-      of=/dev/sdb bs=8M</strong>
-</pre>
-<div class="paragraph">
-<p>Again, you&#8217;ll put the microSD card in the Bone and boot. However, there is one important difference: <em>you must be powered from an external 5 V source</em>. The flashing process requires more current than what typically can be pulled from USB.</p>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Repeat the steps in <a href="#basics_install_os">Running the Latest Version of the OS on Your Bone</a> to update the OS.</p>
+</li>
+<li>
+<p>Attach to an external 5 V source. <em>you must be powered from an external 5 V source</em>. The flashing process requires more current than what typically can be pulled from USB.</p>
+</li>
+<li>
+<p>Boot from the microSD card.</p>
+</li>
+<li>
+<p>Log on to the bone and edit /boot/uEnv.txt.</p>
+</li>
+<li>
+<p>Uncomment out the last line cmdline=init=/usr/sbin/init-beagle-flasher.</p>
+</li>
+<li>
+<p>Save the file and reboot.</p>
+</li>
+<li>
+<p>The USR LEDs will flash back and forth for a few minutes.</p>
+</li>
+<li>
+<p>When they stop flashing, remove the SD card and reboot.</p>
+</li>
+<li>
+<p>You are now running from the newly flashed onboard flash.</p>
+</li>
+</ol>
 </div>
 <div class="admonitionblock warning">
 <table>
@@ -1319,7 +1039,7 @@ host$ <strong>sudo dd if=BBB-eMMC-flasher-debian-7.7-lxde-4gb-armhf-2014-11-11-4
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2022-07-09 10:53:38 -0400
+Last updated 2022-08-01 10:32:05 -0400
 </div>
 </div>
 </body>

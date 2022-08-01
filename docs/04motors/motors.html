@@ -1146,16 +1146,118 @@ process.on('SIGINT', function() {
 <div class="paragraph">
 <p>Use the code in <a href="#motors_stepperMotor_code">Driving a bipolar stepper motor (bipolarStepperMotor.js)</a> (<em>bipolarStepperMotor.js</em>) to drive the motor.</p>
 </div>
+<div id="motors_stepperMotor_code_py" class="exampleblock">
+<div class="title">Example 7. Driving a bipolar stepper motor (bipolarStepperMotor.py)</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-python" data-lang="python">#!/usr/bin/env python
+import time
+import os
+import signal
+import sys
+
+# Motor is attached here
+# controller = ["P9_11", "P9_13", "P9_15", "P9_17"]; 
+# controller = ["30", "31", "48", "5"]
+# controller = ["P9_14", "P9_16", "P9_18", "P9_22"]; 
+controller = ["50", "51", "4", "2"]
+states = [[1,0,0,0], [0,1,0,0], [0,0,1,0], [0,0,0,1]]
+statesHiTorque = [[1,1,0,0], [0,1,1,0], [0,0,1,1], [1,0,0,1]]
+statesHalfStep = [[1,0,0,0], [1,1,0,0], [0,1,0,0], [0,1,1,0],
+                      [0,0,1,0], [0,0,1,1], [0,0,0,1], [1,0,0,1]]
+
+curState = 0    # Current state
+ms = 100        # Time between steps, in ms
+maxStep = 22    # Number of steps to turn before turning around
+minStep = 0     # minimum step to turn back around on
+
+CW  =  1       # Clockwise
+CCW = -1
+pos =  0       # current position and direction
+direction = CW
+GPIOPATH="/sys/class/gpio"
+
+def signal_handler(sig, frame):
+    print('Got SIGINT, turning motor off')
+    for i in range(len(controller)) :
+        f = open(GPIOPATH+"/gpio"+controller[i]+"/value", "w")
+        f.write('0')
+        f.close()
+    sys.exit(0)
+signal.signal(signal.SIGINT, signal_handler)
+print('Hit ^C to stop')
+
+def move():
+    global pos
+    global direction
+    global minStep
+    global maxStep
+    pos += direction
+    print("pos: " + str(pos))
+    # Switch directions if at end.
+    if (pos &gt;= maxStep or pos &lt;= minStep) :
+        direction *= -1
+    rotate(direction)
+
+# This is the general rotate
+def rotate(direction) :
+    global curState
+    global states
+	# print("rotate(%d)", direction);
+    # Rotate the state acording to the direction of rotation
+    curState +=  direction
+    if(curState &gt;= len(states)) :
+        curState = 0;
+    elif(curState&lt;0) :
+        curState = len(states)-1
+    updateState(states[curState])
+
+# Write the current input state to the controller
+def updateState(state) :
+    global controller
+    print(state)
+    for i in range(len(controller)) :
+        f = open(GPIOPATH+"/gpio"+controller[i]+"/value", "w")
+        f.write(str(state[i]))
+        f.close()
+
+# Initialize motor control pins to be OUTPUTs
+for i in range(len(controller)) :
+    # Make sure pin is exported
+    if (not os.path.exists(GPIOPATH+"/gpio"+controller[i])):
+        f = open(GPIOPATH+"/export", "w")
+        f.write(pin)
+        f.close()
+    # Make it an output pin
+    f = open(GPIOPATH+"/gpio"+controller[i]+"/direction", "w")
+    f.write("out")
+    f.close()
+
+# Put the motor into a known state
+updateState(states[0])
+rotate(direction)
+
+# Rotate
+while True:
+    move()
+    time.sleep(ms/1000)</code></pre>
+</div>
+</div>
+</div>
+</div>
 <div id="motors_stepperMotor_code" class="exampleblock">
-<div class="title">Example 7. Driving a bipolar stepper motor (bipolarStepperMotor.js)</div>
+<div class="title">Example 8. Driving a bipolar stepper motor (bipolarStepperMotor.js)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
 <pre class="highlight"><code class="language-js" data-lang="js">#!/usr/bin/env node
-var b = require('bonescript');
+var fs = require('fs');
 
 // Motor is attached here
-var controller = ["P9_11", "P9_13", "P9_15", "P9_17"]; 
+// var controller = ["P9_11", "P9_13", "P9_15", "P9_17"]; 
+// var controller = ["P9_14", "P9_16", "P9_18", "P9_22"]; 
+var controller = ["50", "51", "4", "2"]; 
 var states = [[1,0,0,0], [0,1,0,0], [0,0,1,0], [0,0,0,1]];
 var statesHiTorque = [[1,1,0,0], [0,1,1,0], [0,0,1,1], [1,0,0,1]];
 var statesHalfStep = [[1,0,0,0], [1,1,0,0], [0,1,0,0], [0,1,1,0],
@@ -1170,11 +1272,17 @@ var CW  =  1,       // Clockwise
     CCW = -1,
     pos = 0,        // current position and direction
     direction = CW;
+const GPIOPATH="/sys/class/gpio";
 
 // Initialize motor control pins to be OUTPUTs
 var i;
 for(i=0; i&lt;controller.length; i++) {
-    b.pinMode(controller[i], b.OUTPUT);
+    // Make sure pins are exported
+    if(!fs.existsSync(GPIOPATH+"/gpio"+controller[i])) {
+        fs.writeFileSync(GPIOPATH+"/export", controller[i]);
+    // Make it an output pin
+    fs.writeFileSync(GPIOPATH+"/gpio"+controller[i]+"/direction", "in");
+    }
 }
 
 // Put the motor into a known state
@@ -1211,7 +1319,7 @@ function rotate(direction) {
 function updateState(state) {
     console.log("state: " + state);
 	for (i=0; i&lt;controller.length; i++) {
-		b.digitalWrite(controller[i], state[i]);
+        fs.writeFileSync(GPIOPATH+"/gpio"+controller[i]+"/value", state[i])
 	}
 }
 
@@ -1290,7 +1398,7 @@ The stepper motor I&#8217;m using runs better at 5 V, so I&#8217;m using the Bon
 <p>The code for driving the motor is in <em>unipolarStepperMotor.js</em>; however, it is almost identical to the bipolar stepper code (<a href="#motors_stepperMotor_code">Driving a bipolar stepper motor (bipolarStepperMotor.js)</a>), so <a href="#motors_unistepperMotor_code">Changes to bipolar code to drive a unipolar stepper motor (unipolarStepperMotor.diff)</a> shows only the lines that you need to change.</p>
 </div>
 <div id="motors_unistepperMotor_code" class="exampleblock">
-<div class="title">Example 8. Changes to bipolar code to drive a unipolar stepper motor (unipolarStepperMotor.diff)</div>
+<div class="title">Example 9. Changes to bipolar code to drive a unipolar stepper motor (unipolarStepperMotor.diff)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -1330,7 +1438,7 @@ var ms = 100,       // Time between steps, in ms
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2022-07-09 10:52:57 -0400
+Last updated 2022-07-28 12:10:54 -0400
 </div>
 </div>
 </body>
