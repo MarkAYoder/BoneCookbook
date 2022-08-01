@@ -64,7 +64,14 @@ There is no standard for how servo motor wires are colored. One of my servos is 
 .Driving a servo motor with the 3.3 V power supply
 image:figures/servoMotor_bb.png[Servo Motor]
 
-The code for controlling the servo motor is in _servoMotor.py_, shown in <<py_servoMotor_code>>.
+The code for controlling the servo motor is in _servoMotor.py_, shown in <<py_servoMotor_code>>. You need to configure the pin for PWM.
+++++
+<pre data-type="programlisting">
+bone$ <strong>cd ~/BoneCookbook/docs/04motors/code</strong>
+bone$ <strong>config-pin P9_16 pwm</strong>
+bone$ <strong>./servoMotor.py</strong>
+</pre>
+++++
 
 [role="pagebreak-before"]
 [[py_servoMotor_code]]
@@ -98,6 +105,15 @@ You have a rotary encoder from <<digital_rotaryEncoder_js>> that you want to con
 
 ==== Solution
 Combine the code from <<digital_rotaryEncoder_js>> and <<motors_servo>>.
+
+++++
+<pre data-type="programlisting">
+bone$ <strong>config-pin P9_16 pwm</strong>
+bone$ <strong>config-pin P8_11 eqep</strong>
+bone$ <strong>config-pin P8_12 eqep</strong>
+bone$ <strong>./servoEncoder.py</strong>
+</pre>
+++++
 
 [role="pagebreak-before"]
 [[py_servoEncoder_code]]
@@ -175,11 +191,9 @@ include::code/dcMotor.js[]
 
 How do you change the direction of the motor? See <<motors_dcDirection>>.
 
-// TODO Start here
-
 [[motors_dcDirection]]
 === Controlling the Speed and Direction of a DC Motor
-
+// TODO
 ==== Problem
 
 ((("motors", "DC motor direction control")))((("DC motors", "controlling direction of")))((("H-bridges")))((("L293D H-Bridge IC")))You would like your DC motor to go forward and backward.

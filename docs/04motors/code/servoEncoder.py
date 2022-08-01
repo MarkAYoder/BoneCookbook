@@ -4,8 +4,8 @@
 # //	Drive a simple servo motor using rotary encoder viq eQEP 
 # //	Wiring: Servo on P9_16, rotary encoder on P8_11 and P8_12
 # //	Setup:  config-pin P9_16 pwm
-# //			config-pin P8_11 qep
-# //			config-pin P8_12 qep
+# //			config-pin P8_11 eqep
+# //			config-pin P8_12 eqep
 # //	See:
 # ////////////////////////////////////////
 import time

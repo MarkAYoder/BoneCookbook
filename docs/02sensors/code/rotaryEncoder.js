@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // This uses the eQEP hardware to read a rotary encoder
-// bone$ config-pin P8_11 qep
-// bone$ config-pin P8_12 qep
+// bone$ config-pin P8_11 eqep
+// bone$ config-pin P8_12 eqep
 const fs = require("fs");
     
 const eQEP = "2";
