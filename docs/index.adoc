@@ -64,24 +64,24 @@ A cookbook for programming Beagles
 
 . link:05tips/tips.html[Beyond Basics]
   ** [ ] Introduction
-  ** [hdmi ] Running Your Bone Standalone
-  ** [ ] Selecting an OS for Your Development Host Computer
-  ** [ ] Getting to the Command Shell via SSH
-  ** [ ] Getting to the Command Shell via the Virtual Serial Port
-  ** [ftdi ] Viewing and Debugging the Kernel and u-boot Messages at Boot Time
-  ** [ ] Verifying You Have the Latest Version of the OS on Your Bone from the Shell
-  ** [update delete?] Controlling the Bone Remotely with VNC
-  ** [ ] Learning Typical GNU/Linux Commands
-  ** [ ] Editing a Text File from the GNU/Linux Command Shell
+  ** [x] Running Your Bone Standalone
+  ** [x] Selecting an OS for Your Development Host Computer
+  ** [x] Getting to the Command Shell via SSH
+  ** [x] Getting to the Command Shell via the Virtual Serial Port
+  ** [x] Viewing and Debugging the Kernel and u-boot Messages at Boot Time
+  ** [x] Verifying You Have the Latest Version of the OS on Your Bone from the Shell
+  ** [x] Controlling the Bone Remotely with VNC
+  ** [x] Learning Typical GNU/Linux Commands
+  ** [x] Editing a Text File from the GNU/Linux Command Shell
   ** [x] removed Using a Graphical Editor
   ** [x] Establishing an Ethernet-Based Internet Connection
   ** [x] Establishing a WiFi-Based Internet Connection
   ** [x] Sharing the Host's Internet Connection over USB
   ** [x] (switch to ufw) Setting Up a Firewall
-  ** [update ] Installing Additional Packages from the Debian Package Feed
-  ** [ ] Removing Packages Installed with apt
+  ** [x] Installing Additional Packages from the Debian Package Feed
+  ** [x] Removing Packages Installed with apt
   ** [update /dev/mmcblk1p1 ] Copying Files Between the Onboard Flash and the MicroSD Card
-  ** [update What else to remove ] Freeing Space on the Onboard Flash or MicroSD Card
+  ** [x] Freeing Space on the Onboard Flash or MicroSD Card
   ** [x] Removed: installing Additional Node.js Packages
   ** [x] Removed: Using Python to Interact with the Physical World
   ** [x] Removed libsoc: Using C to Interact with the Physical World

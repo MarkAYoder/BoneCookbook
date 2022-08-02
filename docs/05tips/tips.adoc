@@ -490,8 +490,7 @@ The IP address of your Bone can change. If it's been assigned by DHCP, it can ch
 
 [WARNING]
 ====
-When a Bone is connected to some networks (in my case, the campus network), 
-it becomes visible to the _world_. If you don't secure your Bone, the world will soon find it. See <<tips_passwords>> and <<tips_firewall>>. 
+When a Bone is connected to some networks it becomes visible to the _world_. If you don't secure your Bone, the world will soon find it. See <<tips_passwords>> and <<tips_firewall>>. 
 
 On many home networks, you will be behind a firewall and won't be as visible.
 ====
@@ -725,7 +724,7 @@ rtt min/avg/max/mdev = 7.496/7.559/7.623/0.107 ms
 what if you have a web server on your Bone that you want to access from the world?
 The solution is to use _port forwarding_ from your host. 
 Web servers typically listen to port +80+. First, look up the IP address of your host:
-
+// TODO  switch to ip a
 ++++
 <pre data-type="programlisting">
 host$ <strong>ifconfig</strong>
@@ -751,7 +750,7 @@ If you are on a wireless network, find the IP address associated with +wlan0+.
 ====
 
 Then run the following, using your host's IP address:
-//  TODO check this iptables
+//  TODO check this iptables, convert to ufw
 ++++
 <pre data-type="programlisting">
 host$ <strong>sudo iptables -t nat -A PREROUTING -p tcp -s 0/0 \
@@ -800,7 +799,7 @@ Just to be sure, you can install +nmap+ on your host computer to see what ports 
 
 ++++
 <pre data-type="programlisting">
-host$ <strong>sudo apt uupdate</strong>
+host$ <strong>sudo apt update</strong>
 host$ <strong>sudo apt install nmap</strong>
 host$ <strong>nmap 192.168.7.2</strong>
 Starting Nmap 7.80 ( https://nmap.org ) at 2022-07-09 13:37 EDT
@@ -959,13 +958,13 @@ bone$ <strong>ls /dev/mmcblk*</strong>
 ((("df command")))((("commands", "df")))The +df+ command shows what partitions are already mounted. The line +/dev/mmcblk0p2  7.2G  2.0G  4.9G  29% /+ shows that +mmcblk0+ partition +p2+ is mounted as +/+, the root file system. The general rule is that the media you're booted from (either the onboard flash or the microSD card) will appear as +mmcblk0+. The second partition (+p2+) is the root of the file system. 
 
 ((("ls command")))((("commands", "ls")))The +ls+ command shows what devices are available to mount. Because +mmcblk0+ is already mounted, +/dev/mmcblk1p1+ must be the other media that we need to mount. Run the following commands to mount it:
-
+// TODO update
 ++++
 <pre data-type="programlisting">
 bone$ <strong>cd /mnt</strong>
-bone$ <strong>mkdir onboard</strong>
+bone$ <strong>sudo mkdir onboard</strong>
 bone$ <strong>ls onboard</strong>
-bone$ <strong>mount /dev/mmcblk1p1 onboard/</strong>
+bone$ <strong>sudo mount /dev/mmcblk1p1 onboard/</strong>
 bone$ <strong>ls onboard</strong>
 bin   etc     lib         mnt           proc  sbin     sys  var
 boot  home    lost+found  nfs-uEnv.txt  root  selinux  tmp
@@ -980,7 +979,7 @@ This same process should also work if you have booted from the onboard flash. Wh
 
 ++++
 <pre data-type="programlisting">
-bone$ <strong>umount /mnt/onboard</strong>
+bone$ <strong>sudo umount /mnt/onboard</strong>
 </pre>
 ++++
 
@@ -1001,27 +1000,18 @@ You might not need a few things that come preinstalled in the Debian image, incl
 ====
 ((("Chromium web browser")))((("web browsers", "Chrome Chromium")))The Chromium web browser is the open source version of Google's Chrome web browser. Unless you are using the Bone as a desktop computer, you can probably remove it.
 
-http://opencv.org/[OpencCV] is an open source computer vision package. If you aren't doing computer vision, you can remove it.
 ====
 
 Here's how you can remove these:
 
 ++++
 <pre data-type="programlisting">
-bone$ <strong>sudo apt autoremove opencv*</strong>          (83M)
-bone$ <strong>sudo apt remove libopencv-* --purge</strong>  (41M)
-bone$ <strong>sudo apt autoremove</strong>                  (42M)
-bone$ <strong>rm -rf /usr/lib/chromium</strong>            (95M)
-bone$ <strong>rm -f  /usr/bin/chromium</strong>
-bone$ <strong>rm -rf /usr/share/doc</strong>               (101M)
-bone$ <strong>rm -rf /usr/share/man</strong>               (27M)
+bone$ <strong>sudo apt remove bb-node-red-installer</strong> (171M)
+bone$ <strong>sudo apt autoremove</strong>
+bone$ <strong>sudo -rf /usr/share/doc</strong>               (116M)
+bone$ <strong>sudo -rf /usr/share/man</strong>               (19M)
 </pre>
 ++++
-
-[NOTE]
-====
-These packages and sizes to remove were found in a http://bit.ly/1HC96aI[BeagleBoard Google Groups thread].
-====
 
 ===== Discovering big files
 
@@ -1029,31 +1019,31 @@ These packages and sizes to remove were found in a http://bit.ly/1HC96aI[BeagleB
 
 ++++
 <pre data-type="programlisting">
-bone$ <strong>du -shx /*</strong>
-5.6M	/bin
-11M	/boot
+bone$ <strong>sudo du -shx /*</strong>
+12M	/bin
+160M	/boot
 0	/dev
-5.4M	/etc
-232K	/home
-66M	/lib
+23M	/etc
+835M	/home
+4.0K	/ID.txt
+591M	/lib
 16K	/lost+found
-388M	/media
-4.0K	/mnt
-63M	/opt
-du: cannot access `/proc/20551/task/20551/fd/3': No such file or directory
-du: cannot access `/proc/20551/task/20551/fdinfo/3': No such file or directory
-du: cannot access `/proc/20551/fd/3': No such file or directory
-du: cannot access `/proc/20551/fdinfo/3': No such file or directory
+4.0K	/media
+8.0K	/mnt
+664M	/opt
+du: cannot access '/proc/1454/task/1454/fd/4': No such file or directory
+du: cannot access '/proc/1454/task/1454/fdinfo/4': No such file or directory
+du: cannot access '/proc/1454/fd/3': No such file or directory
+du: cannot access '/proc/1454/fdinfo/3': No such file or directory
 0	/proc
-227M	/root
-1.1M	/run
-5.0M	/sbin
-4.0K	/selinux
+1.4M	/root
+1.4M	/run
+13M	/sbin
 4.0K	/srv
 0	/sys
-36K	/tmp
-1.2G	/usr
-143M	/var
+48K	/tmp
+1.6G	/usr
+1.9G	/var
 </pre>
 ++++
 
@@ -1066,19 +1056,24 @@ If you booted from the microSD card, +du+ lists the usage of the microSD. If you
 For more help, try +du --help+.
 ====
 
-The _/usr_ directory appears to be the biggest user of space at 1.2 GB. You can then run the following command to see what's taking up the space in _/usr_:
+The _/var_ directory appears to be the biggest user of space at 1.9 GB. You can then run the following command to see what's taking up the space in _/var_:
 
 ++++
 <pre data-type="programlisting">
-bone$ <strong>du -sh /usr/*</strong>
-46M	/usr/bin
-4.0K	/usr/games
-36M	/usr/include
-424M	/usr/lib
-16M	/usr/local
-4.0M	/usr/sbin
-694M	/usr/share
-4.0K	/usr/src
+bone$ <strong>sudo du -sh /usr/*</strong>
+4.0K	/var/backups
+76M	/var/cache
+93M	/var/lib
+4.0K	/var/local
+0	/var/lock
+751M	/var/log
+4.0K	/var/mail
+4.0K	/var/opt
+0	/var/run
+16K	/var/spool
+987M	/var/swap
+28K	/var/tmp
+16K	/var/www
 </pre>
 ++++
 
@@ -1095,30 +1090,30 @@ After a moment, you'll see the following:
 
 [source, console]
 ----
-ncdu 1.8 ~ Use the arrow keys to navigate, press ? for help                     
---- / --------------------------------------------------------------------------
-    1.2GiB [##########] /usr
-  387.6MiB [###       ] /media
-  226.0MiB [#         ] /root
-  142.9MiB [#         ] /var
-   65.9MiB [          ] /lib
-   62.4MiB [          ] /opt
-   10.8MiB [          ] /boot
-    5.6MiB [          ] /bin
-    5.4MiB [          ] /etc
-    5.0MiB [          ] /sbin
-    1.0MiB [          ] /run
-  232.0KiB [          ] /home
-   36.0KiB [          ] /tmp
-e  16.0KiB [          ] /lost+found
-e   4.0KiB [          ] /srv
-e   4.0KiB [          ] /selinux
-e   4.0KiB [          ] /mnt
-    0.0  B [          ] /sys
-    0.0  B [          ] /proc
-    0.0  B [          ] /dev
+ncdu 1.15.1 ~ Use the arrow keys to navigate, press ? for help          
+--- / ------------------------------------------------------------------
+.   1.9 GiB [##########] /var                                           
+    1.5 GiB [########  ] /usr
+  835.0 MiB [####      ] /home
+  663.5 MiB [###       ] /opt
+  590.9 MiB [###       ] /lib
+  159.0 MiB [          ] /boot
+.  22.8 MiB [          ] /etc
+   12.5 MiB [          ] /sbin
+   11.1 MiB [          ] /bin
+.   1.4 MiB [          ] /run
+.  40.0 KiB [          ] /tmp
+!  16.0 KiB [          ] /lost+found
+    8.0 KiB [          ] /mnt
+e   4.0 KiB [          ] /srv
+!   4.0 KiB [          ] /root
+e   4.0 KiB [          ] /media
+    4.0 KiB [          ]  ID.txt
+.   0.0   B [          ] /sys
+.   0.0   B [          ] /proc
+    0.0   B [          ] /dev
 
- Total disk usage:   2.1GiB  Apparent size:   1.9GiB  Items: 156583
+ Total disk usage:   5.6 GiB  Apparent size:   5.5 GiB  Items: 206148
 ----
 
 +ncdu+ is a character-based graphics interface to +du+.  You can now use your arrow keys to navigate the file structure to discover where the big unused files are. Press ? for help.
