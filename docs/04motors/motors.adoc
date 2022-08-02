@@ -252,7 +252,7 @@ Wire as shown in <<motors_bipolar_fig>>.
 .Bipolar stepper motor wiring
 image:figures/bipolarStepperMotor_bb.png[Bipolar Stepper Motor]
 
-Use the code in <<motors_stepperMotor_code>> (_bipolarStepperMotor.js_) to drive the motor.
+Use the code in <<motors_stepperMotor_code>> to drive the motor.
 
 [[motors_stepperMotor_code_py]]
 .Driving a bipolar stepper motor (bipolarStepperMotor.py)
@@ -314,12 +314,20 @@ image:figures/unipolarStepperMotor_bb.png[Unipolar Stepper Motor]
 
 The code for driving the motor is in _unipolarStepperMotor.js_; however, it is almost identical to the bipolar stepper code (<<motors_stepperMotor_code>>), so <<motors_unistepperMotor_code>> shows only the lines that you need to change.
 
+[[motors_unistepperMotor_js_code]]
+.Changes to bipolar code to drive a unipolar stepper motor (unipolarStepperMotor.py.diff)
+====
+[source, python]
+----
+include::code/unipolarStepperMotor.py.diff[]
+----
+====
 [[motors_unistepperMotor_code]]
-.Changes to bipolar code to drive a unipolar stepper motor (unipolarStepperMotor.diff)
+.Changes to bipolar code to drive a unipolar stepper motor (unipolarStepperMotor.js.diff)
 ====
 [source, js]
 ----
-include::code/unipolarStepperMotor.diff[]
+include::code/unipolarStepperMotor.js.diff[]
 ----
 ====
 [role="pagebreak-before"]

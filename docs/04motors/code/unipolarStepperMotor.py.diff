@@ -1,0 +1,6 @@
+# controller = ["P9_11", "P9_13", "P9_15", "P9_17"]
+controller = ["30", "31", "48", "5"]
+states = [[1,1,0,0], [0,1,1,0], [0,0,1,1], [1,0,0,1]]
+curState = 0   // Current state
+ms = 100       // Time between steps, in ms
+max = 22       // Number of steps to turn before turning around
