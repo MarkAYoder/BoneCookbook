@@ -2,7 +2,7 @@
 == Beyond the Basics
 
 === Introduction
-In <<basics>>, you learned how to set up BeagleBone Black, and <<sensors>>, <<displays>>, and <<motors>> showed how to interface to the physical world. <<networking>> through the remainder of the book moves into some more exciting advanced topics, and this chapter gets you ready for them.  
+In <<basics>>, you learned how to set up BeagleBone Black, and <<sensors>>, <<displays>>, and <<motors>> showed how to interface to the physical world. The remainder of the book moves into some more exciting advanced topics, and this chapter gets you ready for them.  
 
 The recipes in this chapter assume that you are running Linux on your host computer (<<tips_pick_os>>) and are comfortable with using Linux. We continue to assume that you are logged in as +debian+ on your Bone.
 
@@ -41,13 +41,14 @@ image::figures/hdmiConverter.jpg[HDMI Adaptor]
 
 Plug the small end into the microHDMI input on the Bone and plug your HDMI cable into the other end of the adapter and your monitor. If nothing displays on your Bone, reboot.
 
-If nothing appears after the reboot, edit the _/boot/uEnv.txt_ file. Search for the line containing +##Disable HDMI+ and add the following lines after it:
+If nothing appears after the reboot, edit the _/boot/uEnv.txt_ file. Search for the line containing +disable_uboot_overlay_video=1 and make sure it's commented out:
 
 [source, console]
 ----
-##Disable HDMI
-#cape_disable=capemgr.disable_partno=BB-BONELT-HDMI,BB-BONELT-HDMIN
-cape_disable=capemgr.disable_partno=BB-BONELT-HDMI
+###Disable auto loading of virtual capes (emmc/video/wireless/adc)
+#disable_uboot_overlay_emmc=1
+#disable_uboot_overlay_video=1
+
 ----
 
 Then reboot.
@@ -62,9 +63,9 @@ Also, using ## in the code italicizes the second # and everything after it in th
 
 [TIP]
 ====
-((("# character")))The _/boot/uEnv.txt_ file contains a number of configuration commands that are executed at boot time. The +&#35;+ character is used to add comments; that is, everything to the right of a +&#35;+ is ignored by the Bone and is assumed to be for humans to read. In the previous example, +&#35;&#35;Disable HDMI+ is a comment that informs us the next line(s) are for disabling the HDMI. Two +cape.disable+ commands follow. The first one is commented-out and won't be executed by the Bone.  
+((("# character")))The _/boot/uEnv.txt_ file contains a number of configuration commands that are executed at boot time. The +#+ character is used to add comments; that is, everything to the right of a +# is ignored by the Bone and is assumed to be for humans to read. In the previous example, +###Disable auto loading+ is a comment that informs us the next line(s) are for disabling things. Two +disable_uboot_overlay+ commands follow. Both should be commented-out and won't be executed by the Bone.  
 
-Why not just remove the first +cape.disable+?  Later, you might decide you need more general-purpose input/output (GPIO) pins and don't need the HDMI display. If so, just remove the +#+ from for first +cape.disble+. If you had completely removed the line earlier, you would have to look up the details somewhere to re-create it.  
+Why not just remove the line?  Later, you might decide you need more general-purpose input/output (GPIO) pins and don't need the HDMI display. If so, just remove the +#+ from the +disable_uboot_overlay_video=1+ command. If you had completely removed the line earlier, you would have to look up the details somewhere to re-create it.  
 
 When in doubt, comment-out; don't delete.
 ====
@@ -74,11 +75,11 @@ When in doubt, comment-out; don't delete.
 If you want to re-enable the HDMI audio, just comment-out the line you added.
 ====
 
-The Bone has only one USB port, so you will need to get either a keyboard with a USB hub (see <<app_misc>>) or a powered USB hub. Plug the USB hub into the Bone and then plug your keyboard and mouse in to the hub. You now have a Beagle workstation; no host computer is needed.
+The Bone has only one USB port, so you will need to get either a keyboard with a USB hub (see <<app_misc>>) or a USB hub. Plug the USB hub into the Bone and then plug your keyboard and mouse in to the hub. You now have a Beagle workstation; no host computer is needed.
 
 [TIP]
 ====
-The powered hub is recommended because USB can supply only 500 mA, and you'll want to plug many things into the Bone.
+A powered hub is recommended because USB can supply only 500 mA, and you'll want to plug many things into the Bone.
 ====
 
 ==== Discussion
@@ -91,7 +92,7 @@ The powered hub is recommended because USB can supply only 500 mA, and you'll wa
 ((("advanced operations", "selecting host computer OS")))((("host computer", "OS selection")))((("operating system (OS)", "selecting for host computer")))Your project needs a host computer, and you need to select an operating system (OS) for it.
 
 ==== Solution
-For projects that require a host computer, we assume that you are running http://bit.ly/1wXOwkw[Linux Ubuntu 20.04 LTS]. You can be running either a native installation, through https://docs.microsoft.com/en-us/windows/wsl/[Windows Subsystem for Linux],via a virtual machine such as https://www.virtualbox.org/[VirtualBox], or in the cloud (https://portal.azure.com/[Microsoft Azure] or http://aws.amazon.com/ec2/[Amazon Elastic Compute Cloud] [EC2], for example).
+For projects that require a host computer, we assume that you are running http://bit.ly/1wXOwkw[Linux Ubuntu 20.04 LTS]. You can be running either a native installation, through https://docs.microsoft.com/en-us/windows/wsl/[Windows Subsystem for Linux], via a virtual machine such as https://www.virtualbox.org/[VirtualBox], or in the cloud (https://portal.azure.com/[Microsoft Azure] or http://aws.amazon.com/ec2/[Amazon Elastic Compute Cloud] [EC2], for example).
 
 Recently I've been prefering https://docs.microsoft.com/en-us/windows/wsl/[Windows Subsystem for Linux].
 
@@ -106,7 +107,7 @@ Recently I've been prefering https://docs.microsoft.com/en-us/windows/wsl/[Windo
 
 ==== Solution
 
-((("superusers")))((("root user")))<<basics_vsc_IDE>> shows how to run shell commands in the Cloud9 +bash+ tab. However, the Bone has Secure Shell (SSH) enabled right out of the box, so you can easily connect by using the following command to log in as user +debian+, (note the +$+ at the end of the prompt):
+((("superusers")))((("root user")))<<basics_vsc_IDE>> shows how to run shell commands in the Visual Studio Code +bash+ tab. However, the Bone has Secure Shell (SSH) enabled right out of the box, so you can easily connect by using the following command to log in as user +debian+, (note the +$+ at the end of the prompt):
 
 ++++
 <pre data-type="programlisting">
@@ -117,9 +118,7 @@ bone$
 </pre>
 ++++
 
-((("normal user")))((("Debian", "normal user")))Or you could log in as a normal user, +debian+ (note the +$+ at the end of the prompt):
-
-((("passwords", "changing")))((("security issues", "passwords")))+root+ has passwords disabled. It's best to change the password:
+((("passwords", "changing")))((("security issues", "passwords")))+debian+ has the default password +tempped+ It's best to change the password:
 
 ++++
 <pre data-type="programlisting">
@@ -230,7 +229,7 @@ Next, look for the FTDI pins of the Bone (labeled +J1+ on the Bone), shown in <<
 They are next to the P9 header and begin near pin 20. There is a white dot near P9_20. 
 
 [[tips_black_hardware_details_fig]]
-.FTDI pins for the FTDI connector footnote:[<<tips_black_hardware_details_fig>> was originally posted by Jason Kridner at http://beagleboard.org/media under a http://creativecommons.org/licenses/by-sa/3.0/[Creative Commons Attribution-ShareAlike 3.0 Unported License].]
+.FTDI pins for the FTDI connector 
 image::figures/FTDIPins.png[Serial Debug Pins]
 
 Plug the FTDI connector into the FTDI pins, being sure to connect the _triangle_ pin on the connector to the _white dot_ pin of the +FTDI+ connector.
@@ -270,12 +269,10 @@ Your screen might initially be blank. Press Enter a couple times to see the logi
 ==== Solution
 Log in to your Bone and enter the following command:
 
-// TODO update /etc/dogtag<
-
 ++++
 <pre data-type="programlisting">
 bone$ <strong>cat /etc/dogtag</strong>
-BeagleBoard.org Debian Bullseye IoT Image 2022-06-02
+BeagleBoard.org Debian Bullseye IoT Image 2022-07-01
 </pre>
 ++++
 
@@ -283,7 +280,7 @@ BeagleBoard.org Debian Bullseye IoT Image 2022-06-02
 <<basics_latest_os>> shows how to open the _ID.txt_ file to see the OS version. The _/etc/dogtag_ file has the same contents and is easier to find if you already have a command prompt. See <<basics_install_os>> if you need to update your OS.
 
 === Controlling the Bone Remotely with a VNC
-
+// TODO  check this
 ==== Problem
 ((("advanced operations", "remote control via VNC server")))((("Virtual Network Computing (VNC) server")))((("host computer", "accessing graphical desktop from")))You want to access the BeagleBone's graphical desktop from your host computer.
 
@@ -303,30 +300,26 @@ xauth: (argv):1:  bad display name "beaglebone:1" in "add" command
 
 New 'X' desktop is beaglebone:1
 
-Creating default startup script /root/.vnc/xstartup
-Starting applications specified in /root/.vnc/xstartup
-Log file is /root/.vnc/beaglebone:1.log
+reating default startup script /home/debian/.vnc/xstartup
+Starting applications specified in /home/debian/.vnc/xstartup
+Log file is /home/debian/.vnc/beagleboard:1.log
 </pre>
 ++++
-// TODO - Start here
 
 ((("Remmina Remote Desktop Client")))To connect to the Bone, you will need to run a VNC client. There are many to choose from. Remmina Remote Desktop Client is already installed on Ubuntu. Start and select the new remote desktop file button (<<tips_vnc1_fig>>).
 
-////
-I fixed the wording here to better match the software.
-////
 [[tips_vnc1_fig]]
 .Creating a new remote desktop file in Remmina Remote Desktop Client
 image::figures/vnc1.png[Create a new remote desktop]
 
-Give your connection a name, being sure to select "VNC - Virtual Network Computing." Also, be sure to add +:1+ after the server address, as shown in <<tips_vnc2_fig>>. This should match the +:1+ that was displayed when you started +vncserver+.
+Give your connection a name, being sure to select "Remmina VNC Plugin" Also, be sure to add +:1+ after the server address, as shown in <<tips_vnc2_fig>>. This should match the +:1+ that was displayed when you started +vncserver+.
 
 [[tips_vnc2_fig]]
 .Configuring the Remmina Remote Desktop Client
 image::figures/vnc2.png[Configuring]
 
 Click Connect to start graphical access to your Bone, as shown in <<tips_vnc3_fig>>.
-
+// TODO update this
 [[tips_vnc3_fig]]
 .The Remmina Remote Desktop Client showing the BeagleBone desktop
 image::figures/vnc3.png[Desktop]
@@ -334,6 +327,19 @@ image::figures/vnc3.png[Desktop]
 [TIP]
 ====
 You might need to resize the VNC screen on your host to see the bottom menu bar on your Bone. 
+====
+[NOTE]
+====
+You need to have X Windows installed and running for the VNC to work.  Here's how to install it. This needs some 250M of disk space and 19 minutes to install.
+++++
+<pre data-type="programlisting">
+bone$ <strong>bone$ sudo apt install bbb.io-xfce4-desktop</strong>
+bone$ <strong>cp /etc/bbb.io/templates/fbdev.xorg.conf /etc/X11/xorg.conf</strong>
+bone$ <strong>startxfce4</strong>
+/usr/bin/startxfce4: Starting X server
+/usr/bin/startxfce4: 122: exec: xinit: not found
+<pre>
+++++
 ====
 
 ==== Discussion
