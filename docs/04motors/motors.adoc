@@ -333,7 +333,6 @@ include::code/unipolarStepperMotor.js.diff[]
 [role="pagebreak-before"]
 The code in this example makes the following changes:
 
-* +controller+ is attached to the _even_-numbered pins on the +P9+ header rather than the _odd_ that the bipolar stepper used. (Doing this allows you to run both types of stepper motors at the same time!)
 * The +states+ are different. Here, we have two pins high at a time.
 * The time between steps (+ms+) is shorter, and the number of steps per direction (+max+) is bigger. The unipolar stepper I'm using has many more steps per rotation, so I need more steps to make it go around.
 
