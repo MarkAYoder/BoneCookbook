@@ -92,8 +92,8 @@ A cookbook for programming Beagles
   ** [x] nginx: Serving Web Pages from the Bone
   ** [x] Flask: Interacting with the Bone via a Web Browser
   ** [x] Displaying GPIO Status in a Web Browser
-  ** [removed] Continuously Displaying the GPIO Value via jsfiddle
-  ** [removee] Continuously Displaying the GPIO Value
+  ** [x] Removed: Continuously Displaying the GPIO Value via jsfiddle
+  ** [x] Removed: Continuously Displaying the GPIO Value
   ** [x] gnuplot: Plotting Data
   ** [x] Sending an Email
   ** [x] Commented out: Sending an SMS Message
@@ -101,7 +101,7 @@ A cookbook for programming Beagles
   ** [x] Sending and Receiving Tweets
   ** [x] Commented out: Wiring the IoT with Node-RED
   ** [x] Removed: Serving Web Pages from the Bone by Using Apache
-  ** [hardware?] Communicating over a Serial Connection to an Arduino or LaunchPad
+  ** [x] Commented out: Communicating over a Serial Connection to an Arduino or LaunchPad
 
 . link:07kernel/kernel.html[The Kernel]
   ** [ ] Introduction

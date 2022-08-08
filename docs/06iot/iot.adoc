@@ -886,80 +886,80 @@ This opens up many new possibilities. You can read a temperature sensor and twee
 
 // ==== Discussion
 
-=== Communicating over a Serial Connection to an Arduino or LaunchPad
+// === Communicating over a Serial Connection to an Arduino or LaunchPad
+// // TODO Test
+// ==== Problem
+// ((("networking", "interaction over serial connection")))((("serial ports", "interaction via")))((("UARTs (serial ports)")))((("Arduino")))((("LaunchPad")))You would like your Bone to talk to an Arduino or LaunchPad.
 
-==== Problem
-((("networking", "interaction over serial connection")))((("serial ports", "interaction via")))((("UARTs (serial ports)")))((("Arduino")))((("LaunchPad")))You would like your Bone to talk to an Arduino or LaunchPad.
+// ==== Solution
+// The common serial port (also know as a UART) is the simplest way to talk between the two.  Wire it up as shown in <<networking_launchPad_fig>>.
 
-==== Solution
-The common serial port (also know as a UART) is the simplest way to talk between the two.  Wire it up as shown in <<networking_launchPad_fig>>.
+// [WARNING]
+// ====
+// BeagleBone Black runs at 3.3 V. When wiring other devices to it, ensure that they are also 3.3 V. The LaunchPad I'm using is 3.3 V, but many Arduinos are 5.0 V and thus won't work. Or worse, they might damage your Bone.
+// ====
 
-[WARNING]
-====
-BeagleBone Black runs at 3.3 V. When wiring other devices to it, ensure that they are also 3.3 V. The LaunchPad I'm using is 3.3 V, but many Arduinos are 5.0 V and thus won't work. Or worse, they might damage your Bone.
-====
+// [[networking_launchPad_fig]]
+// .Wiring a LaunchPad to a Bone via the common serial port
+// image::figures/launchPad_bb.png[MSP430 LaunchPad]
 
-[[networking_launchPad_fig]]
-.Wiring a LaunchPad to a Bone via the common serial port
-image::figures/launchPad_bb.png[MSP430 LaunchPad]
+// Add the code (or _sketch_, as it's called in Arduino-speak) in <<js_launchPad_code>> to a file called _launchPad.ino_ and run it on your LaunchPad.
 
-Add the code (or _sketch_, as it's called in Arduino-speak) in <<js_launchPad_code>> to a file called _launchPad.ino_ and run it on your LaunchPad.
+// [[js_launchPad_code]]
+// .LaunchPad code for communicating via the UART (launchPad.ino)
+// ====
+// [source, c]
+// ----
 
-[[js_launchPad_code]]
-.LaunchPad code for communicating via the UART (launchPad.ino)
-====
-[source, c]
-----
+// include::code/launchPad/launchPad.ino[]
 
-include::code/launchPad/launchPad.ino[]
+// ----
+// ====
+// <1> Set the mode for the built-in red and green LEDs.
 
-----
-====
-<1> Set the mode for the built-in red and green LEDs.
+// <2> Start the serial port at 9600 baud.
 
-<2> Start the serial port at 9600 baud.
+// <3> Prompt the user, which in this case is the Bone.
 
-<3> Prompt the user, which in this case is the Bone.
+// <4> Set the LEDs to the current values of the +red+ and +green+ variables.
 
-<4> Set the LEDs to the current values of the +red+ and +green+ variables.
+// <5> Wait for characters to arrive on the serial port.
 
-<5> Wait for characters to arrive on the serial port.
+// <6> After the characters are received, read it and respond to it.
 
-<6> After the characters are received, read it and respond to it.
+// On the Bone, add the script in <<js_launchPadBeagle_code>> to a file called _launchPad.js_ and run it.
 
-On the Bone, add the script in <<js_launchPadBeagle_code>> to a file called _launchPad.js_ and run it.
+// [[js_launchPadBeagle_code]]
+// .Code for communicating via the UART (launchPad.js)
+// ====
+// [source, c]
+// ----
 
-[[js_launchPadBeagle_code]]
-.Code for communicating via the UART (launchPad.js)
-====
-[source, c]
-----
+// include::code/launchPad.js[]
 
-include::code/launchPad.js[]
+// ----
+// ====
+// <1> Select which serial port to use. <<networking_cape-headers-serial_fig>> shows what's available. We've wired +P9_24+ and +P9_26+, so we are using serial port +/dev/ttyO1+. (Note that's the letter _O_ and not the number _zero_.)
 
-----
-====
-<1> Select which serial port to use. <<networking_cape-headers-serial_fig>> shows what's available. We've wired +P9_24+ and +P9_26+, so we are using serial port +/dev/ttyO1+. (Note that's the letter _O_ and not the number _zero_.)
+// <2> Set the baudrate to 9600, which matches the setting on the LaunchPad.
 
-<2> Set the baudrate to 9600, which matches the setting on the LaunchPad.
+// <3> Read one line at a time up to the newline character (+\n+).
 
-<3> Read one line at a time up to the newline character (+\n+).
+// <4> Open the serial port and call +onSerial()+ whenever there is data available.
 
-<4> Open the serial port and call +onSerial()+ whenever there is data available.
+// <5> Determine what event has happened on the serial port and respond to it.
 
-<5> Determine what event has happened on the serial port and respond to it.
+// <6> If the serial port has been ++open++ed, start calling +sendCommand()+ every 1000 ms.
 
-<6> If the serial port has been ++open++ed, start calling +sendCommand()+ every 1000 ms.
+// <7> These are the two commands to send.
 
-<7> These are the two commands to send.
+// <8> Write the character out to the serial port and to the LaunchPad.
 
-<8> Write the character out to the serial port and to the LaunchPad.
+// <9> Move to the next command.
 
-<9> Move to the next command.
+// [[networking_cape-headers-serial_fig]]
+// .Table of UART outputs
+// image::figures/cape-headers-serial.png[UART outputs]
 
-[[networking_cape-headers-serial_fig]]
-.Table of UART outputs
-image::figures/cape-headers-serial.png[UART outputs]
-
-==== Discussion
-When you run the script in <<js_launchPadBeagle_code>>, the Bone opens up the serial port and every second sends a new command, either +r+ or +g+. The LaunchPad waits for the command and, when it arrives, responds by toggling the corresponding LED.
+// ==== Discussion
+// When you run the script in <<js_launchPadBeagle_code>>, the Bone opens up the serial port and every second sends a new command, either +r+ or +g+. The LaunchPad waits for the command and, when it arrives, responds by toggling the corresponding LED.

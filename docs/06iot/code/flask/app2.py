@@ -4,6 +4,7 @@ import os
 from flask import Flask, render_template
 app = Flask(__name__)
 
+# gpioinfo | grep -e chip -e P9_11
 pin = '30' #  P9_11 is gpio 30
 GPIOPATH="/sys/class/gpio"
 buttonSts = 0
