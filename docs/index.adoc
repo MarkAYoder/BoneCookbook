@@ -33,7 +33,7 @@ A cookbook for programming Beagles
   ** [python/vs code] Input and Run a JavaScript Application for Talking to Sensors
   ** [x] Reading the Status of a Pushbutton or Magnetic Switch (Passive On/Off Sensor)
   ** [x] Reading a Position, Light, or Force Sensor (Variable Resistance Sensor)
-  ** [x] Addeed continous, gnuplot: Reading a Distance Sensor (Analog or Variable Voltage Sensor)
+  ** [x] Added continous, gnuplot: Reading a Distance Sensor (Analog or Variable Voltage Sensor)
   ** [js too complicated, try py ] Reading a Distance Sensor (Variable Pulse Width Sensor)
   ** [x] Accurately Reading the Position of a Motor or Dial
   ** [ ] Acquiring Data by Using a Smart Sensor over a Serial Connection

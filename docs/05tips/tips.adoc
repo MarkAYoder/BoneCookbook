@@ -85,18 +85,19 @@ A powered hub is recommended because USB can supply only 500 mA, and you'll want
 ==== Discussion
 ((("audio files", "HDMI audio")))((("files", "audio")))This recipe disables the HDMI audio, which allows the Bone to try other resolutions. If this fails, see http://bit.ly/1GEPcOH[BeagleBoneBlack HDMI] for how to force the Bone's resolution to match your monitor.
 
-[[tips_pick_os]]
-=== Selecting an OS for Your Development Host Computer
+// // TODO  Needs a discussion
+// [[tips_pick_os]]
+// === Selecting an OS for Your Development Host Computer
 
-==== Problem
-((("advanced operations", "selecting host computer OS")))((("host computer", "OS selection")))((("operating system (OS)", "selecting for host computer")))Your project needs a host computer, and you need to select an operating system (OS) for it.
+// ==== Problem
+// ((("advanced operations", "selecting host computer OS")))((("host computer", "OS selection")))((("operating system (OS)", "selecting for host computer")))Your project needs a host computer, and you need to select an operating system (OS) for it.
 
-==== Solution
-For projects that require a host computer, we assume that you are running http://bit.ly/1wXOwkw[Linux Ubuntu 20.04 LTS]. You can be running either a native installation, through https://docs.microsoft.com/en-us/windows/wsl/[Windows Subsystem for Linux], via a virtual machine such as https://www.virtualbox.org/[VirtualBox], or in the cloud (https://portal.azure.com/[Microsoft Azure] or http://aws.amazon.com/ec2/[Amazon Elastic Compute Cloud] [EC2], for example).
+// ==== Solution
+// For projects that require a host computer, we assume that you are running http://bit.ly/1wXOwkw[Linux Ubuntu 20.04 LTS]. You can be running either a native installation, through https://docs.microsoft.com/en-us/windows/wsl/[Windows Subsystem for Linux], via a virtual machine such as https://www.virtualbox.org/[VirtualBox], or in the cloud (https://portal.azure.com/[Microsoft Azure] or http://aws.amazon.com/ec2/[Amazon Elastic Compute Cloud] [EC2], for example).
 
-Recently I've been prefering https://docs.microsoft.com/en-us/windows/wsl/[Windows Subsystem for Linux].
+// Recently I've been prefering https://docs.microsoft.com/en-us/windows/wsl/[Windows Subsystem for Linux].
 
-==== Discussion
+// ==== Discussion
 
 
 [[tips_shell]]
@@ -356,6 +357,7 @@ bone$ <strong>startxfce4</strong>
 [[tips_linux_commands]]
 .Common Linux commands
 [options="header"]
+[%autowidth]
 |=======
 |Command|Action
 |pwd|show current directory
@@ -506,8 +508,6 @@ On many home networks, you will be behind a firewall and won't be as visible.
 
 ==== Solution
 
-[TIP]
-====
 For the correct instructions for the image you are using, go to
 https://forum.beagleboard.org/tag/latest-images[latest-images] and click on the image you are using.  
 
@@ -522,7 +522,6 @@ Scroll to the top of the page and you'll see instructions on setting up Wifi. Th
 [[tips_networkfig]]
 .Instructions for setting up your network.
 image::figures/network.png[Network Setup Instructions]
-====
 
 // TODO is this up to date?
 Several WiFi adapters work with the Bone. Check http://bit.ly/1EbEwUo[WiFi Adapters] for the latest list.
