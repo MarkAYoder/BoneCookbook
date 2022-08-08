@@ -263,6 +263,7 @@ follow the instructions there to install the image you downloaded.
 
 ==== Discussion
 
+[[basics_update]]
 === Updating the OS on Your Bone
 
 ==== Problem
