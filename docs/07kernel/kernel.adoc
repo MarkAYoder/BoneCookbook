@@ -6,10 +6,9 @@
 
 You usually won't need to mess with the kernel, but sometimes you might want to try something new that requires a different kernel. This chapter shows how to switch kernels. The nice thing is you can have multiple kernels on your system at the same time and select from among them which to boot up.
 
-// TODO is this still true?
 [NOTE]
 ====
-We assume here that you are logged on to your Bone as +root+ and superuser privileges. You also need to be logged in to your Linux host computer as a nonsuperuser.
+We assume here that you are logged on to your Bone as +debian+ and have superuser privileges. You also need to be logged in to your Linux host computer as a nonsuperuser.
 ====
 
 === Updating the Kernel
@@ -28,37 +27,9 @@ Linux beaglebone <strong>3.8.13-bone67</strong> #1 SMP Wed Sep 24 21:30:03 UTC 2
 </pre>
 ++++
 
-The +3.8.13-bone67+ string is the kernel version.
+The +3.8.13-bone67+ string is the kernel version (which is really old).
 
-To update to the current kernel, ensure that your Bone is on the Internet (<<networking_usb>> or <<networking_wired>>) and then run the following commands:
-
-++++
-<pre data-type="programlisting">
-bone$ <strong>apt-cache pkgnames | grep linux-image | sort | less</strong>
-...
-linux-image-3.15.8-armv7-x5
-linux-image-3.15.8-bone5
-linux-image-3.15.8-bone6
-...
-linux-image-3.16.0-rc7-bone1
-...
-linux-image-3.8.13-bone60
-linux-image-3.8.13-bone61
-linux-image-3.8.13-bone62
-bone$ <strong>sudo apt install linux-image-3.14.23-ti-r35</strong>
-bone$ <strong>sudo reboot</strong>
-bone$ <strong>uname -a</strong>
-Linux beaglebone 3.14.23-ti-r35 #1 SMP PREEMPT Wed Nov 19 21:11:08 UTC 2014 armv7l
- GNU/Linux
-</pre>
-++++
-
-The first command lists the versions of the kernel that are available. The second command installs one. After you have rebooted, the new kernel will be running.
-
-If the current kernel is doing its job adequately, you probably don't need to update, but sometimes a new software package requires a more up-to-date kernel. Fortunately, precompiled kernels are available and ready to download.  
-
-==== Discussion
-
+To update to the current kernel, ensure that your Bone is on the Internet (<<networking_usb>> or <<networking_wired>>).  Next follow  <<basics_find_image>> and <<basics_install_os>> and <<basics_update>> to find the current image with the current kernel, install it and update it.
 
 [[kernel_building_modules]]
 === Building and Installing Kernel Modules
@@ -71,7 +42,13 @@ If the current kernel is doing its job adequately, you probably don't need to up
 
 The solution is to run in kernel space by building a kernel module. There are entire http://bit.ly/1Fb0usf[books on writing Linux Device Drivers]. This recipe assumes that the driver has already been written and shows how to compile and install it. After you've followed the steps for this simple module, you will be able to apply them to any other module.
 
-For our example module, add the code in <<kernel_simple_module>> to a file called _hello.c_.
+For our example module, download the cookbook repository and:
+++++
+<pre data-type="programlisting">
+bone$ <strong>cd ~/BoneCookbook/docs/07kernel/code</strong>
+</pre>
+++++
+And look at _hello.c_.
 
 [[kernel_simple_module]]
 .Simple Kernel Module (hello.c)
@@ -99,7 +76,7 @@ bone$ <strong>sudo apt install linux-headers-`uname -r`</strong>
 
 This took a little more than three minutes on my Bone. The +`uname -r`+ part of the command looks up what version of the kernel you are running and loads the headers for it. 
 
-Next, add the code in <<kernel_Makefle>> to a file called _Makefile_.
+Next look at _Makefile_.
 
 [[kernel_Makefle]]
 .Simple Kernel Module (_Makefile_)
@@ -122,15 +99,13 @@ Now, compile the kernel module by using the +make+ command:
 ++++
 <pre data-type="programlisting">
 bone$ <strong>make</strong>
-make -C /lib/modules/3.8.13-bone67/build \
-      SUBDIRS=/root/cookbook-atlas/code/hello modules
-make[1]: Entering directory `/usr/src/linux-headers-3.8.13-bone67'
-  CC [M]  /root/cookbook-atlas/code/hello/hello.o
-  Building modules, stage 2.
-  MODPOST 1 modules
-  CC      /root/cookbook-atlas/code/hello/hello.mod.o
-  LD [M]  /root/cookbook-atlas/code/hello/hello.ko
-make[1]: Leaving directory `/usr/src/linux-headers-3.8.13-bone67'
+make -C /lib/modules/5.10.120-ti-r48/build M=$PWD
+make[1]: Entering directory '/usr/src/linux-headers-5.10.120-ti-r48'
+  CC [M]  /home/debian/BoneCookbook/docs/07kernel/code/hello.o
+  MODPOST /home/debian/BoneCookbook/docs/07kernel/code/Module.symvers
+  CC [M]  /home/debian/BoneCookbook/docs/07kernel/code/hello.mod.o
+  LD [M]  /home/debian/BoneCookbook/docs/07kernel/code/hello.ko
+make[1]: Leaving directory '/usr/src/linux-headers-5.10.120-ti-r48'
 bone$ <strong>ls</strong>
 Makefile        hello.c   hello.mod.c  hello.o
 Module.symvers  hello.ko  hello.mod.o  modules.order
@@ -142,16 +117,20 @@ Notice that several files have been created. _hello.ko_ is the one you want. Try
 ++++
 <pre data-type="programlisting">
 bone$ <strong>modinfo hello.ko</strong>
-filename:       /root/hello/hello.ko
-srcversion:     87C6AEED7791B4B90C3B50C
+filename:       /home/debian/BoneCookbook/docs/07kernel/code/hello.ko
+license:        GPL
+description:    Hello World Example
+author:         Boris Houndleroy
 depends:        
-vermagic:       3.8.13-bone67 SMP mod_unload modversions ARMv7 thumb2 p2v8
+name:           hello
+vermagic:       5.10.120-ti-r48 SMP preempt mod_unload modversions ARMv7 p2v8 
 bone$ <strong>sudo insmod hello.ko</strong>
-bone$ <strong>dmesg | tail -4</strong>
-[419313.320052] bone-iio-helper helper.15: ready
-[419313.322776] bone-capemgr bone_capemgr.9: slot #8: Applied #1 overlays.
-[491540.999431] Loading hello module...
-[491540.999476] Hello world
+bone$ <strong>dmesg -H | tail -4</strong>
+[  +0.000024] Bluetooth: BNEP filters: protocol multicast
+[  +0.000034] Bluetooth: BNEP socket layer initialized
+[Aug 8 13:49] Loading hello module...
+[  +0.000022] Hello, World!
+
 </pre>
 ++++
 

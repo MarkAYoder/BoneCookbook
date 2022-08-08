@@ -16,7 +16,7 @@ A cookbook for programming Beagles
   ** [update which Beagles?] Picking Your Beagle
   ** [x] Getting Started, Out of the Box
   ** [x] Verifying You Have the Latest Version of the OS on Your Bone
-  ** [x] === Running the Python and JavaScript Examples
+  ** [x] Running the Python and JavaScript Examples
   ** [x] Wiring a Breadboard
   ** [x] Editing Code Using VS Code
   ** [x] Running Python Applications from VSC
