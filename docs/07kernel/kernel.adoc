@@ -353,7 +353,7 @@ After the kernel is patched, you'll see a screen similar to <<kernel_config_fig>
 
 [[kernel_config_fig]]
 .Kernel configuration menu
-image::figures/KernelConfig3.16.png[Kernel configuration menu]
+image::figures/KernelConfig5.10.png[Kernel configuration menu]
 
 You can use the arrow keys to navigate. No changes need to be made, so you can just press the right arrow and Enter to start the kernel compiling. The entire process took about 25 minutes on my 8-core host. 
 
@@ -367,35 +367,37 @@ The +./build_deb.sh+ script creates a single +.deb+ file that contains all the f
 <pre data-type="programlisting">
 host$ <strong>cd ti-linux-kernel-dev/deploy</strong>
 host$ <strong>ls -sh</strong>
-total 40M
-7.3M linux-headers-5.8.11-bone17_1xross_armhf.deb  8.0K linux-upstream_1xross_armhf.buildinfo
- 31M linux-image-5.8.11-bone17_1xross_armhf.deb    4.0K linux-upstream_1xross_armhf.changes
+total 42M
+7.7M linux-headers-5.10.120-ti-r48_1xross_armhf.deb  8.0K linux-upstream_1xross_armhf.buildinfo
+ 33M linux-image-5.10.120-ti-r48_1xross_armhf.deb    4.0K linux-upstream_1xross_armhf.changes
 1.1M linux-libc-dev_1xross_armhf.deb
 </pre>
 ++++
 
-The linux-image- file is the one we want. It contains nearly 3000 files.
+The +linux-image-+ file is the one we want. It contains over 3000 files.
 
 ++++
 <pre data-type="programlisting">
 host$ <strong>dpkg -c linux-image-5.8.11-bone17_1xross_armhf.deb  | wc</strong>
-   2981   17886  342664
+   3177   19062  371016
 </pre>
 ++++
-The +dpkg+ command lists all the files in the .deb file and the +wc+ counts all the lines in the output. You can see those files with:
+The +dpkg -c+ command lists the contents (all the files) in the .deb file and the +wc+ counts all the lines in the output. You can see those files with:
 
 ++++
 <pre data-type="programlisting">
 bone$ <strong>dpkg -c linux-image-5.8.11-bone17_1xross_armhf.deb  | less</strong>
-drwxr-xr-x root/root         0 2020-09-29 14:16 ./
-drwxr-xr-x root/root         0 2020-09-29 14:16 ./boot/
--rw-r--r-- root/root   4285674 2020-09-29 14:16 ./boot/System.map-5.8.11-bone17
--rw-r--r-- root/root    182474 2020-09-29 14:16 ./boot/config-5.8.11-bone17
-drwxr-xr-x root/root         0 2020-09-29 14:16 ./boot/dtbs/
-drwxr-xr-x root/root         0 2020-09-29 14:16 ./boot/dtbs/5.8.11-bone17/
--rwxr-xr-x root/root     87267 2020-09-29 14:16 ./boot/dtbs/5.8.11-bone17/am335x-abbbi.dtb
--rwxr-xr-x root/root     86826 2020-09-29 14:16 ./boot/dtbs/5.8.11-bone17/am335x-baltos-ir2110.dtb
--rwxr-xr-x root/root     87544 2020-09-29 14:16 ./boot/dtbs/5.8.11-bone17/am335x-baltos-ir3220.dtb
+drwxr-xr-x root/root         0 2022-08-08 22:43 ./
+drwxr-xr-x root/root         0 2022-08-08 22:43 ./boot/
+-rw-r--r-- root/root   4749032 2022-08-08 22:43 ./boot/System.map-5.10.120-ti-r48
+-rw-r--r-- root/root    190604 2022-08-08 22:43 ./boot/config-5.10.120-ti-r48
+drwxr-xr-x root/root         0 2022-08-08 22:43 ./boot/dtbs/
+drwxr-xr-x root/root         0 2022-08-08 22:43 ./boot/dtbs/5.10.120-ti-r48/
+-rwxr-xr-x root/root     90652 2022-08-08 22:43 ./boot/dtbs/5.10.120-ti-r48/am335x-baltos-ir2110.dtb
+-rwxr-xr-x root/root     91370 2022-08-08 22:43 ./boot/dtbs/5.10.120-ti-r48/am335x-baltos-ir3220.dtb
+-rwxr-xr-x root/root     91641 2022-08-08 22:43 ./boot/dtbs/5.10.120-ti-r48/am335x-baltos-ir5221.dtb
+-rwxr-xr-x root/root     88692 2022-08-08 22:43 ./boot/dtbs/5.10.120-ti-r48/am335x-base0033.dtb
+-rwxr-xr-x root/root    197471 2022-08-08 22:43 ./boot/dtbs/5.10.120-ti-r48/am335x-bone-uboot-univ.dtb
 </pre>
 ++++
 
@@ -410,7 +412,7 @@ Move the +linux-image-+ file to your Bone.
 
 ++++
 <pre data-type="programlisting">
-host$ <strong>scp linux-image-5.8.11-bone17_1xross_armhf.deb bone:.</strong>
+host$ <strong>scp linux-image-5.10.120-ti-r48_1xross_armhf.deb bone:.</strong>
 </pre>
 ++++
 Hint: You might have to use debian@192.168.7.2 for bone if you haven't set everything up.
@@ -421,14 +423,14 @@ Now ssh to the bone.
 <pre data-type="programlisting">
 host$ <strong>ssh bone</strong>
 bone$ <strong>ls -sh</strong>
-bin  exercises linux-image-5.8.11-bone17_1xross_armhf.deb
+bin  exercises linux-image-5.10.120-ti-r48_1xross_armhf.deb
 </pre>
 ++++
 Now install it.
 
 ++++
 <pre data-type="programlisting">
-bone$ <strong>sudo dpkg --install linux-image-5.8.11-bone17_1xross_armhf.deb</strong>
+bone$ <strong>sudo dpkg --install linux-image-5.10.120-ti-r48_1xross_armhf.deb</strong>
 </pre>
 ++++
 
@@ -437,12 +439,17 @@ Wait a while. Once done check +/boot+.
 ++++
 <pre data-type="programlisting">
 bone$ <strong>ls -sh /boot</strong>
-total 40M
-160K config-4.19.94-ti-r50      4.0K SOC.sh                     4.0K uEnv.txt.orig
-180K config-5.8.11-bone17       3.5M System.map-4.19.94-ti-r50  9.7M vmlinuz-4.19.94-ti-r50
-4.0K dtbs                       4.1M System.map-5.8.11-bone17   8.6M vmlinuz-5.8.11-bone17
-6.4M initrd.img-4.19.94-ti-r50  4.0K uboot
-6.8M initrd.img-5.8.11-bone17   4.0K uEnv.txt
+total 122M
+188K config-5.10.120-ti-r46      7.6M initrd.img-5.10.120-ti-rt-r47  4.0K uEnv.txt
+188K config-5.10.120-ti-r47       13M initrd.img-5.10.120-ti-rt-r48  4.0K uEnv.txt.orig
+188K config-5.10.120-ti-r48      4.0K SOC.sh                         9.9M vmlinuz-5.10.120-ti-r46
+188K config-5.10.120-ti-rt-r47   4.5M System.map-5.10.120-ti-r46      11M vmlinuz-5.10.120-ti-r47
+188K config-5.10.120-ti-rt-r48   4.6M System.map-5.10.120-ti-r47      11M vmlinuz-5.10.120-ti-r48
+4.0K dtbs                        4.6M System.map-5.10.120-ti-r48      11M vmlinuz-5.10.120-ti-rt-r47
+7.5M initrd.img-5.10.120-ti-r46  4.6M System.map-5.10.120-ti-rt-r47   11M vmlinuz-5.10.120-ti-rt-r48
+7.6M initrd.img-5.10.120-ti-r47  4.6M System.map-5.10.120-ti-rt-r48
+ 13M initrd.img-5.10.120-ti-r48  4.0K uboot
+
 </pre>
 ++++
 You see the new kernel files. Check +uEnv.txt+.
@@ -451,8 +458,8 @@ You see the new kernel files. Check +uEnv.txt+.
 <pre data-type="programlisting">
 bone$ <strong>head /boot/uEnv.txt</strong>
 #Docs: http://elinux.org/Beagleboard:U-boot_partitioning_layout_2.0
-# uname_r=4.19.94-ti-r50
-uname_r=5.8.11-bone17
+uname_r=5.10.120-ti-r48
+# uname_r=5.10.120-ti-rt-r47
 </pre>
 ++++
 
