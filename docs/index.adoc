@@ -40,7 +40,7 @@ A cookbook for programming Beagles
   ** [x] Measuring a Temperature
   ** [x] Reading Temperature via a Dallas 1-Wire Device
   ** [x] Commented out: Sensing All Sorts of Things with SensorTag via Bluetooth v4.0
-  ** [ ] Playing and Recording Audio
+  ** [x] Commented out: Playing and Recording Audio
   
 . link:03displays/displays.html[Displays]
   ** [ ] Introduction

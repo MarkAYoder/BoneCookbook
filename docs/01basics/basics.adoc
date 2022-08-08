@@ -35,7 +35,7 @@ image::figures/pluggingIn.jpg[Plugging In]
 
 ((("USER LEDs")))((("LEDs", "USER LEDs", seealso="input/output (I/O)")))The four blue +USER+ LEDs will begin to blink, and in 10 or 15 seconds, you'll see a new USB drive appear on your host computer. <<basics_01gettingStarted_fig>> shows how it will appear on a Windows host, and Linux and Mac hosts will look similar. The Bone acting like a USB drive and the files you see are located on the Bone.
 
-// To Do Update
+// TODO Update
 [[basics_01gettingStarted_fig]]
 .The Bone appears as a USB drive
 image::figures/01GettingStarted.png[A new USB drive]
@@ -90,23 +90,6 @@ I'm running the 2022-07-01 version.
 
 ==== Discussion
 
-[[basics_repo]]
-=== Cloning the Cookbook Repository
-
-==== Problem
-You want to run the Cookbook examples.
-
-==== Solution
-Connect your Bone to the Internet and log into it.  From the command line run:
-++++
-<pre data-type="programlisting">
-bone$ <strong>git clone git@github.com:MarkAYoder/BoneCookbook.git</strong>
-bone$ <strong>cd BoneCookbook/docs</strong>
-bone$ <strong>ls</strong>
-</pre>
-++++
-You can look around from the command line, or explore from Visual Sudio Code. If you ar using VSC, go to the _File_ menu and select _Open Folder ..._ and selet +BoneCookbook/docs+. Then explore.   You'll find there is a directory for each chapter and most chapters have a _code_ directory for the sample scripts and a _figures_ directory for the figures.  
-
 === Running the Python and JavaScript Examples
 
 ==== Problem
@@ -123,6 +106,25 @@ Plug your board into the USB of your host computer and browse to http://192.168.
 ====
 
 ==== Discussion
+
+
+[[basics_repo]]
+=== Cloning the Cookbook Repository
+
+==== Problem
+You want to run the Cookbook examples.
+// TODO update for new docs
+
+==== Solution
+Connect your Bone to the Internet and log into it.  From the command line run:
+++++
+<pre data-type="programlisting">
+bone$ <strong>git clone git@github.com:MarkAYoder/BoneCookbook.git</strong>
+bone$ <strong>cd BoneCookbook/docs</strong>
+bone$ <strong>ls</strong>
+</pre>
+++++
+You can look around from the command line, or explore from Visual Sudio Code. If you ar using VSC, go to the _File_ menu and select _Open Folder ..._ and selet +BoneCookbook/docs+. Then explore.   You'll find there is a directory for each chapter and most chapters have a _code_ directory for the sample scripts and a _figures_ directory for the figures.  
 
 
 [[basics_wire_breadboard]]
@@ -200,7 +202,7 @@ bone$ <strong>./seqLEDs.py</strong>
 </pre>
 ++++
 
-The +cd+ is the change directory command. After you +cd+, you are in a new directory. Finally, +./seqLEDs.py+ instructs the python script to run. You will need to press ^C (Ctrl-C) to stop your program.
+The +cd+ is the change directory command. After you +cd+, you are in a new directory. Finally, +./seqLEDs.py+ instructs the Python script to run. You will need to press ^C (Ctrl-C) to stop your program.
 
 ==== Discussion
 

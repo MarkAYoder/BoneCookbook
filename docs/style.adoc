@@ -44,6 +44,7 @@ image::sunset.jpg[Sunset,300,200]
 * PocketBeagle
 * BeagleBone
 * GPIO
+* Python
 * `P9`
 * TODO
 * I^2^C

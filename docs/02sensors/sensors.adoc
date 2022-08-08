@@ -238,8 +238,8 @@ or
 .Wiring a 10k&#8486; variable resistor (trimpot) to an ADC port
 image::figures/analogIn_bb.png[Analog]
 
-<<sensors_analogIn_code>> shows the BoneScript code used to read the variable resistor.  
-Add the code to a file called _analogIn.js_ and run it; then change the resistor and run it again. The voltage read will change.
+<<py_analogIn_code>> shows the Python code used to read the variable resistor.  
+Add the code to a file called _analogIn.py_ and run it; then change the resistor and run it again. The voltage read will change.
 
 [[py_analogIn_code]]
 .Reading an analog voltage (analogIn.py)

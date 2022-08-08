@@ -32,7 +32,7 @@ Locate the four onboard LEDs shown in <<js_internLED_fig>>. They are labeled +US
 .The four +USER+ LEDs
 image::figures/internLED.png["USER LEDs"]
 
-Place the code shown in <<js_internLED_code>> in a file called _internLED.js_. You can do this using VSC to edit files (as shown in <<basics_vsc>>) or with a more traditional editor (as shown in <<tips_editing_files>>).
+Place the code shown in <<py_internLED_code>> in a file called _internLED.py_. You can do this using VSC to edit files (as shown in <<basics_vsc>>) or with a more traditional editor (as shown in <<tips_editing_files>>).
 
 [[py_internLED_code]]
 .Using an internal LED (internLED.py)
@@ -79,7 +79,7 @@ The +USER0+ LED should now be flashing.
 ==== Solution
 Connect an LED to one of the GPIO pins using a series resistor to limit the current.  To make this recipe, you will need:
 
-* Breadboard and jumper wires (see <<app_proto>>)
+* Breadboard and jumper wires (<<app_proto>>)
 * 220 &#8486; to 470 &#8486; resistor (see <<app_resistor>>)
 * LED (see <<app_opto>>)
 
@@ -151,7 +151,7 @@ After you've wired it, because this uses the same output pin as <<displays_exter
 
 ==== Solution
 
-((("analogWrite()")))((("b.analogWrite()")))((("pulse width modulation (PWM)"))) Use the Bone's pulse width modulation (PWM) hardware to fade an LED. We'll use the same circuit as before (<<displays_externLED_fig>>). Find the code in <<py_fadeLED_code>>Next configure the pins.  We are using P9_14 so run:
+((("analogWrite()")))((("b.analogWrite()")))((("pulse width modulation (PWM)"))) Use the Bone's pulse width modulation (PWM) hardware to fade an LED. We'll use the same circuit as before (<<displays_externLED_fig>>). Find the code in <<py_fadeLED_code>> Next configure the pins.  We are using P9_14 so run:
 
 ++++
 <pre>
@@ -186,15 +186,13 @@ include::code/fadeLED.js[]
 ====
 
 ==== Discussion
-The Bone has several outputs that can be use as pwm's as shown in <<cape-headers-pwm_fig>>.  There are three +EHRPWM+'s which each has a pair  of pwm channels.  Each pair must have the same period.  
+The Bone has several outputs that can be used as pwm's as shown in <<cape-headers-pwm_fig>>.  There are three +EHRPWM+'s (enhanced high resolution pulse width modulation) which each has a pair  of pwm channels.  Each pair must have the same pulse period.  
 
 [[cape-headers-pwm_fig]]
 .Table of PWM outputs
 image::figures/cape-headers-pwm.png["PWM outputs"]
 
 The pwm's are accessed through +/dev/bone/pwm+
-
-// TODO  Should this be /dev/bone/pwm?
 
 ++++
 <pre>
@@ -203,7 +201,7 @@ bone$ <strong>ls</strong>
 0  1  2
 </pre>
 ++++
-Here we see six pwmchips that can be used, each has two channels.  Explore one.
+Here we see three pwmchips that can be used, each has two channels.  Explore one.
 ++++
 <pre>
 bone$ <strong>cd 1</strong>
@@ -229,6 +227,7 @@ Your LED should now be flashing.
 <<display_pwm_mapping>> are the mapping I've figured out so far. I don't know how to get to the timers.
 [[display_pwm_mapping]]
 .Headers to pwm channel mapping.
+[%autowidth]
 |====
 | Pin   | pwm | channel
 | P9_31 | 0   | a
@@ -306,7 +305,7 @@ include::code/matrixLEDi2c.py[]
 
 ----
 ====
-<1> This line states which bus to use. The last digit gives the BoneScript bus number.
+<1> This line states which bus to use.
 
 <2> This specifies the address of the LED matrix, +0x70+ in our case.
 
@@ -322,7 +321,7 @@ include::code/matrixLEDi2c.py[]
 
 [[displays_drive5V]]
 === Driving a 5 V Device
-
+// TODO  Not tested for 2nd edition
 ==== Problem
 ((("outputs", "controlling 5 V devices")))((("hardware", "5 V devices")))((("5 V devices")))((("level translators")))((("PCA9306 level translator")))You have a 5 V device to drive, and the Bone has 3.3 V outputs.
 
@@ -362,7 +361,7 @@ The PRU Cookbook has a nice discussion (https://markayoder.github.io/PRUCookbook
 .Wiring an Adafruit NeoPixel LED matrix to +P9_29+
 image::figures/neo_bb.png["NeoPixel Ring"]
 
-=== Writing to a NeoPixel LED String Using LEDscape
+// === Writing to a NeoPixel LED String Using LEDscape
 // // TODO Remove?
 // ==== Problem
 // ((("displays", "NeoPixel LED strings")))((("outputs", "NeoPixel LED strings")))((("Adafruit Neopixel LED strings")))((("Neopixel LED strings")))((("LEDs", "Adafruit Neopixel LED strings")))You have an http://www.adafruit.com/products/1138[Adafruit NeoPixel LED string] or http://www.adafruit.com/products/1487[Adafruit NeoPixel LED matrix] and want to light it up.
@@ -390,33 +389,33 @@ image::figures/neo_bb.png["NeoPixel Ring"]
 
 // ==== Discussion
 
-=== Making Your Bone Speak
+// === Making Your Bone Speak
+// // TODO Not tested for 2nd edition
+// ==== Problem
+// ((("text-to-speech programs")))((("flite text-to-speech program")))((("audio files", "text-to-speech programs")))((("speech")))((("files", "audio")))Your Bone wants to talk.
 
-==== Problem
-((("text-to-speech programs")))((("flite text-to-speech program")))((("audio files", "text-to-speech programs")))((("speech")))((("files", "audio")))Your Bone wants to talk.
+// ==== Solution
+// Just install the _flite_ text-to-speech program:
 
-==== Solution
-Just install the _flite_ text-to-speech program:
+// ++++
+// <pre data-type="programlisting">
+// bone$ <strong>sudo apt install flite</strong>
+// </pre>
+// ++++
 
-++++
-<pre data-type="programlisting">
-bone$ <strong>sudo apt install flite</strong>
-</pre>
-++++
+// Then add the code from <<speak_code>> in a file called _speak.js_ and run.
 
-Then add the code from <<speak_code>> in a file called _speak.js_ and run.
+// [[speak_code]]
+// .A program that talks (speak.js)
+// ====
+// [source, javascript]
+// ----
 
-[[speak_code]]
-.A program that talks (speak.js)
-====
-[source, javascript]
-----
+// include::code/speak.js[]
 
-include::code/speak.js[]
+// ----
+// ====
 
-----
-====
+// See <<sensors_audio>> to see how to use a USB audio dongle and set your default audio out.
 
-See <<sensors_audio>> to see how to use a USB audio dongle and set your default audio out.
-
-==== Discussion
+// ==== Discussion
