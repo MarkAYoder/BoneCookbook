@@ -208,7 +208,7 @@ The LED should be turning on and off with the commands.
 <<kernel_LEDs>> introduces the +sysfs+. This recipe shows how to read and write a GPIO pin. 
 
 ===== Reading a GPIO Pin via sysfs
-Suppose that you want to read the state of the +P9_42+ GPIO pin. (<<sensors_pushbutton>> shows how to wire a switch to +P9_42+.)  First, you need to map the +P9+ header location to GPIO number using <<kernel_gpio_map_fig>>, which shows that +P9_42+ maps to GPIO 7.
+Suppose that you want to read the state of the +P9_42+ GPIO pin. (<<sensors_pushbutton>> shows how to wire a switch to +P9_42+.)  First, you need to map the +P9+ header location to GPIO number using <<kernel_gpio_map_fig>>, which shows that +P9_42+ maps to GPIO 7. Or you can follow these <<sensors_mappiing>>.
 
 [[kernel_gpio_map_fig]]
 .Mapping P9_42 header position to GPIO 7
@@ -302,7 +302,7 @@ The LED turns on when a +1+ is written to +value+ and turns off when a +0+ is wr
 
 [[kernel_compiling]]
 === Compiling the Kernel
-
+// TODO  check this
 ==== Problem
 ((("Linux kernel", "compiling")))You need to download, patch, and compile the kernel from its source code.
 
@@ -320,19 +320,34 @@ Be sure to run this recipe on your host computer. The Bone has enough computatio
 
 [source, bash]
 ----
-host$ git clone https://github.com/RobertCNelson/bb-kernel.git # <1>
-host$ cd bb-kernel
+host$ git clone git@github.com:RobertCNelson/ti-linux-kernel-dev.git # <1>
+host$ cd ti-linux-kernel-dev/
 host$ git tag # <2>
-host$ git checkout 3.8.13-bone60 -b v3.8.13-bone60 # <3>
-host$ ./build_kernel.sh # <4>
+host$ git checkout 5.10.120-ti-r48 -b 5.10.120-ti-r48 # <3>
+host$ time ./build_deb.sh # <4>
 ----
+
 <1> The first command clones a repository with the tools to build the kernel for the Bone.
 
 <2> This command lists all the different versions of the kernel that you can build. You'll need to pick one of these. How do you know which one to pick? A good first step is to choose the one you are currently running.  +uname -a+ will reveal which one that is. When you are able to reproduce the current kernel, go to http://kernelnewbies.org/[Linux Kernel Newbies] to see what features are available in other kernels. http://bit.ly/1AjiL00[LinuxChanges] shows the features in the newest kernel and http://bit.ly/1MrIHx3[LinuxVersions] links to features of pervious kernels.
 
 <3> When you know which kernel to try, use +git checkout+ to check it out. This command checks out at tag +3.8.13-bone60+ and creates a new branch, +v3.8.13-bone60+.
 
-<4> +build_kernel+ is the master builder. If needed, it will download the cross compilers needed to compile the kernel (linaro [http://www.linaro.org/] is the current cross compiler). If there is a kernel at _~/linux-dev_, it will use it; otherwise, it will download a copy to _bb-kernel/ignore/linux-src_. It will then patch the kernel so that it will run on the Bone. 
+<4> +build_kernel+ is the master builder. If needed, it will download the cross compilers needed to compile the kernel (linaro [http://www.linaro.org/] is the current cross compiler). If there is a kernel at _~/linux-dev_, it will use it; otherwise, it will download a copy to _ti-linux-kernel-dev/ignore/linux-src_. It will then patch the kernel so that it will run on the Bone. 
+
+[NOTE]
+====
+Here is another repo to use for non-ti kernels.
+
+[source, bash]
+----
+host$ git clone https://github.com/RobertCNelson/bb-kernel.git # <1>
+host$ cd bb-kernel
+host$ git tag # <2>
+host$ git checkout 3.8.13-bone60 -b v3.8.13-bone60 # <3>
+host$ ./build_kernel.sh # <4>
+----
+====
 
 After the kernel is patched, you'll see a screen similar to <<kernel_config_fig>>, on which you can configure the kernel.
 
@@ -342,11 +357,11 @@ image::figures/KernelConfig3.16.png[Kernel configuration menu]
 
 You can use the arrow keys to navigate. No changes need to be made, so you can just press the right arrow and Enter to start the kernel compiling. The entire process took about 25 minutes on my 8-core host. 
 
-The _bb-kernel/KERNEL_ directory contains the source code for the kernel. The _bb-kernel/deploy_ directory contains the compiled kernel and the files needed to run it.
+The _ti-linux-kernel-dev/KERNEL_ directory contains the source code for the kernel. The _ti-linux-kernel-dev/deploy_ directory contains the compiled kernel and the files needed to run it.
 
 [[kernel_install]]
 ===== Installing the Kernel on the Bone
-((("Linux kernel", "installing")))To copy the new kernel and all its files to the microSD card, you need to halt the Bone, and then pull the microSD card out and put it in an microSD card reader on your host computer. Run +Disk+ (see <<basics_latest_os>>) to learn where the microSD card appears on your host (mine appears in _/dev/sdb_). Then open the _bb-kernel/system.sh_ file and find this line near the end:
+((("Linux kernel", "installing")))To copy the new kernel and all its files to the microSD card, you need to halt the Bone, and then pull the microSD card out and put it in an microSD card reader on your host computer. Run +Disk+ (see <<basics_latest_os>>) to learn where the microSD card appears on your host (mine appears in _/dev/sdb_). Then open the _ti-linux-kernel-dev/system.sh_ file and find this line near the end:
 
 [source, console]
 ----
@@ -360,7 +375,7 @@ Change that line to look like this (where +/dev/sdb+ is the path to your device)
 MMC=/dev/sdb
 ----
 
-Now, while in the _bb-kernel_ directory, run the following command:
+Now, while in the _ti-linux-kernel-dev_ directory, run the following command:
 
 ++++
 <pre data-type="programlisting">
@@ -415,11 +430,11 @@ Then skip down to <<kernel_skip_to_here>>.
 
 ==== Solution
 
-<<kernel_compiling>> installs a cross compiler, but you need to set up a couple of things so that it can be found. <<kernel_compiling>> installed the kernel and other tools in a directory called _bb-kernel_. Run the following commands to find the path to the cross compiler:
+<<kernel_compiling>> installs a cross compiler, but you need to set up a couple of things so that it can be found. <<kernel_compiling>> installed the kernel and other tools in a directory called _ti-linux-kernel-dev_. Run the following commands to find the path to the cross compiler:
 
 ++++
 <pre data-type="programlisting">
-host$ <strong>cd bb-kernel/dl</strong>
+host$ <strong>cd ti-linux-kernel-dev/dl</strong>
 host$ <strong>ls</strong>
 gcc-linaro-arm-linux-gnueabihf-4.7-2013.04-20130415_linux
 gcc-linaro-arm-linux-gnueabihf-4.7-2013.04-20130415_linux.tar.xz
@@ -467,7 +482,7 @@ What you see are all the cross-development tools. You need to add this directory
 ++++
 <pre data-type="programlisting">
 host$ <strong>pwd</strong>
-/home/yoder/BeagleBoard/bb-kernel/dl/\
+/home/yoder/BeagleBoard/ti-linux-kernel-dev/dl/\
     gcc-linaro-arm-linux-gnueabihf-4.7-2013.04-20130415_linux/bin
     
 host$ <strong>echo $PATH</strong>
@@ -482,7 +497,7 @@ The first command displays the path to the directory where the cross-development
 <pre data-type="programlisting">
 host$ <strong>export PATH=`pwd`:$PATH</strong>
 host$ <strong>echo $PATH</strong>
-/home/yoder/BeagleBoard/bb-kernel/dl/\
+/home/yoder/BeagleBoard/ti-linux-kernel-dev/dl/\
     gcc-linaro-arm-linux-gnueabihf-4.7-2013.04-20130415_linux/bin:\
     /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:\
     /usr/games:/usr/local/games
@@ -560,13 +575,13 @@ include::code/hello.patch[]
 Here's how to use it:
 
 . Install the kernel sources (<<kernel_compiling>>).
-. Change to the kernel directory (+cd bb-kernel/KERNEL+).
-. Add <<kernel_hello_patch>> to a file named _hello.patch_ in the _bb-kernel/KERNEL_ directory.
+. Change to the kernel directory (+cd ti-linux-kernel-dev/KERNEL+).
+. Add <<kernel_hello_patch>> to a file named _hello.patch_ in the _ti-linux-kernel-dev/KERNEL_ directory.
 . Run the following commands:
 
 ++++
 <pre data-type="programlisting">
-host$ <strong>cd bb-kernel/KERNEL</strong>
+host$ <strong>cd ti-linux-kernel-dev/KERNEL</strong>
 host$ <strong>patch -p1 &lt; hello.patch</strong>
 patching file hello/Makefile
 patching file hello/hello.c
@@ -597,7 +612,7 @@ Create a patch file that contains just the changes you have made. Before making 
 
 ++++
 <pre data-type="programlisting">
-host$ <strong>cd bb-kernel/KERNEL</strong>
+host$ <strong>cd ti-linux-kernel-dev/KERNEL</strong>
 host$ <strong>git status</strong>
 # On branch master
 nothing to commit (working directory clean)
@@ -619,7 +634,7 @@ You've created a new branch called _hello1_ and checked it out. Now, make whatev
 
 ++++
 <pre data-type="programlisting">
-host$ <strong>cd bb-kernel/KERNEL/drivers/char/</strong>
+host$ <strong>cd ti-linux-kernel-dev/KERNEL/drivers/char/</strong>
 host$ <strong>git status</strong>
 # On branch hello1
 # Changes not staged for commit:
