@@ -14,7 +14,6 @@
 # See https://elinux.org/index.php?title=EBC_Exercise_10a_Analog_In#Analog_in_-_Continuous.2C_Change_the_sample_rate
 # for instructions on changing the sampling rate.  Can go up to 200KHz.
 
-fd = open(IIODEV, "r")
 import numpy      as np
 import gnuplotlib as gp
 import time
