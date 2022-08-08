@@ -1,5 +1,5 @@
 ////////////////////////////////////////
-//	blinkLED.c
+//	pushLED.c
 //	Blinks the P9_14 pin based on the P9_42 pin
 //	Wiring:
 //	Setup:
