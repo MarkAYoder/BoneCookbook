@@ -170,6 +170,7 @@ If you want to use the magnetic reed switch wired as shown in <<js_pushbutton_fi
 
 ==== Discussion
 
+[[sensors_mappiing]]
 === Mapping Header Numbers to gpio Numbers
 
 ==== Problem
