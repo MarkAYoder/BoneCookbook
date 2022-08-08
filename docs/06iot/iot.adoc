@@ -145,7 +145,7 @@ include::code/flask/helloWorld.py[simple flask-based web server]
 
 <4> The last line says to “listen” on port 8080, reporting any errors.
 
-Now on your host computer, browse to 192.168.7.2:8080flask an you should see.
+Now on your host computer, browse to +192.168.7.2:8080+ and you should see.
 
 [[flask_flaskServer]]
 .Test page served by our custom flask server
@@ -157,7 +157,7 @@ Let’s improve our “hello, world” application, by using an HTML template an
 Here's what's in *templates/index1.html*:
 
 [[flask_index1]]
-.Python code for flask hello world (helloWorld.py)
+.html code for flask hello world (index1.html)
 ====
 [source, html]
 ----
@@ -191,7 +191,7 @@ Execute the Python script:
 
 ++++
 <pre data-type="programlisting">
-bone$ <strong>.\app.py</strong>
+bone$ <strong>.\app1.py</strong>
 </pre>
 ++++
 
@@ -201,7 +201,7 @@ Open any web browser and browse to 192.168.7.2:8080. You should see:
 .Test page served by app1.py
 image::figures/flaskapp1.png[app1.py]
 
-Note that the page’s content changes dynamically any time that you refresh it with the actual variable data passed by Python script. In our case, “title” is a fixed value, but “time” change it every second.
+Note that the page’s content changes dynamically any time that you refresh it with the actual variable data passed by Python script. In our case, “title” is a fixed value, but “time” changes every second.
 
 === Displaying GPIO Status in a Web Browser - reading a button
 
@@ -307,13 +307,13 @@ For the above example, *ledRed* is the “deviceName” and *on* or *off* are ex
 The integer variable ledRed is equivalent to P9_14. We store this value on variable “actuator”
 
 * For each actuator, we will analyze the “action”, or “command” and act properly.
-If “action = on” for example, we must use the command: GPIO.output(actuator, GPIO.HIGH)
+If “action = on” for example, we must use the command: +f.write("1")+
 
 * Update the status of each actuator
 * Update the variable library
 * Return the data to index.html
 
-Let’s now create an index.html to show the GPIO status of each actuator and more important, create “buttons” to send the commands:
+Let’s now create an index.html to show the GPIO status of each actuator and more importantly, create “buttons” to send the commands:
 
 [[flask_index3]]
 .A simple Flask-based web server to write a GPIO (index3.html)
@@ -373,7 +373,7 @@ in_voltage0_type   in_voltage2_en     in_voltage3_index  in_voltage4_type   in_v
 in_voltage1_en     in_voltage2_index  in_voltage3_type   in_voltage5_en     in_voltage6_index  in_voltage7_type
 </pre>
 ++++
-Here you see three values for each analog input, _en (enable), _index (index of this channel in the buffer’s chunks) and _type (How the ADC stores its data). (See the link above for details.) Let's use the input at *P9.40* which is *AIN1*. To enable this input:
+Here you see three values for each analog input, _en (enable), _index (index of this channel in the buffer’s chunks) and _type (How the ADC stores its data). (See the link above for details.) Let's use the input at *P9_40* which is *AIN1*. To enable this input:
 
 ++++
 <pre data-type="programlisting">
@@ -427,7 +427,7 @@ Run it:
 <pre data-type="programlisting">
 host$ <strong>ssh -X bone</strong>
 
-bone$ <strong>cd <Cookbook repo>/doc/06iot/code>/strong>
+bone$ <strong>cd <Cookbook repo>/doc/06iot/code</strong>
 bone$ <strong>./analogInContinuous.py</strong>
 Hit ^C to stop
 </pre>
@@ -496,7 +496,7 @@ bone$ <strong>make</strong>
 gcc -o config-pin ./tools/pmunts_muntsos/config-pin.c
 </pre>
 ++++
-It knows to only recompile the file you just edited. Now install and reboot.
++make+ knows to only recompile the file you just edited. Now install and reboot.
 ++++
 <pre>
 bone$ <strong>sudo make install</strong>
@@ -517,7 +517,7 @@ bone$ <strong>./analogInContinuous.py</strong>
 Hit ^C to stop
 </pre>
 ++++
-Here's the output of a 10KHz sine wave. 
+Here's the output of a 10KHz triangle wave. 
 // TODO  Is this trun: (The plot is wrong, but eLinux won't let me fix it.)
 [[analog_tri_fig]]
 .10KHz triangle wave sampled at 200KHz
@@ -546,7 +546,7 @@ First, you need to https://mail.google.com[set up a Gmail account], if you don't
 * Be sure to delete password when done https://myaccount.google.com/apppasswords .
 
 [[networking_nodemailer_code]]
-.Sending email using nodemailer (emailtTest.py)
+.Sending email using nodemailer (emailTest.py)
 ====
 [source, python]
 ----
@@ -573,39 +573,39 @@ bone$ <strong>.\emailTest.py</strong>
 
 See https://realpython.com/python-send-email/ for an example that sends an attached file.
 
-=== Sending an SMS Message
+// === Sending an SMS Message
 
-// TODO  My twilio account is suspended.
+// // TODO  My twilio account is suspended.
 
-==== Problem
-((("networking", "sending SMS messages")))((("SMS messages")))((("text messages")))((("Twilio")))You want to send a text message from BeagleBone Black.
+// ==== Problem
+// ((("networking", "sending SMS messages")))((("SMS messages")))((("text messages")))((("Twilio")))You want to send a text message from BeagleBone Black.
 
-==== Solution
-There are a number of SMS services out there. This recipe uses Twilio because you can use it for free, but you will need to http://bit.ly/1MrHBBF[verify the number] to which you are texting. First, go to https://www.twilio.com/[Twilio's home page] and set up an account. Note your account SID and authorization token. If you are using the free version, be sure to http://bit.ly/19c7GZ7[verify your numbers].
+// ==== Solution
+// There are a number of SMS services out there. This recipe uses Twilio because you can use it for free, but you will need to http://bit.ly/1MrHBBF[verify the number] to which you are texting. First, go to https://www.twilio.com/[Twilio's home page] and set up an account. Note your account SID and authorization token. If you are using the free version, be sure to http://bit.ly/19c7GZ7[verify your numbers].
 
-Next, install Trilio by using the following command:
+// Next, install Trilio by using the following command:
 
-++++
-<pre data-type="programlisting">
-bone$ <strong>npm install -g twilio</strong>
-</pre>
-++++
+// ++++
+// <pre data-type="programlisting">
+// bone$ <strong>npm install -g twilio</strong>
+// </pre>
+// ++++
 
-Finally, add the code in <<networking_twilio_code>> to a file named _twilio-test.js_ and run it. Your text will be sent.
+// Finally, add the code in <<networking_twilio_code>> to a file named _twilio-test.js_ and run it. Your text will be sent.
 
-[[networking_twilio_code]]
-.Sending SMS messages using Twilio (_twilio-test.js_)
-====
-[source, js]
-----
+// [[networking_twilio_code]]
+// .Sending SMS messages using Twilio (_twilio-test.js_)
+// ====
+// [source, js]
+// ----
 
-include::code/twilio-test.js[nodemailer-test.js]
+// include::code/twilio-test.js[nodemailer-test.js]
 
-----
-====
+// ----
+// ====
 
-==== Discussion
-Twilio allows a small number of free text messages, enough to test your code and to play around some.
+// ==== Discussion
+// Twilio allows a small number of free text messages, enough to test your code and to play around some.
 
 === Displaying the Current Weather Conditions
 
@@ -643,7 +643,6 @@ Run this by using the following commands:
 
 ++++
 <pre data-type="programlisting">
-bone$ <strong>chmod +x weather.py</strong>
 bone$ <strong>./weather.js</strong>
 Getting weather
 Temp:  85.1
@@ -669,8 +668,8 @@ https://twitter.com/[Twitter] has a whole https://github.com/twitterdev/Twitter-
 ===== Creating a Project and App
 
 * Follow the https://developer.twitter.com/en/docs/apps/overview[directions here] to create a project and and app. 
-* Be sure to giv eyour app Read and Write permission.
-* Then go to the https://developer.twitter.com/en/portal/projects-and-apps[developer portal] and select you app by clicking on the gear icon to the right of the app name.  
+* Be sure to give your app Read and Write permission.
+* Then go to the https://developer.twitter.com/en/portal/projects-and-apps[developer portal] and select your app by clicking on the gear icon to the right of the app name.  
 * Click on the *Keys and tokens* tab. Here you can get to all your keys and tokens.  
 
 [TIP]
@@ -696,7 +695,7 @@ bash$ <strong>source twitterKeys.sh</strong>
 You'll need to do this every time you open a new +bash+ window.
 
 ===== Creating a tweet
-Add the code in <<twitter_create_code>> to a file called _twitter_create_tweet_.py_ and run it to see your timeline.
+Run _twitter_create_tweet_.py_ to see your timeline.
 
 [[twitter_create_code]]
 .Create a Tweet (_twitter_create_tweet.py_)
@@ -730,7 +729,7 @@ Record the *id* number and we'll use it next to delete the tweet.
 Use the code in <<twitter_delete_code>> to delete a tweet.  Around line 15 is the *id* number.  Paste in the value returned above.
 
 [[twitter_delete_code]]
-.Code to delete a tweet  (twitter_delete_tweet.py_)
+.Code to delete a tweet  (_twitter_delete_tweet.py_)
 ====
 [source, python]
 ----
@@ -738,154 +737,154 @@ include::code/twitter_delete_tweet.py[]
 ----
 ====
 
-// TODO  Start Here
-The code in <<networking_pushbutton_code>> sends a tweet whenever a button is pushed.
+// // TODO  Start Here
+// The code in <<networking_pushbutton_code>> sends a tweet whenever a button is pushed.
 
-[[networking_pushbutton_code]]
-.Tweet when a button is pushed (twitterPushbutton.js)
-====
-[source, js]
-----
+// [[networking_pushbutton_code]]
+// .Tweet when a button is pushed (twitterPushbutton.js)
+// ====
+// [source, js]
+// ----
 
-include::code/twitterPushbutton.js[]
+// include::code/twitterPushbutton.js[]
 
-----
-====
+// ----
+// ====
 
 To see many other examples, go to http://bit.ly/18AvSTW[iStrategyLabs' node-twitter GitHub page].
 
 ==== Discussion
 This opens up many new possibilities. You can read a temperature sensor and tweet its value whenever it changes, or you can turn on an LED whenever a certain hashtag is used. What are you going to tweet?
 
-[[networking_node_red]]
-=== Wiring the IoT with Node-RED
+// [[networking_node_red]]
+// === Wiring the IoT with Node-RED
+// // TODO  This needs updating
+// ==== Problem
+// ((("networking", "graphical programing via Node-RED")))((("Node-RED")))((("Internet", "interactions via Node-RED")))You want BeagleBone to interact with the Internet, but you want to program it graphically.
 
-==== Problem
-((("networking", "graphical programing via Node-RED")))((("Node-RED")))((("Internet", "interactions via Node-RED")))You want BeagleBone to interact with the Internet, but you want to program it graphically.
+// ==== Solution
+// http://nodered.org/[Node-RED] is a visual tool for wiring the IoT. It makes it easy to turn on a light when a certain hashtag is tweeted, or spin a motor if the forecast is for hot weather.
 
-==== Solution
-http://nodered.org/[Node-RED] is a visual tool for wiring the IoT. It makes it easy to turn on a light when a certain hashtag is tweeted, or spin a motor if the forecast is for hot weather.
+// ===== Installing Node-RED
+// To install Node-RED, run the following commands:
 
-===== Installing Node-RED
-To install Node-RED, run the following commands:
+// ++++
+// <pre data-type="programlisting">
+// bone$ <strong>cd</strong>          # Change to home directory
+// bone$ <strong>git clone https://github.com/node-red/node-red.git</strong>
+// bone$ <strong>cd node-red/</strong>
+// bone$ <strong>npm install --production</strong>    # almost 6 minutes
+// bone$ <strong>cd nodes</strong>
+// bone$ <strong>git clone https://github.com/node-red/node-red-nodes.git</strong> # 2 seconds
+// bone$ <strong>cd ~/node-red</strong>
+// </pre>
+// ++++
 
-++++
-<pre data-type="programlisting">
-bone$ <strong>cd</strong>          # Change to home directory
-bone$ <strong>git clone https://github.com/node-red/node-red.git</strong>
-bone$ <strong>cd node-red/</strong>
-bone$ <strong>npm install --production</strong>    # almost 6 minutes
-bone$ <strong>cd nodes</strong>
-bone$ <strong>git clone https://github.com/node-red/node-red-nodes.git</strong> # 2 seconds
-bone$ <strong>cd ~/node-red</strong>
-</pre>
-++++
+// To run Node-RED, use the following commands:
 
-To run Node-RED, use the following commands:
+// ++++
+// <pre data-type="programlisting">
+// bone$ <strong>cd ~/node-red</strong>
+// bone$ <strong>node red.js</strong>
+// Welcome to Node-RED
+// ===================
 
-++++
-<pre data-type="programlisting">
-bone$ <strong>cd ~/node-red</strong>
-bone$ <strong>node red.js</strong>
-Welcome to Node-RED
-===================
+// 18 Aug 16:31:43 - [red] Version: 0.8.1.git
+// 18 Aug 16:31:43 - [red] Loading palette nodes
+// 18 Aug 16:31:49 - [26-rawserial.js] Info : only really needed for 
+//                   Windows boxes without serialport npm module installed.
+// 18 Aug 16:31:56 - ------------------------------------------
+// 18 Aug 16:31:56 - [red] Failed to register 44 node types
+// 18 Aug 16:31:56 - [red] Run with -v for details
+// 18 Aug 16:31:56 - ------------------------------------------
+// 18 Aug 16:31:56 - [red] Server now running at http://127.0.0.1:1880/
+// 18 Aug 16:31:56 - [red] Loading flows : flows_yoder-debian-bone.json
+// </pre>
+// ++++
 
-18 Aug 16:31:43 - [red] Version: 0.8.1.git
-18 Aug 16:31:43 - [red] Loading palette nodes
-18 Aug 16:31:49 - [26-rawserial.js] Info : only really needed for 
-                  Windows boxes without serialport npm module installed.
-18 Aug 16:31:56 - ------------------------------------------
-18 Aug 16:31:56 - [red] Failed to register 44 node types
-18 Aug 16:31:56 - [red] Run with -v for details
-18 Aug 16:31:56 - ------------------------------------------
-18 Aug 16:31:56 - [red] Server now running at http://127.0.0.1:1880/
-18 Aug 16:31:56 - [red] Loading flows : flows_yoder-debian-bone.json
-</pre>
-++++
+// The second-to-last line informs you that Node-RED is listening on part +1880+. Point your browser to http://192.168.7.2:1880, and you will see the screen shown in <<networking_node_red_fig>>.
 
-The second-to-last line informs you that Node-RED is listening on part +1880+. Point your browser to http://192.168.7.2:1880, and you will see the screen shown in <<networking_node_red_fig>>.
+// [[networking_node_red_fig]]
+// .The Node-RED web page
+// image::figures/node-red.png[node-red]
 
-[[networking_node_red_fig]]
-.The Node-RED web page
-image::figures/node-red.png[node-red]
+// ===== Building a Node-RED Flow
+// The example in this recipe builds a Node-RED flow that will toggle an LED whenever a certain hashtag is tweeted. But first, you need to set up the Node-RED flow with the +twitter+ node:
 
-===== Building a Node-RED Flow
-The example in this recipe builds a Node-RED flow that will toggle an LED whenever a certain hashtag is tweeted. But first, you need to set up the Node-RED flow with the +twitter+ node:
+// . On the Node-RED web page, scroll down until you see the +social+ nodes on the left side of the page.
+// . Drag the +twitter+ node to the canvas, as shown in <<networking_node_twitter_fig>>.
 
-. On the Node-RED web page, scroll down until you see the +social+ nodes on the left side of the page.
-. Drag the +twitter+ node to the canvas, as shown in <<networking_node_twitter_fig>>.
+// [[networking_node_twitter_fig]]
+// .Node-RED twitter node
+// image::figures/node-twitter.png[node-red]
 
-[[networking_node_twitter_fig]]
-.Node-RED twitter node
-image::figures/node-twitter.png[node-red]
+// [start=3]
+// . Authorize Twitter by double-clicking the +twitter+ node. You'll see the screen shown in <<networking_node_twitter_auth_fig>>.
 
-[start=3]
-. Authorize Twitter by double-clicking the +twitter+ node. You'll see the screen shown in <<networking_node_twitter_auth_fig>>.
+// [[networking_node_twitter_auth_fig]]
+// .Node-RED Twitter authorization, step 1
+// image::figures/node-twitter-auth.png[node-red authentication]
 
-[[networking_node_twitter_auth_fig]]
-.Node-RED Twitter authorization, step 1
-image::figures/node-twitter-auth.png[node-red authentication]
+// [start=4]
+// . Click the pencil button to bring up the dialog box shown in <<networking_node_twitter_auth2_fig>>.
 
-[start=4]
-. Click the pencil button to bring up the dialog box shown in <<networking_node_twitter_auth2_fig>>.
+// [[networking_node_twitter_auth2_fig]]
+// .Node-RED twitter authorization, step 2
+// image::figures/node-twitter-auth2.png[node-red authentication2]
 
-[[networking_node_twitter_auth2_fig]]
-.Node-RED twitter authorization, step 2
-image::figures/node-twitter-auth2.png[node-red authentication2]
+// [start=5]
+// . Click the "here" link, as shown in <<networking_node_twitter_auth2_fig>>, and you'll be taken to Twitter to authorize Node-RED.
 
-[start=5]
-. Click the "here" link, as shown in <<networking_node_twitter_auth2_fig>>, and you'll be taken to Twitter to authorize Node-RED.
+// . Log in to Twitter and click the "Authorize app" button (<<networking_node_twitter_auth3_fig>>).
 
-. Log in to Twitter and click the "Authorize app" button (<<networking_node_twitter_auth3_fig>>).
+// [[networking_node_twitter_auth3_fig]]
+// .Node-RED Twitter site authorization
+// image::figures/node-twitter-auth3.png[node-red authentication3]
 
-[[networking_node_twitter_auth3_fig]]
-.Node-RED Twitter site authorization
-image::figures/node-twitter-auth3.png[node-red authentication3]
+// [start=7]
+// . When you're back to Node-RED, click the Add button, add your Twitter credentials, enter the hashtags to respond to (<<networking_node_twitter_beagle_fig>>), and then click the Ok pass:[<span class="keep-together">button</span>].
 
-[start=7]
-. When you're back to Node-RED, click the Add button, add your Twitter credentials, enter the hashtags to respond to (<<networking_node_twitter_beagle_fig>>), and then click the Ok pass:[<span class="keep-together">button</span>].
+// [[networking_node_twitter_beagle_fig]]
+// .Node-RED adding the #BeagleBone hashtag
+// image::figures/node-twitter-beagle.png[node-red beagle hash]
 
-[[networking_node_twitter_beagle_fig]]
-.Node-RED adding the #BeagleBone hashtag
-image::figures/node-twitter-beagle.png[node-red beagle hash]
+// [start=8]
+// . Go back to the left panel, scroll up to the top, and then drag the +debug+ node to the canvas. (+debug+ is in the +output+ section.)((("debugging", "in node-RED")))
+// . Connect the two nodes by clicking and dragging (<<networking_node_twitter_debug_fig>>).
 
-[start=8]
-. Go back to the left panel, scroll up to the top, and then drag the +debug+ node to the canvas. (+debug+ is in the +output+ section.)((("debugging", "in node-RED")))
-. Connect the two nodes by clicking and dragging (<<networking_node_twitter_debug_fig>>).
+// [[networking_node_twitter_debug_fig]]
+// .Node-RED Twitter adding +debug+ node and connecting
+// image::figures/node-twitter-debug.png[node-red debug]
 
-[[networking_node_twitter_debug_fig]]
-.Node-RED Twitter adding +debug+ node and connecting
-image::figures/node-twitter-debug.png[node-red debug]
+// [start=10]
+// . In the right panel, in the upper-right corner, click the "debug" tab.
+// . Finally, click the Deploy button above the "debug" tab.
 
-[start=10]
-. In the right panel, in the upper-right corner, click the "debug" tab.
-. Finally, click the Deploy button above the "debug" tab.
+// Your Node-RED flow is now running on the Bone. Test it by going to Twitter and tweeting something with the hashtag +#BeagleBone+. Your Bone is now responding to events happening out in the world.
 
-Your Node-RED flow is now running on the Bone. Test it by going to Twitter and tweeting something with the hashtag +#BeagleBone+. Your Bone is now responding to events happening out in the world.
+// ===== Adding an LED Toggle
+// ((("LEDs", "toggling with Node-RED")))Now, we're ready to add the LED toggle:
 
-===== Adding an LED Toggle
-((("LEDs", "toggling with Node-RED")))Now, we're ready to add the LED toggle:
+// . Wire up an LED as shown in <<displays_externalLED>>. Mine is wired to +P9_14+.  
+// . Scroll to the bottom of the left panel and drag the +bbb-discrete-out+ node (second from the bottom of the +bbb+ nodes) to the canvas and wire it (<<networking_node_bbb_out_fig>>).
 
-. Wire up an LED as shown in <<displays_externalLED>>. Mine is wired to +P9_14+.  
-. Scroll to the bottom of the left panel and drag the +bbb-discrete-out+ node (second from the bottom of the +bbb+ nodes) to the canvas and wire it (<<networking_node_bbb_out_fig>>).
+// [[networking_node_bbb_out_fig]]
+// .Node-RED adding bbb-discrete-out node
+// image::figures/node-disc-out.png[node-red discrete out node]
 
-[[networking_node_bbb_out_fig]]
-.Node-RED adding bbb-discrete-out node
-image::figures/node-disc-out.png[node-red discrete out node]
+// [start=3]
+// . Double-click the node, select your GPIO pin and "Toggle state," and then set "Startup as" to +1+ (<<networking_node_bbb_out_setup_fig>>).
 
-[start=3]
-. Double-click the node, select your GPIO pin and "Toggle state," and then set "Startup as" to +1+ (<<networking_node_bbb_out_setup_fig>>).
+// [[networking_node_bbb_out_setup_fig]]
+// .Node-RED adding bbb-discrete-out configuration
+// image::figures/node-disc-out-setup.png[node-red discrete out setup]
 
-[[networking_node_bbb_out_setup_fig]]
-.Node-RED adding bbb-discrete-out configuration
-image::figures/node-disc-out-setup.png[node-red discrete out setup]
+// [start=4]
+// . Click Ok and then Deploy.
 
-[start=4]
-. Click Ok and then Deploy.
+// Test again. The LED will toggle every time the hashtag +#BeagleBone+ is tweeted. With a little more exploring, you should be able to have your Bone ringing a bell or spinning a motor in response to tweets.
 
-Test again. The LED will toggle every time the hashtag +#BeagleBone+ is tweeted. With a little more exploring, you should be able to have your Bone ringing a bell or spinning a motor in response to tweets.
-
-==== Discussion
+// ==== Discussion
 
 === Communicating over a Serial Connection to an Arduino or LaunchPad
 

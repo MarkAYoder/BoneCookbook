@@ -96,10 +96,10 @@ A cookbook for programming Beagles
   ** [removee] Continuously Displaying the GPIO Value
   ** [x] gnuplot: Plotting Data
   ** [x] Sending an Email
-  ** [delete? ] Sending an SMS Message
+  ** [x] Commented out: Sending an SMS Message
   ** [x] Displaying the Current Weather Conditions
   ** [x] Sending and Receiving Tweets
-  ** [remove?] Wiring the IoT with Node-RED
+  ** [x] Commented out: Wiring the IoT with Node-RED
   ** [x] Removed: Serving Web Pages from the Bone by Using Apache
   ** [hardware?] Communicating over a Serial Connection to an Arduino or LaunchPad
 
