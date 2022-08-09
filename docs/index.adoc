@@ -137,12 +137,3 @@ A cookbook for programming Beagles
   ** [ ] Creating Contents for Your Cape Configuration EEPROM
   ** [ ] Putting Your Cape Design into Production
 
-. link:10parts/parts.html[Parts and Supppliers]
-  ** [ ] Parts
-  ** [ ] Prototyping Equipment
-  ** [ ] Resistors
-  ** [ ] Transistors and Diodes
-  ** [ ] Integrated Circuits
-  ** [ ] Opto-Electronics
-  ** [ ] Capes
-  ** [ ] Miscellaneous

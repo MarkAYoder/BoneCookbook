@@ -40,10 +40,6 @@ include::08realtime/realtime.adoc[]
 :imagesdir: ./09capes
 include::09capes/capes.adoc[]
 
-<<<
-:imagesdir: ./10parts
-include::10parts/parts.adoc[]
-
 
 <<<
 [index]
