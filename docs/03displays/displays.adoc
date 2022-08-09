@@ -67,8 +67,6 @@ bone$ <strong>./internLED.js</strong>
 
 The +USER0+ LED should now be flashing.
 
-==== Discussion
-
 
 [[displays_externalLED]]
 === Toggling an External LED
@@ -118,7 +116,6 @@ include::code/externLED.js[]
 ====
 Save your file and run the code as before (<<displays_onboardLED>>).
 
-==== Discussion
 
 [[displays_powerSwitch]]
 === Toggling a High-Voltage External Device
@@ -141,7 +138,6 @@ image::figures/powerSwitch_bb.png[Power Switch Tail II]
 
 After you've wired it, because this uses the same output pin as <<displays_externalLED>>, you can run the same code (<<py_externLED_code>>).
 
-==== Discussion
 
 [[displays_PWMdiscussion]]
 === Fading an External LED
@@ -317,7 +313,6 @@ include::code/matrixLEDi2c.py[]
 
 <6> Finally, send commands to the LED matrix to set the brightness. This makes the disply fade out and back in again.
 
-==== Discussion
 
 [[displays_drive5V]]
 === Driving a 5 V Device
@@ -345,8 +340,6 @@ image::figures/i2cMatrixLevelTrans_bb.png[PCA9306 level translator]
 ====
 If your device needs more current than the Bone's 5 V power supply provides, you can wire in an external power supply.
 ====
-
-==== Discussion
 
 === Writing to a NeoPixel LED String Using the PRUs
 
@@ -387,8 +380,6 @@ image::figures/neo_bb.png["NeoPixel Ring"]
 // ----
 // ====
 
-// ==== Discussion
-
 // === Making Your Bone Speak
 // // TODO Not tested for 2nd edition
 // ==== Problem
@@ -417,5 +408,3 @@ image::figures/neo_bb.png["NeoPixel Ring"]
 // ====
 
 // See <<sensors_audio>> to see how to use a USB audio dongle and set your default audio out.
-
-// ==== Discussion

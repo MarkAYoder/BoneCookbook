@@ -94,8 +94,6 @@ You will see the web page shown in <<networking_node_page>>.
 .test.html as served by nginx
 image::figures/nginxTest.png[test.html served by nginx]
 
-==== Discussion
-
 
 [[networking_nodejs]]
 === Interacting with the Bone via a Web Browser
@@ -884,7 +882,6 @@ This opens up many new possibilities. You can read a temperature sensor and twee
 
 // Test again. The LED will toggle every time the hashtag +#BeagleBone+ is tweeted. With a little more exploring, you should be able to have your Bone ringing a bell or spinning a motor in response to tweets.
 
-// ==== Discussion
 
 // === Communicating over a Serial Connection to an Arduino or LaunchPad
 // // TODO Test

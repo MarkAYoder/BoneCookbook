@@ -43,8 +43,6 @@ image::figures/cape-headers.png[Sensor Connection Modes]
 
 Choosing the simplest solution available enables you to move on quickly to addressing other system aspects. By exploring each connection type, you can make more informed decisions as you seek to optimize and troubleshoot your design.
 
-==== Discussion
-
 
 [[sensors_getting_started]]
 === Input and Run a Python or JavaScript Application for Talking to Sensors
@@ -98,8 +96,6 @@ data= 1
 ++++
 
 This process will work for any script in this book.
-
-==== Discussion
 
 
 [[sensors_pushbutton]]
@@ -168,7 +164,6 @@ The command runs it. Try pushing the button. The code reads the pin and prints i
 
 If you want to use the magnetic reed switch wired as shown in <<js_pushbutton_fig>>, change +P9_42+ to +P9_26+ which is gpio +14+. 
 
-==== Discussion
 
 [[sensors_mappiing]]
 === Mapping Header Numbers to gpio Numbers
@@ -283,8 +278,6 @@ image::figures/flexResistor_bb.png[Flex Resistor]
 
 The code in <<py_analogIn_code>> and <<sensors_analogIn_code>> also works for this setup.
 
-==== Discussion
-
 
 === Reading a Distance Sensor (Analog or Variable Voltage Sensor)
 
@@ -333,8 +326,6 @@ include::code/ultrasonicRange.js[]
 ----
 ====
 
-==== Discussion
-
 
 [[sensors_hc-sr04]]
 === Reading a Distance Sensor (Variable Pulse Width Sensor)
@@ -375,8 +366,6 @@ include::code/hc-sr04-ultraSonic.js[]
 ----
 ====
 This code is more complex than others in this chapter, because we have to tell the device when to start measuring and time the return pulse.
-
-==== Discussion
 
 === Accurately Reading the Position of a Motor or Dial
 
@@ -476,8 +465,6 @@ data = 999972
 ----
 The values you get for +data+ will depend on which way you are turning the device and how quickly. You will need to press ^C (Ctrl-C) to end.
 
-==== Discussion
-
 
 ==== See Also
 
@@ -538,8 +525,6 @@ add this line to the end of file _/usr/local/lib/node_modules/bonescript/serial.
 
 +exports.serialParsers = m.module.parsers;+
 ====
-
-==== Discussion
 
 
 [[cape-headers-serial_fig]]
@@ -738,8 +723,6 @@ include::code/i2ctmp101.py[]
 ====
 
 This gets only 8 bits for the temperature.  See the TMP101 datasheet for details on how  to get up to 12 bits.
-
-==== Discussion
 
 
 === Reading Temperature via a Dallas 1-Wire Device
@@ -945,8 +928,6 @@ Each temperature sensor has a unique serial number, so you can have several all 
 // disconnect
 // disconnected!
 // ----
-
-// ==== Discussion
 
 
 // Here, you see examples of how to read all the sensors. Look in _index.js_ (in the same directory) to see all the methods that are defined.

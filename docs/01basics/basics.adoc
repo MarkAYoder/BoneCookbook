@@ -16,8 +16,6 @@ When you buy BeagleBone Black, pretty much everything you need to get going come
 
 Current list of boards: https://git.beagleboard.org/explore/projects/topics/boards
 
-==== Discussion
-
 
 [[basics_out_of_the_box]]
 === Getting Started, Out of the Box
@@ -88,8 +86,6 @@ BeagleBoard.org Debian Bullseye IoT Image 2022-07-01
 
 I'm running the 2022-07-01 version.
 
-==== Discussion
-
 === Running the Python and JavaScript Examples
 
 ==== Problem
@@ -104,9 +100,6 @@ Plug your board into the USB of your host computer and browse to http://192.168.
 ====
 ((("BoneScript", "API examples page")))Explore the various demonstrations of Python and JavaScript. These are what come with the Bone.  In <<basics_repo>> you see how to load the examples for the Cookbook.
 ====
-
-==== Discussion
-
 
 [[basics_repo]]
 === Cloning the Cookbook Repository
@@ -148,8 +141,6 @@ To make this recipe, you will need:
 .Breadboard wired to BeagleBone Black
 image::figures/template_bb.png[Breadboad]
 
-==== Discussion
-
 
 [[basics_vsc]]
 === Editing Code Using Visual Studio Code
@@ -167,8 +158,6 @@ You can now edit the file.
 ====
 If you edit lines 33 and 37 of the _seqLEDs.py_ file (time.sleep(0.25)), changing +0.25+ to +0.1+, the LEDs next to the Ethernet port on your Bone will flash roughly twice as fast.
 ====
-
-==== Discussion
 
 
 [[basics_vsc_IDE]]
@@ -204,8 +193,6 @@ bone$ <strong>./seqLEDs.py</strong>
 
 The +cd+ is the change directory command. After you +cd+, you are in a new directory. Finally, +./seqLEDs.py+ instructs the Python script to run. You will need to press ^C (Ctrl-C) to stop your program.
 
-==== Discussion
-
 [[basics_find_image]]
 === Finding the Latest Version of the OS for Your Bone
 
@@ -236,8 +223,6 @@ These are the images you want to use if you are flashing a Rev C BeagleBone Blac
 
 Click the image you want to use and it will download.  The images are some 500M, so it might take a while.
 
-==== Discussion
-
 [[basics_install_os]]
 === Running the Latest Version of the OS on Your Bone
 
@@ -261,7 +246,6 @@ I instruct my students to use the microSD for booting. I suggest they keep an ex
 ((("host computer", "Windows OS")))((("operating system (OS)", "Windows ")))Download the image you found in <<basics_find_image>>. It's more than 500 MB, so be sure to have a fast Internet connection. Then go to http://beagleboard.org/getting-started#update and 
 follow the instructions there to install the image you downloaded.
 
-==== Discussion
 
 [[basics_update]]
 === Updating the OS on Your Bone
@@ -316,8 +300,6 @@ Because the date won't be set on your board, you might want to adjust the date o
 ====
 The http://elinux.org/Beagleboard[eLinux wiki] is the definitive place for the BeagleBoard.org community to share information about the Beagles. Spend some time looking around for other helpful information.
 ====
-
-==== Discussion
 
 
 [[basics_onboard_flash]]

@@ -97,8 +97,6 @@ A powered hub is recommended because USB can supply only 500 mA, and you'll want
 
 // Recently I've been prefering https://docs.microsoft.com/en-us/windows/wsl/[Windows Subsystem for Linux].
 
-// ==== Discussion
-
 
 [[tips_shell]]
 === Getting to the Command Shell via SSH
@@ -131,8 +129,6 @@ Retype new UNIX password:
 passwd: password updated successfully
 </pre>
 ++++
-
-==== Discussion
 
 
 [[tips_serial]]
@@ -189,8 +185,6 @@ beaglebone login:
 
 The +/dev/ttyACM0+ parameter specifies which serial port to connect to, and +115200+ 
 tells the speed of the connection. In this case, it's 115,200 bits per second.
-
-==== Discussion
 
 
 [[tips_FTDI]]
@@ -258,8 +252,6 @@ beaglebone login:
 ====
 Your screen might initially be blank. Press Enter a couple times to see the login prompt.
 ====
-
-==== Discussion
 
 
 === Verifying You Have the Latest Version of the OS on Your Bone from the Shell
@@ -343,8 +335,6 @@ bone$ <strong>startxfce4</strong>
 ++++
 ====
 
-==== Discussion
-
 
 === Learning Typical GNU/Linux Commands
 
@@ -395,7 +385,6 @@ bone$ <strong>startxfce4</strong>
 |whereis|locates binary and source files
 |=======
 
-==== Discussion
 
 [[tips_editing_files]]
 === Editing a Text File from the GNU/Linux Command Shell
@@ -496,8 +485,6 @@ When a Bone is connected to some networks it becomes visible to the _world_. If 
 
 On many home networks, you will be behind a firewall and won't be as visible.
 ====
-
-==== Discussion
 
 
 [[networking_wireless]]
@@ -644,8 +631,6 @@ rtt min/avg/max/mdev = 19.387/19.450/19.513/0.063 ms
 
 +wlan0+ should now have an ip address and you should be on the network. If not, try rebooting.
 
-==== Discussion
-
 
 [[networking_usb]]
 === Sharing the Host's Internet Connection over USB
@@ -759,7 +744,6 @@ host$ <strong>sudo iptables -t nat -A PREROUTING -p tcp -s 0/0 \
 
 Now browse to your host computer at port +1080+. That is, if your host's IP address is +123.456.789.0+, enter +123.456.789.0:1080+. The +:1080+ specifies what port number to use. The request will be forwarded to the server on your Bone listening to port +80+. (I used +1080+ here, in case your host is running a web server of its own on port +80+.)
 
-==== Discussion
 
 [[tips_firewall]]
 === Setting Up a Firewall
@@ -847,8 +831,6 @@ Firewall stopped and disabled on system startup
 
 See the How-To Geek article for more examples.
 
-==== Discussion
-
 
 [[tips_apt]]
 === Installing Additional Packages from the Debian Package Feed
@@ -896,8 +878,6 @@ bone$ <strong>sudo apt install dict</strong>
 
 Now you can run +dict+. 
 
-==== Discussion
-
 
 [[tips_apt_remove]]
 === Removing Packages Installed with apt
@@ -924,8 +904,6 @@ After this operation, 164 kB disk space will be freed.
 Do you want to continue [Y/n]? <strong>y</strong>
 </pre>
 ++++
-
-==== Discussion
 
 
 === Copying Files Between the Onboard Flash and the MicroSD Card
@@ -1122,8 +1100,6 @@ e   4.0 KiB [          ] /media
 ((("D (delete) key")))((("files", "deleting")))((("directories", "deleting")))Be careful not to press the D key, because it's used to delete a file or directory.
 ====
 
-==== Discussion
-
 
 [[misc_libsoc]]
 === Using C to Interact with the Physical World
@@ -1162,5 +1138,3 @@ bone$ <strong>./blinkLED</strong>
 ++++
 
 Hit ^C to stop the blinking.
-
-==== Discussion

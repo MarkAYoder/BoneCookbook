@@ -136,7 +136,6 @@ bone$ <strong>dmesg -H | tail -4</strong>
 
 ((("insmod command")))((("commands", "insmod")))((("dmesg command")))((("commands", "dmesg")))((("system messages, viewing")))((("advanced operations", "viewing system messages")))((("commands", "tail")))((("tail command")))The first command displays information about the module. The +insmod+ command inserts the module into the running kernel. If all goes well, nothing is displayed, but the module does print something in the kernel log. The +dmesg+ command displays the messages in the log, and the +tail -4+ command shows the last four messages. The last two messages are from the module. It worked!
 
-==== Discussion
 
 [[kernel_LEDs]]
 === Controlling LEDs by Using SYSFS Entries
@@ -194,8 +193,6 @@ bone$ <strong>echo 0 > brightness</strong>
 ++++
 
 The LED should be turning on and off with the commands.
-
-==== Discussion
 
 
 [[kernel_gpio_sysfs]]
@@ -296,8 +293,6 @@ bone$ <strong>echo 0 > value</strong>
 ++++
 
 The LED turns on when a +1+ is written to +value+ and turns off when a +0+ is written.
-
-==== Discussion
 
 
 [[kernel_compiling]]
@@ -475,8 +470,6 @@ Linux breadboard-home 5.10.120-ti-r48 #1xross SMP PREEMPT Mon Aug 8 18:30:51 EDT
 </pre>
 ++++
 
-==== Discussion
-
 
 [[kernel_using_cross_compiler]]
 === Using the Installed Cross Compiler
@@ -604,8 +597,6 @@ a.out: ELF 32-bit LSB executable, ARM, version 1 (SYSV),
 ++++
 
 The +file+ command shows that +a.out+ was compiled for an ARM processor.
-
-==== Discussion
 
 
 [[kernel_patches]]
@@ -738,6 +729,4 @@ Finally, create the patch file:
 host$ <strong>git format-patch master --stdout &gt; hello1.patch</strong>
  </pre>
 ++++
-
-==== Discussion
 

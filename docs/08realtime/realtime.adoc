@@ -70,7 +70,6 @@ data = 1
 
 Press ^C (Ctrl-C) to stop the code.
 
-==== Discussion
 
 [[realtime_c]]
 === I/O with C
@@ -110,7 +109,6 @@ state: 1
 
 The code responds quickly to the pushbutton. If you need more speed, comment-out the +printf()+ and the +sleep()+.
 
-==== Discussion
 
 [[realtime_devmem2]]
 === I/O with devmem2
@@ -268,8 +266,6 @@ Ctrl-C pressed, cleaning up and exiting...
 ++++
 
 The code is in a tight +while+ loop that checks the status of GPIO 7 and copies it to GPIO 31.
-
-==== Discussion
 
 
 === Tighter Delay Bounds with the PREEMPT_RT Kernel
