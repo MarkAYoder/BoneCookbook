@@ -117,7 +117,7 @@ To make this recipe, you will need:
 
 * Breadboard and jumper wires
 * Pushbutton switch
-* Magnetic reed switch (optional, see <<app_misc>>)
+* Magnetic reed switch (optional)
 
 You can wire up either a pushbutton, a magnetic reed switch, or both on the Bone, as shown in <<js_pushbutton_fig>>.
 
@@ -228,7 +228,7 @@ To make this recipe, you will need:
 * Breadboard and jumper wires
 * 10 k&#8486; trimpot
 or
-* Flex resistor (optional, see <<app_resistor>>)
+* Flex resistor (optional)
 * 22 k&#8486; resistor
 
 ===== A variable resistor with three terminals
