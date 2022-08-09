@@ -1,7 +1,7 @@
 :toc:
 :toclevels: 2
 
-= PRU Cookbook
+= BeagleBone Cookbook
 Mark A. Yoder <Mark.A.Yoder@Rose-Hulman.edu>
 v2.0 beta
 <<<
