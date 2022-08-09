@@ -24,10 +24,10 @@ In this chapter, as in the others, we assume that you are logged in as +debian+ 
 ==== Solution
 <<sensors_pushbutton>> shows how to read a pushbutton switch and <<displays_externalLED>> controls an external LED. This recipe combines the two to read the switch and turn on the LED in response to it. To make this recipe, you will need:
 
-* Breadboard and jumper wires (see <<app_proto>>)
-* Pushbutton switch (see <<app_misc>>)
-* 220 &#8486; resistor (see <<app_resistor>>)
-* LED (see <<app_opto>>)
+* Breadboard and jumper wires
+* Pushbutton switch
+* 220 &#8486; resistor
+* LED
 
 Wire up the pushbutton and LED as shown in <<realtime_pushLED_fig>>.
 
