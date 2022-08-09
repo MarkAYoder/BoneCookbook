@@ -467,6 +467,14 @@ I added the commented out +uname_r+ line to make it easy to switch between versi
 
 Reboot and test out the new kernel.
 
+++++
+<pre data-type="programlisting">
+bone$ <strong>sudo reboot</strong>
+bone$ <strong>uname -a</strong>
+Linux breadboard-home 5.10.120-ti-r48 #1xross SMP PREEMPT Mon Aug 8 18:30:51 EDT 2022 armv7l GNU/Linux
+</pre>
+++++
+
 ==== Discussion
 
 
@@ -483,7 +491,7 @@ You can cross-compile without installing the entire kernel source by running the
 
 ++++
 <pre data-type="programlisting">
-host$ <strong>sudo apt install gcc-arm-linux-gnueabihf</strong>
+host$ <strong>sudo apt install gcc-arm-linux-gnueabi</strong>
 </pre>
 ++++
 
@@ -498,8 +506,7 @@ Then skip down to <<kernel_skip_to_here>>.
 <pre data-type="programlisting">
 host$ <strong>cd ti-linux-kernel-dev/dl</strong>
 host$ <strong>ls</strong>
-gcc-linaro-arm-linux-gnueabihf-4.7-2013.04-20130415_linux
-gcc-linaro-arm-linux-gnueabihf-4.7-2013.04-20130415_linux.tar.xz
+gcc-10.3.0-nolibc  x86_64-gcc-10.3.0-nolibc-arm-linux-gnueabi.tar.xz
 </pre>
 ++++
 
@@ -507,10 +514,9 @@ Here, the path to the cross compiler contains the version number of the compiler
 
 ++++
 <pre data-type="programlisting">
-host$ <strong>cd gcc-linaro-arm-linux-gnueabihf-4.7-2013.04-20130415_linux</strong>
+host$ <strong>cd gcc-10.3.0-nolibc/arm-linux-gnueabi</strong>
 host$ <strong>ls</strong>
-20130415-gcc-linaro-arm-linux-gnueabihf  bin  libexec
-arm-linux-gnueabihf                      lib  share
+2020.10.3.0-arm-linux-gnueabi  arm-linux-gnueabi  bin  include  lib  libexec  share  x
 </pre>
 ++++
 
@@ -520,22 +526,15 @@ At this point, we are interested in what's in _bin_:
 <pre data-type="programlisting">
 host$ <strong>cd bin</strong>
 host$ <strong>ls</strong>
-arm-linux-gnueabihf-addr2line     arm-linux-gnueabihf-gfortran
-arm-linux-gnueabihf-ar            arm-linux-gnueabihf-gprof
-arm-linux-gnueabihf-as            arm-linux-gnueabihf-ld
-arm-linux-gnueabihf-c++           arm-linux-gnueabihf-ld.bfd
-arm-linux-gnueabihf-c++filt       arm-linux-gnueabihf-ldd
-arm-linux-gnueabihf-cpp           arm-linux-gnueabihf-ld.gold
-arm-linux-gnueabihf-ct-ng.config  arm-linux-gnueabihf-nm
-arm-linux-gnueabihf-elfedit       arm-linux-gnueabihf-objcopy
-arm-linux-gnueabihf-g++           arm-linux-gnueabihf-objdump
-arm-linux-gnueabihf-gcc           arm-linux-gnueabihf-pkg-config
-arm-linux-gnueabihf-gcc-4.7.3     arm-linux-gnueabihf-pkg-config-real
-arm-linux-gnueabihf-gcc-ar        arm-linux-gnueabihf-ranlib
-arm-linux-gnueabihf-gcc-nm        arm-linux-gnueabihf-readelf
-arm-linux-gnueabihf-gcc-ranlib    arm-linux-gnueabihf-size
-arm-linux-gnueabihf-gcov          arm-linux-gnueabihf-strings
-arm-linux-gnueabihf-gdb           arm-linux-gnueabihf-strip
+arm-linux-gnueabi-addr2line   arm-linux-gnueabi-gcc-nm      arm-linux-gnueabi-nm
+arm-linux-gnueabi-ar          arm-linux-gnueabi-gcc-ranlib  arm-linux-gnueabi-objcopy
+arm-linux-gnueabi-as          arm-linux-gnueabi-gcov        arm-linux-gnueabi-objdump
+arm-linux-gnueabi-c++filt     arm-linux-gnueabi-gcov-dump   arm-linux-gnueabi-ranlib
+arm-linux-gnueabi-cpp         arm-linux-gnueabi-gcov-tool   arm-linux-gnueabi-readelf
+arm-linux-gnueabi-elfedit     arm-linux-gnueabi-gprof       arm-linux-gnueabi-size
+arm-linux-gnueabi-gcc         arm-linux-gnueabi-ld          arm-linux-gnueabi-strings
+arm-linux-gnueabi-gcc-10.3.0  arm-linux-gnueabi-ld.bfd      arm-linux-gnueabi-strip
+arm-linux-gnueabi-gcc-ar      arm-linux-gnueabi-lto-dump
 </pre>
 ++++
 
@@ -544,12 +543,10 @@ What you see are all the cross-development tools. You need to add this directory
 ++++
 <pre data-type="programlisting">
 host$ <strong>pwd</strong>
-/home/yoder/BeagleBoard/ti-linux-kernel-dev/dl/\
-    gcc-linaro-arm-linux-gnueabihf-4.7-2013.04-20130415_linux/bin
+/home/yoder/ti-linux-kernel-dev/dl/gcc-10.3.0-nolibc/arm-linux-gnueabi/bin
     
 host$ <strong>echo $PATH</strong>
-    /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:\
-    /usr/games:/usr/local/games
+/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
 </pre>
 ++++
 
@@ -559,10 +556,7 @@ The first command displays the path to the directory where the cross-development
 <pre data-type="programlisting">
 host$ <strong>export PATH=`pwd`:$PATH</strong>
 host$ <strong>echo $PATH</strong>
-/home/yoder/BeagleBoard/ti-linux-kernel-dev/dl/\
-    gcc-linaro-arm-linux-gnueabihf-4.7-2013.04-20130415_linux/bin:\
-    /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:\
-    /usr/games:/usr/local/games
+/home/yoder/ti-linux-kernel-dev/dl/gcc-10.3.0-nolibc/arm-linux-gnueabi/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
 </pre>
 ++++
 
@@ -580,7 +574,7 @@ Now, set up a couple of variables to know which compiler you are using:
 ++++
 <pre data-type="programlisting">
 host$ <strong>export ARCH=arm</strong>
-host$ <strong>export CROSS_COMPILE=arm-linux-gnueabihf-</strong>
+host$ <strong>export CROSS_COMPILE=arm-linux-gnueabi-</strong>
 </pre>
 ++++
 
@@ -598,7 +592,7 @@ include::code/helloWorld.c[]
 ====
 
 You can then cross-compile by using the following commands:
-
+// TODO stdio.h  not found
 ++++
 <pre data-type="programlisting">
 host$ <strong>${CROSS_COMPILE}gcc helloWorld.c</strong>
