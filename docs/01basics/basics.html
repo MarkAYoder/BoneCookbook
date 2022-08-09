@@ -456,7 +456,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="sect3">
 <h4 id="_problem">Problem</h4>
 <div class="paragraph">
-<p>There are five different BeagleBoards. How do you pick which one to use?</p>
+<p>There are many different BeagleBoards. How do you pick which one to use?</p>
 </div>
 </div>
 <div class="sect3">
@@ -464,10 +464,6 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="paragraph">
 <p>Current list of boards: <a href="https://git.beagleboard.org/explore/projects/topics/boards" class="bare">https://git.beagleboard.org/explore/projects/topics/boards</a></p>
 </div>
-</div>
-<div class="sect3">
-<h4 id="_discussion">Discussion</h4>
-
 </div>
 </div>
 <div class="sect2">
@@ -499,12 +495,12 @@ Plug the USB cable into your host computer (Mac, Windows, or Linux) and plug the
 </div>
 <div class="title">Figure 2. The Bone appears as a USB drive</div>
 </div>
-<div id="basics_openCloud9" class="paragraph">
+<div id="basics_open_vsc" class="paragraph">
 <p>Browse to <a href="http://192.168.7.2:3000" class="bare">http://192.168.7.2:3000</a> from your host computer (<a href="#basics_05gettingStarted_fig">Visual Studio Code</a>).</p>
 </div>
 <div id="basics_05gettingStarted_fig" class="imageblock">
 <div class="content">
-<img src="figures/05GettingStartedVScode.png" alt="Cloud9">
+<img src="figures/05GettingStartedVScode.png" alt="Visual Studio Code">
 </div>
 <div class="title">Figure 3. Visual Studio Code</div>
 </div>
@@ -534,7 +530,7 @@ The system is going down for system halt NOW! (pts/0)
 </div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_2">Discussion</h4>
+<h4 id="_discussion">Discussion</h4>
 <div class="paragraph">
 <p>The rest of this book goes into the details behind this quick out-of-the-box demo.  Explore your Bone and then start exploring the book.</p>
 </div>
@@ -561,44 +557,17 @@ BeagleBoard.org Debian Bullseye IoT Image 2022-07-01
 <p>I&#8217;m running the 2022-07-01 version.</p>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_discussion_3">Discussion</h4>
-
-</div>
-</div>
-<div class="sect2">
-<h3 id="basics_repo">Cloning the Cookbook Repository</h3>
-<div class="sect3">
-<h4 id="_problem_4">Problem</h4>
-<div class="paragraph">
-<p>You want to run the Cookbook examples.</p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_solution_4">Solution</h4>
-<div class="paragraph">
-<p>Connect your Bone to the Internet and log into it.  From the command line run:</p>
-</div>
-<pre data-type="programlisting">
-bone$ <strong>git clone git@github.com:MarkAYoder/BoneCookbook.git</strong>
-bone$ <strong>cd BoneCookbook/docs</strong>
-bone$ <strong>ls</strong>
-</pre>
-<div class="paragraph">
-<p>You can look around from the command line, or explore from Visual Sudio Code. If you ar using VSC, go to the <em>File</em> menu and select <em>Open Folder &#8230;&#8203;</em> and selet BoneCookbook/docs. Then explore.   You&#8217;ll find there is a directory for each chapter and most chapters have a <em>code</em> directory for the sample scripts and a <em>figures</em> directory for the figures.</p>
-</div>
-</div>
 </div>
 <div class="sect2">
 <h3 id="_running_the_python_and_javascript_examples">Running the Python and JavaScript Examples</h3>
 <div class="sect3">
-<h4 id="_problem_5">Problem</h4>
+<h4 id="_problem_4">Problem</h4>
 <div class="paragraph">
 <p>You&#8217;d like to learn Python and JavaScript interact with the Bone to perform physical computing tasks without first learning Linux.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_5">Solution</h4>
+<h4 id="_solution_4">Solution</h4>
 <div class="paragraph">
 <p>Plug your board into the USB of your host computer and browse to <a href="http://192.168.7.2:3000" class="bare">http://192.168.7.2:3000</a> using Google Chrome or Firefox (as shown in <a href="#basics_out_of_the_box">Getting Started, Out of the Box</a>). In the left column, click on <em>EXAMPLES</em>, then <em>BeagleBone</em> and then <em>Black</em>. Several sample scripts will appear.  Go and explore them.</p>
 </div>
@@ -617,9 +586,28 @@ bone$ <strong>ls</strong>
 </table>
 </div>
 </div>
+</div>
+<div class="sect2">
+<h3 id="basics_repo">Cloning the Cookbook Repository</h3>
 <div class="sect3">
-<h4 id="_discussion_4">Discussion</h4>
-
+<h4 id="_problem_5">Problem</h4>
+<div class="paragraph">
+<p>You want to run the Cookbook examples.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_solution_5">Solution</h4>
+<div class="paragraph">
+<p>Connect your Bone to the Internet and log into it.  From the command line run:</p>
+</div>
+<pre data-type="programlisting">
+bone$ <strong>git clone git@github.com:MarkAYoder/BoneCookbook.git</strong>
+bone$ <strong>cd BoneCookbook/docs</strong>
+bone$ <strong>ls</strong>
+</pre>
+<div class="paragraph">
+<p>You can look around from the command line, or explore from Visual Sudio Code. If you ar using VSC, go to the <em>File</em> menu and select <em>Open Folder &#8230;&#8203;</em> and selet BoneCookbook/docs. Then explore.   You&#8217;ll find there is a directory for each chapter and most chapters have a <em>code</em> directory for the sample scripts and a <em>figures</em> directory for the figures.</p>
+</div>
 </div>
 </div>
 <div class="sect2">
@@ -641,7 +629,7 @@ bone$ <strong>ls</strong>
 <div class="ulist">
 <ul>
 <li>
-<p>Breadboard and jumper wires (see <a href="#app_proto">[app_proto]</a>)</p>
+<p>Breadboard and jumper wires</p>
 </li>
 </ul>
 </div>
@@ -654,10 +642,6 @@ bone$ <strong>ls</strong>
 </div>
 <div class="title">Figure 4. Breadboard wired to BeagleBone Black</div>
 </div>
-</div>
-<div class="sect3">
-<h4 id="_discussion_5">Discussion</h4>
-
 </div>
 </div>
 <div class="sect2">
@@ -691,10 +675,6 @@ You can now edit the file.</p>
 </tr>
 </table>
 </div>
-</div>
-<div class="sect3">
-<h4 id="_discussion_6">Discussion</h4>
-
 </div>
 </div>
 <div class="sect2">
@@ -743,12 +723,8 @@ bone$ <strong>cd ~/examples/BeagleBone/Black/</strong>
 bone$ <strong>./seqLEDs.py</strong>
 </pre>
 <div class="paragraph">
-<p>The cd is the change directory command. After you cd, you are in a new directory. Finally, ./seqLEDs.py instructs the python script to run. You will need to press ^C (Ctrl-C) to stop your program.</p>
+<p>The cd is the change directory command. After you cd, you are in a new directory. Finally, ./seqLEDs.py instructs the Python script to run. You will need to press ^C (Ctrl-C) to stop your program.</p>
 </div>
-</div>
-<div class="sect3">
-<h4 id="_discussion_7">Discussion</h4>
-
 </div>
 </div>
 <div class="sect2">
@@ -801,10 +777,6 @@ Scrolling up you&#8217;ll find <a href="#basics_deb2">Latest Debian images</a>. 
 <p>Click the image you want to use and it will download.  The images are some 500M, so it might take a while.</p>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_discussion_8">Discussion</h4>
-
-</div>
 </div>
 <div class="sect2">
 <h3 id="basics_install_os">Running the Latest Version of the OS on Your Bone</h3>
@@ -852,13 +824,9 @@ Scrolling up you&#8217;ll find <a href="#basics_deb2">Latest Debian images</a>. 
 follow the instructions there to install the image you downloaded.</p>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_discussion_9">Discussion</h4>
-
-</div>
 </div>
 <div class="sect2">
-<h3 id="_updating_the_os_on_your_bone">Updating the OS on Your Bone</h3>
+<h3 id="basics_update">Updating the OS on Your Bone</h3>
 <div class="sect3">
 <h4 id="_problem_11">Problem</h4>
 <div class="paragraph">
@@ -893,7 +861,7 @@ bone$ <strong>sudo apt upgrade</strong>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_10">Discussion</h4>
+<h4 id="_discussion_2">Discussion</h4>
 <div class="paragraph">
 <p>After you have a current image running on the Bone, it&#8217;s not at all difficult to keep it upgraded.</p>
 </div>
@@ -966,10 +934,6 @@ bone$ <strong>sudo apt upgrade</strong>
 </table>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_discussion_11">Discussion</h4>
-
-</div>
 </div>
 <div class="sect2">
 <h3 id="basics_onboard_flash">Updating the Onboard Flash</h3>
@@ -1039,7 +1003,7 @@ bone$ <strong>sudo apt upgrade</strong>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2022-08-01 10:32:05 -0400
+Last updated 2022-08-09 10:51:24 -0400
 </div>
 </div>
 </body>

@@ -450,6 +450,20 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="paragraph">
 <p>In this chapter, you will learn how to sense the physical world with BeagleBone Black. Various types of electronic sensors, such as cameras and microphones, can be connected to the Bone using one or more interfaces provided by the standard USB 2.0 host port, as shown in <a href="#sensors_host_port">The USB 2.0 host port</a>.</p>
 </div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>All the examples in the book assume you have cloned the Cookbook repository on www.github.com. Go here <a href="#basics_repo">[basics_repo]</a> for instructions.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
 <div id="sensors_host_port" class="imageblock">
 <div class="content">
 <img src="figures/black_hardware_details.png" alt="USB Host Port">
@@ -499,13 +513,9 @@ and can be handled by an <em>input mode</em> of one of the Bone&#8217;s 65 gener
 <p>Choosing the simplest solution available enables you to move on quickly to addressing other system aspects. By exploring each connection type, you can make more informed decisions as you seek to optimize and troubleshoot your design.</p>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_discussion">Discussion</h4>
-
-</div>
 </div>
 <div class="sect2">
-<h3 id="sensors_getting_started">Input and Run a JavaScript Application for Talking to Sensors</h3>
+<h3 id="sensors_getting_started">Input and Run a Python or JavaScript Application for Talking to Sensors</h3>
 <div class="sect3">
 <h4 id="_problem_2">Problem</h4>
 <div class="paragraph">
@@ -523,25 +533,25 @@ and can be handled by an <em>input mode</em> of one of the Bone&#8217;s 65 gener
 <p>Plug your Bone into a host computer via the USB cable (<a href="#basics_out_of_the_box">[basics_out_of_the_box]</a>).</p>
 </li>
 <li>
-<p>Start Cloud9 (<a href="#basics_vsc">[basics_vsc]</a>).</p>
+<p>Start Visual Studio Code (<a href="#basics_vsc">[basics_vsc]</a>).</p>
 </li>
 <li>
-<p>In the bash tab (as shown in <a href="#sensors_cloud9_bash">Entering commands in the Cloud9 bash tab</a>), run the following commands:</p>
+<p>In the bash tab (as shown in <a href="#sensors_vsc_bash">Entering commands in the VSC bash tab</a>), run the following commands:</p>
 </li>
 </ol>
 </div>
 <pre data-type="programlisting">
-root@beaglebone:/var/lib/cloud9# <strong>cd</strong>
-root@beaglebone:~#
+bone$ <strong>cd</strong>
+bone$ <strong>cd BoneCookbook/docs/02sensors/code</strong>
 </pre>
-<div id="sensors_cloud9_bash" class="imageblock">
+<div id="sensors_vsc_bash" class="imageblock">
 <div class="content">
-<img src="figures/cloud9-bash-tab.png" alt="Cloud9 bash tab">
+<img src="figures/vsc-bash-tab.png" alt="VSC bash tab">
 </div>
-<div class="title">Figure 4. Entering commands in the Cloud9 bash tab</div>
+<div class="title">Figure 4. Entering commands in the VSC bash tab</div>
 </div>
 <div class="paragraph">
-<p>Here, we issued the <em>change directory</em> (cd) command without specifying a target directory. By default, it takes you to your home directory. Notice that the prompt has changed to reflect the change. The path changed from /var/lib/cloud9 to &amp;#x7E;. The &amp;#x7E; is a shorthand for your home directory.</p>
+<p>Here, we issued the <em>change directory</em> (cd) command without specifying a target directory. By default, it takes you to your home directory. Notice that the prompt has changed to reflect the change.</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -551,43 +561,33 @@ root@beaglebone:~#
 </td>
 <td class="content">
 <div class="paragraph">
-<p>If you log in as root, your home directory is <em>/root</em>.  That is, anyone can cd /root to get into your home directory (though directories are initially locked).  If you log in as debian, your home is <em>/home/debian</em>. If you were to create a new user called newuser, that user&#8217;s home would be <em>/home/newuser</em>. By default, all non-root (non-superuser) users have their home directories in <em>/home</em>.</p>
+<p>If you log in as debian, your home is <em>/home/debian</em>. If you were to create a new user called newuser, that user&#8217;s home would be <em>/home/newuser</em>. By default, all non-root (non-superuser) users have their home directories in <em>/home</em>.</p>
 </div>
 </td>
 </tr>
 </table>
 </div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
 <div class="paragraph">
-<p>The following commands create a new directory for the sensor recipes, change to it, and use touch to create an empty file called <em>pushbutton.js</em>:</p>
+<p>All the examples in the book assume you have cloned the Cookbook repository on www.github.com. Go here <a href="#basics_repo">[basics_repo]</a> for instructions.</p>
 </div>
-<pre data-type="programlisting">
-root@beaglebone:/var/lib/cloud9# <strong>cd /root</strong>
-root@beaglebone:~# <strong>mkdir boneSensors</strong>
-root@beaglebone:~# <strong>cd boneSensors</strong>
-root@beaglebone:~/boneSensors# <strong>touch pushbutton.js</strong>
-</pre>
-<div class="paragraph">
-<p>Now, add recipe code to the newly created <em>pushbutton.js</em> file to enable it to run:</p>
+</td>
+</tr>
+</table>
 </div>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>In Cloud9, in the Workspace browser on the left, go to the Preferences wheel and select Add Home to Favorites (<a href="#basics_addHome_fig">[basics_addHome_fig]</a>). Now, your home directory will show up in the Workspace file tree.</p>
+<p>Double-click the <em>pushbutton.py</em> file to open it.</p>
 </li>
 <li>
-<p>In the Workspace browser, expand root.</p>
-</li>
-<li>
-<p>You will see your newly created <em>boneSensors</em> directory; expand it. You will see your empty <em>pushbutton.js</em></p>
-</li>
-<li>
-<p>Double-click the <em>pushbutton.js</em> file to open it.</p>
-</li>
-<li>
-<p>Paste the code for the recipe you want to run. This example uses <a href="#js_pushbutton_code">Monitoring a pushbutton using a callback function (pushbutton.js)</a>.</p>
-</li>
-<li>
-<p>Press ^S (Ctrl-S) to save the file. (You can also go to the File menu in Cloud9 and select Save to save the file, but Ctrl-S is easier.)</p>
+<p>Press ^S (Ctrl-S) to save the file. (You can also go to the File menu in VSC and select Save to save the file, but Ctrl-S is easier.) Even easier, VSC can be configured to autosave every so many seconds.</p>
 </li>
 <li>
 <p>In the bash tab, enter the following commands:</p>
@@ -595,24 +595,16 @@ root@beaglebone:~/boneSensors# <strong>touch pushbutton.js</strong>
 </ol>
 </div>
 <pre data-type="programlisting">
-root@beaglebone:~/boneSensors# <strong>chmod +x pushbutton.js</strong>
 root@beaglebone:~/boneSensors# <strong>./pushbutton.js</strong>
 data= 0
-
 data= 0
-
 data= 1
-
 data= 1
 ^C
 </pre>
 <div class="paragraph">
 <p>This process will work for any script in this book.</p>
 </div>
-</div>
-<div class="sect3">
-<h4 id="_discussion_2">Discussion</h4>
-
 </div>
 </div>
 <div class="sect2">
@@ -626,7 +618,7 @@ data= 1
 <div class="sect3">
 <h4 id="_solution_3">Solution</h4>
 <div class="paragraph">
-<p>Connect the switch to a GPIO pin and use BoneScript pinMode() and <span class="keep-together">attachInterrupt()</span> functions.</p>
+<p>Connect the switch to a GPIO pin and read from the proper place in /sys/class/gpio".</p>
 </div>
 <div class="paragraph">
 <p>To make this recipe, you will need:</p>
@@ -634,13 +626,13 @@ data= 1
 <div class="ulist">
 <ul>
 <li>
-<p>Breadboard and jumper wires (see <a href="#app_proto">[app_proto]</a>)</p>
+<p>Breadboard and jumper wires</p>
 </li>
 <li>
-<p>Pushbutton switch (see <a href="#app_misc">[app_misc]</a>)</p>
+<p>Pushbutton switch</p>
 </li>
 <li>
-<p>Magnetic reed switch (optional, see <a href="#app_misc">[app_misc]</a>)</p>
+<p>Magnetic reed switch (optional)</p>
 </li>
 </ul>
 </div>
@@ -654,10 +646,10 @@ data= 1
 <div class="title">Figure 5. Diagram for wiring a pushbutton and magnetic reed switch input</div>
 </div>
 <div class="paragraph">
-<p>The code in <a href="#js_pushbutton_code">Monitoring a pushbutton using a callback function (pushbutton.js)</a> reads GPIO port P9_42, which is attached to the <span class="keep-together">pushbutton</span>.</p>
+<p>The code in <a href="#js_pushbutton_code">Monitoring a pushbutton (pushbutton.js)</a> reads GPIO port P9_42, which is attached to the <span class="keep-together">pushbutton</span>.</p>
 </div>
 <div id="py_pushbutton_code" class="exampleblock">
-<div class="title">Example 1. Monitoring a pushbutton using a callback function (pushbutton.py)</div>
+<div class="title">Example 1. Monitoring a pushbutton (pushbutton.py)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -699,7 +691,7 @@ while True:
 </div>
 </div>
 <div id="js_pushbutton_code" class="exampleblock">
-<div class="title">Example 2. Monitoring a pushbutton using a callback function (pushbutton.js)</div>
+<div class="title">Example 2. Monitoring a pushbutton (pushbutton.js)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -736,10 +728,9 @@ function readPin() {
 </div>
 </div>
 <div class="paragraph">
-<p>Put this code in a file called <em>pushbutton.js</em> following the steps in <a href="#sensors_getting_started">Input and Run a JavaScript Application for Talking to Sensors</a>. In the Cloud9 bash tab, run it by using the following commands:</p>
+<p>Put this code in a file called <em>pushbutton.js</em> following the steps in <a href="#sensors_getting_started">Input and Run a Python or JavaScript Application for Talking to Sensors</a>. In the VSC bash tab, run it by using the following commands:</p>
 </div>
 <pre data-type="programlisting">
-bone$ <strong>chmod +x ./pushbutton.js</strong>
 bone$ <strong>./pushbutton.js</strong>
 data = 0
 data = 0
@@ -748,7 +739,7 @@ data = 1
 ^C
 </pre>
 <div class="paragraph">
-<p>The chmod command makes it executable (you have to do this only once), and the second command runs it. Try pushing the button. The code reads the pin and prints its current value.</p>
+<p>The command runs it. Try pushing the button. The code reads the pin and prints its current value.</p>
 </div>
 <div class="paragraph">
 <p>You will have to press ^C (Ctrl-C) to stop the code.</p>
@@ -757,13 +748,9 @@ data = 1
 <p>If you want to use the magnetic reed switch wired as shown in <a href="#js_pushbutton_fig">Diagram for wiring a pushbutton and magnetic reed switch input</a>, change P9_42 to P9_26 which is gpio 14.</p>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_discussion_3">Discussion</h4>
-
-</div>
 </div>
 <div class="sect2">
-<h3 id="_mapping_header_numbers_to_gpio_numbers">Mapping Header Numbers to gpio Numbers</h3>
+<h3 id="sensors_mappiing">Mapping Header Numbers to gpio Numbers</h3>
 <div class="sect3">
 <h4 id="_problem_4">Problem</h4>
 <div class="paragraph">
@@ -830,17 +817,17 @@ gpiochip3 - 32 lines:
 <div class="ulist">
 <ul>
 <li>
-<p>Breadboard and jumper wires (see <a href="#app_proto">[app_proto]</a>)</p>
+<p>Breadboard and jumper wires</p>
 </li>
 <li>
-<p>10 k&#8486; trimpot (see <a href="#app_resistor">[app_resistor]</a>)
+<p>10 k&#8486; trimpot
 or</p>
 </li>
 <li>
-<p>Flex resistor (optional, see <a href="#app_resistor">[app_resistor]</a>)</p>
+<p>Flex resistor (optional)</p>
 </li>
 <li>
-<p>22 k&#8486; resistor (see <a href="#app_resistor">[app_resistor]</a>)</p>
+<p>22 k&#8486; resistor</p>
 </li>
 </ul>
 </div>
@@ -856,8 +843,8 @@ or</p>
 <div class="title">Figure 7. Wiring a 10k&#8486; variable resistor (trimpot) to an ADC port</div>
 </div>
 <div class="paragraph">
-<p><a href="#sensors_analogIn_code">Reading an analog voltage (analogIn.js)</a> shows the BoneScript code used to read the variable resistor.
-Add the code to a file called <em>analogIn.js</em> and run it; then change the resistor and run it again. The voltage read will change.</p>
+<p><a href="#py_analogIn_code">Reading an analog voltage (analogIn.py)</a> shows the Python code used to read the variable resistor.
+Add the code to a file called <em>analogIn.py</em> and run it; then change the resistor and run it again. The voltage read will change.</p>
 </div>
 <div id="py_analogIn_code" class="exampleblock">
 <div class="title">Example 3. Reading an analog voltage (analogIn.py)</div>
@@ -969,13 +956,9 @@ across the flex sensor.</p>
 <div class="title">Figure 8. Reading a two-terminal flex resistor</div>
 </div>
 <div class="paragraph">
-<p>The code in <a href="#sensors_analogIn_code">Reading an analog voltage (analogIn.js)</a> also works for this setup.</p>
+<p>The code in <a href="#py_analogIn_code">Reading an analog voltage (analogIn.py)</a> and <a href="#sensors_analogIn_code">Reading an analog voltage (analogIn.js)</a> also works for this setup.</p>
 </div>
 </div>
-</div>
-<div class="sect3">
-<h4 id="_discussion_4">Discussion</h4>
-
 </div>
 </div>
 <div class="sect2">
@@ -994,10 +977,10 @@ across the flex sensor.</p>
 <div class="ulist">
 <ul>
 <li>
-<p>Breadboard and jumper wires (see <a href="#app_proto">[app_proto]</a>)</p>
+<p>Breadboard and jumper wires</p>
 </li>
 <li>
-<p>LV-MaxSonar-EZ1 Sonar Range Finder (see <a href="#app_misc">[app_misc]</a>)</p>
+<p>LV-MaxSonar-EZ1 Sonar Range Finder</p>
 </li>
 </ul>
 </div>
@@ -1027,20 +1010,59 @@ across the flex sensor.</p>
 <div class="paragraph">
 <p><a href="#sensors_ultrasonicRange_code">Reading an analog voltage (ultrasonicRange.js)</a> shows the code that reads the sensor at a fixed interval.</p>
 </div>
+<div id="py_ultrasonicRange_code" class="exampleblock">
+<div class="title">Example 5. Reading an analog voltage (ultrasonicRange.py)</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-python" data-lang="python">#!/usr/bin/env python
+# //////////////////////////////////////
+# //	ultrasonicRange.js
+# // 	Reads the analog value of the sensor.
+# //////////////////////////////////////
+import time
+ms = 250;  # Time in milliseconds
+
+pin = "0"        # sensor, A0, P9_39
+
+IIOPATH='/sys/bus/iio/devices/iio:device0/in_voltage'+pin+'_raw'
+
+print('Hit ^C to stop');
+
+f = open(IIOPATH, "r")
+while True:
+    f.seek(0)
+    data = f.read()[:-1]
+    print('data= ' + data)
+    time.sleep(ms/1000)
+
+# // Bone  | Pocket | AIN
+# // ----- | ------ | --- 
+# // P9_39 | P1_19  | 0
+# // P9_40 | P1_21  | 1
+# // P9_37 | P1_23  | 2
+# // P9_38 | P1_25  | 3
+# // P9_33 | P1_27  | 4
+# // P9_36 | P2_35  | 5
+# // P9_35 | P1_02  | 6</code></pre>
+</div>
+</div>
+</div>
+</div>
 <div id="sensors_ultrasonicRange_code" class="exampleblock">
-<div class="title">Example 5. Reading an analog voltage (ultrasonicRange.js)</div>
+<div class="title">Example 6. Reading an analog voltage (ultrasonicRange.js)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
 <pre class="highlight"><code class="language-js" data-lang="js">#!/usr/bin/env node
 //////////////////////////////////////
 //	ultrasonicRange.js
-// 	Reads the analog value of the light sensor.
+// 	Reads the analog value of the sensor.
 //////////////////////////////////////
 const fs = require("fs");
 const ms = 250;  // Time in milliseconds
 
-const pin = "0";        // light sensor, A0, P9_39
+const pin = "0";        // sensor, A0, P9_39
 
 const IIOPATH='/sys/bus/iio/devices/iio:device0/in_voltage'+pin+'_raw';
 
@@ -1066,10 +1088,6 @@ function readPin() {
 </div>
 </div>
 </div>
-</div>
-<div class="sect3">
-<h4 id="_discussion_5">Discussion</h4>
-
 </div>
 </div>
 <div class="sect2">
@@ -1097,13 +1115,13 @@ function readPin() {
 <div class="ulist">
 <ul>
 <li>
-<p>Breadboard and jumper wires (see <a href="#app_proto">[app_proto]</a>)</p>
+<p>Breadboard and jumper wires</p>
 </li>
 <li>
-<p>10 k&#8486; and 20 k&#8486; resistors (see <a href="#app_resistor">[app_resistor]</a>)</p>
+<p>10 k&#8486; and 20 k&#8486; resistors</p>
 </li>
 <li>
-<p>HC-SR04 Ultrsonic Range Sensor (see <a href="#app_misc">[app_misc]</a>)</p>
+<p>HC-SR04 Ultrsonic Range Sensor</p>
 </li>
 </ul>
 </div>
@@ -1121,7 +1139,7 @@ device, so the <em>banded</em> wire (running from P9_7 on the Bone to VCC on the
 <p><a href="#sensors_hc-sr04_code">Driving a HC-SR04 ultrasound sensor (hc-sr04-ultraSonic.js)</a> shows BoneScript code used to drive the HC-SR04.</p>
 </div>
 <div id="sensors_hc-sr04_code" class="exampleblock">
-<div class="title">Example 6. Driving a HC-SR04 ultrasound sensor (hc-sr04-ultraSonic.js)</div>
+<div class="title">Example 7. Driving a HC-SR04 ultrasound sensor (hc-sr04-ultraSonic.js)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -1183,10 +1201,6 @@ function pingEnd(x) {
 <div class="paragraph">
 <p>This code is more complex than others in this chapter, because we have to tell the device when to start measuring and time the return pulse.</p>
 </div>
-</div>
-<div class="sect3">
-<h4 id="_discussion_6">Discussion</h4>
-
 </div>
 </div>
 <div class="sect2">
@@ -1260,10 +1274,10 @@ function pingEnd(x) {
 <div class="ulist">
 <ul>
 <li>
-<p>Breadboard and jumper wires (see <a href="#app_proto">[app_proto]</a>)</p>
+<p>Breadboard and jumper wires</p>
 </li>
 <li>
-<p>Rotary encoder (see <a href="#app_misc">[app_misc]</a>)</p>
+<p>Rotary encoder</p>
 </li>
 </ul>
 </div>
@@ -1294,14 +1308,14 @@ P8.11        13 fast rx  up  4 qep 2 in B    ocp/P8_11_pinmux (pinmux_P8_11_qep_
 <p>Finally, add the code in <a href="#digital_rotaryEncoder_js">Reading a rotary encoder (rotaryEncoder.js)</a> to a file named <em>rotaryEncoder.js</em> and run it.</p>
 </div>
 <div id="digital_rotaryEncoder_py" class="exampleblock">
-<div class="title">Example 7. Reading a rotary encoder (rotaryEncoder.py)</div>
+<div class="title">Example 8. Reading a rotary encoder (rotaryEncoder.py)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
 <pre class="highlight"><code class="language-python" data-lang="python">#!/usr/bin/env python
 # // This uses the eQEP hardware to read a rotary encoder
-# // bone$ config-pin P8_11 qep
-# // bone$ config-pin P8_12 qep
+# // bone$ config-pin P8_11 eqep
+# // bone$ config-pin P8_12 eqep
 import time
     
 eQEP = '2'
@@ -1346,14 +1360,14 @@ while True:
 </div>
 </div>
 <div id="digital_rotaryEncoder_js" class="exampleblock">
-<div class="title">Example 8. Reading a rotary encoder (rotaryEncoder.js)</div>
+<div class="title">Example 9. Reading a rotary encoder (rotaryEncoder.js)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
 <pre class="highlight"><code class="language-js" data-lang="js">#!/usr/bin/env node
 // This uses the eQEP hardware to read a rotary encoder
-// bone$ config-pin P8_11 qep
-// bone$ config-pin P8_12 qep
+// bone$ config-pin P8_11 eqep
+// bone$ config-pin P8_12 eqep
 const fs = require("fs");
     
 const eQEP = "2";
@@ -1414,13 +1428,6 @@ data = 999972
 <div class="paragraph">
 <p>The values you get for data will depend on which way you are turning the device and how quickly. You will need to press ^C (Ctrl-C) to end.</p>
 </div>
-<div class="paragraph">
-<p>[&lt;span class="keep-together"&gt;program&lt;/span&gt;].</p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_discussion_7">Discussion</h4>
-
 </div>
 <div class="sect3">
 <h4 id="_see_also">See Also</h4>
@@ -1448,10 +1455,10 @@ data = 999972
 <div class="ulist">
 <ul>
 <li>
-<p>Breadboard and jumper wires (see <a href="#app_proto">[app_proto]</a>)</p>
+<p>Breadboard and jumper wires</p>
 </li>
 <li>
-<p>GPS receiver (see <a href="#app_misc">[app_misc]</a>)</p>
+<p>GPS receiver</p>
 </li>
 </ul>
 </div>
@@ -1475,7 +1482,7 @@ bone$ <strong>npm install -g nmea</strong>
 <p>Running the code in <a href="#digital_GPS_code">Talking to a GPS with UART 4 (GPS.js)</a> will print the current location every time the GPS outputs it.</p>
 </div>
 <div id="digital_GPS_code" class="exampleblock">
-<div class="title">Example 9. Talking to a GPS with UART 4 (GPS.js)</div>
+<div class="title">Example 10. Talking to a GPS with UART 4 (GPS.js)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -1538,9 +1545,6 @@ function onSerial(x) {
 </tr>
 </table>
 </div>
-</div>
-<div class="sect3">
-<h4 id="_discussion_8">Discussion</h4>
 <div id="cape-headers-serial_fig" class="imageblock">
 <div class="content">
 <img src="figures/cape-headers-serial.png" alt="UART outputs">
@@ -1568,13 +1572,13 @@ function onSerial(x) {
 <div class="ulist">
 <ul>
 <li>
-<p>Breadboard and jumper wires (see <a href="#app_proto">[app_proto]</a>)</p>
+<p>Breadboard and jumper wires</p>
 </li>
 <li>
-<p>Two 4.7 k&#8486; resistors (see <a href="#app_resistor">[app_resistor]</a>)</p>
+<p>Two 4.7 k&#8486; resistors</p>
 </li>
 <li>
-<p>TMP101 temperature sensor (see <a href="#app_ic">[app_ic]</a>)</p>
+<p>TMP101 temperature sensor</p>
 </li>
 </ul>
 </div>
@@ -1600,7 +1604,7 @@ function onSerial(x) {
 <p>Once the I<sup>2</sup>C  device is wired up, you can use a couple handy I<sup>2</sup>C tools to test the device. Because these are Linux command-line tools, you have to use 2 as the bus number. i2cdetect, shown in <a href="#js_i2cTools">I<sup>2</sup>C tools</a>, shows which I<sup>2</sup>C  devices are on the bus. The -r flag indicates which bus to use. Our TMP101 is appearing at address 0x49. You can use the i2cget command to read the value. It returns the temperature in hexidecimal and degrees C. In this example, 0x18 = 24&#176;C, which is 75.2&#176;F. (Hmmm, the office is a bit warm today.) Try warming up the TMP101 with your finger and running i2cget again.</p>
 </div>
 <div id="js_i2cTools" class="exampleblock">
-<div class="title">Example 10. I<sup>2</sup>C tools</div>
+<div class="title">Example 11. I<sup>2</sup>C tools</div>
 <div class="content">
 <pre data-type="programlisting">
 bone$ <strong>i2cdetect -y -r 2</strong>
@@ -1629,7 +1633,7 @@ bone$ <strong>i2cget -y 2 0x49</strong>
 <p>Assuming the TMP101 is on bus 2 (the last digit is the bus number)</p>
 </div>
 <div id="js_i2cKernel" class="exampleblock">
-<div class="title">Example 11. I<sup>2</sup>C TMP101 via Kernel</div>
+<div class="title">Example 12. I<sup>2</sup>C TMP101 via Kernel</div>
 <div class="content">
 <pre data-type="programlisting">
 bone$ <strong>cd /sys/class/i2c-adapter/</strong>
@@ -1688,7 +1692,7 @@ new_device  of_node  power  subsystem  uevent
 <div class="exampleblock">
 <div class="content">
 <pre data-type="programlisting">
-bone$ <strong>d 2-0048/hwmon/hwmon0</strong>
+bone$ <strong>cd 2-0048/hwmon/hwmon0</strong>
 bone$ <strong>ls -F</strong>
 device@  name  power/  subsystem@  temp1_input  temp1_max
 temp1_max_hyst  uevent  update_interval
@@ -1705,10 +1709,10 @@ You can try the Linux Kernel Driver Database, <a href="https://cateee.net/lkddb/
 </div>
 <div class="paragraph">
 <p>Once the driver is in place, you can read it via code.
-<a href="#js_i2cTemp_code">Reading an I<sup>2</sup>C  device (i2cTemp.js)</a> shows how to read the TMP101 from BoneScript.</p>
+<a href="#py_i2cTemp_code">Reading an I<sup>2</sup>C  device (i2cTemp.py)</a> shows how to read the TMP101 from BoneScript.</p>
 </div>
-<div id="pyi2cTemp_code" class="exampleblock">
-<div class="title">Example 12. Reading an I<sup>2</sup>C  device (i2cTemp.py)</div>
+<div id="py_i2cTemp_code" class="exampleblock">
+<div class="title">Example 13. Reading an I<sup>2</sup>C  device (i2cTemp.py)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -1739,7 +1743,7 @@ while True:
 </div>
 </div>
 <div id="js_i2cTemp_code" class="exampleblock">
-<div class="title">Example 13. Reading an I<sup>2</sup>C  device (i2cTemp.js)</div>
+<div class="title">Example 14. Reading an I<sup>2</sup>C  device (i2cTemp.js)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -1801,7 +1805,7 @@ bone$ <strong>pip install smbus</strong>
 </div>
 </div>
 <div id="js_i2ctmp101_code" class="exampleblock">
-<div class="title">Example 14. Reading an I<sup>2</sup>C  device (i2cTemp.py)</div>
+<div class="title">Example 15. Reading an I<sup>2</sup>C  device (i2cTemp.py)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -1832,10 +1836,6 @@ while True:
 <p>This gets only 8 bits for the temperature.  See the TMP101 datasheet for details on how  to get up to 12 bits.</p>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_discussion_9">Discussion</h4>
-
-</div>
 </div>
 <div class="sect2">
 <h3 id="_reading_temperature_via_a_dallas_1_wire_device">Reading Temperature via a Dallas 1-Wire Device</h3>
@@ -1856,13 +1856,13 @@ while True:
 <div class="ulist">
 <ul>
 <li>
-<p>Breadboard and jumper wires (see <a href="#app_proto">[app_proto]</a>)</p>
+<p>Breadboard and jumper wires</p>
 </li>
 <li>
-<p>4.7 k&#8486; resistor (see <a href="#app_resistor">[app_resistor]</a>)</p>
+<p>4.7 k&#8486; resistor</p>
 </li>
 <li>
-<p>DS18B20 1-wire temperature sensor (see <a href="#app_ic">[app_ic]</a>)</p>
+<p>DS18B20 1-wire temperature sensor</p>
 </li>
 </ul>
 </div>
@@ -1888,7 +1888,7 @@ while True:
 <p>Be sure to remove the # at the beginning of the line.</p>
 </div>
 <div class="paragraph">
-<p>reboot the bone and then run the following commands:</p>
+<p>Reboot the bone:</p>
 </div>
 <pre data-type="programlisting">
 bone$ <strong>reboot</strong>
@@ -1904,10 +1904,10 @@ bone$ <strong>ls /sys/bus/w1/devices/</strong>
 <p>I have two devices wired in parallel on the same P9_12 input. This shows the serial numbers for all the devices.</p>
 </div>
 <div class="paragraph">
-<p>Finally, add the code in <a href="#sensors_onewire__code">Reading a temperature with a DS18B20 (w1.js)</a> in to a file named <em>w1.js</em>, edit the path assigned to w1 so that the path points to your device, and then run it.</p>
+<p>Finally, add the code in <a href="#sensors_onewire__code">Reading a temperature with a DS18B20 (w1.js)</a> in to a file named <em>w1.py</em>, edit the path assigned to w1 so that the path points to your device, and then run it.</p>
 </div>
 <div id="py_onewire__code" class="exampleblock">
-<div class="title">Example 15. Reading a temperature with a DS18B20 (w1.py)</div>
+<div class="title">Example 16. Reading a temperature with a DS18B20 (w1.py)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -1939,7 +1939,7 @@ while True:
 </div>
 </div>
 <div id="sensors_onewire__code" class="exampleblock">
-<div class="title">Example 16. Reading a temperature with a DS18B20 (w1.js)</div>
+<div class="title">Example 17. Reading a temperature with a DS18B20 (w1.js)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -1984,273 +1984,22 @@ temp (C) = 31.0
 </div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_10">Discussion</h4>
+<h4 id="_discussion">Discussion</h4>
 <div class="paragraph">
 <p>Each temperature sensor has a unique serial number, so you can have several all sharing the same data line.</p>
 </div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="sensors_sensortag">Sensing All Sorts of Things with SensorTag via Bluetooth v4.0</h3>
-<div class="sect3">
-<h4 id="_problem_12">Problem</h4>
-<div class="paragraph">
-<p>You have a TI SensorTag, and you want to interface it to BeagleBone Black via Bluetooth Low Energy (BLE).</p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_solution_12">Solution</h4>
-<div class="paragraph">
-<p>TI&#8217;s <a href="http://bit.ly/1C58WIN">SensorTag</a> (shown in <a href="#sensors_sensortag_fig">SensorTag</a>) combines six sensors (temperature, humidity, accelerometer, pressure, magnetometer, and gyroscope) in one package that interfaces via <a href="http://bit.ly/1EzMo4x">Bluetooth Low Energy</a>.</p>
-</div>
-<div id="sensors_sensortag_fig" class="imageblock">
-<div class="content">
-<img src="figures/sensorTag.jpg" alt="SensorTag">
-</div>
-<div class="title">Figure 18. SensorTag</div>
-</div>
-<div class="paragraph">
-<p>To make this recipe, you will need:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>BLE USB dongle (see <a href="#app_misc">[app_misc]</a>)</p>
-</li>
-<li>
-<p>SensorTag (see <a href="#app_misc">[app_misc]</a>)</p>
-</li>
-<li>
-<p>5 V adapter for the Bone</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>Power up your Bone using the 5 V adapter. You need the adapter because the BLE dongle needs extra power for the radios it contains. After it is booted up, log in (<a href="#tips_shell">[tips_shell]</a>) and run the following commands:</p>
-</div>
-<pre data-type="programlisting">
-bone$ <strong>sudo apt install libbluetooth-dev</strong>
-bone$ <strong>npm install -g sensortag</strong>
-</pre>
-<div class="paragraph">
-<p>This installs the Bluetooth tools and the JavaScript library to talk to it.</p>
-</div>
-<div class="paragraph">
-<p>Add the code in <a href="#sensors_sensorTag_code">Code for reading the temperature from a SensorTag (sensorTag.js)</a> to a file called <em>sensorTag.js</em> and run it.</p>
-</div>
-<div id="sensors_sensorTag_code" class="exampleblock">
-<div class="title">Example 17. Code for reading the temperature from a SensorTag (sensorTag.js)</div>
-<div class="content">
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-js" data-lang="js">#!/usr/bin/env node
-// From: https://github.com/sandeepmistry/node-sensortag
-
-// Reads temperature
-
-var util = require('util');             // <b class="conum">(1)</b>
-var async = require('async');
-var SensorTag = require('sensortag');
-var fs = require('fs');
-
-console.log("Be sure sensorTag is on");
-
-SensorTag.discover(function(sensorTag) {  // <b class="conum">(2)</b>
-  console.log('sensorTag = ' + sensorTag);
-  sensorTag.on('disconnect', function() {   // <b class="conum">(3)</b>
-    console.log('disconnected!');
-    process.exit(0);
-  });
-
-  async.series([                            // <b class="conum">(4)</b>
-      function(callback) {
-        console.log('connect');             // <b class="conum">(5)</b>
-        sensorTag.connect(callback);
-      },
-      function(callback) {                  // <b class="conum">(6)</b>
-        console.log('discoverServicesAndCharacteristics');
-        sensorTag.discoverServicesAndCharacteristics(callback);
-      },
-      function(callback) {
-        console.log('enableIrTemperature'); // <b class="conum">(7)</b>
-        sensorTag.enableIrTemperature(callback);
-      },
-      function(callback) {
-        setTimeout(callback, 100);          // <b class="conum">(8)</b>
-      },
-      function(callback) {
-        console.log('readIrTemperature');   // <b class="conum">(9)</b>
-        sensorTag.readIrTemperature(
-          function(objectTemperature, ambientTemperature) {
-            console.log('\tobject  temperature = %d °C', 
-                objectTemperature.toFixed(1));
-            console.log('\tambient temperature = %d °C', 
-                ambientTemperature.toFixed(1));
-            callback();
-        });
-
-        sensorTag.on('irTemperatureChange', // <b class="conum">(10)</b>
-          function(objectTemperature, ambientTemperature) {
-            console.log('\tobject  temperature = %d °C', 
-                objectTemperature.toFixed(1));
-            console.log('\tambient temperature = %d °C\n', 
-                ambientTemperature.toFixed(1));
-          });
-
-        sensorTag.notifyIrTemperature(function() {
-          console.log('notifyIrTemperature');
-        });
-      },
-      // function(callback) {
-      //   console.log('disableIrTemperature'); // <b class="conum">(11)</b>
-      //   sensorTag.disableIrTemperature(callback);
-      // },
-      
-      function(callback) {
-        console.log('readSimpleRead');          // &lt;12&gt; 
-        sensorTag.on('simpleKeyChange', function(left, right) {
-          console.log('left: ' + left + ' right: ' + right);
-          if (left &amp;&amp; right) {
-            sensorTag.notifySimpleKey(callback); // <b class="conum">(13)</b>
-          }
-        });
-
-        sensorTag.notifySimpleKey(function() {  // <b class="conum">(14)</b>
-        });
-      },
-      function(callback) {
-        console.log('disconnect');
-        sensorTag.disconnect(callback);         // <b class="conum">(15)</b>
-      }
-    ]
-  );
-});
-
-// The MIT License (MIT)
-
-// Copyright (c) 2013 Sandeep Mistry
-
-// Permission is hereby granted, free of charge, to any person obtaining a copy of
-// this software and associated documentation files (the "Software"), to deal in
-// the Software without restriction, including without limitation the rights to
-// use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
-// the Software, and to permit persons to whom the Software is furnished to do so,
-// subject to the following conditions:
-
-// The above copyright notice and this permission notice shall be included in all
-// copies or substantial portions of the Software.
-
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
-// FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
-// COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
-// IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
-// CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</code></pre>
-</div>
-</div>
-</div>
-</div>
-<div class="colist arabic">
-<ol>
-<li>
-<p>Read in the various packages that are needed.</p>
-</li>
-<li>
-<p>SensorTag.discover checks what SensorTags are out there. When found, it calls the inline function that follows.</p>
-</li>
-<li>
-<p><span id="callout_list_item_3">This</span> function is called when the SensorTag is disconnected.</p>
-</li>
-<li>
-<p>Normally JavaScript does everything synchronously. Here, we want to do the following asynchronously&#8212;&#8203;that is, step-by-step, one after the other. We are passing an array to async.series(), which contains the functions to run in the order in which they appear in the array.</p>
-</li>
-<li>
-<p>Connect to the SensorTag.</p>
-</li>
-<li>
-<p>Discover what the SensorTag can do. This is necessary before we can give it any commands.</p>
-</li>
-<li>
-<p>Enable temperatures. We don&#8217;t get a temperature reading yet. Rather, we&#8217;re instructing it to begin reading and report back when they are ready.</p>
-</li>
-<li>
-<p>Wait a bit for the first temperatures to be read.</p>
-</li>
-<li>
-<p>This specifies the function to call every time a temperature is ready. The callback is passed objectTemperature (what&#8217;s read by the touchless IR sensors) and ambientTemperature (the temperature inside the SensorTag). Try putting your hand in front of the device; the objectTemperature should go up.</p>
-</li>
-<li>
-<p>Define the callback for when the temperature changes.</p>
-</li>
-<li>
-<p>This commented-out code is used when you want to turn off the temperature readings.</p>
-</li>
-<li>
-<p>Assign a callback to respond to the left and right button pushes.</p>
-</li>
-<li>
-<p>If both buttons are pushed, pass the callback function to sensorTag.notifySimpleKey().</p>
-</li>
-<li>
-<p>sensorTag.notifySimpleKey() doesn&#8217;t do anything in this case, but it does evaluate callback, allowing it to progress to the next and final state.</p>
-</li>
-<li>
-<p>When we get to here, we disconnect from the SensorTag, which causes the code to exit (see <a href="#callout_list_item_3"><img src="callouts/3.png" alt="3"/></a>).</p>
-</li>
-</ol>
-</div>
-<div class="paragraph pagebreak-before">
-<p>Here&#8217;s some output from the code:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-console" data-lang="console">Be sure sensorTag is on
-sensorTag = {"uuid":"9059af0b8457"}
-connect
-discoverServicesAndCharacteristics
-enableIrTemperature
-readIrTemperature
-    object  temperature = 2.8 °C
-	ambient temperature = 0 °C
-readSimpleRead
-notifyIrTemperature
-	object  temperature = 31.8 °C
-	ambient temperature = 24.8 °C
-
-	object  temperature = 25.9 °C
-	ambient temperature = 24.8 °C
-
-	object  temperature = 27.4 °C
-	ambient temperature = 24.8 °C
-
-	object  temperature = 32.2 °C
-	ambient temperature = 24.8 °C
-
-left: false right: true
-left: true right: true
-left: false right: false
-disconnect
-disconnected!</code></pre>
-</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_discussion_11">Discussion</h4>
-<div class="paragraph">
-<p>Here, you see examples of how to read all the sensors. Look in <em>index.js</em> (in the same directory) to see all the methods that are defined.</p>
-</div>
-</div>
-</div>
-<div class="sect2">
 <h3 id="sensors_audio">Playing and Recording Audio</h3>
 <div class="sect3">
-<h4 id="_problem_13">Problem</h4>
+<h4 id="_problem_12">Problem</h4>
 <div class="paragraph">
 <p>BeagleBone doesn&#8217;t have audio built in, but you want to play and record files.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_13">Solution</h4>
+<h4 id="_solution_12">Solution</h4>
 <div class="paragraph">
 <p>One approach is to buy an audio cape (<a href="#app_capes">[app_capes]</a>), but another, possibly cheaper approach is to buy a USB audio adapter,
 such as the one shown in <a href="#usb_audio_dongle">A USB audio dongle</a>. Some adapters that I&#8217;ve tested are provided in <a href="#app_misc">[app_misc]</a>.</p>
@@ -2259,7 +2008,7 @@ such as the one shown in <a href="#usb_audio_dongle">A USB audio dongle</a>. Som
 <div class="content">
 <img src="figures/audioDongle.jpg" alt="Audio Dongle">
 </div>
-<div class="title">Figure 19. A USB audio dongle</div>
+<div class="title">Figure 18. A USB audio dongle</div>
 </div>
 <div class="paragraph">
 <p>Drivers for the <a href="http://bit.ly/1MrAJUR">Advanced Linux Sound Architecture</a> (ALSA) are already installed on the Bone. You can list the recording and playing devices on your Bone by using aplay and arecord, as shown in <a href="#sensors_alsa">Listing the ALSA audio output and input devices on the Bone</a>. BeagleBone Black has audio-out on the HDMI interface. It&#8217;s listed as card 0 in <a href="#sensors_alsa">Listing the ALSA audio output and input devices on the Bone</a>. card 1 is my USB audio adapter&#8217;s audio out.</p>
@@ -2323,7 +2072,7 @@ bone$ <strong>mplayer test.mp3</strong>
 </pre>
 </div>
 <div class="sect3">
-<h4 id="_discussion_12">Discussion</h4>
+<h4 id="_discussion_2">Discussion</h4>
 <div class="paragraph">
 <p>Adding the simple USB audio adapter opens up a world of audio I/O on the Bone.</p>
 </div>
@@ -2340,7 +2089,7 @@ bone$ <strong>mplayer test.mp3</strong>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2022-07-29 16:45:10 -0400
+Last updated 2022-08-09 10:51:24 -0400
 </div>
 </div>
 </body>

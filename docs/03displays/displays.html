@@ -451,6 +451,20 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p>In this chapter, you will learn how to control physical hardware via
 BeagleBone Black&#8217;s general-purpose input/output (GPIO) pins. The Bone has 65 GPIO pins that are brought out on two 46-pin headers, called P8 and P9, as shown in <a href="#js_P8P9_fig">The P8 and P9 GPIO headers</a>.</p>
 </div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>All the examples in the book assume you have cloned the Cookbook repository on www.github.com. Go here <a href="#basics_repo">[basics_repo]</a> for instructions.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
 <div id="js_P8P9_fig" class="imageblock">
 <div class="content">
 <img src="figures/P8P9_bb.png" alt="Headers P8 and P9">
@@ -461,7 +475,7 @@ BeagleBone Black&#8217;s general-purpose input/output (GPIO) pins. The Bone has 
 <p>The purpose of this chapter is to give simple examples that show how to use various methods of output. Most solutions require a breadboard and some jumper wires.</p>
 </div>
 <div class="paragraph">
-<p>All these examples assume that you know how to edit a file (<a href="#basics_vsc">[basics_vsc]</a>) and run it, either within Cloud9 integrated development environment (IDE) or from the command line (<a href="#tips_shell">[tips_shell]</a>).</p>
+<p>All these examples assume that you know how to edit a file (<a href="#basics_vsc">[basics_vsc]</a>) and run it, either within Visual Studio Code (VSC) integrated development environment (IDE) or from the command line (<a href="#tips_shell">[tips_shell]</a>).</p>
 </div>
 </div>
 <div class="sect2">
@@ -484,7 +498,7 @@ BeagleBone Black&#8217;s general-purpose input/output (GPIO) pins. The Bone has 
 <div class="title">Figure 2. The four USER LEDs</div>
 </div>
 <div class="paragraph">
-<p>Place the code shown in <a href="#js_internLED_code">Using an internal LED (internLED.js)</a> in a file called <em>internLED.js</em>. You can do this using Cloud9 to edit files (as shown in <a href="#basics_vsc">[basics_vsc]</a>) or with a more traditional editor (as shown in <a href="#tips_editing_files">[tips_editing_files]</a>).</p>
+<p>Place the code shown in <a href="#py_internLED_code">Using an internal LED (internLED.py)</a> in a file called <em>internLED.py</em>. You can do this using VSC to edit files (as shown in <a href="#basics_vsc">[basics_vsc]</a>) or with a more traditional editor (as shown in <a href="#tips_editing_files">[tips_editing_files]</a>).</p>
 </div>
 <div id="py_internLED_code" class="exampleblock">
 <div class="title">Example 1. Using an internal LED (internLED.py)</div>
@@ -559,16 +573,12 @@ function flash() {
 <p>In the bash command window, enter the following commands:</p>
 </div>
 <pre data-type="programlisting">
-bone$ <strong>chmod +x internLED.js</strong>
+bone$ <strong>cd ~/BoneCookbook/docs/03displays/code</strong>
 bone$ <strong>./internLED.js</strong>
 </pre>
 <div class="paragraph">
 <p>The USER0 LED should now be flashing.</p>
 </div>
-</div>
-<div class="sect3">
-<h4 id="_discussion">Discussion</h4>
-
 </div>
 </div>
 <div class="sect2">
@@ -587,13 +597,13 @@ bone$ <strong>./internLED.js</strong>
 <div class="ulist">
 <ul>
 <li>
-<p>Breadboard and jumper wires (see <a href="#app_proto">[app_proto]</a>)</p>
+<p>Breadboard and jumper wires</p>
 </li>
 <li>
-<p>220 &#8486; to 470 &#8486; resistor (see <a href="#app_resistor">[app_resistor]</a>)</p>
+<p>220 &#8486; to 470 &#8486; resistor</p>
 </li>
 <li>
-<p>LED (see <a href="#app_opto">[app_opto]</a>)</p>
+<p>LED</p>
 </li>
 </ul>
 </div>
@@ -621,10 +631,59 @@ bone$ <strong>./internLED.js</strong>
 <div class="title">Figure 3. Diagram for using an external LED</div>
 </div>
 <div class="paragraph">
-<p>After you&#8217;ve wired it, start Cloud9 (see <a href="#basics_vsc">[basics_vsc]</a>) and enter the code shown in <a href="#js_externLED_code">Code for using an external LED (externLED.js)</a> in a file called <em>externLED.js</em>.</p>
+<p>After you&#8217;ve wired it, start VSC (see <a href="#basics_vsc">[basics_vsc]</a>) and find the code shown in <a href="#py_externLED_code">Code for using an external LED (externLED.py)</a>.</p>
+</div>
+<div id="py_externLED_code" class="exampleblock">
+<div class="title">Example 3. Code for using an external LED (externLED.py)</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-python" data-lang="python">#!/usr/bin/env python
+# ////////////////////////////////////////
+# //	externalLED.py
+# //	Blinks an external LED wired to P9_14.
+# //	Wiring: P9_14 connects to the plus lead of an LED.  The negative lead of the
+#			LED goes to a 220 Ohm resistor.  The other lead of the resistor goes
+#			to ground.
+# //	Setup:
+# //	See:
+# ////////////////////////////////////////
+import time
+import os
+
+ms = 250        # Time to blink in ms
+# Look up P9.14 using gpioinfo | grep -e chip -e P9.14.  chip 1, line 18 maps to 50
+pin = '50'
+
+GPIOPATH='/sys/class/gpio/'
+# Make sure pin is exported
+if (not os.path.exists(GPIOPATH+"gpio"+pin)):
+    f = open(GPIOPATH+"export", "w")
+    f.write(pin)
+    f.close()
+
+# Make it an output pin
+f = open(GPIOPATH+"gpio"+pin+"/direction", "w")
+f.write("out")
+f.close()
+ 
+f = open(GPIOPATH+"gpio"+pin+"/value", "w")
+# Blink
+while True:
+    f.seek(0)
+    f.write("1")
+    time.sleep(ms/1000)
+
+    f.seek(0)
+    f.write("0")
+    time.sleep(ms/1000)
+f.close()</code></pre>
+</div>
+</div>
+</div>
 </div>
 <div id="js_externLED_code" class="exampleblock">
-<div class="title">Example 3. Code for using an external LED (externLED.js)</div>
+<div class="title">Example 4. Code for using an external LED (externLED.js)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -669,10 +728,6 @@ function toggle() {
 <p>Save your file and run the code as before (<a href="#displays_onboardLED">Toggling an Onboard LED</a>).</p>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_discussion_2">Discussion</h4>
-
-</div>
 </div>
 <div class="sect2">
 <h3 id="displays_powerSwitch">Toggling a High-Voltage External Device</h3>
@@ -693,7 +748,7 @@ function toggle() {
 <div class="ulist">
 <ul>
 <li>
-<p>PowerSwitch Tail II (see <a href="#app_misc">[app_misc]</a>)</p>
+<p>PowerSwitch Tail II</p>
 </li>
 </ul>
 </div>
@@ -707,12 +762,8 @@ function toggle() {
 <div class="title">Figure 4. Diagram for wiring PowerSwitch Tail II</div>
 </div>
 <div class="paragraph">
-<p>After you&#8217;ve wired it, because this uses the same output pin as <a href="#displays_externalLED">Toggling an External LED</a>, you can run the same code (<a href="#js_externLED_code">Code for using an external LED (externLED.js)</a>).</p>
+<p>After you&#8217;ve wired it, because this uses the same output pin as <a href="#displays_externalLED">Toggling an External LED</a>, you can run the same code (<a href="#py_externLED_code">Code for using an external LED (externLED.py)</a>).</p>
 </div>
-</div>
-<div class="sect3">
-<h4 id="_discussion_3">Discussion</h4>
-
 </div>
 </div>
 <div class="sect2">
@@ -726,7 +777,7 @@ function toggle() {
 <div class="sect3">
 <h4 id="_solution_4">Solution</h4>
 <div class="paragraph">
-<p> Use the Bone&#8217;s pulse width modulation (PWM) hardware to fade an LED We&#8217;ll use the same circuit as before (<a href="#displays_externLED_fig">Diagram for using an external LED</a>). Add the code in <a href="#js_fadeLED_code">Code for using an external LED (fadeLED.js)</a> to a file called <em>fadeLED.js</em>.  Next configure the pins.  We are using P9_14 so run:</p>
+<p> Use the Bone&#8217;s pulse width modulation (PWM) hardware to fade an LED. We&#8217;ll use the same circuit as before (<a href="#displays_externLED_fig">Diagram for using an external LED</a>). Find the code in <a href="#py_fadeLED_code">Code for using an external LED (fadeLED.py)</a> Next configure the pins.  We are using P9_14 so run:</p>
 </div>
 <pre>
 bone$ <strong>config-pin P9_14 pwm
@@ -735,7 +786,7 @@ bone$ <strong>config-pin P9_14 pwm
 <p>Then run it as before.</p>
 </div>
 <div id="py_fadeLED_code" class="exampleblock pagebreak-before">
-<div class="title">Example 4. Code for using an external LED (fadeLED.py)</div>
+<div class="title">Example 5. Code for using an external LED (fadeLED.py)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -788,7 +839,7 @@ while True:
 </div>
 </div>
 <div id="js_fadeLED_code" class="exampleblock pagebreak-before">
-<div class="title">Example 5. Code for using an external LED (fadeLED.js)</div>
+<div class="title">Example 6. Code for using an external LED (fadeLED.js)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -842,9 +893,9 @@ function fade() {
 </div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_4">Discussion</h4>
+<h4 id="_discussion">Discussion</h4>
 <div class="paragraph">
-<p>The Bone has several outputs that can be use as pwm&#8217;s as shown in <a href="#cape-headers-pwm_fig">Table of PWM outputs</a>.  There are three EHRPWM's which each has a pair  of pwm channels.  Each pair must have the same period.</p>
+<p>The Bone has several outputs that can be used as pwm&#8217;s as shown in <a href="#cape-headers-pwm_fig">Table of PWM outputs</a>.  There are three EHRPWM's (enhanced high resolution pulse width modulation) which each has a pair  of pwm channels.  Each pair must have the same pulse period.</p>
 </div>
 <div id="cape-headers-pwm_fig" class="imageblock">
 <div class="content">
@@ -853,26 +904,21 @@ function fade() {
 <div class="title">Figure 5. Table of PWM outputs</div>
 </div>
 <div class="paragraph">
-<p>The pwm&#8217;s are accessed through /sys/class/pwm</p>
+<p>The pwm&#8217;s are accessed through /dev/bone/pwm</p>
 </div>
 <pre>
-bone$ <strong>cd /sys/class/pwm</strong>
+bone$ <strong>cd /dev/bone/pwm</strong>
 bone$ <strong>ls</strong>
-pwmchip0  pwmchip1  pwmchip2  pwmchip3  pwmchip5  pwmchip7
+0  1  2
 </pre>
 <div class="paragraph">
-<p>Here we see six pwmchips that can be used.  Chips 3, 5 and 7 have pairs of pwm channels.  Explore one.</p>
+<p>Here we see three pwmchips that can be used, each has two channels.  Explore one.</p>
 </div>
 <pre>
-bone$ <strong>cd pwmchip5</strong>
+bone$ <strong>cd 1</strong>
 bone$ <strong>ls</strong>
-device  export  npwm  power   subsystem  uevent  unexport
-bone$ <strong>cat npwm</strong>
-2
-bone$ <strong>echo 0 > export</strong>
-bone$ <strong>ls</strong>
-device  export  npwm  power  pwm0  subsystem  uevent  unexport
-bone$ <strong>cd pwm0</strong>
+a  b
+bone$ <strong>cd a</strong>
 bone$ <strong>ls</strong>
 capture  duty_cycle  enable  period  polarity  power  uevent
 </pre>
@@ -891,12 +937,12 @@ bone$ <strong>echo 1 > enable</strong>
 <div class="paragraph">
 <p><a href="#display_pwm_mapping">Headers to pwm channel mapping.</a> are the mapping I&#8217;ve figured out so far. I don&#8217;t know how to get to the timers.</p>
 </div>
-<table id="display_pwm_mapping" class="tableblock frame-all grid-all stretch">
+<table id="display_pwm_mapping" class="tableblock frame-all grid-all fit-content">
 <caption class="title">Table 1. Headers to pwm channel mapping.</caption>
 <colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
+<col>
+<col>
+<col>
 </colgroup>
 <tbody>
 <tr>
@@ -957,50 +1003,36 @@ bone$ <strong>echo 1 > enable</strong>
 <div class="ulist">
 <ul>
 <li>
-<p>Breadboard and jumper wires (see <a href="#app_proto">[app_proto]</a>)</p>
+<p>Breadboard and jumper wires</p>
 </li>
 <li>
-<p>Two 4.7 k&#8486; resistors (see <a href="#app_resistor">[app_resistor]</a>)</p>
+<p>Two 4.7 k&#8486; resistors</p>
 </li>
 <li>
-<p>I<sup>2</sup>C LED matrix (see <a href="#app_opto">[app_opto]</a>)</p>
+<p>I<sup>2</sup>C LED matrix</p>
 </li>
 </ul>
 </div>
 <div class="paragraph">
-<p>The LED matrix is a 5 V device, but you can drive it from 3.3 V. Wire, as shown in <a href="#displays_i2cMatrix_fig">Wiring an i2c LED matrix</a>.</p>
+<p>The LED matrix is a 5 V device, but you can drive it from 3.3 V. Wire, as shown in <a href="#displays_i2cMatrix_fig">Wiring an I<sup>2</sup>C LED matrix</a>.</p>
 </div>
 <div id="displays_i2cMatrix_fig" class="imageblock">
 <div class="content">
-<img src="figures/i2cMatrix_bb.png" alt="i2c LED matrix">
+<img src="figures/i2cMatrix_bb.png" alt="I^2^C LED matrix">
 </div>
-<div class="title">Figure 6. Wiring an i2c LED matrix</div>
-</div>
-<div class="paragraph">
-<p><a href="#sensors_i2c_temp">[sensors_i2c_temp]</a> shows how to use i2cdetect to discover the address of an I<sup>2</sup>C device. It also describes the difference between how Linux numbers the I<sup>2</sup>C buses (0 and 1) versus how BoneScript numbers them (1 and 2). Let&#8217;s see how your display shows up.</p>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<div class="title">Note</div>
-</td>
-<td class="content">
-<div class="paragraph">
-<p>The BoneScript library convention is to use the index numbers provided in the hardware documentation. The version of the Linux kernel we use, however, begins index numbers at 0 for the first one registered and increases by 1, so these numbers might not always match. The BoneScript library attempts to hide this complication from you.</p>
-</div>
-</td>
-</tr>
-</table>
+<div class="title">Figure 6. Wiring an I<sup>2</sup>C LED matrix</div>
 </div>
 <div class="paragraph">
-<p>Run the i2cdetect -y -r 1 command to discover the address of the display, as shown in <a href="#displays_i2cdetect">Using I<sup>2</sup>C command-line tools to discover the address of the display</a>.</p>
+<p><a href="#sensors_i2c_temp">[sensors_i2c_temp]</a> shows how to use i2cdetect to discover the address of an I<sup>2</sup>C device.</p>
+</div>
+<div class="paragraph">
+<p>Run the i2cdetect -y -r 2 command to discover the address of the display on I<sup>2</sup>C bus 2, as shown in <a href="#displays_i2cdetect">Using I<sup>2</sup>C command-line tools to discover the address of the display</a>.</p>
 </div>
 <div id="displays_i2cdetect" class="exampleblock pagebreak-before">
-<div class="title">Example 6. Using I<sup>2</sup>C command-line tools to discover the address of the display</div>
+<div class="title">Example 7. Using I<sup>2</sup>C command-line tools to discover the address of the display</div>
 <div class="content">
 <pre data-type="programlisting">
-bone$ <strong>i2cdetect -y -r 1</strong>
+bone$ <strong>i2cdetect -y -r 2</strong>
      0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f
 00:          -- -- -- -- -- -- -- -- -- -- -- -- --
 10: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
@@ -1017,18 +1049,18 @@ bone$ <strong>i2cdetect -y -r 1</strong>
 <p>Here, you can see a device at 0x49 and 0x70. I know I have a temperature sensor at 0x49, so the LED matrix must be at 0.70.</p>
 </div>
 <div class="paragraph">
-<p>Add the code in <a href="#displays_matrix_i2c">LED matrix display (matrixLEDi2c.py)</a> to a file called <em>matrixLEDi2c.js</em> and run it by using the following command:</p>
+<p>Find the code in <a href="#displays_matrix_i2c">LED matrix display (matrixLEDi2c.py)</a> and run it by using the following command:</p>
 </div>
 <div class="exampleblock">
 <div class="content">
 <pre data-type="programlisting">
-bone$ <strong>npm install -g sleep</strong>
+bone$ <strong>pip install smbus</strong>  # (Do this only once.)
 bone$ <strong>./matrixLEDi2c.py</strong>
 </pre>
 </div>
 </div>
 <div id="displays_matrix_i2c" class="exampleblock">
-<div class="title">Example 7. LED matrix display (matrixLEDi2c.py)</div>
+<div class="title">Example 8. LED matrix display (matrixLEDi2c.py)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -1080,7 +1112,7 @@ bus.write_i2c_block_data(matrix, 0, smile)</code></pre>
 <div class="colist arabic">
 <ol>
 <li>
-<p>This line states which bus to use. The last digit gives the BoneScript bus number.</p>
+<p>This line states which bus to use.</p>
 </li>
 <li>
 <p>This specifies the address of the LED matrix, 0x70 in our case.</p>
@@ -1099,10 +1131,6 @@ bus.write_i2c_block_data(matrix, 0, smile)</code></pre>
 </li>
 </ol>
 </div>
-</div>
-<div class="sect3">
-<h4 id="_discussion_5">Discussion</h4>
-
 </div>
 </div>
 <div class="sect2">
@@ -1124,7 +1152,7 @@ bus.write_i2c_block_data(matrix, 0, smile)</code></pre>
 <div class="ulist">
 <ul>
 <li>
-<p>A PCA9306 level translator (see <a href="#app_ic">[app_ic]</a>)</p>
+<p>A PCA9306 level translator</p>
 </li>
 <li>
 <p>A 5 V power supply (if the Bone&#8217;s 5 V power supply isn&#8217;t enough)</p>
@@ -1158,10 +1186,6 @@ bus.write_i2c_block_data(matrix, 0, smile)</code></pre>
 </table>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_discussion_6">Discussion</h4>
-
-</div>
 </div>
 <div class="sect2">
 <h3 id="_writing_to_a_neopixel_led_string_using_the_prus">Writing to a NeoPixel LED String Using the PRUs</h3>
@@ -1184,132 +1208,12 @@ bus.write_i2c_block_data(matrix, 0, smile)</code></pre>
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="_writing_to_a_neopixel_led_string_using_ledscape">Writing to a NeoPixel LED String Using LEDscape</h3>
-<div class="sect3">
-<h4 id="_problem_8">Problem</h4>
-<div class="paragraph">
-<p>You have an <a href="http://www.adafruit.com/products/1138">Adafruit NeoPixel LED string</a> or <a href="http://www.adafruit.com/products/1487">Adafruit NeoPixel LED matrix</a> and want to light it up.</p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_solution_8">Solution</h4>
-<div class="paragraph">
-<p>Wire up an Adafruit NeoPixel LED 8-by-8 matrix as shown in <a href="#js_neoPixelMatrix_fig">Wiring an Adafruit NeoPixel LED matrix to P8_30</a>.</p>
-</div>
-<div id="js_neoPixelMatrix_fig" class="imageblock">
-<div class="content">
-<img src="figures/neoPixelMatrix_bb.png" alt="NeoPixel Matrix">
-</div>
-<div class="title">Figure 9. Wiring an Adafruit NeoPixel LED matrix to P8_30</div>
-</div>
-<div class="paragraph">
-<p><a href="#js_neoPixel_code">Installing and running LEDscape and OpenPixelControl (neoPixel.sh)</a> shows how to install LEDscape and run the LEDs.</p>
-</div>
-<div id="js_neoPixel_code" class="exampleblock">
-<div class="title">Example 8. Installing and running LEDscape and OpenPixelControl (neoPixel.sh)</div>
-<div class="content">
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-bash" data-lang="bash">#!/bin/sh
-# Here's what you do to install the neoPixel driver
-# Disable the HDMI to gain access to the PRU pins
-sed -i '/cape_disable=capemgr.disable_partno=BB-BONELT-HDMI,BB-BONELT-HDMIN$/ \
-            s/^#//' /boot/uEnv.txt
-reboot
-# Clone and build the code
-cd
-git clone -b opc-server https://github.com/jadonk/LEDscape.git
-cd LEDscape
-make
-cd
-git clone https://github.com/jadonk/openpixelcontrol.git
-# Load and configure the kernel module, pins and LEDscape daemon
-config-pin overlay BB-OPC-EX
-modprobe uio_pruss
-./LEDscape/run-ledscape &amp;
-# Run an example Python script
-./openpixelcontrol/python_clients/example.py</code></pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_discussion_7">Discussion</h4>
-
-</div>
-</div>
-<div class="sect2">
-<h3 id="_making_your_bone_speak">Making Your Bone Speak</h3>
-<div class="sect3">
-<h4 id="_problem_9">Problem</h4>
-<div class="paragraph">
-<p>Your Bone wants to talk.</p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_solution_9">Solution</h4>
-<div class="paragraph">
-<p>Just install the <em>flite</em> text-to-speech program:</p>
-</div>
-<pre data-type="programlisting">
-bone$ <strong>sudo apt install flite</strong>
-</pre>
-<div class="paragraph">
-<p>Then add the code from <a href="#speak_code">A program that talks (speak.js)</a> in a file called <em>speak.js</em> and run.</p>
-</div>
-<div id="speak_code" class="exampleblock">
-<div class="title">Example 9. A program that talks (speak.js)</div>
-<div class="content">
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-javascript" data-lang="javascript">#!/usr/bin/env node
-
-var exec = require('child_process').exec;
-
-function speakForSelf(phrase) {
-{
-	exec('flite -t "' + phrase + '"', function (error, stdout, stderr) {
-        console.log(stdout);
-        if(error) { 
-            console.log('error: ' + error); 
-        }
-        if(stderr) {
-            console.log('stderr: ' + stderr); 
-        }
-        });
-}
-
-speakForSelf("Hello, My name is Borris. " +
-    "I am a BeagleBone Black, " +
-    "a true open hardware, " +
-    "community-supported embedded computer for developers and hobbyists. " +
-    "I am powered by a 1 Giga Hertz Sitara™ ARM® Cortex-A8 processor. " +
-    "I boot Linux in under 10 seconds. " +
-    "You can get started on development in " +
-    "less than 5 minutes with just a single USB cable." +
-    "Bark, bark!"
-    );</code></pre>
-</div>
-</div>
-</div>
-</div>
-<div class="paragraph">
-<p>See <a href="#sensors_audio">[sensors_audio]</a> to see how to use a USB audio dongle and set your default audio out.</p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_discussion_8">Discussion</h4>
-
-</div>
-</div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2022-07-29 16:44:49 -0400
+Last updated 2022-08-09 10:51:24 -0400
 </div>
 </div>
 </body>

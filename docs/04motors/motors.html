@@ -501,6 +501,20 @@ But there are so many different kinds of motors (<em>servo</em>, <em>stepper</em
 </tr>
 </table>
 </div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>All the examples in the book assume you have cloned the Cookbook repository on www.github.com. Go here <a href="#basics_repo">[basics_repo]</a> for instructions.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
 </div>
 <div class="sect2">
 <h3 id="motors_servo">Controlling a Servo Motor</h3>
@@ -513,8 +527,8 @@ But there are so many different kinds of motors (<em>servo</em>, <em>stepper</em
 <div class="sect3">
 <h4 id="_solution">Solution</h4>
 <div class="paragraph">
-<p>We&#8217;ll use the pulse width modulation (PWM) hardware of the Bone and control a
-servo motor with the analogWrite() function.</p>
+<p>We&#8217;ll use the pulse width modulation (PWM) hardware of the Bone to control a
+servo motor.</p>
 </div>
 <div class="paragraph">
 <p>To make the recipe, you will need:</p>
@@ -522,16 +536,16 @@ servo motor with the analogWrite() function.</p>
 <div class="ulist">
 <ul>
 <li>
-<p>Servo motor (see <a href="#app_misc">[app_misc]</a>)</p>
+<p>Servo motor</p>
 </li>
 <li>
-<p>Breadboard and jumper wires (see <a href="#app_proto">[app_proto]</a>)</p>
+<p>Breadboard and jumper wires</p>
 </li>
 <li>
-<p>1 k&#8486; resistor (optional, see <a href="#app_resistor">[app_resistor]</a>)</p>
+<p>1 k&#8486; resistor (optional)</p>
 </li>
 <li>
-<p>5 V power supply (optional, see <a href="#app_misc">[app_misc]</a>)</p>
+<p>5 V power supply (optional)</p>
 </li>
 </ul>
 </div>
@@ -560,8 +574,13 @@ servo motor with the analogWrite() function.</p>
 <p><span class="image"><img src="figures/servoMotor_bb.png" alt="Servo Motor"></span></p>
 </div>
 <div class="paragraph">
-<p>The code for controlling the servo motor is in <em>servoMotor.js</em>, shown in <a href="#motors_servoMotor_code">Code for driving a servo motor (servoMotor.js)</a>.</p>
+<p>The code for controlling the servo motor is in <em>servoMotor.py</em>, shown in <a href="#py_servoMotor_code">Code for driving a servo motor (servoMotor.py)</a>. You need to configure the pin for PWM.</p>
 </div>
+<pre data-type="programlisting">
+bone$ <strong>cd ~/BoneCookbook/docs/04motors/code</strong>
+bone$ <strong>config-pin P9_16 pwm</strong>
+bone$ <strong>./servoMotor.py</strong>
+</pre>
 <div id="py_servoMotor_code" class="exampleblock pagebreak-before">
 <div class="title">Example 1. Code for driving a servo motor (servoMotor.py)</div>
 <div class="content">
@@ -692,7 +711,9 @@ process.on('SIGINT', function() {
 </div>
 <div class="sect3">
 <h4 id="_discussion">Discussion</h4>
-
+<div class="paragraph">
+<p><a href="#displays_PWMdiscussion">[displays_PWMdiscussion]</a> gies details on how to use a PWM.</p>
+</div>
 </div>
 </div>
 <div class="sect2">
@@ -708,6 +729,12 @@ process.on('SIGINT', function() {
 <div class="paragraph">
 <p>Combine the code from <a href="#digital_rotaryEncoder_js">[digital_rotaryEncoder_js]</a> and <a href="#motors_servo">Controlling a Servo Motor</a>.</p>
 </div>
+<pre data-type="programlisting">
+bone$ <strong>config-pin P9_16 pwm</strong>
+bone$ <strong>config-pin P8_11 eqep</strong>
+bone$ <strong>config-pin P8_12 eqep</strong>
+bone$ <strong>./servoEncoder.py</strong>
+</pre>
 <div id="py_servoEncoder_code" class="exampleblock pagebreak-before">
 <div class="title">Example 3. Code for driving a servo motor with a rotary encorder(servoEncoder.py)</div>
 <div class="content">
@@ -719,8 +746,8 @@ process.on('SIGINT', function() {
 # //	Drive a simple servo motor using rotary encoder viq eQEP 
 # //	Wiring: Servo on P9_16, rotary encoder on P8_11 and P8_12
 # //	Setup:  config-pin P9_16 pwm
-# //			config-pin P8_11 qep
-# //			config-pin P8_12 qep
+# //			config-pin P8_11 eqep
+# //			config-pin P8_12 eqep
 # //	See:
 # ////////////////////////////////////////
 import time
@@ -842,16 +869,16 @@ while True:
 <p>3 V to 5 V DC motor</p>
 </li>
 <li>
-<p>Breadboard and jumper wires (see <a href="#app_proto">[app_proto]</a>)</p>
+<p>Breadboard and jumper wires</p>
 </li>
 <li>
-<p>1 k&#8486; resistor (see <a href="#app_resistor">[app_resistor]</a>)</p>
+<p>1 k&#8486; resistor</p>
 </li>
 <li>
-<p>Transistor 2N3904 (see <a href="#app_transistor">[app_transistor]</a>)</p>
+<p>Transistor 2N3904</p>
 </li>
 <li>
-<p>Diode 1N4001 (see <a href="#app_transistor">[app_transistor]</a>)</p>
+<p>Diode 1N4001</p>
 </li>
 <li>
 <p>Power supply for the motor (optional)</p>
@@ -985,10 +1012,6 @@ process.on('SIGINT', function() {
 </div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_2">Discussion</h4>
-
-</div>
-<div class="sect3">
 <h4 id="_see_also">See Also</h4>
 <div class="paragraph">
 <p>How do you change the direction of the motor? See <a href="#motors_dcDirection">Controlling the Speed and Direction of a DC Motor</a>.</p>
@@ -1014,13 +1037,13 @@ process.on('SIGINT', function() {
 <div class="ulist">
 <ul>
 <li>
-<p>3 V to 5 V motor (see <a href="#app_misc">[app_misc]</a>)</p>
+<p>3 V to 5 V motor</p>
 </li>
 <li>
-<p>Breadboard and jumper wires (see <a href="#app_proto">[app_proto]</a>)</p>
+<p>Breadboard and jumper wires</p>
 </li>
 <li>
-<p>L293D H-Bridge IC (see <a href="#app_ic">[app_ic]</a>)</p>
+<p>L293D H-Bridge IC</p>
 </li>
 <li>
 <p>Power supply for the motor (optional)</p>
@@ -1102,10 +1125,6 @@ process.on('SIGINT', function() {
 </div>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_discussion_3">Discussion</h4>
-
-</div>
 </div>
 <div class="sect2">
 <h3 id="_driving_a_bipolar_stepper_motor">Driving a Bipolar Stepper Motor</h3>
@@ -1126,13 +1145,13 @@ process.on('SIGINT', function() {
 <div class="ulist">
 <ul>
 <li>
-<p>Breadboard and jumper wires (see <a href="#app_proto">[app_proto]</a>)</p>
+<p>Breadboard and jumper wires</p>
 </li>
 <li>
-<p>3 V to 5 V bipolar stepper motor (see <a href="#app_misc">[app_misc]</a>)</p>
+<p>3 V to 5 V bipolar stepper motor</p>
 </li>
 <li>
-<p>L293D H-Bridge IC (see <a href="#app_ic">[app_ic]</a>)</p>
+<p>L293D H-Bridge IC</p>
 </li>
 </ul>
 </div>
@@ -1144,7 +1163,7 @@ process.on('SIGINT', function() {
 <p><span class="image"><img src="figures/bipolarStepperMotor_bb.png" alt="Bipolar Stepper Motor"></span></p>
 </div>
 <div class="paragraph">
-<p>Use the code in <a href="#motors_stepperMotor_code">Driving a bipolar stepper motor (bipolarStepperMotor.js)</a> (<em>bipolarStepperMotor.js</em>) to drive the motor.</p>
+<p>Use the code in <a href="#motors_stepperMotor_code">[motors_stepperMotor_code]</a> to drive the motor.</p>
 </div>
 <div id="motors_stepperMotor_code_py" class="exampleblock">
 <div class="title">Example 7. Driving a bipolar stepper motor (bipolarStepperMotor.py)</div>
@@ -1246,97 +1265,9 @@ while True:
 </div>
 </div>
 </div>
-<div id="motors_stepperMotor_code" class="exampleblock">
-<div class="title">Example 8. Driving a bipolar stepper motor (bipolarStepperMotor.js)</div>
-<div class="content">
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-js" data-lang="js">#!/usr/bin/env node
-var fs = require('fs');
-
-// Motor is attached here
-// var controller = ["P9_11", "P9_13", "P9_15", "P9_17"]; 
-// var controller = ["P9_14", "P9_16", "P9_18", "P9_22"]; 
-var controller = ["50", "51", "4", "2"]; 
-var states = [[1,0,0,0], [0,1,0,0], [0,0,1,0], [0,0,0,1]];
-var statesHiTorque = [[1,1,0,0], [0,1,1,0], [0,0,1,1], [1,0,0,1]];
-var statesHalfStep = [[1,0,0,0], [1,1,0,0], [0,1,0,0], [0,1,1,0],
-                      [0,0,1,0], [0,0,1,1], [0,0,0,1], [1,0,0,1]];
-
-var curState = 0;   // Current state
-var ms = 100,       // Time between steps, in ms
-    max = 22,       // Number of steps to turn before turning around
-    min = 0;        // Minimum step to turn back around on
-
-var CW  =  1,       // Clockwise
-    CCW = -1,
-    pos = 0,        // current position and direction
-    direction = CW;
-const GPIOPATH="/sys/class/gpio";
-
-// Initialize motor control pins to be OUTPUTs
-var i;
-for(i=0; i&lt;controller.length; i++) {
-    // Make sure pins are exported
-    if(!fs.existsSync(GPIOPATH+"/gpio"+controller[i])) {
-        fs.writeFileSync(GPIOPATH+"/export", controller[i]);
-    // Make it an output pin
-    fs.writeFileSync(GPIOPATH+"/gpio"+controller[i]+"/direction", "in");
-    }
-}
-
-// Put the motor into a known state
-updateState(states[0]);
-rotate(direction);
-
-var timer = setInterval(move, ms);
-
-// Rotate back and forth once
-function move() {
-    pos += direction;
-    console.log("pos: " + pos);
-    // Switch directions if at end.
-    if (pos &gt;= max || pos &lt;= min) {
-        direction *= -1;
-    }
-    rotate(direction);
-}
-
-// This is the general rotate
-function rotate(direction) {
-	// console.log("rotate(%d)", direction);
-    // Rotate the state acording to the direction of rotation
-	curState +=  direction;
-	if(curState &gt;= states.length) {
-	    curState = 0;
-	} else if(curState&lt;0) {
-		    curState = states.length-1;
-	}
-	updateState(states[curState]);
-}
-
-// Write the current input state to the controller
-function updateState(state) {
-    console.log("state: " + state);
-	for (i=0; i&lt;controller.length; i++) {
-        fs.writeFileSync(GPIOPATH+"/gpio"+controller[i]+"/value", state[i])
-	}
-}
-
-process.on('exit', function() {
-    updateState([0,0,0,0]);    // Turn motor off
-});</code></pre>
-</div>
-</div>
-</div>
-</div>
 <div class="paragraph">
 <p>When you run the code, the stepper motor will rotate back and forth.</p>
 </div>
-</div>
-<div class="sect3">
-<h4 id="_discussion_4">Discussion</h4>
-
 </div>
 </div>
 <div class="sect2">
@@ -1358,13 +1289,13 @@ process.on('exit', function() {
 <div class="ulist">
 <ul>
 <li>
-<p>Breadboard and jumper wires (see <a href="#app_proto">[app_proto]</a>)</p>
+<p>Breadboard and jumper wires</p>
 </li>
 <li>
-<p>3 V to 5 V unipolar stepper motor (see <a href="#app_misc">[app_misc]</a>)</p>
+<p>3 V to 5 V unipolar stepper motor</p>
 </li>
 <li>
-<p>ULN2003 Darlington Transistor Array IC (see <a href="#app_ic">[app_ic]</a>)</p>
+<p>ULN2003 Darlington Transistor Array IC</p>
 </li>
 </ul>
 </div>
@@ -1395,18 +1326,34 @@ The stepper motor I&#8217;m using runs better at 5 V, so I&#8217;m using the Bon
 <p><span class="image"><img src="figures/unipolarStepperMotor_bb.png" alt="Unipolar Stepper Motor"></span></p>
 </div>
 <div class="paragraph">
-<p>The code for driving the motor is in <em>unipolarStepperMotor.js</em>; however, it is almost identical to the bipolar stepper code (<a href="#motors_stepperMotor_code">Driving a bipolar stepper motor (bipolarStepperMotor.js)</a>), so <a href="#motors_unistepperMotor_code">Changes to bipolar code to drive a unipolar stepper motor (unipolarStepperMotor.diff)</a> shows only the lines that you need to change.</p>
+<p>The code for driving the motor is in <em>unipolarStepperMotor.js</em>; however, it is almost identical to the bipolar stepper code (<a href="#motors_stepperMotor_code">[motors_stepperMotor_code]</a>), so <a href="#motors_unistepperMotor_code">Changes to bipolar code to drive a unipolar stepper motor (unipolarStepperMotor.js.diff)</a> shows only the lines that you need to change.</p>
 </div>
-<div id="motors_unistepperMotor_code" class="exampleblock">
-<div class="title">Example 9. Changes to bipolar code to drive a unipolar stepper motor (unipolarStepperMotor.diff)</div>
+<div id="motors_unistepperMotor_js_code" class="exampleblock">
+<div class="title">Example 8. Changes to bipolar code to drive a unipolar stepper motor (unipolarStepperMotor.py.diff)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-js" data-lang="js">var controller = ["P9_11", "P9_13", "P9_15", "P9_17"];
+<pre class="highlight"><code class="language-python" data-lang="python"># controller = ["P9_11", "P9_13", "P9_15", "P9_17"]
+controller = ["30", "31", "48", "5"]
+states = [[1,1,0,0], [0,1,1,0], [0,0,1,1], [1,0,0,1]]
+curState = 0   // Current state
+ms = 100       // Time between steps, in ms
+max = 200      // Number of steps to turn before turning around</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div id="motors_unistepperMotor_code" class="exampleblock">
+<div class="title">Example 9. Changes to bipolar code to drive a unipolar stepper motor (unipolarStepperMotor.js.diff)</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-js" data-lang="js"># var controller = ["P9_11", "P9_13", "P9_15", "P9_17"];
+controller = ["30", "31", "48", "5"]
 var states = [[1,1,0,0], [0,1,1,0], [0,0,1,1], [1,0,0,1]];
 var curState = 0;   // Current state
 var ms = 100,       // Time between steps, in ms
-    max = 22,       // Number of steps to turn before turning around</code></pre>
+    max = 200,      // Number of steps to turn before turning around</code></pre>
 </div>
 </div>
 </div>
@@ -1417,9 +1364,6 @@ var ms = 100,       // Time between steps, in ms
 <div class="ulist">
 <ul>
 <li>
-<p>controller is attached to the <em>even</em>-numbered pins on the P9 header rather than the <em>odd</em> that the bipolar stepper used. (Doing this allows you to run both types of stepper motors at the same time!)</p>
-</li>
-<li>
 <p>The states are different. Here, we have two pins high at a time.</p>
 </li>
 <li>
@@ -1428,17 +1372,13 @@ var ms = 100,       // Time between steps, in ms
 </ul>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_discussion_5">Discussion</h4>
-
-</div>
 </div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2022-07-28 12:10:54 -0400
+Last updated 2022-08-09 10:51:24 -0400
 </div>
 </div>
 </body>

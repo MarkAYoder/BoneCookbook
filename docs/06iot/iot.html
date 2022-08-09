@@ -557,10 +557,6 @@ bone$ <strong>umount home</strong>
 <div class="title">Figure 1. test.html as served by nginx</div>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_discussion_2">Discussion</h4>
-
-</div>
 </div>
 <div class="sect2">
 <h3 id="networking_nodejs">Interacting with the Bone via a Web Browser</h3>
@@ -602,13 +598,13 @@ bone$ <strong>cd BoneCookbook/doc/06iod/code/flash</strong>
 <pre class="highlight"><code class="language-python" data-lang="python">#!/usr/bin/env python
 # From: https://towardsdatascience.com/python-webserver-with-flask-and-raspberry-pi-398423cc6f5d
 
-from flask import Flask
-app = Flask(__name__)
-@app.route('/')
+from flask import Flask     # <b class="conum">(1)</b>
+app = Flask(__name__)       # <b class="conum">(2)</b>
+@app.route('/')             # <b class="conum">(3)</b>
 def index():
     return 'hello, world'
 if __name__ == '__main__':
-    app.run(debug=True, port=8080, host='0.0.0.0')</code></pre>
+    app.run(debug=True, port=8080, host='0.0.0.0')# <b class="conum">(4)</b></code></pre>
 </div>
 </div>
 </div>
@@ -630,7 +626,7 @@ if __name__ == '__main__':
 </ol>
 </div>
 <div class="paragraph">
-<p>Now on your host computer, browse to 192.168.7.2:8080flask an you should see.</p>
+<p>Now on your host computer, browse to 192.168.7.2:8080 and you should see.</p>
 </div>
 <div id="flask_flaskServer" class="imageblock">
 <div class="content">
@@ -648,7 +644,7 @@ if __name__ == '__main__':
 <p>Here&#8217;s what&#8217;s in <strong>templates/index1.html</strong>:</p>
 </div>
 <div id="flask_index1" class="exampleblock">
-<div class="title">Example 3. Python code for flask hello world (helloWorld.py)</div>
+<div class="title">Example 3. html code for flask hello world (index1.html)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -711,7 +707,7 @@ if __name__ == "__main__":
 <p>Execute the Python script:</p>
 </div>
 <pre data-type="programlisting">
-bone$ <strong>.\app.py</strong>
+bone$ <strong>.\app1.py</strong>
 </pre>
 <div class="paragraph">
 <p>Open any web browser and browse to 192.168.7.2:8080. You should see:</p>
@@ -723,7 +719,7 @@ bone$ <strong>.\app.py</strong>
 <div class="title">Figure 3. Test page served by app1.py</div>
 </div>
 <div class="paragraph">
-<p>Note that the page’s content changes dynamically any time that you refresh it with the actual variable data passed by Python script. In our case, “title” is a fixed value, but “time” change it every second.</p>
+<p>Note that the page’s content changes dynamically any time that you refresh it with the actual variable data passed by Python script. In our case, “title” is a fixed value, but “time” changes every second.</p>
 </div>
 </div>
 </div>
@@ -747,10 +743,10 @@ bone$ <strong>.\app.py</strong>
 <div class="ulist">
 <ul>
 <li>
-<p>Breadboard and jumper wires (see <a href="#app_proto">[app_proto]</a>)</p>
+<p>Breadboard and jumper wires</p>
 </li>
 <li>
-<p>Pushbutton switch (see <a href="#app_misc">[app_misc]</a>)</p>
+<p>Pushbutton switch</p>
 </li>
 </ul>
 </div>
@@ -774,6 +770,7 @@ import os
 from flask import Flask, render_template
 app = Flask(__name__)
 
+# gpioinfo | grep -e chip -e P9_11
 pin = '30' #  P9_11 is gpio 30
 GPIOPATH="/sys/class/gpio"
 buttonSts = 0
@@ -853,7 +850,7 @@ bone$ <strong>./app2.py</strong>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_3">Discussion</h4>
+<h4 id="_discussion_2">Discussion</h4>
 <div class="paragraph">
 <p>It&#8217;s not hard to assemble your own HTML with the GPIO data. It&#8217;s an easy extension to write a program to display the status of all the GPIO pins.</p>
 </div>
@@ -991,7 +988,7 @@ if __name__ == "__main__":
 <ul>
 <li>
 <p>For each actuator, we will analyze the “action”, or “command” and act properly.
-If “action = on” for example, we must use the command: GPIO.output(actuator, GPIO.HIGH)</p>
+If “action = on” for example, we must use the command: f.write("1")</p>
 </li>
 <li>
 <p>Update the status of each actuator</p>
@@ -1005,7 +1002,7 @@ If “action = on” for example, we must use the command: GPIO.output(actuator,
 </ul>
 </div>
 <div class="paragraph">
-<p>Let’s now create an index.html to show the GPIO status of each actuator and more important, create “buttons” to send the commands:</p>
+<p>Let’s now create an index.html to show the GPIO status of each actuator and more importantly, create “buttons” to send the commands:</p>
 </div>
 <div id="flask_index3" class="exampleblock">
 <div class="title">Example 8. A simple Flask-based web server to write a GPIO (index3.html)</div>
@@ -1086,7 +1083,7 @@ in_voltage0_type   in_voltage2_en     in_voltage3_index  in_voltage4_type   in_v
 in_voltage1_en     in_voltage2_index  in_voltage3_type   in_voltage5_en     in_voltage6_index  in_voltage7_type
 </pre>
 <div class="paragraph">
-<p>Here you see three values for each analog input, _en (enable), _index (index of this channel in the buffer’s chunks) and _type (How the ADC stores its data). (See the link above for details.) Let&#8217;s use the input at <strong>P9.40</strong> which is <strong>AIN1</strong>. To enable this input:</p>
+<p>Here you see three values for each analog input, _en (enable), _index (index of this channel in the buffer’s chunks) and _type (How the ADC stores its data). (See the link above for details.) Let&#8217;s use the input at <strong>P9_40</strong> which is <strong>AIN1</strong>. To enable this input:</p>
 </div>
 <pre data-type="programlisting">
 bone$ <strong>echo 1 > scan_elements/in_voltage1_en</strong>
@@ -1143,7 +1140,6 @@ bone$ <strong>echo 1 > buffer/enable</strong>
 # See https://elinux.org/index.php?title=EBC_Exercise_10a_Analog_In#Analog_in_-_Continuous.2C_Change_the_sample_rate
 # for instructions on changing the sampling rate.  Can go up to 200KHz.
 
-fd = open(IIODEV, "r")
 import numpy      as np
 import gnuplotlib as gp
 import time
@@ -1231,7 +1227,7 @@ except KeyboardInterrupt:
 <pre data-type="programlisting">
 host$ <strong>ssh -X bone</strong>
 
-bone$ <strong>cd <Cookbook repo>/doc/06iot/code>/strong>
+bone$ <strong>cd <Cookbook repo>/doc/06iot/code</strong>
 bone$ <strong>./analogInContinuous.py</strong>
 Hit ^C to stop
 </pre>
@@ -1295,7 +1291,7 @@ bone$ <strong>make</strong>
 gcc -o config-pin ./tools/pmunts_muntsos/config-pin.c
 </pre>
 <div class="paragraph">
-<p>It knows to only recompile the file you just edited. Now install and reboot.</p>
+<p>make knows to only recompile the file you just edited. Now install and reboot.</p>
 </div>
 <pre>
 bone$ <strong>sudo make install</strong>
@@ -1315,7 +1311,7 @@ bone$ <strong>./analogInContinuous.py</strong>
 Hit ^C to stop
 </pre>
 <div class="paragraph">
-<p>Here&#8217;s the output of a 10KHz sine wave.</p>
+<p>Here&#8217;s the output of a 10KHz triangle wave.</p>
 </div>
 <div id="analog_tri_fig" class="imageblock">
 <div class="content">
@@ -1344,7 +1340,7 @@ bone$ </strong>echo 0 > /sys/bus/iio/devices/iio:device0/buffer/enable</strong>
 <h4 id="_solution_7">Solution</h4>
 <div class="paragraph">
 <p>This example came from <a href="https://realpython.com/python-send-email/" class="bare">https://realpython.com/python-send-email/</a>.
-First, you need to <a href="https://mail.google.com">set up a Gmail account</a>, if you don&#8217;t already have one. Then add the code in <a href="#networking_nodemailer_code">Sending email using nodemailer (emailtTest.py)</a> to a file named <em>emailTest.py</em>. Substitute your own Gmail username.  For the password:</p>
+First, you need to <a href="https://mail.google.com">set up a Gmail account</a>, if you don&#8217;t already have one. Then add the code in <a href="#networking_nodemailer_code">Sending email using nodemailer (emailTest.py)</a> to a file named <em>emailTest.py</em>. Substitute your own Gmail username.  For the password:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -1363,7 +1359,7 @@ First, you need to <a href="https://mail.google.com">set up a Gmail account</a>,
 </ul>
 </div>
 <div id="networking_nodemailer_code" class="exampleblock">
-<div class="title">Example 10. Sending email using nodemailer (emailtTest.py)</div>
+<div class="title">Example 10. Sending email using nodemailer (emailTest.py)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -1418,7 +1414,7 @@ bone$ <strong>.\emailTest.py</strong>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_4">Discussion</h4>
+<h4 id="_discussion_3">Discussion</h4>
 <div class="paragraph">
 <p>Be careful about putting this into a loop.  Gmail presently limits you to <a href="http://group-mail.com/email-marketing/how-to-send-bulk-emails-using-gmail/">500 emails per day and 10 MB per message</a>.</p>
 </div>
@@ -1428,93 +1424,15 @@ bone$ <strong>.\emailTest.py</strong>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_sending_an_sms_message">Sending an SMS Message</h3>
-<div class="sect3">
-<h4 id="_problem_8">Problem</h4>
-<div class="paragraph">
-<p>You want to send a text message from BeagleBone Black.</p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_solution_8">Solution</h4>
-<div class="paragraph">
-<p>There are a number of SMS services out there. This recipe uses Twilio because you can use it for free, but you will need to <a href="http://bit.ly/1MrHBBF">verify the number</a> to which you are texting. First, go to <a href="https://www.twilio.com/">Twilio&#8217;s home page</a> and set up an account. Note your account SID and authorization token. If you are using the free version, be sure to <a href="http://bit.ly/19c7GZ7">verify your numbers</a>.</p>
-</div>
-<div class="paragraph">
-<p>Next, install Trilio by using the following command:</p>
-</div>
-<pre data-type="programlisting">
-bone$ <strong>npm install -g twilio</strong>
-</pre>
-<div class="paragraph">
-<p>Finally, add the code in <a href="#networking_twilio_code">Sending SMS messages using Twilio (<em>twilio-test.js</em>)</a> to a file named <em>twilio-test.js</em> and run it. Your text will be sent.</p>
-</div>
-<div id="networking_twilio_code" class="exampleblock">
-<div class="title">Example 11. Sending SMS messages using Twilio (<em>twilio-test.js</em>)</div>
-<div class="content">
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-js" data-lang="js">#!/usr/bin/env node
-// From: http://twilio.github.io/twilio-node/
-// Twilio Credentials 
-var accountSid = ''; 
-var authToken = ''; 
- 
-//require the Twilio module and create a REST client 
-var client = require('twilio')(accountSid, authToken); 
- 
-client.messages.create({ 
-	to: "812555121", 
-	from: "+2605551212", 
-	body: "This is a test",   
-}, function(err, message) { 
-	console.log(message.sid); 
-});
-
-// https://github.com/twilio/twilio-node/blob/master/LICENSE
-// The MIT License (MIT)
-// Copyright (c) 2010 Stephen Walters
-// Copyright (c) 2012 Twilio Inc.
-
-// Permission is hereby granted, free of charge, to any person obtaining a copy of 
-// this software and associated documentation files (the "Software"), to deal in 
-// the Software without restriction, including without limitation the rights to 
-// use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies 
-// of the Software, and to permit persons to whom the Software is furnished to do 
-// so, subject to the following conditions:
-
-// The above copyright notice and this permission notice shall be included in 
-// all copies or substantial portions of the Software.
-
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL 
-// THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING 
-// FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
-// DEALINGS IN THE SOFTWARE.</code></pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_discussion_5">Discussion</h4>
-<div class="paragraph">
-<p>Twilio allows a small number of free text messages, enough to test your code and to play around some.</p>
-</div>
-</div>
-</div>
-<div class="sect2">
 <h3 id="_displaying_the_current_weather_conditions">Displaying the Current Weather Conditions</h3>
 <div class="sect3">
-<h4 id="_problem_9">Problem</h4>
+<h4 id="_problem_8">Problem</h4>
 <div class="paragraph">
 <p>You want to display the current weather conditions.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_9">Solution</h4>
+<h4 id="_solution_8">Solution</h4>
 <div class="paragraph">
 <p>Because your Bone is on the network, it&#8217;s not hard to access the current weather conditions from a weather API.</p>
 </div>
@@ -1545,7 +1463,7 @@ bash$ <strong>export APPID="Your key"</strong>
 </ul>
 </div>
 <div id="networking_weather_code" class="exampleblock">
-<div class="title">Example 12. Code for getting current weather conditions (<em>weather.py</em>)</div>
+<div class="title">Example 11. Code for getting current weather conditions (<em>weather.py</em>)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -1616,7 +1534,6 @@ except:
 <p>Run this by using the following commands:</p>
 </div>
 <pre data-type="programlisting">
-bone$ <strong>chmod +x weather.py</strong>
 bone$ <strong>./weather.js</strong>
 Getting weather
 Temp:  85.1
@@ -1627,7 +1544,7 @@ sunrise: 2022-07-14 14:32:46
 </pre>
 </div>
 <div class="sect3">
-<h4 id="_discussion_6">Discussion</h4>
+<h4 id="_discussion_4">Discussion</h4>
 <div class="paragraph">
 <p>The weather API returns lots of information. Use Python to extract the information you want.</p>
 </div>
@@ -1636,13 +1553,13 @@ sunrise: 2022-07-14 14:32:46
 <div class="sect2">
 <h3 id="_sending_and_receiving_tweets">Sending and Receiving Tweets</h3>
 <div class="sect3">
-<h4 id="_problem_10">Problem</h4>
+<h4 id="_problem_9">Problem</h4>
 <div class="paragraph">
 <p>You want to send and receive tweets (Twitter posts) with your Bone.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_10">Solution</h4>
+<h4 id="_solution_9">Solution</h4>
 <div class="paragraph">
 <p><a href="https://twitter.com/">Twitter</a> has a whole <a href="https://github.com/twitterdev/Twitter-API-v2-sample-code">git repo</a> of sample code for interacting with Twitter.  Here I&#8217;ll show how to create a tweet and then how to delete it.</p>
 </div>
@@ -1654,10 +1571,10 @@ sunrise: 2022-07-14 14:32:46
 <p>Follow the <a href="https://developer.twitter.com/en/docs/apps/overview">directions here</a> to create a project and and app.</p>
 </li>
 <li>
-<p>Be sure to giv eyour app Read and Write permission.</p>
+<p>Be sure to give your app Read and Write permission.</p>
 </li>
 <li>
-<p>Then go to the <a href="https://developer.twitter.com/en/portal/projects-and-apps">developer portal</a> and select you app by clicking on the gear icon to the right of the app name.</p>
+<p>Then go to the <a href="https://developer.twitter.com/en/portal/projects-and-apps">developer portal</a> and select your app by clicking on the gear icon to the right of the app name.</p>
 </li>
 <li>
 <p>Click on the <strong>Keys and tokens</strong> tab. Here you can get to all your keys and tokens.</p>
@@ -1709,10 +1626,10 @@ bash$ <strong>source twitterKeys.sh</strong>
 <div class="sect4">
 <h5 id="_creating_a_tweet">Creating a tweet</h5>
 <div class="paragraph">
-<p>Add the code in <a href="#twitter_create_code">Create a Tweet (<em>twitter_create_tweet.py</em>)</a> to a file called <em>twitter_create_tweet</em>.py_ and run it to see your timeline.</p>
+<p>Run <em>twitter_create_tweet</em>.py_ to see your timeline.</p>
 </div>
 <div id="twitter_create_code" class="exampleblock">
-<div class="title">Example 13. Create a Tweet (<em>twitter_create_tweet.py</em>)</div>
+<div class="title">Example 12. Create a Tweet (<em>twitter_create_tweet.py</em>)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -1819,10 +1736,10 @@ Record the <strong>id</strong> number and we&#8217;ll use it next to delete the 
 <div class="sect4">
 <h5 id="_deleting_a_tweet">Deleting a tweet</h5>
 <div class="paragraph">
-<p>Use the code in <a href="#twitter_delete_code">Code to delete a tweet  (twitter_delete_tweet.py_)</a> to delete a tweet.  Around line 15 is the <strong>id</strong> number.  Paste in the value returned above.</p>
+<p>Use the code in <a href="#twitter_delete_code">Code to delete a tweet  (<em>twitter_delete_tweet.py</em>)</a> to delete a tweet.  Around line 15 is the <strong>id</strong> number.  Paste in the value returned above.</p>
 </div>
 <div id="twitter_delete_code" class="exampleblock">
-<div class="title">Example 14. Code to delete a tweet  (twitter_delete_tweet.py_)</div>
+<div class="title">Example 13. Code to delete a tweet  (<em>twitter_delete_tweet.py</em>)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -1903,483 +1820,14 @@ print(json_response)</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>The code in <a href="#networking_pushbutton_code">Tweet when a button is pushed (twitterPushbutton.js)</a> sends a tweet whenever a button is pushed.</p>
-</div>
-<div id="networking_pushbutton_code" class="exampleblock">
-<div class="title">Example 15. Tweet when a button is pushed (twitterPushbutton.js)</div>
-<div class="content">
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-js" data-lang="js">#!/usr/bin/env node
-// From: https://www.npmjs.org/package/node-twitter
-// Tweets with attached image media (JPG, PNG or GIF) can be posted 
-// using the upload API endpoint.
-var Twitter = require('node-twitter');
-var b = require('bonescript');
-var key = require('./twitterKeys');
-var gpio = "P9_42";
-var count = 0;
-
-b.pinMode(gpio, b.INPUT);
-b.attachInterrupt(gpio, sendTweet, b.FALLING);
-
-var twitterRestClient = new Twitter.RestClient(
-    key.API_KEY, key.API_SECRET,
-    key.TOKEN,   key.TOKEN_SECRET
-);
-
-function sendTweet() {
-    console.log("Sending...");
-    count++;
-
-    twitterRestClient.statusesUpdate(
-        {'status': 'Posting tweet ' + count + ' via my BeagleBone Black', },
-        function(error, result) {
-            if (error) {
-                console.log('Error: ' + 
-                    (error.code ? error.code + ' ' + error.message : error.message));
-            }
-    
-            if (result) {
-                console.log(result);
-            }
-        }
-    );
-}
-
-// node-twitter is made available under terms of the BSD 3-Clause License.
-// http://www.opensource.org/licenses/BSD-3-Clause</code></pre>
-</div>
-</div>
-</div>
-</div>
-<div class="paragraph">
 <p>To see many other examples, go to <a href="http://bit.ly/18AvSTW">iStrategyLabs' node-twitter GitHub page</a>.</p>
 </div>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_7">Discussion</h4>
+<h4 id="_discussion_5">Discussion</h4>
 <div class="paragraph">
 <p>This opens up many new possibilities. You can read a temperature sensor and tweet its value whenever it changes, or you can turn on an LED whenever a certain hashtag is used. What are you going to tweet?</p>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="networking_node_red">Wiring the IoT with Node-RED</h3>
-<div class="sect3">
-<h4 id="_problem_11">Problem</h4>
-<div class="paragraph">
-<p>You want BeagleBone to interact with the Internet, but you want to program it graphically.</p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_solution_11">Solution</h4>
-<div class="paragraph">
-<p><a href="http://nodered.org/">Node-RED</a> is a visual tool for wiring the IoT. It makes it easy to turn on a light when a certain hashtag is tweeted, or spin a motor if the forecast is for hot weather.</p>
-</div>
-<div class="sect4">
-<h5 id="_installing_node_red">Installing Node-RED</h5>
-<div class="paragraph">
-<p>To install Node-RED, run the following commands:</p>
-</div>
-<pre data-type="programlisting">
-bone$ <strong>cd</strong>          # Change to home directory
-bone$ <strong>git clone https://github.com/node-red/node-red.git</strong>
-bone$ <strong>cd node-red/</strong>
-bone$ <strong>npm install --production</strong>    # almost 6 minutes
-bone$ <strong>cd nodes</strong>
-bone$ <strong>git clone https://github.com/node-red/node-red-nodes.git</strong> # 2 seconds
-bone$ <strong>cd ~/node-red</strong>
-</pre>
-<div class="paragraph">
-<p>To run Node-RED, use the following commands:</p>
-</div>
-<pre data-type="programlisting">
-bone$ <strong>cd ~/node-red</strong>
-bone$ <strong>node red.js</strong>
-Welcome to Node-RED
-===================
-
-18 Aug 16:31:43 - [red] Version: 0.8.1.git
-18 Aug 16:31:43 - [red] Loading palette nodes
-18 Aug 16:31:49 - [26-rawserial.js] Info : only really needed for
-                  Windows boxes without serialport npm module installed.
-18 Aug 16:31:56 - ------------------------------------------
-18 Aug 16:31:56 - [red] Failed to register 44 node types
-18 Aug 16:31:56 - [red] Run with -v for details
-18 Aug 16:31:56 - ------------------------------------------
-18 Aug 16:31:56 - [red] Server now running at http://127.0.0.1:1880/
-18 Aug 16:31:56 - [red] Loading flows : flows_yoder-debian-bone.json
-</pre>
-<div class="paragraph">
-<p>The second-to-last line informs you that Node-RED is listening on part 1880. Point your browser to <a href="http://192.168.7.2:1880" class="bare">http://192.168.7.2:1880</a>, and you will see the screen shown in <a href="#networking_node_red_fig">The Node-RED web page</a>.</p>
-</div>
-<div id="networking_node_red_fig" class="imageblock">
-<div class="content">
-<img src="figures/node-red.png" alt="node-red">
-</div>
-<div class="title">Figure 8. The Node-RED web page</div>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_building_a_node_red_flow">Building a Node-RED Flow</h5>
-<div class="paragraph">
-<p>The example in this recipe builds a Node-RED flow that will toggle an LED whenever a certain hashtag is tweeted. But first, you need to set up the Node-RED flow with the twitter node:</p>
-</div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>On the Node-RED web page, scroll down until you see the social nodes on the left side of the page.</p>
-</li>
-<li>
-<p>Drag the twitter node to the canvas, as shown in <a href="#networking_node_twitter_fig">Node-RED twitter node</a>.</p>
-</li>
-</ol>
-</div>
-<div id="networking_node_twitter_fig" class="imageblock">
-<div class="content">
-<img src="figures/node-twitter.png" alt="node-red">
-</div>
-<div class="title">Figure 9. Node-RED twitter node</div>
-</div>
-<div class="olist arabic">
-<ol class="arabic" start="3">
-<li>
-<p>Authorize Twitter by double-clicking the twitter node. You&#8217;ll see the screen shown in <a href="#networking_node_twitter_auth_fig">Node-RED Twitter authorization, step 1</a>.</p>
-</li>
-</ol>
-</div>
-<div id="networking_node_twitter_auth_fig" class="imageblock">
-<div class="content">
-<img src="figures/node-twitter-auth.png" alt="node-red authentication">
-</div>
-<div class="title">Figure 10. Node-RED Twitter authorization, step 1</div>
-</div>
-<div class="olist arabic">
-<ol class="arabic" start="4">
-<li>
-<p>Click the pencil button to bring up the dialog box shown in <a href="#networking_node_twitter_auth2_fig">Node-RED twitter authorization, step 2</a>.</p>
-</li>
-</ol>
-</div>
-<div id="networking_node_twitter_auth2_fig" class="imageblock">
-<div class="content">
-<img src="figures/node-twitter-auth2.png" alt="node-red authentication2">
-</div>
-<div class="title">Figure 11. Node-RED twitter authorization, step 2</div>
-</div>
-<div class="olist arabic">
-<ol class="arabic" start="5">
-<li>
-<p>Click the "here" link, as shown in <a href="#networking_node_twitter_auth2_fig">Node-RED twitter authorization, step 2</a>, and you&#8217;ll be taken to Twitter to authorize Node-RED.</p>
-</li>
-<li>
-<p>Log in to Twitter and click the "Authorize app" button (<a href="#networking_node_twitter_auth3_fig">Node-RED Twitter site authorization</a>).</p>
-</li>
-</ol>
-</div>
-<div id="networking_node_twitter_auth3_fig" class="imageblock">
-<div class="content">
-<img src="figures/node-twitter-auth3.png" alt="node-red authentication3">
-</div>
-<div class="title">Figure 12. Node-RED Twitter site authorization</div>
-</div>
-<div class="olist arabic">
-<ol class="arabic" start="7">
-<li>
-<p>When you&#8217;re back to Node-RED, click the Add button, add your Twitter credentials, enter the hashtags to respond to (<a href="#networking_node_twitter_beagle_fig">Node-RED adding the #BeagleBone hashtag</a>), and then click the Ok <span class="keep-together">button</span>.</p>
-</li>
-</ol>
-</div>
-<div id="networking_node_twitter_beagle_fig" class="imageblock">
-<div class="content">
-<img src="figures/node-twitter-beagle.png" alt="node-red beagle hash">
-</div>
-<div class="title">Figure 13. Node-RED adding the #BeagleBone hashtag</div>
-</div>
-<div class="olist arabic">
-<ol class="arabic" start="8">
-<li>
-<p>Go back to the left panel, scroll up to the top, and then drag the debug node to the canvas. (debug is in the output section.)</p>
-</li>
-<li>
-<p>Connect the two nodes by clicking and dragging (<a href="#networking_node_twitter_debug_fig">Node-RED Twitter adding debug node and connecting</a>).</p>
-</li>
-</ol>
-</div>
-<div id="networking_node_twitter_debug_fig" class="imageblock">
-<div class="content">
-<img src="figures/node-twitter-debug.png" alt="node-red debug">
-</div>
-<div class="title">Figure 14. Node-RED Twitter adding debug node and connecting</div>
-</div>
-<div class="olist arabic">
-<ol class="arabic" start="10">
-<li>
-<p>In the right panel, in the upper-right corner, click the "debug" tab.</p>
-</li>
-<li>
-<p>Finally, click the Deploy button above the "debug" tab.</p>
-</li>
-</ol>
-</div>
-<div class="paragraph">
-<p>Your Node-RED flow is now running on the Bone. Test it by going to Twitter and tweeting something with the hashtag #BeagleBone. Your Bone is now responding to events happening out in the world.</p>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_adding_an_led_toggle">Adding an LED Toggle</h5>
-<div class="paragraph">
-<p>Now, we&#8217;re ready to add the LED toggle:</p>
-</div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>Wire up an LED as shown in <a href="#displays_externalLED">[displays_externalLED]</a>. Mine is wired to P9_14.</p>
-</li>
-<li>
-<p>Scroll to the bottom of the left panel and drag the bbb-discrete-out node (second from the bottom of the bbb nodes) to the canvas and wire it (<a href="#networking_node_bbb_out_fig">Node-RED adding bbb-discrete-out node</a>).</p>
-</li>
-</ol>
-</div>
-<div id="networking_node_bbb_out_fig" class="imageblock">
-<div class="content">
-<img src="figures/node-disc-out.png" alt="node-red discrete out node">
-</div>
-<div class="title">Figure 15. Node-RED adding bbb-discrete-out node</div>
-</div>
-<div class="olist arabic">
-<ol class="arabic" start="3">
-<li>
-<p>Double-click the node, select your GPIO pin and "Toggle state," and then set "Startup as" to 1 (<a href="#networking_node_bbb_out_setup_fig">Node-RED adding bbb-discrete-out configuration</a>).</p>
-</li>
-</ol>
-</div>
-<div id="networking_node_bbb_out_setup_fig" class="imageblock">
-<div class="content">
-<img src="figures/node-disc-out-setup.png" alt="node-red discrete out setup">
-</div>
-<div class="title">Figure 16. Node-RED adding bbb-discrete-out configuration</div>
-</div>
-<div class="olist arabic">
-<ol class="arabic" start="4">
-<li>
-<p>Click Ok and then Deploy.</p>
-</li>
-</ol>
-</div>
-<div class="paragraph">
-<p>Test again. The LED will toggle every time the hashtag #BeagleBone is tweeted. With a little more exploring, you should be able to have your Bone ringing a bell or spinning a motor in response to tweets.</p>
-</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_discussion_8">Discussion</h4>
-
-</div>
-</div>
-<div class="sect2">
-<h3 id="_communicating_over_a_serial_connection_to_an_arduino_or_launchpad">Communicating over a Serial Connection to an Arduino or LaunchPad</h3>
-<div class="sect3">
-<h4 id="_problem_12">Problem</h4>
-<div class="paragraph">
-<p>You would like your Bone to talk to an Arduino or LaunchPad.</p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_solution_12">Solution</h4>
-<div class="paragraph">
-<p>The common serial port (also know as a UART) is the simplest way to talk between the two.  Wire it up as shown in <a href="#networking_launchPad_fig">Wiring a LaunchPad to a Bone via the common serial port</a>.</p>
-</div>
-<div class="admonitionblock warning">
-<table>
-<tr>
-<td class="icon">
-<div class="title">Warning</div>
-</td>
-<td class="content">
-<div class="paragraph">
-<p>BeagleBone Black runs at 3.3 V. When wiring other devices to it, ensure that they are also 3.3 V. The LaunchPad I&#8217;m using is 3.3 V, but many Arduinos are 5.0 V and thus won&#8217;t work. Or worse, they might damage your Bone.</p>
-</div>
-</td>
-</tr>
-</table>
-</div>
-<div id="networking_launchPad_fig" class="imageblock">
-<div class="content">
-<img src="figures/launchPad_bb.png" alt="MSP430 LaunchPad">
-</div>
-<div class="title">Figure 17. Wiring a LaunchPad to a Bone via the common serial port</div>
-</div>
-<div class="paragraph">
-<p>Add the code (or <em>sketch</em>, as it&#8217;s called in Arduino-speak) in <a href="#js_launchPad_code">LaunchPad code for communicating via the UART (launchPad.ino)</a> to a file called <em>launchPad.ino</em> and run it on your LaunchPad.</p>
-</div>
-<div id="js_launchPad_code" class="exampleblock">
-<div class="title">Example 16. LaunchPad code for communicating via the UART (launchPad.ino)</div>
-<div class="content">
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-c" data-lang="c">/*
-  Tests connection to a BeagleBone
-  Mark A. Yoder
-  Waits for input on Serial Port
-  g - Green toggle
-  r - Red toggle
-*/
-char inChar = 0; // incoming serial byte
-int red = 0;
-int green = 0;
-
-void setup()
-{
-  // initialize the digital pin as an output.
-  pinMode(RED_LED, OUTPUT);           // <b class="conum">(1)</b>
-  pinMode(GREEN_LED, OUTPUT);  
-  // start serial port at 9600 bps:
-  Serial.begin(9600);                 // <b class="conum">(2)</b>
-  Serial.print("Command (r, g): ");   // <b class="conum">(3)</b>
-  
-  digitalWrite(GREEN_LED, green);     // <b class="conum">(4)</b>
-  digitalWrite(  RED_LED, red);
-}
-
-void loop()
-{
-  if(Serial.available() &gt; 0 ) {       // <b class="conum">(5)</b>
-    inChar = Serial.read();
-    switch(inChar) {                  // <b class="conum">(6)</b>
-      case 'g':
-        green = ~green;
-        digitalWrite(GREEN_LED, green);
-        Serial.println("Green");
-        break;
-      case 'r':
-        red = ~red;
-        digitalWrite(RED_LED, red);
-        Serial.println("Red");
-        break;
-    }
-    Serial.print("Command (r, g): ");
-  }
-}</code></pre>
-</div>
-</div>
-</div>
-</div>
-<div class="colist arabic">
-<ol>
-<li>
-<p>Set the mode for the built-in red and green LEDs.</p>
-</li>
-<li>
-<p>Start the serial port at 9600 baud.</p>
-</li>
-<li>
-<p>Prompt the user, which in this case is the Bone.</p>
-</li>
-<li>
-<p>Set the LEDs to the current values of the red and green variables.</p>
-</li>
-<li>
-<p>Wait for characters to arrive on the serial port.</p>
-</li>
-<li>
-<p>After the characters are received, read it and respond to it.</p>
-</li>
-</ol>
-</div>
-<div class="paragraph">
-<p>On the Bone, add the script in <a href="#js_launchPadBeagle_code">Code for communicating via the UART (launchPad.js)</a> to a file called <em>launchPad.js</em> and run it.</p>
-</div>
-<div id="js_launchPadBeagle_code" class="exampleblock">
-<div class="title">Example 17. Code for communicating via the UART (launchPad.js)</div>
-<div class="content">
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-c" data-lang="c">#!/usr/bin/env node
-// Need to add exports.serialParsers = m.module.parsers;
-// to /usr/local/lib/node_modules/bonescript/serial.js
-var b = require('bonescript');
-
-var port = '/dev/ttyO1';                    // <b class="conum">(1)</b>
-var options = {
-    baudrate: 9600,                         // <b class="conum">(2)</b>
-    parser: b.serialParsers.readline("\n")  // <b class="conum">(3)</b>
-};
-
-b.serialOpen(port, options, onSerial);      // <b class="conum">(4)</b>
-
-function onSerial(x) {                      // <b class="conum">(5)</b>
-    console.log(x.event);
-    if (x.err) {
-        console.log('***ERROR*** ' + JSON.stringify(x));
-    }
-    if (x.event == 'open') {
-        console.log('***OPENED***');
-        setInterval(sendCommand, 1000);     // <b class="conum">(6)</b>
-    }
-    if (x.event == 'data') {
-        console.log(String(x.data));
-    }
-}
-
-var command = ['r', 'g'];                   // <b class="conum">(7)</b>
-var commIdx = 1;
-
-function sendCommand() {
-    // console.log('Command: ' + command[commIdx]);
-    b.serialWrite(port, command[commIdx++]); // <b class="conum">(8)</b>
-    if(commIdx &gt;= command.length) {         // <b class="conum">(9)</b>
-        commIdx = 0;
-    }
-}</code></pre>
-</div>
-</div>
-</div>
-</div>
-<div class="colist arabic">
-<ol>
-<li>
-<p>Select which serial port to use. <a href="#networking_cape-headers-serial_fig">Table of UART outputs</a> shows what&#8217;s available. We&#8217;ve wired P9_24 and P9_26, so we are using serial port /dev/ttyO1. (Note that&#8217;s the letter <em>O</em> and not the number <em>zero</em>.)</p>
-</li>
-<li>
-<p>Set the baudrate to 9600, which matches the setting on the LaunchPad.</p>
-</li>
-<li>
-<p>Read one line at a time up to the newline character (\n).</p>
-</li>
-<li>
-<p>Open the serial port and call onSerial() whenever there is data available.</p>
-</li>
-<li>
-<p>Determine what event has happened on the serial port and respond to it.</p>
-</li>
-<li>
-<p>If the serial port has been opened, start calling sendCommand() every 1000 ms.</p>
-</li>
-<li>
-<p>These are the two commands to send.</p>
-</li>
-<li>
-<p>Write the character out to the serial port and to the LaunchPad.</p>
-</li>
-<li>
-<p>Move to the next command.</p>
-</li>
-</ol>
-</div>
-<div id="networking_cape-headers-serial_fig" class="imageblock">
-<div class="content">
-<img src="figures/cape-headers-serial.png" alt="UART outputs">
-</div>
-<div class="title">Figure 18. Table of UART outputs</div>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_discussion_9">Discussion</h4>
-<div class="paragraph">
-<p>When you run the script in <a href="#js_launchPadBeagle_code">Code for communicating via the UART (launchPad.js)</a>, the Bone opens up the serial port and every second sends a new command, either r or g. The LaunchPad waits for the command and, when it arrives, responds by toggling the corresponding LED.</p>
 </div>
 </div>
 </div>
@@ -2388,7 +1836,7 @@ function sendCommand() {
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2022-07-20 17:12:00 -0400
+Last updated 2022-08-09 10:51:24 -0400
 </div>
 </div>
 </body>

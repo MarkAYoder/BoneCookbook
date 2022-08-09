@@ -448,10 +448,10 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="sect2">
 <h3 id="_introduction">Introduction</h3>
 <div class="paragraph">
-<p>In <a href="#basics">[basics]</a>, you learned how to set up BeagleBone Black, and <a href="#sensors">[sensors]</a>, <a href="#displays">[displays]</a>, and <a href="#motors">[motors]</a> showed how to interface to the physical world. <a href="#networking">[networking]</a> through the remainder of the book moves into some more exciting advanced topics, and this chapter gets you ready for them.</p>
+<p>In <a href="#basics">[basics]</a>, you learned how to set up BeagleBone Black, and <a href="#sensors">[sensors]</a>, <a href="#displays">[displays]</a>, and <a href="#motors">[motors]</a> showed how to interface to the physical world. The remainder of the book moves into some more exciting advanced topics, and this chapter gets you ready for them.</p>
 </div>
 <div class="paragraph">
-<p>The recipes in this chapter assume that you are running Linux on your host computer (<a href="#tips_pick_os">Selecting an OS for Your Development Host Computer</a>) and are comfortable with using Linux. We continue to assume that you are logged in as debian on your Bone.</p>
+<p>The recipes in this chapter assume that you are running Linux on your host computer (<a href="#tips_pick_os">[tips_pick_os]</a>) and are comfortable with using Linux. We continue to assume that you are logged in as debian on your Bone.</p>
 </div>
 </div>
 <div class="sect2">
@@ -473,19 +473,19 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="ulist">
 <ul>
 <li>
-<p>Standard HDMI cable and female HDMI-to-male microHDMI adapter (see <a href="#app_misc">[app_misc]</a>), or</p>
+<p>Standard HDMI cable and female HDMI-to-male microHDMI adapter, or</p>
 </li>
 <li>
-<p>MicroHDMI-to-HDMI adapter cable (see <a href="#app_misc">[app_misc]</a>)</p>
+<p>MicroHDMI-to-HDMI adapter cable</p>
 </li>
 <li>
-<p>HDMI monitor (see <a href="#app_misc">[app_misc]</a>)</p>
+<p>HDMI monitor</p>
 </li>
 <li>
 <p>USB keyboard and mouse</p>
 </li>
 <li>
-<p>Powered USB hub (see <a href="#app_misc">[app_misc]</a>)</p>
+<p>Powered USB hub</p>
 </li>
 </ul>
 </div>
@@ -530,13 +530,13 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p>Plug the small end into the microHDMI input on the Bone and plug your HDMI cable into the other end of the adapter and your monitor. If nothing displays on your Bone, reboot.</p>
 </div>
 <div class="paragraph">
-<p>If nothing appears after the reboot, edit the <em>/boot/uEnv.txt</em> file. Search for the line containing ##Disable HDMI and add the following lines after it:</p>
+<p>If nothing appears after the reboot, edit the <em>/boot/uEnv.txt</em> file. Search for the line containing +disable_uboot_overlay_video=1 and make sure it&#8217;s commented out:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-console" data-lang="console">##Disable HDMI
-#cape_disable=capemgr.disable_partno=BB-BONELT-HDMI,BB-BONELT-HDMIN
-cape_disable=capemgr.disable_partno=BB-BONELT-HDMI</code></pre>
+<pre class="highlight"><code class="language-console" data-lang="console">###Disable auto loading of virtual capes (emmc/video/wireless/adc)
+#disable_uboot_overlay_emmc=1
+#disable_uboot_overlay_video=1</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -550,10 +550,10 @@ cape_disable=capemgr.disable_partno=BB-BONELT-HDMI</code></pre>
 </td>
 <td class="content">
 <div class="paragraph">
-<p>The <em>/boot/uEnv.txt</em> file contains a number of configuration commands that are executed at boot time. The &amp;#35; character is used to add comments; that is, everything to the right of a &amp;#35; is ignored by the Bone and is assumed to be for humans to read. In the previous example, &amp;#35;&amp;#35;Disable HDMI is a comment that informs us the next line(s) are for disabling the HDMI. Two cape.disable commands follow. The first one is commented-out and won&#8217;t be executed by the Bone.</p>
+<p>The <em>/boot/uEnv.txt</em> file contains a number of configuration commands that are executed at boot time. The # character is used to add comments; that is, everything to the right of a # is ignored by the Bone and is assumed to be for humans to read. In the previous example, +###Disable auto loading is a comment that informs us the next line(s) are for disabling things. Two disable_uboot_overlay commands follow. Both should be commented-out and won&#8217;t be executed by the Bone.</p>
 </div>
 <div class="paragraph">
-<p>Why not just remove the first cape.disable?  Later, you might decide you need more general-purpose input/output (GPIO) pins and don&#8217;t need the HDMI display. If so, just remove the # from for first cape.disble. If you had completely removed the line earlier, you would have to look up the details somewhere to re-create it.</p>
+<p>Why not just remove the line?  Later, you might decide you need more general-purpose input/output (GPIO) pins and don&#8217;t need the HDMI display. If so, just remove the # from the disable_uboot_overlay_video=1 command. If you had completely removed the line earlier, you would have to look up the details somewhere to re-create it.</p>
 </div>
 <div class="paragraph">
 <p>When in doubt, comment-out; don&#8217;t delete.</p>
@@ -577,7 +577,7 @@ cape_disable=capemgr.disable_partno=BB-BONELT-HDMI</code></pre>
 </table>
 </div>
 <div class="paragraph">
-<p>The Bone has only one USB port, so you will need to get either a keyboard with a USB hub (see <a href="#app_misc">[app_misc]</a>) or a powered USB hub. Plug the USB hub into the Bone and then plug your keyboard and mouse in to the hub. You now have a Beagle workstation; no host computer is needed.</p>
+<p>The Bone has only one USB port, so you will need to get either a keyboard with a USB hub or a USB hub. Plug the USB hub into the Bone and then plug your keyboard and mouse in to the hub. You now have a Beagle workstation; no host computer is needed.</p>
 </div>
 <div class="admonitionblock tip">
 <table>
@@ -587,7 +587,7 @@ cape_disable=capemgr.disable_partno=BB-BONELT-HDMI</code></pre>
 </td>
 <td class="content">
 <div class="paragraph">
-<p>The powered hub is recommended because USB can supply only 500 mA, and you&#8217;ll want to plug many things into the Bone.</p>
+<p>A powered hub is recommended because USB can supply only 500 mA, and you&#8217;ll want to plug many things into the Bone.</p>
 </div>
 </td>
 </tr>
@@ -602,39 +602,17 @@ cape_disable=capemgr.disable_partno=BB-BONELT-HDMI</code></pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="tips_pick_os">Selecting an OS for Your Development Host Computer</h3>
-<div class="sect3">
-<h4 id="_problem_2">Problem</h4>
-<div class="paragraph">
-<p>Your project needs a host computer, and you need to select an operating system (OS) for it.</p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_solution_2">Solution</h4>
-<div class="paragraph">
-<p>For projects that require a host computer, we assume that you are running <a href="http://bit.ly/1wXOwkw">Linux Ubuntu 20.04 LTS</a>. You can be running either a native installation, through <a href="https://docs.microsoft.com/en-us/windows/wsl/">Windows Subsystem for Linux</a>,via a virtual machine such as <a href="https://www.virtualbox.org/">VirtualBox</a>, or in the cloud (<a href="https://portal.azure.com/">Microsoft Azure</a> or <a href="http://aws.amazon.com/ec2/">Amazon Elastic Compute Cloud</a> [EC2], for example).</p>
-</div>
-<div class="paragraph">
-<p>Recently I&#8217;ve been prefering <a href="https://docs.microsoft.com/en-us/windows/wsl/">Windows Subsystem for Linux</a>.</p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_discussion_2">Discussion</h4>
-
-</div>
-</div>
-<div class="sect2">
 <h3 id="tips_shell">Getting to the Command Shell via SSH</h3>
 <div class="sect3">
-<h4 id="_problem_3">Problem</h4>
+<h4 id="_problem_2">Problem</h4>
 <div class="paragraph">
 <p>You want to connect to the command shell of a remote Bone from your host <span class="keep-together">computer</span>.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_3">Solution</h4>
+<h4 id="_solution_2">Solution</h4>
 <div class="paragraph">
-<p><a href="#basics_vsc_IDE">[basics_vsc_IDE]</a> shows how to run shell commands in the Cloud9 bash tab. However, the Bone has Secure Shell (SSH) enabled right out of the box, so you can easily connect by using the following command to log in as user debian, (note the $ at the end of the prompt):</p>
+<p><a href="#basics_vsc_IDE">[basics_vsc_IDE]</a> shows how to run shell commands in the Visual Studio Code bash tab. However, the Bone has Secure Shell (SSH) enabled right out of the box, so you can easily connect by using the following command to log in as user debian, (note the $ at the end of the prompt):</p>
 </div>
 <pre data-type="programlisting">
 host$ <strong>ssh debian@192.168.7.2</strong>
@@ -643,10 +621,7 @@ Last login: Mon Dec 22 07:53:06 2014 from yoder-linux.local
 bone$
 </pre>
 <div class="paragraph">
-<p>Or you could log in as a normal user, debian (note the $ at the end of the prompt):</p>
-</div>
-<div class="paragraph">
-<p>root has passwords disabled. It&#8217;s best to change the password:</p>
+<p>debian has the default password tempped It&#8217;s best to change the password:</p>
 </div>
 <pre data-type="programlisting">
 bone$ <strong>passwd</strong>
@@ -657,21 +632,17 @@ Retype new UNIX password:
 passwd: password updated successfully
 </pre>
 </div>
-<div class="sect3">
-<h4 id="_discussion_3">Discussion</h4>
-
-</div>
 </div>
 <div class="sect2">
 <h3 id="tips_serial">Getting to the Command Shell via the Virtual Serial Port</h3>
 <div class="sect3">
-<h4 id="_problem_4">Problem</h4>
+<h4 id="_problem_3">Problem</h4>
 <div class="paragraph">
 <p>You want to connect to the command shell of a remote Bone from your host computer without using SSH.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_4">Solution</h4>
+<h4 id="_solution_3">Solution</h4>
 <div class="paragraph">
 <p>Sometimes, you can&#8217;t connect to the Bone via SSH, but you have a network working over USB to the Bone. There is a way to access the command line to fix things without requiring extra hardware. (<a href="#tips_FTDI">Viewing and Debugging the Kernel and u-boot Messages at Boot Time</a> shows a way that works even if you don&#8217;t have a network working over USB, but it requires a special serial-to-USB cable.)</p>
 </div>
@@ -716,21 +687,17 @@ beaglebone login:
 tells the speed of the connection. In this case, it&#8217;s 115,200 bits per second.</p>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_discussion_4">Discussion</h4>
-
-</div>
 </div>
 <div class="sect2">
 <h3 id="tips_FTDI">Viewing and Debugging the Kernel and u-boot Messages at Boot Time</h3>
 <div class="sect3">
-<h4 id="_problem_5">Problem</h4>
+<h4 id="_problem_4">Problem</h4>
 <div class="paragraph">
 <p>You want to see the messages that are logged by BeagleBone Black as it comes to life.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_5">Solution</h4>
+<h4 id="_solution_4">Solution</h4>
 <div class="paragraph">
 <p>There is no network in place when the Bone first boots up, so <a href="#tips_shell">Getting to the Command Shell via SSH</a> and <a href="#tips_serial">Getting to the Command Shell via the Virtual Serial Port</a> won&#8217;t work. This recipe uses some extra hardware (FTDI cable) to attach to the Bone&#8217;s console serial port.</p>
 </div>
@@ -740,7 +707,7 @@ tells the speed of the connection. In this case, it&#8217;s 115,200 bits per sec
 <div class="ulist">
 <ul>
 <li>
-<p>3.3 V FTDI cable (see <a href="#app_misc">[app_misc]</a>)</p>
+<p>3.3 V FTDI cable</p>
 </li>
 </ul>
 </div>
@@ -788,14 +755,14 @@ tells the speed of the connection. In this case, it&#8217;s 115,200 bits per sec
 <div class="title">Figure 3. FTDI connector</div>
 </div>
 <div class="paragraph">
-<p>Next, look for the FTDI pins of the Bone (labeled J1 on the Bone), shown in <a href="#tips_black_hardware_details_fig">FTDI pins for the FTDI connector <sup class="footnote">[2]</sup></sup> was originally posted by Jason Kridner at http://beagleboard.org/media under a Creative Commons Attribution-ShareAlike 3.0 Unported License.]</a>.
+<p>Next, look for the FTDI pins of the Bone (labeled J1 on the Bone), shown in <a href="#tips_black_hardware_details_fig">FTDI pins for the FTDI connector</a>.
 They are next to the P9 header and begin near pin 20. There is a white dot near P9_20.</p>
 </div>
 <div id="tips_black_hardware_details_fig" class="imageblock">
 <div class="content">
 <img src="figures/FTDIPins.png" alt="Serial Debug Pins">
 </div>
-<div class="title">Figure 4. FTDI pins for the FTDI connector <sup class="footnote">[<a id="_footnoteref_2" class="footnote" href="#_footnotedef_2" title="View footnote.">2</a>]</sup></sup></a> was originally posted by Jason Kridner at <a href="http://beagleboard.org/media" class="bare">http://beagleboard.org/media</a> under a <a href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons Attribution-ShareAlike 3.0 Unported License</a>.]</div>
+<div class="title">Figure 4. FTDI pins for the FTDI connector</div>
 </div>
 <div class="paragraph">
 <p>Plug the FTDI connector into the FTDI pins, being sure to connect the <em>triangle</em> pin on the connector to the <em>white dot</em> pin of the FTDI connector.</p>
@@ -832,31 +799,27 @@ beaglebone login:
 </table>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_discussion_5">Discussion</h4>
-
-</div>
 </div>
 <div class="sect2">
 <h3 id="_verifying_you_have_the_latest_version_of_the_os_on_your_bone_from_the_shell">Verifying You Have the Latest Version of the OS on Your Bone from the Shell</h3>
 <div class="sect3">
-<h4 id="_problem_6">Problem</h4>
+<h4 id="_problem_5">Problem</h4>
 <div class="paragraph">
 <p>You are logged in to your Bone with a command prompt and want to know what version of the OS you are running.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_6">Solution</h4>
+<h4 id="_solution_5">Solution</h4>
 <div class="paragraph">
 <p>Log in to your Bone and enter the following command:</p>
 </div>
 <pre data-type="programlisting">
 bone$ <strong>cat /etc/dogtag</strong>
-BeagleBoard.org Debian Bullseye IoT Image 2022-06-02
+BeagleBoard.org Debian Bullseye IoT Image 2022-07-01
 </pre>
 </div>
 <div class="sect3">
-<h4 id="_discussion_6">Discussion</h4>
+<h4 id="_discussion_2">Discussion</h4>
 <div class="paragraph">
 <p><a href="#basics_latest_os">[basics_latest_os]</a> shows how to open the <em>ID.txt</em> file to see the OS version. The <em>/etc/dogtag</em> file has the same contents and is easier to find if you already have a command prompt. See <a href="#basics_install_os">[basics_install_os]</a> if you need to update your OS.</p>
 </div>
@@ -865,13 +828,13 @@ BeagleBoard.org Debian Bullseye IoT Image 2022-06-02
 <div class="sect2">
 <h3 id="_controlling_the_bone_remotely_with_a_vnc">Controlling the Bone Remotely with a VNC</h3>
 <div class="sect3">
-<h4 id="_problem_7">Problem</h4>
+<h4 id="_problem_6">Problem</h4>
 <div class="paragraph">
 <p>You want to access the BeagleBone&#8217;s graphical desktop from your host computer.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_7">Solution</h4>
+<h4 id="_solution_6">Solution</h4>
 <div class="paragraph">
 <p>Run the installed Virtual Network Computing (VNC) server:</p>
 </div>
@@ -887,9 +850,9 @@ xauth: (argv):1:  bad display name "beaglebone:1" in "add" command
 
 New 'X' desktop is beaglebone:1
 
-Creating default startup script /root/.vnc/xstartup
-Starting applications specified in /root/.vnc/xstartup
-Log file is /root/.vnc/beaglebone:1.log
+reating default startup script /home/debian/.vnc/xstartup
+Starting applications specified in /home/debian/.vnc/xstartup
+Log file is /home/debian/.vnc/beagleboard:1.log
 </pre>
 <div class="paragraph">
 <p>To connect to the Bone, you will need to run a VNC client. There are many to choose from. Remmina Remote Desktop Client is already installed on Ubuntu. Start and select the new remote desktop file button (<a href="#tips_vnc1_fig">Creating a new remote desktop file in Remmina Remote Desktop Client</a>).</p>
@@ -901,7 +864,7 @@ Log file is /root/.vnc/beaglebone:1.log
 <div class="title">Figure 5. Creating a new remote desktop file in Remmina Remote Desktop Client</div>
 </div>
 <div class="paragraph">
-<p>Give your connection a name, being sure to select "VNC - Virtual Network Computing." Also, be sure to add :1 after the server address, as shown in <a href="#tips_vnc2_fig">Configuring the Remmina Remote Desktop Client</a>. This should match the :1 that was displayed when you started vncserver.</p>
+<p>Give your connection a name, being sure to select "Remmina VNC Plugin" Also, be sure to add :1 after the server address, as shown in <a href="#tips_vnc2_fig">Configuring the Remmina Remote Desktop Client</a>. This should match the :1 that was displayed when you started vncserver.</p>
 </div>
 <div id="tips_vnc2_fig" class="imageblock">
 <div class="content">
@@ -932,30 +895,47 @@ Log file is /root/.vnc/beaglebone:1.log
 </tr>
 </table>
 </div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>You need to have X Windows installed and running for the VNC to work.  Here&#8217;s how to install it. This needs some 250M of disk space and 19 minutes to install.</p>
 </div>
-<div class="sect3">
-<h4 id="_discussion_7">Discussion</h4>
-
+<pre data-type="programlisting">
+bone$ <strong>bone$ sudo apt install bbb.io-xfce4-desktop</strong>
+bone$ <strong>cp /etc/bbb.io/templates/fbdev.xorg.conf /etc/X11/xorg.conf</strong>
+bone$ <strong>startxfce4</strong>
+/usr/bin/startxfce4: Starting X server
+/usr/bin/startxfce4: 122: exec: xinit: not found
+<pre>
+</td>
+</tr>
+</table>
+</div>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_learning_typical_gnulinux_commands">Learning Typical GNU/Linux Commands</h3>
 <div class="sect3">
-<h4 id="_problem_8">Problem</h4>
+<h4 id="_problem_7">Problem</h4>
 <div class="paragraph">
 <p>There are many powerful commands to use in Linux. How do you learn about them?</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_8">Solution</h4>
+<h4 id="_solution_7">Solution</h4>
 <div class="paragraph">
 <p><a href="#tips_linux_commands">Common Linux commands</a> lists many common Linux commands.</p>
 </div>
-<table id="tips_linux_commands" class="tableblock frame-all grid-all stretch">
+<table id="tips_linux_commands" class="tableblock frame-all grid-all fit-content">
 <caption class="title">Table 1. Common Linux commands</caption>
 <colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
+<col>
+<col>
 </colgroup>
 <thead>
 <tr>
@@ -1099,21 +1079,17 @@ Log file is /root/.vnc/beaglebone:1.log
 </tbody>
 </table>
 </div>
-<div class="sect3">
-<h4 id="_discussion_8">Discussion</h4>
-
-</div>
 </div>
 <div class="sect2">
 <h3 id="tips_editing_files">Editing a Text File from the GNU/Linux Command Shell</h3>
 <div class="sect3">
-<h4 id="_problem_9">Problem</h4>
+<h4 id="_problem_8">Problem</h4>
 <div class="paragraph">
 <p>You want to run an editor to change a file.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_9">Solution</h4>
+<h4 id="_solution_8">Solution</h4>
 <div class="paragraph">
 <p>The Bone comes with a number of editors. The simplest to learn is nano. Just enter the following command:</p>
 </div>
@@ -1145,7 +1121,7 @@ bone$ <strong>nano file</strong>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_9">Discussion</h4>
+<h4 id="_discussion_3">Discussion</h4>
 <div class="paragraph">
 <p>Many other text editors will run on the Bone. vi, vim, emacs, and  even eclipse are all supported. See <a href="#tips_apt">Installing Additional Packages from the Debian Package Feed</a> to learn if your favorite is one of them.</p>
 </div>
@@ -1154,13 +1130,13 @@ bone$ <strong>nano file</strong>
 <div class="sect2">
 <h3 id="networking_wired">Establishing an Ethernet-Based Internet Connection</h3>
 <div class="sect3">
-<h4 id="_problem_10">Problem</h4>
+<h4 id="_problem_9">Problem</h4>
 <div class="paragraph">
 <p>You want to connect your Bone to the Internet using the wired network connection.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_10">Solution</h4>
+<h4 id="_solution_9">Solution</h4>
 <div class="paragraph">
 <p>Plug one end of an Ethernet patch cable into the RJ45 connector on the Bone (see <a href="#networking_rj45">The RJ45 port on the Bone</a>) and the other end into your home hub/router. The yellow and green link lights on both ends should begin to flash.</p>
 </div>
@@ -1238,8 +1214,7 @@ bone$ <strong>ip a</strong>
 </td>
 <td class="content">
 <div class="paragraph">
-<p>When a Bone is connected to some networks (in my case, the campus network),
-it becomes visible to the <em>world</em>. If you don&#8217;t secure your Bone, the world will soon find it. See <a href="#tips_passwords">[tips_passwords]</a> and <a href="#tips_firewall">Setting Up a Firewall</a>.</p>
+<p>When a Bone is connected to some networks it becomes visible to the <em>world</em>. If you don&#8217;t secure your Bone, the world will soon find it. See <a href="#tips_passwords">[tips_passwords]</a> and <a href="#tips_firewall">Setting Up a Firewall</a>.</p>
 </div>
 <div class="paragraph">
 <p>On many home networks, you will be behind a firewall and won&#8217;t be as visible.</p>
@@ -1249,28 +1224,17 @@ it becomes visible to the <em>world</em>. If you don&#8217;t secure your Bone, t
 </table>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_discussion_10">Discussion</h4>
-
-</div>
 </div>
 <div class="sect2">
 <h3 id="networking_wireless">Establishing a WiFi-Based Internet Connection</h3>
 <div class="sect3">
-<h4 id="_problem_11">Problem</h4>
+<h4 id="_problem_10">Problem</h4>
 <div class="paragraph">
 <p>You want BeagleBone Black to talk to the Internet using a USB wireless adapter.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_11">Solution</h4>
-<div class="admonitionblock tip">
-<table>
-<tr>
-<td class="icon">
-<div class="title">Tip</div>
-</td>
-<td class="content">
+<h4 id="_solution_10">Solution</h4>
 <div class="paragraph">
 <p>For the correct instructions for the image you are using, go to
 <a href="https://forum.beagleboard.org/tag/latest-images">latest-images</a> and click on the image you are using.</p>
@@ -1293,10 +1257,6 @@ it becomes visible to the <em>world</em>. If you don&#8217;t secure your Bone, t
 </div>
 <div class="title">Figure 11. Instructions for setting up your network.</div>
 </div>
-</td>
-</tr>
-</table>
-</div>
 <div class="paragraph">
 <p>Several WiFi adapters work with the Bone. Check <a href="http://bit.ly/1EbEwUo">WiFi Adapters</a> for the latest list.</p>
 </div>
@@ -1306,10 +1266,10 @@ it becomes visible to the <em>world</em>. If you don&#8217;t secure your Bone, t
 <div class="ulist">
 <ul>
 <li>
-<p>USB Wifi adapter (see <a href="#app_misc">[app_misc]</a>)</p>
+<p>USB Wifi adapter</p>
 </li>
 <li>
-<p>5 V external power supply (see <a href="#app_misc">[app_misc]</a>)</p>
+<p>5 V external power supply</p>
 </li>
 </ul>
 </div>
@@ -1431,21 +1391,17 @@ rtt min/avg/max/mdev = 19.387/19.450/19.513/0.063 ms
 <p>wlan0 should now have an ip address and you should be on the network. If not, try rebooting.</p>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_discussion_11">Discussion</h4>
-
-</div>
 </div>
 <div class="sect2">
 <h3 id="networking_usb">Sharing the Host&#8217;s Internet Connection over USB</h3>
 <div class="sect3">
-<h4 id="_problem_12">Problem</h4>
+<h4 id="_problem_11">Problem</h4>
 <div class="paragraph">
 <p>Your host computer is connected to the Bone via the USB cable, and you want to run the network between the two.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_12">Solution</h4>
+<h4 id="_solution_11">Solution</h4>
 <div class="paragraph">
 <p><a href="#networking_wired">Establishing an Ethernet-Based Internet Connection</a> shows how to connect BeagleBone Black to the Internet via the RJ45 Ethernet connector.  This recipe shows a way to connect without using the RJ45 <span class="keep-together">connector</span>.</p>
 </div>
@@ -1629,21 +1585,17 @@ host$ <strong>sudo iptables -t nat -A PREROUTING -p tcp -s 0/0 \
 </div>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_discussion_12">Discussion</h4>
-
-</div>
 </div>
 <div class="sect2">
 <h3 id="tips_firewall">Setting Up a Firewall</h3>
 <div class="sect3">
-<h4 id="_problem_13">Problem</h4>
+<h4 id="_problem_12">Problem</h4>
 <div class="paragraph">
 <p>You have put your Bone on the network and want to limit which IP addresses can access it.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_13">Solution</h4>
+<h4 id="_solution_12">Solution</h4>
 <div class="paragraph">
 <p><a href="https://www.howtogeek.com/">How-To Geek</a> has a great posting on how do use ufw, the "uncomplicated firewall". Check out <a href="https://www.howtogeek.com/devops/how-to-secure-your-linux-server-with-a-ufw-firewall/">How to Secure Your Linux Server with a UFW Firewall</a>.  I&#8217;ll summarize the initial setup here.</p>
 </div>
@@ -1672,7 +1624,7 @@ bone$ <strong>sudo ufw allow 22</strong>
 <p>Just to be sure, you can install nmap on your host computer to see what ports are currently open.</p>
 </div>
 <pre data-type="programlisting">
-host$ <strong>sudo apt uupdate</strong>
+host$ <strong>sudo apt update</strong>
 host$ <strong>sudo apt install nmap</strong>
 host$ <strong>nmap 192.168.7.2</strong>
 Starting Nmap 7.80 ( https://nmap.org ) at 2022-07-09 13:37 EDT
@@ -1719,21 +1671,17 @@ Firewall stopped and disabled on system startup
 <p>See the How-To Geek article for more examples.</p>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_discussion_13">Discussion</h4>
-
-</div>
 </div>
 <div class="sect2">
 <h3 id="tips_apt">Installing Additional Packages from the Debian Package Feed</h3>
 <div class="sect3">
-<h4 id="_problem_14">Problem</h4>
+<h4 id="_problem_13">Problem</h4>
 <div class="paragraph">
 <p>You want to do more cool things with your BeagleBone by installing more programs.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_14">Solution</h4>
+<h4 id="_solution_13">Solution</h4>
 <div class="admonitionblock warning">
 <table>
 <tr>
@@ -1780,21 +1728,17 @@ bone$ <strong>sudo apt install dict</strong>
 <p>Now you can run dict.</p>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_discussion_14">Discussion</h4>
-
-</div>
 </div>
 <div class="sect2">
 <h3 id="tips_apt_remove">Removing Packages Installed with apt</h3>
 <div class="sect3">
-<h4 id="_problem_15">Problem</h4>
+<h4 id="_problem_14">Problem</h4>
 <div class="paragraph">
 <p>You&#8217;ve been playing around and installing all sorts of things with apt and now you want to clean things up a bit.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_15">Solution</h4>
+<h4 id="_solution_14">Solution</h4>
 <div class="paragraph">
 <p>apt has a remove option, so you can run the following command:</p>
 </div>
@@ -1813,21 +1757,17 @@ After this operation, 164 kB disk space will be freed.
 Do you want to continue [Y/n]? <strong>y</strong>
 </pre>
 </div>
-<div class="sect3">
-<h4 id="_discussion_15">Discussion</h4>
-
-</div>
 </div>
 <div class="sect2">
 <h3 id="_copying_files_between_the_onboard_flash_and_the_microsd_card">Copying Files Between the Onboard Flash and the MicroSD Card</h3>
 <div class="sect3">
-<h4 id="_problem_16">Problem</h4>
+<h4 id="_problem_15">Problem</h4>
 <div class="paragraph">
 <p>You want to move files between the onboard flash and the microSD card.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_16">Solution</h4>
+<h4 id="_solution_15">Solution</h4>
 <div class="paragraph">
 <p>If you booted from the microSD card, run the following command:</p>
 </div>
@@ -1854,9 +1794,9 @@ bone$ <strong>ls /dev/mmcblk*</strong>
 </div>
 <pre data-type="programlisting">
 bone$ <strong>cd /mnt</strong>
-bone$ <strong>mkdir onboard</strong>
+bone$ <strong>sudo mkdir onboard</strong>
 bone$ <strong>ls onboard</strong>
-bone$ <strong>mount /dev/mmcblk1p1 onboard/</strong>
+bone$ <strong>sudo mount /dev/mmcblk1p1 onboard/</strong>
 bone$ <strong>ls onboard</strong>
 bin   etc     lib         mnt           proc  sbin     sys  var
 boot  home    lost+found  nfs-uEnv.txt  root  selinux  tmp
@@ -1867,25 +1807,25 @@ dev   ID.txt  media       opt           run   srv      usr
 </div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_16">Discussion</h4>
+<h4 id="_discussion_4">Discussion</h4>
 <div class="paragraph">
 <p>This same process should also work if you have booted from the onboard flash. When you are done with the onboard flash, you can unmount it by using this command:</p>
 </div>
 <pre data-type="programlisting">
-bone$ <strong>umount /mnt/onboard</strong>
+bone$ <strong>sudo umount /mnt/onboard</strong>
 </pre>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_freeing_space_on_the_onboard_flash_or_microsd_card">Freeing Space on the Onboard Flash or MicroSD Card</h3>
 <div class="sect3">
-<h4 id="_problem_17">Problem</h4>
+<h4 id="_problem_16">Problem</h4>
 <div class="paragraph">
 <p>You are starting to run out of room on your microSD card (or onboard flash) and have removed several packages you had previously installed (<a href="#tips_apt_remove">Removing Packages Installed with apt</a>), but you still need to free up more space.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_17">Solution</h4>
+<h4 id="_solution_16">Solution</h4>
 <div class="paragraph">
 <p>To free up space, you can remove preinstalled packages or discover big files to remove.</p>
 </div>
@@ -1904,9 +1844,6 @@ bone$ <strong>umount /mnt/onboard</strong>
 <div class="paragraph">
 <p>The Chromium web browser is the open source version of Google&#8217;s Chrome web browser. Unless you are using the Bone as a desktop computer, you can probably remove it.</p>
 </div>
-<div class="paragraph">
-<p><a href="http://opencv.org/">OpencCV</a> is an open source computer vision package. If you aren&#8217;t doing computer vision, you can remove it.</p>
-</div>
 </td>
 </tr>
 </table>
@@ -1915,28 +1852,11 @@ bone$ <strong>umount /mnt/onboard</strong>
 <p>Here&#8217;s how you can remove these:</p>
 </div>
 <pre data-type="programlisting">
-bone$ <strong>sudo apt autoremove opencv*</strong>          (83M)
-bone$ <strong>sudo apt remove libopencv-* --purge</strong>  (41M)
-bone$ <strong>sudo apt autoremove</strong>                  (42M)
-bone$ <strong>rm -rf /usr/lib/chromium</strong>            (95M)
-bone$ <strong>rm -f  /usr/bin/chromium</strong>
-bone$ <strong>rm -rf /usr/share/doc</strong>               (101M)
-bone$ <strong>rm -rf /usr/share/man</strong>               (27M)
+bone$ <strong>sudo apt remove bb-node-red-installer</strong> (171M)
+bone$ <strong>sudo apt autoremove</strong>
+bone$ <strong>sudo -rf /usr/share/doc</strong>               (116M)
+bone$ <strong>sudo -rf /usr/share/man</strong>               (19M)
 </pre>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<div class="title">Note</div>
-</td>
-<td class="content">
-<div class="paragraph">
-<p>These packages and sizes to remove were found in a <a href="http://bit.ly/1HC96aI">BeagleBoard Google Groups thread</a>.</p>
-</div>
-</td>
-</tr>
-</table>
-</div>
 </div>
 <div class="sect4">
 <h5 id="_discovering_big_files">Discovering big files</h5>
@@ -1944,31 +1864,31 @@ bone$ <strong>rm -rf /usr/share/man</strong>               (27M)
 <p>The du (disk usage) command offers a quick way to discover big files:</p>
 </div>
 <pre data-type="programlisting">
-bone$ <strong>du -shx /*</strong>
-5.6M	/bin
-11M	/boot
+bone$ <strong>sudo du -shx /*</strong>
+12M	/bin
+160M	/boot
 0	/dev
-5.4M	/etc
-232K	/home
-66M	/lib
+23M	/etc
+835M	/home
+4.0K	/ID.txt
+591M	/lib
 16K	/lost+found
-388M	/media
-4.0K	/mnt
-63M	/opt
-du: cannot access `/proc/20551/task/20551/fd/3': No such file or directory
-du: cannot access `/proc/20551/task/20551/fdinfo/3': No such file or directory
-du: cannot access `/proc/20551/fd/3': No such file or directory
-du: cannot access `/proc/20551/fdinfo/3': No such file or directory
+4.0K	/media
+8.0K	/mnt
+664M	/opt
+du: cannot access '/proc/1454/task/1454/fd/4': No such file or directory
+du: cannot access '/proc/1454/task/1454/fdinfo/4': No such file or directory
+du: cannot access '/proc/1454/fd/3': No such file or directory
+du: cannot access '/proc/1454/fdinfo/3': No such file or directory
 0	/proc
-227M	/root
-1.1M	/run
-5.0M	/sbin
-4.0K	/selinux
+1.4M	/root
+1.4M	/run
+13M	/sbin
 4.0K	/srv
 0	/sys
-36K	/tmp
-1.2G	/usr
-143M	/var
+48K	/tmp
+1.6G	/usr
+1.9G	/var
 </pre>
 <div class="paragraph">
 <p>If you booted from the microSD card, du lists the usage of the microSD. If you booted from the onboard flash, it lists the onboard flash usage.</p>
@@ -1991,18 +1911,23 @@ du: cannot access `/proc/20551/fdinfo/3': No such file or directory
 </table>
 </div>
 <div class="paragraph">
-<p>The <em>/usr</em> directory appears to be the biggest user of space at 1.2 GB. You can then run the following command to see what&#8217;s taking up the space in <em>/usr</em>:</p>
+<p>The <em>/var</em> directory appears to be the biggest user of space at 1.9 GB. You can then run the following command to see what&#8217;s taking up the space in <em>/var</em>:</p>
 </div>
 <pre data-type="programlisting">
-bone$ <strong>du -sh /usr/*</strong>
-46M	/usr/bin
-4.0K	/usr/games
-36M	/usr/include
-424M	/usr/lib
-16M	/usr/local
-4.0M	/usr/sbin
-694M	/usr/share
-4.0K	/usr/src
+bone$ <strong>sudo du -sh /usr/*</strong>
+4.0K	/var/backups
+76M	/var/cache
+93M	/var/lib
+4.0K	/var/local
+0	/var/lock
+751M	/var/log
+4.0K	/var/mail
+4.0K	/var/opt
+0	/var/run
+16K	/var/spool
+987M	/var/swap
+28K	/var/tmp
+16K	/var/www
 </pre>
 <div class="paragraph">
 <p>A more interactive way to explore your disk usage is by installing ncdu (ncurses disk usage):</p>
@@ -2016,30 +1941,30 @@ bone$ <strong>ncdu /</strong>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-console" data-lang="console">ncdu 1.8 ~ Use the arrow keys to navigate, press ? for help
---- / --------------------------------------------------------------------------
-    1.2GiB [##########] /usr
-  387.6MiB [###       ] /media
-  226.0MiB [#         ] /root
-  142.9MiB [#         ] /var
-   65.9MiB [          ] /lib
-   62.4MiB [          ] /opt
-   10.8MiB [          ] /boot
-    5.6MiB [          ] /bin
-    5.4MiB [          ] /etc
-    5.0MiB [          ] /sbin
-    1.0MiB [          ] /run
-  232.0KiB [          ] /home
-   36.0KiB [          ] /tmp
-e  16.0KiB [          ] /lost+found
-e   4.0KiB [          ] /srv
-e   4.0KiB [          ] /selinux
-e   4.0KiB [          ] /mnt
-    0.0  B [          ] /sys
-    0.0  B [          ] /proc
-    0.0  B [          ] /dev
+<pre class="highlight"><code class="language-console" data-lang="console">ncdu 1.15.1 ~ Use the arrow keys to navigate, press ? for help
+--- / ------------------------------------------------------------------
+.   1.9 GiB [##########] /var
+    1.5 GiB [########  ] /usr
+  835.0 MiB [####      ] /home
+  663.5 MiB [###       ] /opt
+  590.9 MiB [###       ] /lib
+  159.0 MiB [          ] /boot
+.  22.8 MiB [          ] /etc
+   12.5 MiB [          ] /sbin
+   11.1 MiB [          ] /bin
+.   1.4 MiB [          ] /run
+.  40.0 KiB [          ] /tmp
+!  16.0 KiB [          ] /lost+found
+    8.0 KiB [          ] /mnt
+e   4.0 KiB [          ] /srv
+!   4.0 KiB [          ] /root
+e   4.0 KiB [          ] /media
+    4.0 KiB [          ]  ID.txt
+.   0.0   B [          ] /sys
+.   0.0   B [          ] /proc
+    0.0   B [          ] /dev
 
- Total disk usage:   2.1GiB  Apparent size:   1.9GiB  Items: 156583</code></pre>
+ Total disk usage:   5.6 GiB  Apparent size:   5.5 GiB  Items: 206148</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -2061,21 +1986,17 @@ e   4.0KiB [          ] /mnt
 </div>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_discussion_17">Discussion</h4>
-
-</div>
 </div>
 <div class="sect2">
 <h3 id="misc_libsoc">Using C to Interact with the Physical World</h3>
 <div class="sect3">
-<h4 id="_problem_18">Problem</h4>
+<h4 id="_problem_17">Problem</h4>
 <div class="paragraph">
 <p>You want to use C on the Bone to talk to the world.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_18">Solution</h4>
+<h4 id="_solution_17">Solution</h4>
 <div class="paragraph">
 <p>The C solution isn&#8217;t as simple as the JavaScript or Python solution, but it does work and is much faster.  The approach is the same, write to the /sys/class/gpio files.</p>
 </div>
@@ -2157,26 +2078,13 @@ bone$ <strong>./blinkLED</strong>
 <p>Hit ^C to stop the blinking.</p>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_discussion_18">Discussion</h4>
-
 </div>
 </div>
-</div>
-</div>
-</div>
-<div id="footnotes">
-<hr>
-<div class="footnote" id="_footnotedef_1">
-<a href="#_footnoteref_1">1</a>. <a href="#tips_black_hardware_details_fig">[tips_black_hardware_details_fig]</a> was originally posted by Jason Kridner at <a href="http://beagleboard.org/media" class="bare">http://beagleboard.org/media</a> under a <a href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons Attribution-ShareAlike 3.0 Unported License</a>.
-</div>
-<div class="footnote" id="_footnotedef_2">
-<a href="#_footnoteref_2">2</a>. <a href="#tips_black_hardware_details_fig">FTDI pins for the FTDI connector <sup class="footnote">[1
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2022-07-29 16:46:33 -0400
+Last updated 2022-08-09 10:51:24 -0400
 </div>
 </div>
 </body>

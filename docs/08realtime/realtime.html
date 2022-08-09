@@ -457,7 +457,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p>Systems running Linux generally can&#8217;t do 100 percent hard real-time processing, because Linux gets in the way. However, the Bone has an ARM processor running Linux and two additional 32-bit programmable real-time units (PRUs <a href="http://bit.ly/1EzTPZv">Ti AM33XX PRUSSv2</a>) available to do real-time processing. Although the PRUs can achieve 100 percent hard real-time, they take some effort to use.</p>
 </div>
 <div class="paragraph">
-<p>This chapter shows several ways to do real-time input/output (I/O), starting with the effortless, yet slower JavaScript and moving up with increasing speed (and effort) to using the PRUs.</p>
+<p>This chapter shows several ways to do real-time input/output (I/O), starting with the effortless, yet slower Python and moving up with increasing speed (and effort) to using the PRUs.</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -475,11 +475,11 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </div>
 <div class="sect2">
-<h3 id="realtime_JavaScript">I/O with JavaScript</h3>
+<h3 id="realtime_Python">I/O with Python</h3>
 <div class="sect3">
 <h4 id="_problem">Problem</h4>
 <div class="paragraph">
-<p>You want to read an input pin and write it to the output as quickly as possible with JavaScript.</p>
+<p>You want to read an input pin and write it to the output as quickly as possible with Python.</p>
 </div>
 </div>
 <div class="sect3">
@@ -490,16 +490,16 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="ulist">
 <ul>
 <li>
-<p>Breadboard and jumper wires (see <a href="#app_proto">[app_proto]</a>)</p>
+<p>Breadboard and jumper wires</p>
 </li>
 <li>
-<p>Pushbutton switch (see <a href="#app_misc">[app_misc]</a>)</p>
+<p>Pushbutton switch</p>
 </li>
 <li>
-<p>220 &#8486; resistor (see <a href="#app_resistor">[app_resistor]</a>)</p>
+<p>220 &#8486; resistor</p>
 </li>
 <li>
-<p>LED (see <a href="#app_opto">[app_opto]</a>)</p>
+<p>LED</p>
 </li>
 </ul>
 </div>
@@ -622,10 +622,9 @@ function flashLED() {
 </div>
 </div>
 <div class="paragraph">
-<p>Add the code to a file named <em>pushLED.js</em> and run it by using the following commands:</p>
+<p>Run pushLED.js_ by using the following commands:</p>
 </div>
 <pre data-type="programlisting">
-bone$ <strong>chmod +x pushLED.js</strong>
 bone$ <strong>./pushLED.js</strong>
 data = 0
 data = 0
@@ -636,10 +635,6 @@ data = 1
 <div class="paragraph">
 <p>Press ^C (Ctrl-C) to stop the code.</p>
 </div>
-</div>
-<div class="sect3">
-<h4 id="_discussion">Discussion</h4>
-
 </div>
 </div>
 <div class="sect2">
@@ -653,10 +648,10 @@ data = 1
 <div class="sect3">
 <h4 id="_solution_2">Solution</h4>
 <div class="paragraph">
-<p><a href="#realtime_JavaScript">I/O with JavaScript</a> shows how to control an LED with a pushbutton using JavaScript. This recipe accomplishes the same thing using C. It does it in the same way, opening the correct /sys/class/gpio files and reading an writing them.</p>
+<p><a href="#realtime_Python">I/O with Python</a> shows how to control an LED with a pushbutton using Python. This recipe accomplishes the same thing using C. It does it in the same way, opening the correct /sys/class/gpio files and reading an writing them.</p>
 </div>
 <div class="paragraph">
-<p>Wire up the pushbutton and LED as shown in <a href="#realtime_pushLED_fig">Diagram for wiring a pushbutton and LED with the LED attached to P9_14</a>. Then add the code in <a href="#realtime_pushLED_c_code">Code for reading a switch and blinking an LED (pushLED.c)</a> to a file named <em>pushLED.c</em>.</p>
+<p>Wire up the pushbutton and LED as shown in <a href="#realtime_pushLED_fig">Diagram for wiring a pushbutton and LED with the LED attached to P9_14</a>and open <em>pushLED.c</em>.</p>
 </div>
 <div id="realtime_pushLED_c_code" class="exampleblock">
 <div class="title">Example 3. Code for reading a switch and blinking an LED (pushLED.c)</div>
@@ -664,7 +659,7 @@ data = 1
 <div class="listingblock">
 <div class="content">
 <pre class="highlight"><code class="language-c" data-lang="c">////////////////////////////////////////
-//	blinkLED.c
+//	pushLED.c
 //	Blinks the P9_14 pin based on the P9_42 pin
 //	Wiring:
 //	Setup:
@@ -753,10 +748,6 @@ state: 1
 <p>The code responds quickly to the pushbutton. If you need more speed, comment-out the printf() and the sleep().</p>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_discussion_2">Discussion</h4>
-
-</div>
 </div>
 <div class="sect2">
 <h3 id="realtime_devmem2">I/O with devmem2</h3>
@@ -789,7 +780,7 @@ state: 1
 <p>First, download and install devmem2:</p>
 </div>
 <pre data-type="programlisting">
-bone$ <strong>wget http://free-electrons.com/pub/mirror/devmem2.c</strong>
+bone$ <strong>wget https://bootlin.com/pub/mirror/devmem2.c</strong>
 bone$ <strong>gcc -o devmem2 devmem2.c</strong>
 bone$ <strong>sudo mv devmem2 /usr/bin</strong>
 </pre>
@@ -856,7 +847,7 @@ Value at address 0x44E07138 (0xb6fe2138): 0x4000C484
 </div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_3">Discussion</h4>
+<h4 id="_discussion">Discussion</h4>
 <div class="paragraph">
 <p>This is much more tedious than the previous methods, but it&#8217;s what&#8217;s necessary if you need to minimize the time to read an input. <a href="#realtime_mmap">I/O with C and mmap()</a> shows how to read and write these addresses from C.</p>
 </div>
@@ -1054,10 +1045,6 @@ Ctrl-C pressed, cleaning up and exiting...
 <p>The code is in a tight while loop that checks the status of GPIO 7 and copies it to GPIO 31.</p>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_discussion_4">Discussion</h4>
-
-</div>
 </div>
 <div class="sect2">
 <h3 id="_tighter_delay_bounds_with_the_preempt_rt_kernel">Tighter Delay Bounds with the PREEMPT_RT Kernel</h3>
@@ -1103,7 +1090,7 @@ Linux breadboard-home 5.10.120-ti-r47 #1bullseye SMP PREEMPT Tue Jul 12 18:59:38
 <div class="title">Figure 3. The regular and RT kernels</div>
 </div>
 <div class="paragraph">
-<p>In <a href="#realtime_kernel_update_fig">The regular and RT kernels</a> you see the reular kernel on top and the RT below.</p>
+<p>In <a href="#realtime_kernel_update_fig">The regular and RT kernels</a> you see the regular kernel on top and the RT below.</p>
 </div>
 <div class="ulist">
 <ul>
@@ -1154,7 +1141,7 @@ uname_r=5.10.120-ti-rt-r47
 </div>
 </div>
 <div class="sect3">
-<h4 id="_discussion_5">Discussion</h4>
+<h4 id="_discussion_2">Discussion</h4>
 <div class="paragraph">
 <p><a href="https://bootlin.com/doc/training/preempt-rt/">Bootlin&#8217;s preempt_rt workshop</a> looks like a good workshop on PREEMPT RT.  Their slides say:</p>
 </div>
@@ -1369,7 +1356,7 @@ bone$ <strong>gnuplot hist.plt</strong>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2022-07-27 16:41:20 -0400
+Last updated 2022-08-09 10:51:24 -0400
 </div>
 </div>
 </body>
