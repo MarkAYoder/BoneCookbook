@@ -116,6 +116,79 @@ include::code/externLED.js[]
 ====
 Save your file and run the code as before (<<displays_onboardLED>>).
 
+==== Discussion
+This method of controlling and external device uses *sysfs*, a virtual file system that exposes drivers to userspace.  +/sys/class+ is a comment interace.
+
+++++
+<pre data-type="programlisting">
+bone$ <strong>cd /sys/class</strong>
+bone$ <strong>ls</strong>
+ata_device  devcoredump     extcon           hidraw       leds      phy           rtc          tpm        usb_role
+ata_link    devfreq         firmware         hwmon        mbox      power_supply  scsi_device  tpmrm      vc
+ata_port    devfreq-event   gb_authenticate  i2c-adapter  mdio_bus  pps           scsi_disk    tty        video4linux
+backlight   devlink         gb_fw_mgmt       i2c-dev      mem       ptp           scsi_host    typec      vtconsole
+bdi         dma             gb_loopback      ieee802154   misc      pwm           spi_master   typec_mux  wakeup
+block       drm             gb_raw           input        mmc_host  regulator     spi_slave    ubi        watchdog
+bluetooth   drm_dp_aux_dev  <strong>gpio</strong>             iommu        mtd       remoteproc    spidev       udc
+bsg         dvb             graphics         lcd          net       rfkill        thermal      uio
+</pre>
+++++
+There are many interfaces.  We're interested in the *gpio* interface.
+
+++++
+<pre data-type="programlisting">
+bone$ <strong>cd gpio</strong>
+bone$ <strong>ls</strong>
+export   gpio113  gpio13  gpio23  gpio32  gpio38  gpio47  gpio60  gpio67  gpio72  gpio78  gpio87      gpiochip64
+gpio10   gpio114  gpio14  gpio26  gpio33  gpio39  gpio48  gpio61  gpio68  gpio73  gpio79  gpio88      gpiochip96
+gpio11   gpio115  gpio15  gpio27  gpio34  gpio4   gpio49  gpio62  gpio69  gpio74  gpio8   gpio89      unexport
+gpio110  gpio116  gpio2   gpio3   gpio35  gpio44  gpio5   gpio63  gpio7   gpio75  gpio80  gpio9
+gpio111  gpio117  gpio20  gpio30  gpio36  gpio45  gpio50  gpio65  gpio70  gpio76  gpio81  gpiochip0
+gpio112  gpio12   gpio22  gpio31  gpio37  gpio46  gpio51  gpio66  gpio71  gpio77  gpio86  gpiochip32
+</pre>
+++++
+In the code in <<displays_externalLED>> we saw *P9_14* is pin *50*.  That same 50 maps to the *gpio50* directory shown above.  If *gpio50* doesn't show up, export it.  A close ook at the Python and JavaScript code shows it looks for gpio50 and exports it if it isn't there.
+++++
+<pre data-type="programlisting">
+bone$ <strong>echo 50 > export</strong>
+bone$ <strong>cd gpio50</strong>
+bone$ <strong>ls</strong>
+active_low  device  direction  edge  label  power  subsystem  uevent  value
+bone$ <strong>cat direction</strong>
+out
+bone$ <strong>cat value</strong>
+1
+</pre>
+++++
+
+Here we see it's configured to be an output and it's currently turned on.  Turn it off with:
+++++
+<pre data-type="programlisting">
+bone$ <strong>echo 0 > value</strong>
+</pre>
+++++
+The LED should now be off.
+
+[[displays_gpiod]]
+=== Toggling an External LED via gpiod
+
+==== Problem
+You hear https://blog.adafruit.com/2018/11/26/sysfs-is-dead-long-live-libgpiod-libgpiod-for-linux-circuitpython/[sysfs] is dead and want to know what to use instead.
+
+==== Solution
+sysfs is https://www.kernel.org/doc/Documentation/gpio/sysfs.txt[deprecated], but most believe it will be around for a long time.  The repository has many examples of gpiod in +docs/03displays/code/gpiod+.  Here's an example:
+
+[[py_gpiod_code]]
+.Code for using an external LED (toggle1.py)
+====
+[source, python]
+----
+
+include::code/gpiod/toggle1.py[]
+
+----
+====
+
 
 [[displays_powerSwitch]]
 === Toggling a High-Voltage External Device

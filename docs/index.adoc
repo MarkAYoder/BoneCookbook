@@ -30,7 +30,7 @@ A cookbook for programming Beagles
 . link:02sensors/sensors.html[Sensors]
   ** [ ] Introduction
   ** [x] Choosing a Method to Connect Your Sensor
-  ** [python/vs code] Input and Run a JavaScript Application for Talking to Sensors
+  ** [x] Input and Run a JavaScript Application for Talking to Sensors
   ** [x] Reading the Status of a Pushbutton or Magnetic Switch (Passive On/Off Sensor)
   ** [x] Reading a Position, Light, or Force Sensor (Variable Resistance Sensor)
   ** [x] Added continous, gnuplot: Reading a Distance Sensor (Analog or Variable Voltage Sensor)
@@ -46,13 +46,14 @@ A cookbook for programming Beagles
   ** [ ] Introduction
   ** [x] Toggling an Onboard LED
   ** [x] Toggling an External LED
+  ** [x] Toggling an External LED via gpiod
   ** [python ] Toggling a High-Voltage External Device
   ** [x] Fading an External LED
   ** [x] Writing to an LED Matrix
   ** [x] Driving a 5 V Device
   ** [x] PRU Cookbook: Writing to a NeoPixel LED String
   ** [x] removed - Using a Nokia 5510 LCD Display
-  ** [remove?] Making Your Bone Speak
+  ** [x] Making Your Bone Speak
 
  . link:04motors/motors.html[Motors]
   ** [ ] Introduction
@@ -77,10 +78,10 @@ A cookbook for programming Beagles
   ** [x] Establishing an Ethernet-Based Internet Connection
   ** [x] Establishing a WiFi-Based Internet Connection
   ** [x] Sharing the Host's Internet Connection over USB
-  ** [x] (switch to ufw) Setting Up a Firewall
+  ** [x] Setting Up a Firewall
   ** [x] Installing Additional Packages from the Debian Package Feed
   ** [x] Removing Packages Installed with apt
-  ** [update /dev/mmcblk1p1 ] Copying Files Between the Onboard Flash and the MicroSD Card
+  ** [x] Copying Files Between the Onboard Flash and the MicroSD Card
   ** [x] Freeing Space on the Onboard Flash or MicroSD Card
   ** [x] Removed: installing Additional Node.js Packages
   ** [x] Removed: Using Python to Interact with the Physical World
@@ -105,12 +106,12 @@ A cookbook for programming Beagles
 
 . link:07kernel/kernel.html[The Kernel]
   ** [ ] Introduction
-  ** [ ] Updating the Kernel
-  ** [ ] Building and Installing Kernel Modules
-  ** [update ] Controlling LEDs by Using SYSFS Entries
-  ** [add gpiod? ] Controlling GPIOs by Using SYSFS Entries
-  ** [update? ] Compiling the Kernel
-  ** [update] Using the Installed Cross Compiler
+  ** [x] Updating the Kernel
+  ** [x] Building and Installing Kernel Modules
+  ** [x] Controlling LEDs by Using SYSFS Entries
+  ** [x] Controlling GPIOs by Using SYSFS Entries
+  ** [x] Compiling the Kernel
+  ** [x] Using a Cross Compiler
   ** [ ] Applying Patches
   ** [ ] Creating Your Own Patch File
 
