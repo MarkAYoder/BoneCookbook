@@ -79,9 +79,9 @@ The +USER0+ LED should now be flashing.
 ==== Solution
 Connect an LED to one of the GPIO pins using a series resistor to limit the current.  To make this recipe, you will need:
 
-* Breadboard and jumper wires (<<app_proto>>)
-* 220 &#8486; to 470 &#8486; resistor (see <<app_resistor>>)
-* LED (see <<app_opto>>)
+* Breadboard and jumper wires
+* 220 &#8486; to 470 &#8486; resistor
+* LED
 
 [WARNING]
 ====
@@ -131,7 +131,7 @@ Working with 120 V can be tricky--even dangerous--if you aren't careful.  Here's
 
 To make this recipe, you will need:
 
-* PowerSwitch Tail II (see <<app_misc>>)
+* PowerSwitch Tail II
 
 <<displays_powerSwitch_fig>> shows how you can wire the PowerSwitch Tail II to pin +P9_14+.
 
@@ -248,9 +248,9 @@ There are a number of nice LED matrices that allow you to control several LEDs v
 
 To make this recipe, you will need:
 
-* Breadboard and jumper wires (see <<app_proto>>)
-* Two 4.7 k&#8486; resistors (see <<app_resistor>>)
-* I^2^C LED matrix (see <<app_opto>>)
+* Breadboard and jumper wires
+* Two 4.7 k&#8486; resistors
+* I^2^C LED matrix
 
 The LED matrix is a 5 V device, but you can drive it from 3.3 V. Wire, as shown in <<displays_i2cMatrix_fig>>.
 
@@ -330,7 +330,7 @@ If you are lucky, you might be able to drive a 5 V device from the Bone's 3.3 V 
 
 What you will need for this recipe:
 
-* A PCA9306 level translator (see <<app_ic>>)
+* A PCA9306 level translator
 * A 5 V power supply (if the Bone's 5 V power supply isn't enough)
 
 The PCA9306  translates signals at 3.3 V to 5 V in both directions. It's meant to work with I^2^C devices that have a pull-up resistor, but it can work with anything needing translation.

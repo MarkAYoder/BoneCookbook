@@ -46,10 +46,10 @@ servo motor.
 
 To make the recipe, you will need:
 
-* Servo motor (see <<app_misc>>)
-* Breadboard and jumper wires (see <<app_proto>>)
-* 1 k&#8486; resistor (optional, see <<app_resistor>>)
-* 5 V power supply (optional, see <<app_misc>>)
+* Servo motor
+* Breadboard and jumper wires
+* 1 k&#8486; resistor (optional)
+* 5 V power supply (optional)
 
 The 1 k&#8486; resistor isn't required, but it provides some protection to the general-purpose input/output (GPIO) pin in case the servo fails and draws a large current. 
 
@@ -146,10 +146,10 @@ Here we configure the encoder to returns value between 0 and 180 inclusive.   Th
 Here's what you will need:
 
 * 3 V to 5 V DC motor
-* Breadboard and jumper wires (see <<app_proto>>)
-* 1 k&#8486; resistor (see <<app_resistor>>)
-* Transistor 2N3904 (see <<app_transistor>>)
-* Diode 1N4001 (see <<app_transistor>>)
+* Breadboard and jumper wires
+* 1 k&#8486; resistor
+* Transistor 2N3904
+* Diode 1N4001
 * Power supply for the motor (optional)
 
 If you are using a larger motor (more current), you will need to use a larger transistor.
@@ -206,9 +206,9 @@ Use an H-bridge to switch the terminals on the motor so that it will run both ba
 
 Here's what you will need:
 
-* 3 V to 5 V motor (see <<app_misc>>)
-* Breadboard and jumper wires (see <<app_proto>>)
-* L293D H-Bridge IC (see <<app_ic>>)
+* 3 V to 5 V motor
+* Breadboard and jumper wires
+* L293D H-Bridge IC
 * Power supply for the motor (optional)
 
 Lay out your breadboard as shown in <<motors_h-bridge_fig>>. Ensure that the L293D is positioned correctly.  There is a notch on one end that should be pointed up.
@@ -244,9 +244,9 @@ Use an L293D H-bridge. The bipolar stepper motor requires us to reverse the coil
 
 Here's what you will need:
 
-* Breadboard and jumper wires (see <<app_proto>>)
-* 3 V to 5 V bipolar stepper motor (see <<app_misc>>)
-* L293D H-Bridge IC (see <<app_ic>>)
+* Breadboard and jumper wires
+* 3 V to 5 V bipolar stepper motor
+* L293D H-Bridge IC
 
 Wire as shown in <<motors_bipolar_fig>>.
 
@@ -296,9 +296,9 @@ If your stepper motor has five or six wires, it's a _unipolar_ stepper and is wi
 
 Here's what you will need:
 
-* Breadboard and jumper wires (see <<app_proto>>)
-* 3 V to 5 V unipolar stepper motor (see <<app_misc>>)
-* ULN2003 Darlington Transistor Array IC (see <<app_ic>>)
+* Breadboard and jumper wires
+* 3 V to 5 V unipolar stepper motor
+* ULN2003 Darlington Transistor Array IC
 
 Wire, as shown in <<motors_unipolar_fig>>. 
 

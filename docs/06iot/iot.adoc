@@ -213,8 +213,8 @@ This solution builds on the Flask-based web server solution in <<networking_node
 
 To make this recipe, you will need:
 
-* Breadboard and jumper wires (see <<app_proto>>)
-* Pushbutton switch (see <<app_misc>>)
+* Breadboard and jumper wires
+* Pushbutton switch
 
 Wire your pushbutton as shown in <<js_pushbutton_fig>>. 
 

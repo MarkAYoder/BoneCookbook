@@ -140,7 +140,7 @@ Many of the projects in this book involve interfacing things to the Bone. Some p
 
 To make this recipe, you will need:
 
-* Breadboard and jumper wires (see <<app_proto>>)
+* Breadboard and jumper wires
 
 <<basics_breadboard_template>> shows a breadboard wired to the Bone. All the diagrams in this book assume that the ground pin (+P9_1+ on the Bone) is wired to the negative rail and 3.3 V (+P9_3+) is wired to the positive rail.
 

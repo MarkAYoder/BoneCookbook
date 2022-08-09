@@ -115,8 +115,8 @@ This process will work for any script in this book.
 
 To make this recipe, you will need:
 
-* Breadboard and jumper wires (see <<app_proto>>)
-* Pushbutton switch (see <<app_misc>>)
+* Breadboard and jumper wires
+* Pushbutton switch
 * Magnetic reed switch (optional, see <<app_misc>>)
 
 You can wire up either a pushbutton, a magnetic reed switch, or both on the Bone, as shown in <<js_pushbutton_fig>>.
@@ -225,11 +225,11 @@ image::figures/cape-headers-analog.png[Seven analog inputs on P9 header]
 
 To make this recipe, you will need:
 
-* Breadboard and jumper wires (see <<app_proto>>)
-* 10 k&#8486; trimpot (see <<app_resistor>>)
+* Breadboard and jumper wires
+* 10 k&#8486; trimpot
 or
 * Flex resistor (optional, see <<app_resistor>>)
-* 22 k&#8486; resistor (see <<app_resistor>>)
+* 22 k&#8486; resistor
 
 ===== A variable resistor with three terminals
 
@@ -296,8 +296,8 @@ The code in <<py_analogIn_code>> and <<sensors_analogIn_code>> also works for th
 
 To make this recipe, you will need:
 
-* Breadboard and jumper wires (see <<app_proto>>)
-* LV-MaxSonar-EZ1 Sonar Range Finder (see <<app_misc>>)
+* Breadboard and jumper wires
+* LV-MaxSonar-EZ1 Sonar Range Finder
 
 All you have to do is wire the EZ1 to one of the Bone's _analog-in_ pins, as shown in <<sensors_ultrasonic_fig>>. The device outputs ~6.4 mV/in when powered from 3.3 V.
 
@@ -351,9 +351,9 @@ image::figures/hc-sr04.jpg["HC-SR04 Ultrasonic Sensor"]
 
 To make this recipe, you will need:
 
-* Breadboard and jumper wires (see <<app_proto>>)
-* 10 k&#8486; and 20 k&#8486; resistors (see <<app_resistor>>)
-* HC-SR04 Ultrsonic Range Sensor (see <<app_misc>>)
+* Breadboard and jumper wires
+* 10 k&#8486; and 20 k&#8486; resistors
+* HC-SR04 Ultrsonic Range Sensor
 
 Wire the sensor as shown in <<sensors_hc-sr04_fig>>. Note that the HC-SR04 is a 5 V
 device, so the _banded_ wire (running from +P9_7+ on the Bone to VCC on the range finder) attaches the HC-SR04 to the Bone's 5 V power supply. 
@@ -410,8 +410,8 @@ On the AI it's:
 
 To make this recipe, you will need:
 
-* Breadboard and jumper wires (see <<app_proto>>)
-* Rotary encoder (see <<app_misc>>)
+* Breadboard and jumper wires
+* Rotary encoder
 
 We are using a quadrature rotary encoder, which has two switches inside that open and close in such a manner that you can tell which way the shaft is turning. In this particular encoder, the two switches have a common lead, which is wired to ground. It also has a pushbutton switch wired to the other side of the device, which we aren't using. 
 
@@ -496,8 +496,8 @@ You can also measure rotation by using a variable resistor (see <<sensors_analog
 
 Here's what you'll need:
 
-* Breadboard and jumper wires (see <<app_proto>>)
-* GPS receiver (see <<app_misc>>)
+* Breadboard and jumper wires
+* GPS receiver
 
 Wire your GPS, as shown in <<digital_GPS_fig>>.
 
@@ -559,9 +559,9 @@ The TMP101 sensor is a common digital temperature sensor that uses a standard I^
 
 To make this recipe, you will need:
 
-* Breadboard and jumper wires (see <<app_proto>>)
-* Two 4.7 k&#8486; resistors (see <<app_resistor>>)
-* TMP101 temperature sensor (see <<app_ic>>)
+* Breadboard and jumper wires
+* Two 4.7 k&#8486; resistors
+* TMP101 temperature sensor
 
 Wire the TMP101, as shown in <<sensors_i2cTemp_fig>>.
 
@@ -760,9 +760,9 @@ The DS18B20 is an interesting temperature sensor that uses Dallas Semiconductor'
 
 To make this recipe, you will need:
 
-* Breadboard and jumper wires (see <<app_proto>>)
-* 4.7 k&#8486; resistor (see <<app_resistor>>)
-* DS18B20 1-wire temperature sensor (see <<app_ic>>)
+* Breadboard and jumper wires
+* 4.7 k&#8486; resistor
+* DS18B20 1-wire temperature sensor
 
 Wire up as shown in <<sensors_1-wire_fig>>.
 
@@ -855,8 +855,8 @@ Each temperature sensor has a unique serial number, so you can have several all 
 
 // To make this recipe, you will need:
 
-// * BLE USB dongle (see <<app_misc>>)
-// * SensorTag (see <<app_misc>>)
+// * BLE USB dongle
+// * SensorTag
 // * 5 V adapter for the Bone
 
 // Power up your Bone using the 5 V adapter. You need the adapter because the BLE dongle needs extra power for the radios it contains. After it is booted up, log in (<<tips_shell>>) and run the following commands:

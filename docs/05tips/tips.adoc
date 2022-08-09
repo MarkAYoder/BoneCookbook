@@ -17,11 +17,11 @@ The Bone comes with USB and a microHDMI output. All you need to do is connect yo
 
 To make this recipe, you will need:
 
-* Standard HDMI cable and female HDMI-to-male microHDMI adapter (see <<app_misc>>), or
-* MicroHDMI-to-HDMI adapter cable (see <<app_misc>>)
-* HDMI monitor (see <<app_misc>>)
+* Standard HDMI cable and female HDMI-to-male microHDMI adapter, or
+* MicroHDMI-to-HDMI adapter cable
+* HDMI monitor
 * USB keyboard and mouse
-* Powered USB hub (see <<app_misc>>)
+* Powered USB hub
 
 [NOTE]
 ====
@@ -75,7 +75,7 @@ When in doubt, comment-out; don't delete.
 If you want to re-enable the HDMI audio, just comment-out the line you added.
 ====
 
-The Bone has only one USB port, so you will need to get either a keyboard with a USB hub (see <<app_misc>>) or a USB hub. Plug the USB hub into the Bone and then plug your keyboard and mouse in to the hub. You now have a Beagle workstation; no host computer is needed.
+The Bone has only one USB port, so you will need to get either a keyboard with a USB hub or a USB hub. Plug the USB hub into the Bone and then plug your keyboard and mouse in to the hub. You now have a Beagle workstation; no host computer is needed.
 
 [TIP]
 ====
@@ -204,7 +204,7 @@ There is no network in place when the Bone first boots up, so <<tips_shell>> and
 
 To make this recipe, you will need:
 
-* 3.3 V FTDI cable (see <<app_misc>>)
+* 3.3 V FTDI cable
 
 [WARNING]
 ====
@@ -528,8 +528,8 @@ Several WiFi adapters work with the Bone. Check http://bit.ly/1EbEwUo[WiFi Adapt
 
 To make this recipe, you will need:
 
-* USB Wifi adapter (see <<app_misc>>)
-* 5 V external power supply (see <<app_misc>>)
+* USB Wifi adapter
+* 5 V external power supply
 
 [WARNING]
 ====

@@ -24,8 +24,8 @@ image::figures/LCD.png[7 inch LCD]
 
 To make this recipe, you will need:
 
-* Seven-inch LCD cape (see <<app_misc>>)
-* A 5 V power supply (see <<app_misc>>)
+* Seven-inch LCD cape
+* A 5 V power supply
 
 Just attach the Bone to the back of the LCD, making sure pin 1 of +P9+ lines up with pin 1 of +P9+ on the LCD. Apply a 5 V power supply, and the desktop will appear on your LCD, as shown in <<capes_LCD7Desktop>>. 
 
@@ -53,7 +53,7 @@ image::figures/MiniDisplay-A1.jpg[miniDisplay LCD]
 
 To make this recipe, you will need:
 
-* MiniDisplay LCD cape (see <<app_misc>>)
+* MiniDisplay LCD cape
 
 Attach to the Bone and apply power. Then run the following commands:
 
@@ -237,8 +237,8 @@ Solder your components to a protoboard.
 
 To make this recipe, you will need:
 
-* Protoboard (see <<app_proto>>)
-* Soldering iron (see <<app_misc>>)
+* Protoboard
+* Soldering iron
 * Your other components
 
 Many places make premade circuit boards that are laid out like the breadboard we have been using. <<capes_beaglebread_fig>> shows the http://bit.ly/1HCwtB4[BeagleBone Breadboard], which is just one protoboard option.
@@ -297,7 +297,7 @@ You might find that you want to create your design in a more advanced design too
 ==== Solution
 To make this recipe, you will need:
 
-* An oscilloscope (see <<app_misc>>)
+* An oscilloscope
 
 Break down your design into functional subcomponents and write tests for each. Use components you already know are working, such as the onboard LEDs, to display the test status with the code in <<capes_quickBot_motor_test_code>>.
 
@@ -811,10 +811,10 @@ I found that Eagle was more generous at reading in the +eaglexml+ format than th
 ==== Solution
 To make this recipe, you will need:
 
-* A completed design (see <<capes_layout>>)
-* Soldering iron (see <<app_misc>>)
-* Oscilloscope (see <<app_misc>>)
-* Multimeter (see <<app_misc>>)
+* A completed design
+* Soldering iron
+* Oscilloscope
+* Multimeter
 * Your other components
 
 ((("OSH Park")))Upload your design to http://oshpark.com[OSH Park] and order a few boards. <<capes_oshpark_share>> shows a resulting http://bit.ly/1MtlzAp[shared project page for the quickBot cape] created in <<capes_layout>>. We'll proceed to break down how this design was uploaded and shared to enable ordering fabricated PCBs.
