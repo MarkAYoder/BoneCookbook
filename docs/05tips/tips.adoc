@@ -10,7 +10,7 @@ The recipes in this chapter assume that you are running Linux on your host compu
 === Running Your Bone Standalone
 
 ==== Problem
-((("advanced operations", "running standalone")))((("displays", "HDMI")))((("HDMI displays")))((("outputs", "microHDMI")))((("keyboards")))((("mouse")))You want to use BeagleBone Black as a desktop computer with keyboard, mouse, and an HDMI display.
+You want to use BeagleBone Black as a desktop computer with keyboard, mouse, and an HDMI display.
 
 ==== Solution
 The Bone comes with USB and a microHDMI output. All you need to do is connect your keyboard, mouse, and HDMI display to it. 
@@ -30,7 +30,7 @@ The microHDMI adapter is nice because it allows you to use a regular HDMI cable 
 
 [TIP]
 ====
-((("DVI-D displays")))((("displays", "DVI-D")))((("outputs", "DVI-D")))You can also use an HDMI-to-DVI cable (<<app_misc>>) and use your Bone with a DVI-D display.
+You can also use an HDMI-to-DVI cable (<<app_misc>>) and use your Bone with a DVI-D display.
 ====
 
 The adapter looks something like <<tips_HDMI_adaptor_fig>>.
@@ -63,7 +63,7 @@ Also, using ## in the code italicizes the second # and everything after it in th
 
 [TIP]
 ====
-((("# character")))The _/boot/uEnv.txt_ file contains a number of configuration commands that are executed at boot time. The +#+ character is used to add comments; that is, everything to the right of a +# is ignored by the Bone and is assumed to be for humans to read. In the previous example, +###Disable auto loading+ is a comment that informs us the next line(s) are for disabling things. Two +disable_uboot_overlay+ commands follow. Both should be commented-out and won't be executed by the Bone.  
+The _/boot/uEnv.txt_ file contains a number of configuration commands that are executed at boot time. The +#+ character is used to add comments; that is, everything to the right of a +# is ignored by the Bone and is assumed to be for humans to read. In the previous example, +###Disable auto loading+ is a comment that informs us the next line(s) are for disabling things. Two +disable_uboot_overlay+ commands follow. Both should be commented-out and won't be executed by the Bone.  
 
 Why not just remove the line?  Later, you might decide you need more general-purpose input/output (GPIO) pins and don't need the HDMI display. If so, just remove the +#+ from the +disable_uboot_overlay_video=1+ command. If you had completely removed the line earlier, you would have to look up the details somewhere to re-create it.  
 
@@ -83,14 +83,14 @@ A powered hub is recommended because USB can supply only 500 mA, and you'll want
 ====
 
 ==== Discussion
-((("audio files", "HDMI audio")))((("files", "audio")))This recipe disables the HDMI audio, which allows the Bone to try other resolutions. If this fails, see http://bit.ly/1GEPcOH[BeagleBoneBlack HDMI] for how to force the Bone's resolution to match your monitor.
+This recipe disables the HDMI audio, which allows the Bone to try other resolutions. If this fails, see http://bit.ly/1GEPcOH[BeagleBoneBlack HDMI] for how to force the Bone's resolution to match your monitor.
 
 // // TODO  Needs a discussion
 // [[tips_pick_os]]
 // === Selecting an OS for Your Development Host Computer
 
 // ==== Problem
-// ((("advanced operations", "selecting host computer OS")))((("host computer", "OS selection")))((("operating system (OS)", "selecting for host computer")))Your project needs a host computer, and you need to select an operating system (OS) for it.
+// Your project needs a host computer, and you need to select an operating system (OS) for it.
 
 // ==== Solution
 // For projects that require a host computer, we assume that you are running http://bit.ly/1wXOwkw[Linux Ubuntu 20.04 LTS]. You can be running either a native installation, through https://docs.microsoft.com/en-us/windows/wsl/[Windows Subsystem for Linux], via a virtual machine such as https://www.virtualbox.org/[VirtualBox], or in the cloud (https://portal.azure.com/[Microsoft Azure] or http://aws.amazon.com/ec2/[Amazon Elastic Compute Cloud] [EC2], for example).
@@ -102,11 +102,11 @@ A powered hub is recommended because USB can supply only 500 mA, and you'll want
 === Getting to the Command Shell via SSH
 
 ==== Problem
-((("advanced operations", "accessing command shell via SSH")))((("SSH (Secure Shell)", "connecting via")))((("command shell, accessing")))You want to connect to the command shell of a remote Bone from your host pass:[<span class="keep-together">computer</span>].
+You want to connect to the command shell of a remote Bone from your host pass:[<span class="keep-together">computer</span>].
 
 ==== Solution
 
-((("superusers")))((("root user")))<<basics_vsc_IDE>> shows how to run shell commands in the Visual Studio Code +bash+ tab. However, the Bone has Secure Shell (SSH) enabled right out of the box, so you can easily connect by using the following command to log in as user +debian+, (note the +$+ at the end of the prompt):
+<<basics_vsc_IDE>> shows how to run shell commands in the Visual Studio Code +bash+ tab. However, the Bone has Secure Shell (SSH) enabled right out of the box, so you can easily connect by using the following command to log in as user +debian+, (note the +$+ at the end of the prompt):
 
 ++++
 <pre data-type="programlisting">
@@ -117,7 +117,7 @@ bone$
 </pre>
 ++++
 
-((("passwords", "changing")))((("security issues", "passwords")))+debian+ has the default password +tempped+ It's best to change the password:
++debian+ has the default password +tempped+ It's best to change the password:
 
 ++++
 <pre data-type="programlisting">
@@ -135,7 +135,7 @@ passwd: password updated successfully
 === Getting to the Command Shell via the Virtual Serial Port
 
 ==== Problem
-((("advanced operations", "accessing command shell via virtual serial port")))((("command shell, accessing")))((("virtual serial port")))((("serial ports", "virtual")))You want to connect to the command shell of a remote Bone from your host computer without using SSH.
+You want to connect to the command shell of a remote Bone from your host computer without using SSH.
 
 ==== Solution
 Sometimes, you can't connect to the Bone via SSH, but you have a network working over USB to the Bone. There is a way to access the command line to fix things without requiring extra hardware. (<<tips_FTDI>> shows a way that works even if you don't have a network working over USB, but it requires a special serial-to-USB cable.)
@@ -166,7 +166,7 @@ host$ <strong>sudo adduser $USER dialout</strong>
 </pre>
 ++++
 
-((("adduser")))You have to run +adduser+ only once. Your host computer will remember the next time you boot up. Now, install and run the +screen+ command:
+You have to run +adduser+ only once. Your host computer will remember the next time you boot up. Now, install and run the +screen+ command:
 
 ++++
 <pre data-type="programlisting">
@@ -191,7 +191,7 @@ tells the speed of the connection. In this case, it's 115,200 bits per second.
 === Viewing and Debugging the Kernel and u-boot Messages at Boot Time
 
 ==== Problem
-((("advanced operations", "viewing system messages")))((("FTDI pins")))((("debugging", "low-level")))((("system messages, viewing")))((("debugging", "at boot time")))You want to see the messages that are logged by BeagleBone Black as it comes to life.
+You want to see the messages that are logged by BeagleBone Black as it comes to life.
 
 ==== Solution
 There is no network in place when the Bone first boots up, so <<tips_shell>> and <<tips_serial>> won't work. This recipe uses some extra hardware (FTDI cable) to attach to the Bone's console serial port.
@@ -257,7 +257,7 @@ Your screen might initially be blank. Press Enter a couple times to see the logi
 === Verifying You Have the Latest Version of the OS on Your Bone from the Shell
 
 ==== Problem
-((("advanced operations", "verifying OS version from the shell")))((("operating system (OS)", "verifying from the shell")))You are logged in to your Bone with a command prompt and want to know what version of the OS you are running.
+You are logged in to your Bone with a command prompt and want to know what version of the OS you are running.
 
 ==== Solution
 Log in to your Bone and enter the following command:
@@ -275,7 +275,7 @@ BeagleBoard.org Debian Bullseye IoT Image 2022-07-01
 === Controlling the Bone Remotely with a VNC
 // TODO  check this
 ==== Problem
-((("advanced operations", "remote control via VNC server")))((("Virtual Network Computing (VNC) server")))((("host computer", "accessing graphical desktop from")))You want to access the BeagleBone's graphical desktop from your host computer.
+You want to access the BeagleBone's graphical desktop from your host computer.
 
 ==== Solution
 Run the installed Virtual Network Computing (VNC) server:
@@ -299,7 +299,7 @@ Log file is /home/debian/.vnc/beagleboard:1.log
 </pre>
 ++++
 
-((("Remmina Remote Desktop Client")))To connect to the Bone, you will need to run a VNC client. There are many to choose from. Remmina Remote Desktop Client is already installed on Ubuntu. Start and select the new remote desktop file button (<<tips_vnc1_fig>>).
+To connect to the Bone, you will need to run a VNC client. There are many to choose from. Remmina Remote Desktop Client is already installed on Ubuntu. Start and select the new remote desktop file button (<<tips_vnc1_fig>>).
 
 [[tips_vnc1_fig]]
 .Creating a new remote desktop file in Remmina Remote Desktop Client
@@ -339,7 +339,7 @@ bone$ <strong>startxfce4</strong>
 === Learning Typical GNU/Linux Commands
 
 ==== Problem
-((("advanced operations", "GNU/Linux commands")))((("Linux", "common commands")))((("commands", "in Linux")))There are many powerful commands to use in Linux. How do you learn about them?
+There are many powerful commands to use in Linux. How do you learn about them?
 
 ==== Solution
 <<tips_linux_commands>> lists many common Linux commands.
@@ -390,7 +390,7 @@ bone$ <strong>startxfce4</strong>
 === Editing a Text File from the GNU/Linux Command Shell
 
 ==== Problem
-((("advanced operations", "editing text file from GNU/Linux command shell")))((("files", "editing text")))((("text files, editing")))((("nano editor")))((("editors", "text-based")))You want to run an editor to change a file.
+You want to run an editor to change a file.
 
 ==== Solution
 The Bone comes with a number of editors. The simplest to learn is +nano+. Just enter the following command:
@@ -421,23 +421,23 @@ Many other text editors will run on the Bone. +vi+, +vim+, +emacs+, and  even +e
 === Establishing an Ethernet-Based Internet Connection
 
 ==== Problem
-((("advanced operations", "Ethernet-based Internet connections")))((("Internet", "Ethernet-based connections")))You want to connect your Bone to the Internet using the wired network connection.
+You want to connect your Bone to the Internet using the wired network connection.
 
 ==== Solution
-((("RJ45 connector")))Plug one end of an Ethernet patch cable into the RJ45 connector on the Bone (see <<networking_rj45>>) and the other end into your home hub/router. The yellow and green link lights on both ends should begin to flash.
+Plug one end of an Ethernet patch cable into the RJ45 connector on the Bone (see <<networking_rj45>>) and the other end into your home hub/router. The yellow and green link lights on both ends should begin to flash.
 
 [[networking_rj45]]
 .The RJ45 port on the Bone
 image::figures/internLED.png[RJ45]
 
-((("DHCP (Dynamical Host Configuration Protocol)")))If your router is already configured to run DHCP (Dynamical Host Configuration Protocol), it will automatically assign an IP address to the Bone. 
+If your router is already configured to run DHCP (Dynamical Host Configuration Protocol), it will automatically assign an IP address to the Bone. 
 
 [WARNING]
 ====
 It might take a minute or two for your router to detect the Bone and assign the IP address.
 ====
 
-((("IP address", "locating")))((("ifconfig command")))To find the IP address, open a terminal window and run the +ip+ command:
+To find the IP address, open a terminal window and run the +ip+ command:
 
 ++++
 <pre data-type="programlisting">
@@ -475,7 +475,7 @@ bone$ <strong>ip a</strong>
 
 My Bone is connected to the Internet in two ways: via the RJ45 connection (+eth0+) and via the USB cable (+usb0+). The +inet+ field shows that my Internet address is +10.0.5.144+ for the RJ45 connector.
 
-((("MAC address, locating")))On my university campus, you must register your MAC address before any device will work on the network. The +HWaddr+ field gives the MAC address. For +eth0+, it's +c8:a0:30:a6:26:e8+.  
+On my university campus, you must register your MAC address before any device will work on the network. The +HWaddr+ field gives the MAC address. For +eth0+, it's +c8:a0:30:a6:26:e8+.  
 
 The IP address of your Bone can change. If it's been assigned by DHCP, it can change at any time. The MAC address, however, never changes;  it is assigned to your ethernet device when it's manufactured.
 
@@ -491,7 +491,7 @@ On many home networks, you will be behind a firewall and won't be as visible.
 === Establishing a WiFi-Based Internet Connection
 
 ==== Problem
-((("Internet", "WiFi-based connections")))((("USB wireless adapters")))((("WiFi adapters")))((("wireless networks, connecting to")))((("advanced operations", "WiFi-based Internet connections")))You want BeagleBone Black to talk to the Internet using a USB wireless adapter.
+You want BeagleBone Black to talk to the Internet using a USB wireless adapter.
 
 ==== Solution
 
@@ -520,7 +520,7 @@ To make this recipe, you will need:
 
 [WARNING]
 ====
-((("external power supplies")))((("power supplies, external")))Most adapters need at least 1 A of current to run, and USB supplies only 0.5 A, so be sure to use an external power supply. Otherwise, you will experience erratic behavior and random crashes.
+Most adapters need at least 1 A of current to run, and USB supplies only 0.5 A, so be sure to use an external power supply. Otherwise, you will experience erratic behavior and random crashes.
 ====
 
 First, plug in the WiFi adapter and the 5 V external power supply and reboot.
@@ -539,14 +539,14 @@ Bus 002 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
 
 [NOTE]
 ====
-((("USB devices")))There is a well-known bug in the Bone's 3.8 kernel series that prevents USB devices from being discovered when hot-plugged, which is why you should reboot. Newer kernels should address this issue.
+There is a well-known bug in the Bone's 3.8 kernel series that prevents USB devices from being discovered when hot-plugged, which is why you should reboot. Newer kernels should address this issue.
 ====
 
 // TODO  update
 
 
 
-((("iwconfig command")))Next, run +networkctl+ to find your adapter's name.  Mine is called +wlan0+, but you might see other names, such as +ra0+.
+Next, run +networkctl+ to find your adapter's name.  Mine is called +wlan0+, but you might see other names, such as +ra0+.
 
 ++++
 <pre data-type="programlisting">
@@ -565,7 +565,7 @@ IDX LINK    TYPE     OPERATIONAL SETUP
 </pre>
 ++++
 
-((("ifconfig command")))If no name appears, try +ip a+:
+If no name appears, try +ip a+:
 
 ++++
 <pre data-type="programlisting">
@@ -638,15 +638,15 @@ rtt min/avg/max/mdev = 19.387/19.450/19.513/0.063 ms
 // TODO  Test this
 
 ==== Problem
-((("advanced operations", "sharing host&#x27;s Internet connection over USB")))((("host computer", "sharing Internet connection over USB")))((("RJ45 connector")))((("Internet", "sharing host computer&#x27;s connection")))Your host computer is connected to the Bone via the USB cable, and you want to run the network between the two.
+Your host computer is connected to the Bone via the USB cable, and you want to run the network between the two.
 
 ==== Solution
 <<networking_wired>> shows how to connect BeagleBone Black to the Internet via the RJ45 Ethernet connector.  This recipe shows a way to connect without using the RJ45 pass:[<span class="keep-together">connector</span>].
 
-((("IP address", "locating")))A network is automatically running between the Bone and the host computer at boot time using the USB. The host's IP address is +192.168.7.1+ and the Bone's is +192.168.7.2+.  Although your Bone is talking to your host, it can't reach the Internet in general, nor can the Internet reach it. On one hand, this is good, because those who are up to no good can't access your Bone. On the other hand, your Bone can't reach the rest of the world.
+A network is automatically running between the Bone and the host computer at boot time using the USB. The host's IP address is +192.168.7.1+ and the Bone's is +192.168.7.2+.  Although your Bone is talking to your host, it can't reach the Internet in general, nor can the Internet reach it. On one hand, this is good, because those who are up to no good can't access your Bone. On the other hand, your Bone can't reach the rest of the world.
 
 ===== Letting your bone see the world: setting up IP masquerading
-((("IP address", "masquerading")))((("masquerading")))You need to set up IP masquerading on your host and configure your Bone to use it. Here is a solution that works with a host computer running Linux. Add the code in <<tips_ipmasq_code>> to a file called _ipMasquerade.sh_ on your host computer.
+You need to set up IP masquerading on your host and configure your Bone to use it. Here is a solution that works with a host computer running Linux. Add the code in <<tips_ipmasq_code>> to a file called _ipMasquerade.sh_ on your host computer.
 
 [[tips_ipmasq_code]]
 .Code for IP Masquerading (ipMasquerade.sh)
@@ -701,10 +701,10 @@ rtt min/avg/max/mdev = 7.496/7.559/7.623/0.107 ms
 </pre>
 ++++
 
-((("Domain Name System (DNS) servers")))This will look up what Domain Name System (DNS) servers your host is using and copy them to the right place on the Bone.  The +ping+ command is a quick way to verify your connection.
+This will look up what Domain Name System (DNS) servers your host is using and copy them to the right place on the Bone.  The +ping+ command is a quick way to verify your connection.
 
 ===== Letting the world see your bone: setting up port forwarding
-((("ports", "port forwarding")))Now your Bone can access the world via the USB port and your host computer, but
+Now your Bone can access the world via the USB port and your host computer, but
 what if you have a web server on your Bone that you want to access from the world?
 The solution is to use _port forwarding_ from your host. 
 Web servers typically listen to port +80+. First, look up the IP address of your host:
@@ -749,7 +749,7 @@ Now browse to your host computer at port +1080+. That is, if your host's IP addr
 === Setting Up a Firewall
 
 ==== Problem
-((("firewalls")))((("advanced operations", "firewalls")))((("iptables command")))((("commands", "iptables")))You have put your Bone on the network and want to limit which IP addresses can access it.
+You have put your Bone on the network and want to limit which IP addresses can access it.
 
 ==== Solution
 https://www.howtogeek.com/[How-To Geek] has a great posting on how do use +ufw+, the "uncomplicated firewall". Check out https://www.howtogeek.com/devops/how-to-secure-your-linux-server-with-a-ufw-firewall/[How to Secure Your Linux Server with a UFW Firewall].  I'll summarize the initial setup here.
@@ -836,7 +836,7 @@ See the How-To Geek article for more examples.
 === Installing Additional Packages from the Debian Package Feed
 
 ==== Problem
-((("advanced operations", "installing additional packages")))((("Debian", "package manager")))((("programs", "installing")))((("software", "installing packages")))You want to do more cool things with your BeagleBone by installing more programs.
+You want to do more cool things with your BeagleBone by installing more programs.
 
 ==== Solution
 [WARNING]
@@ -844,7 +844,7 @@ See the How-To Geek article for more examples.
 Your Bone needs to be on the network for this to work. See <<networking_wired>>, <<networking_wireless>>, or <<networking_usb>>.
 ====
 
-((("apt", "installing packages with")))The easiest way to install more software is to use +apt+:
+The easiest way to install more software is to use +apt+:
 
 ++++
 <pre data-type="programlisting">
@@ -868,7 +868,7 @@ bone$ <strong>less /tmp/list</strong>
 
 The first command lists all the packages that +apt+ knows about and sorts them and stores them in _/tmp/list_. The second command shows why you want to put the list in a file. The +wc+ command counts the number of lines, words, and characters in a file. In our case, there are over 67,000 packages from which we can choose! The +less+ command displays the sorted list, one page at a time. Press the space bar to go to the next page. Press Q to quit.  
 
-((("dictionary, installing")))((("online dictionary, installing")))Suppose that you would like to install an online dictionary (+dict+). Just run the following command:
+Suppose that you would like to install an online dictionary (+dict+). Just run the following command:
 
 ++++
 <pre data-type="programlisting">
@@ -883,10 +883,10 @@ Now you can run +dict+.
 === Removing Packages Installed with apt
 
 ==== Problem
-((("software", "removing packages")))((("advanced operations", "removing packages")))((("apt", "removing packages installed with")))((("programs", "removing")))You've been playing around and installing all sorts of things with +apt+ and now you want to clean things up a bit.
+You've been playing around and installing all sorts of things with +apt+ and now you want to clean things up a bit.
 
 ==== Solution
-((("remove option")))+apt+ has a +remove+ option, so you can run the following command:
++apt+ has a +remove+ option, so you can run the following command:
 
 ++++
 <pre data-type="programlisting">
@@ -909,7 +909,7 @@ Do you want to continue [Y/n]? <strong>y</strong>
 === Copying Files Between the Onboard Flash and the MicroSD Card
 
 ==== Problem
-((("advanced operations", "copying files")))((("files", "copying")))((("onboard flash", "copying files to/from")))((("microSD card", "copying files to/from")))((("SD cards", "copying files to/from")))You want to move files between the onboard flash and the microSD card.
+You want to move files between the onboard flash and the microSD card.
 
 ==== Solution
 If you booted from the microSD card, run the following command:
@@ -932,9 +932,9 @@ bone$ <strong>ls /dev/mmcblk*</strong>
 </pre>
 ++++
 
-((("df command")))((("commands", "df")))The +df+ command shows what partitions are already mounted. The line +/dev/mmcblk0p2  7.2G  2.0G  4.9G  29% /+ shows that +mmcblk0+ partition +p2+ is mounted as +/+, the root file system. The general rule is that the media you're booted from (either the onboard flash or the microSD card) will appear as +mmcblk0+. The second partition (+p2+) is the root of the file system. 
+The +df+ command shows what partitions are already mounted. The line +/dev/mmcblk0p2  7.2G  2.0G  4.9G  29% /+ shows that +mmcblk0+ partition +p2+ is mounted as +/+, the root file system. The general rule is that the media you're booted from (either the onboard flash or the microSD card) will appear as +mmcblk0+. The second partition (+p2+) is the root of the file system. 
 
-((("ls command")))((("commands", "ls")))The +ls+ command shows what devices are available to mount. Because +mmcblk0+ is already mounted, +/dev/mmcblk1p1+ must be the other media that we need to mount. Run the following commands to mount it:
+The +ls+ command shows what devices are available to mount. Because +mmcblk0+ is already mounted, +/dev/mmcblk1p1+ must be the other media that we need to mount. Run the following commands to mount it:
 // TODO update
 ++++
 <pre data-type="programlisting">
@@ -949,7 +949,7 @@ dev   ID.txt  media       opt           run   srv      usr
 </pre>
 ++++
 
-((("cd (change directory) command")))((("commands", "cd (change directory)")))((("commands", "mkdir (make directory)")))((("mkdir (make directory) command")))((("commands", "mount")))((("mount command")))The +cd+ command takes us to a place in the file system where files are commonly mounted. The +mkdir+ command creates a new directory (_onboard_) to be a mount point. The +ls+ command shows there is nothing in _onboard_. The +mount+ command makes the contents of the onboard flash accessible. The next +ls+ shows there now are files in _onboard_. These are the contents of the onboard flash, which can be copied to and from like any other file.
+The +cd+ command takes us to a place in the file system where files are commonly mounted. The +mkdir+ command creates a new directory (_onboard_) to be a mount point. The +ls+ command shows there is nothing in _onboard_. The +mount+ command makes the contents of the onboard flash accessible. The next +ls+ shows there now are files in _onboard_. These are the contents of the onboard flash, which can be copied to and from like any other file.
 
 ==== Discussion
 This same process should also work if you have booted from the onboard flash. When you are done with the onboard flash, you can unmount it by using this command:
@@ -963,7 +963,7 @@ bone$ <strong>sudo umount /mnt/onboard</strong>
 === Freeing Space on the Onboard Flash or MicroSD Card
 
 ==== Problem
-((("advanced operations", "freeing memory space")))((("onboard flash", "freeing space on")))((("microSD card", "freeing space on")))((("SD cards", "freeing space on")))((("software", "removing preinstalled")))You are starting to run out of room on your microSD card (or onboard flash) and have removed several packages you had previously installed (<<tips_apt_remove>>), but you still need to free up more space.
+You are starting to run out of room on your microSD card (or onboard flash) and have removed several packages you had previously installed (<<tips_apt_remove>>), but you still need to free up more space.
 
 ==== Solution 
 
@@ -975,7 +975,7 @@ You might not need a few things that come preinstalled in the Debian image, incl
 
 [NOTE]
 ====
-((("Chromium web browser")))((("web browsers", "Chrome Chromium")))The Chromium web browser is the open source version of Google's Chrome web browser. Unless you are using the Bone as a desktop computer, you can probably remove it.
+The Chromium web browser is the open source version of Google's Chrome web browser. Unless you are using the Bone as a desktop computer, you can probably remove it.
 
 ====
 
@@ -992,7 +992,7 @@ bone$ <strong>sudo -rf /usr/share/man</strong>               (19M)
 
 ===== Discovering big files
 
-((("files", "discovering large")))((("du (disk usage) command")))((("commands", "du (disk usage)")))((("disk space, determining")))The +du+ (disk usage) command offers a quick way to discover big files:
+The +du+ (disk usage) command offers a quick way to discover big files:
 
 ++++
 <pre data-type="programlisting">
@@ -1026,7 +1026,7 @@ du: cannot access '/proc/1454/fdinfo/3': No such file or directory
 
 If you booted from the microSD card, +du+ lists the usage of the microSD. If you booted from the onboard flash, it lists the onboard flash usage.
 
-((("directories", "determining size of")))The +-s+ option summarizes the results rather than displaying every file. +-h+ prints it in _human_ form--that is, using +M+ and +K+ postfixes rather than showing lots of digits. The +/*+ specifies to run it on everything in the top-level directory. It looks like a couple of things disappeared while the command was running and thus produced some error messages.
+The +-s+ option summarizes the results rather than displaying every file. +-h+ prints it in _human_ form--that is, using +M+ and +K+ postfixes rather than showing lots of digits. The +/*+ specifies to run it on everything in the top-level directory. It looks like a couple of things disappeared while the command was running and thus produced some error messages.
 
 [TIP]
 ====
@@ -1097,7 +1097,7 @@ e   4.0 KiB [          ] /media
 
 [WARNING]
 ====
-((("D (delete) key")))((("files", "deleting")))((("directories", "deleting")))Be careful not to press the D key, because it's used to delete a file or directory.
+Be careful not to press the D key, because it's used to delete a file or directory.
 ====
 
 
@@ -1105,7 +1105,7 @@ e   4.0 KiB [          ] /media
 === Using C to Interact with the Physical World
 
 ==== Problem
-((("advanced operations", "interactions via C")))((("C language", "benefits of interfacing via")))((("libsoc library")))You want to use C on the Bone to talk to the world.
+You want to use C on the Bone to talk to the world.
 
 ==== Solution
 The C solution isn't as simple as the JavaScript or Python solution, but it does work and is much faster.  The approach is the same, write to the +/sys/class/gpio+ files.

@@ -3,9 +3,9 @@
 
 === Introduction
 
-((("debugging", "breadboards")))Previous chapters of this book show a variety of ways to interface BeagleBone Black to the physical world by using a breadboard and wiring to the +P8+ and +P9+ headers. This is a great approach because it's easy to modify your circuit to debug it or try new things. At some point, though, you might want a more permanent solution, either because you need to move the Bone and you don't want wires coming loose, or because you want to share your hardware with the masses. 
+Previous chapters of this book show a variety of ways to interface BeagleBone Black to the physical world by using a breadboard and wiring to the +P8+ and +P9+ headers. This is a great approach because it's easy to modify your circuit to debug it or try new things. At some point, though, you might want a more permanent solution, either because you need to move the Bone and you don't want wires coming loose, or because you want to share your hardware with the masses. 
 
-((("capes", "basics of")))You can easily expand the functionality of the Bone by adding a  http://bit.ly/1wucweC[_cape_]. A cape is simply a board--often a printed circuit board (PCB)&#x2014;that connects to the +P8+ and +P9+ headers and follows a few standard pin usages. You can stack up to four capes onto the Bone. Capes can range in size from Bone-sized (<<capes_miniDisplay>>) to much larger than the Bone (<<capes_7inLCD>>).
+You can easily expand the functionality of the Bone by adding a  http://bit.ly/1wucweC[_cape_]. A cape is simply a board--often a printed circuit board (PCB)&#x2014;that connects to the +P8+ and +P9+ headers and follows a few standard pin usages. You can stack up to four capes onto the Bone. Capes can range in size from Bone-sized (<<capes_miniDisplay>>) to much larger than the Bone (<<capes_7inLCD>>).
 
 This chapter shows how to attach a couple of capes, move your design to a protoboard, then to a PCB, and finally on to mass production.
 
@@ -13,7 +13,7 @@ This chapter shows how to attach a couple of capes, move your design to a protob
 === Using a Seven-Inch LCD Cape
 
 ==== Problem
-((("capes", "LCD display, seven-inch")))((("displays", "LCD, seven-inch")))((("LCD displays")))You want to display the Bone's desktop on a portable LCD.
+You want to display the Bone's desktop on a portable LCD.
 
 ==== Solution
 A number of http://bit.ly/1AjlXJ9[LCD capes] are built for the Bone, ranging in size from three to seven inches. This recipe attaches a seven-inch http://bit.ly/1NK8Hra[BeagleBone LCD7] from http://circuitco.com/[CircuitCo] (shown in <<capes_7inLCD_fig>>) to the Bone.
@@ -33,14 +33,14 @@ Just attach the Bone to the back of the LCD, making sure pin 1 of +P9+ lines up 
 .Seven-inch LCD desktop
 image::figures/LCD7Desktop.png[7 inch LCD desktop]
 
-((("keyboards")))((("mouse")))Attach a USB keyboard and mouse, and you have a portable Bone. https://www.adafruit.com/products/922[Wireless keyboard and mouse combinations] make a nice solution to avoid the need to add a USB hub.
+Attach a USB keyboard and mouse, and you have a portable Bone. https://www.adafruit.com/products/922[Wireless keyboard and mouse combinations] make a nice solution to avoid the need to add a USB hub.
 
 
 [[capes_miniDisplay]]
 === Using a 128 x 128-Pixel LCD Cape
 
 ==== Problem
-((("capes", "LCD display, 128 x 128-pixel")))((("LCD displays")))((("MiniDisplay")))You want to use a small LCD to display things other than the desktop.
+You want to use a small LCD to display things other than the desktop.
 
 ==== Solution
 The http://bit.ly/1xd0r8p[MiniDisplay] is a 128 x 128 full-color LCD cape that just fits on the Bone, as shown in <<capes_miniDisplay_fig>>. 
@@ -75,7 +75,7 @@ Aborted
 You might get a compiler warning, but the code should run fine.
 ====
 
-((("Serial Peripheral Interface (SPI)")))((("input/output (I/O)", "via Serial Peripheral Interface (SPI)")))The MiniDisplay uses the Serial Peripheral Interface (SPI) interface, and it's not initialized. The http://bit.ly/1xd0r8p[manufacturer's website] suggests enabling SPI0 by using the following commands:
+The MiniDisplay uses the Serial Peripheral Interface (SPI) interface, and it's not initialized. The http://bit.ly/1xd0r8p[manufacturer's website] suggests enabling SPI0 by using the following commands:
 
 ++++
 <pre data-type="programlisting">
@@ -181,7 +181,7 @@ image::figures/miniDisplay_Boris.png[miniDisplay LCD showing Boris]
 === Connecting Multiple Capes
 
 ==== Problem
-((("capes", "connecting multiple")))((("stacking headers")))((("non-stacking headers")))((("cape headers", "stacking vs. non-stacking")))You want to use more than one cape at a time.
+You want to use more than one cape at a time.
 
 ==== Solution
 First, look at each cape that you want to stack mechanically. Are they all using stacking
@@ -224,7 +224,7 @@ In most cases, the same pin should never be used on two different capes, though 
 === Moving from a Breadboard to a Protoboard
 
 ==== Problem
-((("capes", "protoboards for")))((("breadboards", "vs. protoboards")))((("protoboards")))((("soldering", "components to protoboards")))((("prototypes", "soldering protoboards")))You have your circuit working fine on the breadboard, but you want a more reliable solution.
+You have your circuit working fine on the breadboard, but you want a more reliable solution.
 
 ==== Solution
 Solder your components to a protoboard. 
@@ -248,10 +248,10 @@ You just solder your parts on the protoboard as you had them on the breadboard.
 === Creating a Prototype Schematic
 
 ==== Problem
-((("capes", "prototype schematics")))((("prototypes", "schematics for")))You've wired up a circuit on a breadboard. How do you turn that prototype into a schematic others can read and that you can import into other design tools?
+You've wired up a circuit on a breadboard. How do you turn that prototype into a schematic others can read and that you can import into other design tools?
 
 ==== Solution
-((("Fritzing", "creating circuit schematics with")))((("hardware", "creating prototype schematics", seealso="prototypes")))((("circuit schematics")))((("printed-circuit layout")))In <<tips_fritzing>>, we introduced Fritzing as a useful tool for drawing block diagrams. Fritzing can also do circuit schematics and printed-circuit layout. For example, <<capes_quickRobo_fig>> shows a block diagram for a simple robot controller (_pass:[<span class="keep-together">quickBot.fzz</span>]_ is the name of the Fritzing file used to create the diagram).
+In <<tips_fritzing>>, we introduced Fritzing as a useful tool for drawing block diagrams. Fritzing can also do circuit schematics and printed-circuit layout. For example, <<capes_quickRobo_fig>> shows a block diagram for a simple robot controller (_pass:[<span class="keep-together">quickBot.fzz</span>]_ is the name of the Fritzing file used to create the diagram).
 
 [[capes_quickRobo_fig]]
 .A simple robot controller diagram (quickBot.fzz)
@@ -282,7 +282,7 @@ You might find that you want to create your design in a more advanced design too
 === Verifying Your Cape Design
 
 ==== Problem
-((("capes", "design verification")))((("design verification")))You've got a design. How do you quickly verify that it works?
+You've got a design. How do you quickly verify that it works?
 
 ==== Solution
 To make this recipe, you will need:
@@ -456,7 +456,7 @@ Looking at the stimulus you'll generate _before_ you connect up your hardware wi
 === Laying Out Your Cape PCB
 
 ==== Problem
-((("capes", "printed circuit board layout")))((("Fritzing", "printed circuit board tab in")))((("Autoroute")))You've generated a diagram and schematic for your circuit and verified that they are correct. How do you create a PCB?
+You've generated a diagram and schematic for your circuit and verified that they are correct. How do you create a PCB?
 
 ==== Solution
 If you've been using Fritzing, all you need to do is click the PCB tab, and there's your board. Well, almost. Much like the schematic view shown in <<capes_creating_prototype_schematic>>, you need to do some layout work before it's actually usable. I just moved the components around until they seemed to be grouped logically and then clicked the Autoroute button.  After a minute or two of trying various layouts, Fritzing picked the one it determined to be the best. <<capes_quickRobo_pcb>> shows the results.
@@ -562,7 +562,7 @@ TO PROD: The headings I've marked as bold lines really should be subheadings of 
 
 *EAGLE*
 
-((("Eagle PCB")))((("DesignSpark PCB")))http://www.cadsoftusa.com/[Eagle PCB] and http://bit.ly/19cbwS0[DesignSpark PCB] are two popular design programs. Many capes (and other PCBs) are designed with Eagle PCB, and the files are available. For example, the MiniDisplay cape (<<capes_miniDisplay>>) has the schematic shown in <<capes_miniDisplay_schem>> and PCB shown in <<capes_miniDisplay_pcb>>.
+http://www.cadsoftusa.com/[Eagle PCB] and http://bit.ly/19cbwS0[DesignSpark PCB] are two popular design programs. Many capes (and other PCBs) are designed with Eagle PCB, and the files are available. For example, the MiniDisplay cape (<<capes_miniDisplay>>) has the schematic shown in <<capes_miniDisplay_schem>> and PCB shown in <<capes_miniDisplay_pcb>>.
 
 [[capes_miniDisplay_schem]]
 .Schematic for the MiniDisplay cape
@@ -645,7 +645,7 @@ The free http://bit.ly/19cbwS0[DesignSpark PCB] doesn't have the same limitation
 [[capes_upverter]]
 *Upverter*
 
-((("Upverter")))In addition to free solutions you run on your desktop, you can also work with a browser-based tool called https://upverter.com/[Upverter]. With Upverter, you can collaborate easily, editing your designs from anywhere on the Internet. It also provides many conversion options and a PCB fabrication service.
+In addition to free solutions you run on your desktop, you can also work with a browser-based tool called https://upverter.com/[Upverter]. With Upverter, you can collaborate easily, editing your designs from anywhere on the Internet. It also provides many conversion options and a PCB fabrication service.
 
 [NOTE]
 ====
@@ -656,13 +656,13 @@ Don't confuse Upverter with Upconverter (<<capes_schematic_migration>>). Though 
 
 *Kicad*
 
-((("Kicad")))Unlike the previously mentioned free (no-cost) solutions, http://bit.ly/1b2bnBg[Kicad] is open source and provides some features beyond those of Fritzing. Notably, http://circuithub.com/[CircuitHub] (discussed in <<capes_production>>) provides support for uploading Kicad designs.
+Unlike the previously mentioned free (no-cost) solutions, http://bit.ly/1b2bnBg[Kicad] is open source and provides some features beyond those of Fritzing. Notably, http://circuithub.com/[CircuitHub] (discussed in <<capes_production>>) provides support for uploading Kicad designs.
 
 [[capes_schematic_migration]]
 === Migrating a Fritzing Schematic to Another Tool
 
 ==== Problem
-((("Fritzing", "exporting schematics from")))((("circuit schematics")))((("schematic-file-converters")))((("Upconverter")))((("files", "converting schematics")))You created your schematic in Fritzing, but it doesn't integrate with everything you need. How can you move the schematic to another tool?
+You created your schematic in Fritzing, but it doesn't integrate with everything you need. How can you move the schematic to another tool?
 
 ==== Solution
 
@@ -795,7 +795,7 @@ I found that Eagle was more generous at reading in the +eaglexml+ format than th
 === Producing a Prototype
 
 ==== Problem
-((("capes", "prototype production")))((("soldering", "prototypes")))((("prototypes", "production of")))You have your PCB all designed. How do you get it made?
+You have your PCB all designed. How do you get it made?
 
 ==== Solution
 To make this recipe, you will need:
@@ -806,13 +806,13 @@ To make this recipe, you will need:
 * Multimeter
 * Your other components
 
-((("OSH Park")))Upload your design to http://oshpark.com[OSH Park] and order a few boards. <<capes_oshpark_share>> shows a resulting http://bit.ly/1MtlzAp[shared project page for the quickBot cape] created in <<capes_layout>>. We'll proceed to break down how this design was uploaded and shared to enable ordering fabricated PCBs.
+Upload your design to http://oshpark.com[OSH Park] and order a few boards. <<capes_oshpark_share>> shows a resulting http://bit.ly/1MtlzAp[shared project page for the quickBot cape] created in <<capes_layout>>. We'll proceed to break down how this design was uploaded and shared to enable ordering fabricated PCBs.
 
 [[capes_oshpark_share]]
 .The OSH Park QuickBot Cape shared project page
 image::figures/quickBot_oshpark_share.png[]
 
-((("Fritzing", "prototype production with")))Within Fritzing, click the menu next to "Export for PCB" and choose "Extended Gerber," as shown in <<capes_fritzing_export_fig>>. You'll need to choose a directory in which to save them and then compress them all into a http://bit.ly/1Br5lEh[Zip file]. The http://bit.ly/1B4GqRU[WikiHow article on creating Zip files] might be helpful if you aren't very experienced at making these.
+Within Fritzing, click the menu next to "Export for PCB" and choose "Extended Gerber," as shown in <<capes_fritzing_export_fig>>. You'll need to choose a directory in which to save them and then compress them all into a http://bit.ly/1Br5lEh[Zip file]. The http://bit.ly/1B4GqRU[WikiHow article on creating Zip files] might be helpful if you aren't very experienced at making these.
 
 [[capes_fritzing_export_fig]]
 .Choosing "Extended Gerber" in Fritzing
@@ -828,7 +828,7 @@ image::figures/quickBot_pcb.JPG[]
 
 Now is a good time to ensure that you have all of your components and a soldering station set up as in <<capes_soldering>>, as well as an oscilloscope, as used in <<capes_verify>>.
 
-((("multimeters")))When you get your board, it is often informative to "buzz out" a few connections by using a multimeter. If you've never used a multimeter before, the http://bit.ly/18bUgeA[SparkFun] or http://bit.ly/1Br5Xtv[Adafruit] tutorials might be helpful. Set your meter to continuity testing mode and probe between points where the headers are and where they should be connecting to your components. This would be more difficult and less accurate after you solder down your components, so it is a good idea to keep a bare board around just for this purpose.
+When you get your board, it is often informative to "buzz out" a few connections by using a multimeter. If you've never used a multimeter before, the http://bit.ly/18bUgeA[SparkFun] or http://bit.ly/1Br5Xtv[Adafruit] tutorials might be helpful. Set your meter to continuity testing mode and probe between points where the headers are and where they should be connecting to your components. This would be more difficult and less accurate after you solder down your components, so it is a good idea to keep a bare board around just for this purpose.
 
 You'll also want to examine your board mechanically before soldering parts down. You don't want to waste components on a PCB that might need to be altered or replaced.
 
@@ -844,7 +844,7 @@ Continue assembling and testing your board until you are happy. If you find issu
 === Creating Contents for Your Cape Configuration EEPROM
 
 ==== Problem
-((("capes", "EEPROM")))((("EEPROM capes")))Your cape is ready to go, and you want it to automatically initialize when the Bone boots up.
+Your cape is ready to go, and you want it to automatically initialize when the Bone boots up.
 
 ==== Solution
 Complete capes have an I^2^C EEPROM on board that contains configuration information that is read at boot time. http://bit.ly/1Fb64uF[Adventures in BeagleBone Cape EEPROMs] gives a helpful description of two methods for programming the EEPROM.  http://bit.ly/1E5M7RJ[How to Roll your own BeagleBone Capes] is a good four-part series on creating a cape, including how to wire and program the EEPROM.
@@ -854,10 +854,10 @@ Complete capes have an I^2^C EEPROM on board that contains configuration informa
 === Putting Your Cape Design into Production
 
 ==== Problem
-((("capes", "scaling up production")))((("prototypes", "production of")))You want to share your cape with others.  How do you scale up?
+You want to share your cape with others.  How do you scale up?
 
 ==== Solution
-((("CircuitHub")))https://circuithub.com/[CircuitHub] offers a great tool to get a quick quote on assembled PCBs. To make things simple, I downloaded the http://bit.ly/1C5uvJc[CircuitCo MiniDisplay Cape Eagle design materials] and uploaded them to CircuitHub.
+https://circuithub.com/[CircuitHub] offers a great tool to get a quick quote on assembled PCBs. To make things simple, I downloaded the http://bit.ly/1C5uvJc[CircuitCo MiniDisplay Cape Eagle design materials] and uploaded them to CircuitHub.
 
 After the design is uploaded, you'll need to review the parts to verify that CircuitHub has or can order the right ones. Find the parts in the catalog by changing the text in the search box and clicking the magnifying glass. When you've found a suitable match, select it to confirm its use in your design, as shown in <<capes_circuithub_parts>>.
 
@@ -906,6 +906,6 @@ There's no real substitute for getting to know your contract manufacturer, its c
 
 // To DO, fix this
 
-((("CircuitCo")))Don't confuse CircuitHub and CircuitCo. CircuitCo is the official contract manufacturer of BeagleBoard.org and not the same company as CircuitHub, the online contract manufacturing service. CircuitCo would be an excellent choice for you to consider to perform your contract manufacturing, but it doesn't offer an online quote service at this point, so it isn't as easy to include details on how to engage with it in this book.
+Don't confuse CircuitHub and CircuitCo. CircuitCo is the official contract manufacturer of BeagleBoard.org and not the same company as CircuitHub, the online contract manufacturing service. CircuitCo would be an excellent choice for you to consider to perform your contract manufacturing, but it doesn't offer an online quote service at this point, so it isn't as easy to include details on how to engage with it in this book.
 ====
 

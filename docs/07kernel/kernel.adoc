@@ -2,7 +2,7 @@
 == The Kernel
 
 === Introduction
-((("Linux kernel", "functions of")))((("kernel", see="Linux kernel")))The kernel is the heart of the Linux operating system. It's the software that takes the low-level requests, such as reading or writing files, or reading and writing general-purpose input/output (GPIO) pins, and maps them to the hardware. When you install a new version of the OS (<<basics_latest_os>>), you get a certain version of the kernel. 
+The kernel is the heart of the Linux operating system. It's the software that takes the low-level requests, such as reading or writing files, or reading and writing general-purpose input/output (GPIO) pins, and maps them to the hardware. When you install a new version of the OS (<<basics_latest_os>>), you get a certain version of the kernel. 
 
 You usually won't need to mess with the kernel, but sometimes you might want to try something new that requires a different kernel. This chapter shows how to switch kernels. The nice thing is you can have multiple kernels on your system at the same time and select from among them which to boot up.
 
@@ -14,7 +14,7 @@ We assume here that you are logged on to your Bone as +debian+ and have superuse
 === Updating the Kernel
 
 ==== Problem
-((("Linux kernel", "updating")))((("software", "updating Linux kernel")))You have an out-of-date kernel and want to want to make it current.
+You have an out-of-date kernel and want to want to make it current.
 
 ==== Solution
 Use the following command to determine which kernel you are running:
@@ -36,7 +36,7 @@ To update to the current kernel, ensure that your Bone is on the Internet (<<net
 
 ==== Problem
 
-((("hardware", "building drivers for")))((("Linux kernel", "building/installing modules")))((("drivers", "building")))You need to use a peripheral for which there currently is no driver, or you need to improve the performance of an interface previously handled in user space.
+You need to use a peripheral for which there currently is no driver, or you need to improve the performance of an interface previously handled in user space.
 
 ==== Solution
 
@@ -61,7 +61,7 @@ include::code/hello.c[]
 ----
 ====
 
-((("Linux kernel", "Kernel Headers")))When compiling on the Bone, all you need to do is load the Kernel Headers for the version of the kernel you're running:
+When compiling on the Bone, all you need to do is load the Kernel Headers for the version of the kernel you're running:
 
 ++++
 <pre data-type="programlisting">
@@ -71,7 +71,7 @@ bone$ <strong>sudo apt install linux-headers-`uname -r`</strong>
 
 [NOTE]
 ====
-((("&#x60; character (backtick)")))((("backtick (&#x60;) character")))The quotes around +`uname -r`+ are backtick characters. On a United States keyboard, the backtick key is to the left of the 1 key.
+The quotes around +`uname -r`+ are backtick characters. On a United States keyboard, the backtick key is to the left of the 1 key.
 ====
 
 This took a little more than three minutes on my Bone. The +`uname -r`+ part of the command looks up what version of the kernel you are running and loads the headers for it. 
@@ -91,7 +91,7 @@ include::code/Makefile.display[]
 
 [NOTE]
 ====
-((("makefiles")))((("tab character")))Replace the two instances of +<TAB>+ with a tab character (the key left of the Q key on a United States keyboard). The tab characters are very important to makefiles and must appear as shown.
+Replace the two instances of +<TAB>+ with a tab character (the key left of the Q key on a United States keyboard). The tab characters are very important to makefiles and must appear as shown.
 ====
 
 Now, compile the kernel module by using the +make+ command:
@@ -134,14 +134,14 @@ bone$ <strong>dmesg -H | tail -4</strong>
 </pre>
 ++++
 
-((("insmod command")))((("commands", "insmod")))((("dmesg command")))((("commands", "dmesg")))((("system messages, viewing")))((("advanced operations", "viewing system messages")))((("commands", "tail")))((("tail command")))The first command displays information about the module. The +insmod+ command inserts the module into the running kernel. If all goes well, nothing is displayed, but the module does print something in the kernel log. The +dmesg+ command displays the messages in the log, and the +tail -4+ command shows the last four messages. The last two messages are from the module. It worked!
+The first command displays information about the module. The +insmod+ command inserts the module into the running kernel. If all goes well, nothing is displayed, but the module does print something in the kernel log. The +dmesg+ command displays the messages in the log, and the +tail -4+ command shows the last four messages. The last two messages are from the module. It worked!
 
 
 [[kernel_LEDs]]
 === Controlling LEDs by Using SYSFS Entries
 
 ==== Problem
-((("Linux kernel", "controlling LEDs from command line")))((("LEDs", "controlling from command line")))((("sysfs virtual file system", "controlling LEDs with")))((("files", "virtual file system for")))You want to control the onboard LEDs from the command line.
+You want to control the onboard LEDs from the command line.
 
 ==== Solution
 On Linux, http://bit.ly/1AjhWUW[everything is a file]; that is, you can access all the inputs and outputs, the LEDs, and so on by opening the right _file_ and reading or writing to it. For example, try the following:
@@ -199,7 +199,7 @@ The LED should be turning on and off with the commands.
 === Controlling GPIOs by Using SYSFS Entries
 
 ==== Problem
-((("Linux kernel", "controlling GPIO pins via sysfs")))((("GPIO pins", "controlling via sysfs entries")))((("sysfs virtual file system", "controlling GPIO pins with")))You want to control a GPIO pin from the command line.
+You want to control a GPIO pin from the command line.
 
 ==== Solution
 <<kernel_LEDs>> introduces the +sysfs+. This recipe shows how to read and write a GPIO pin. 
@@ -299,7 +299,7 @@ The LED turns on when a +1+ is written to +value+ and turns off when a +0+ is wr
 === Compiling the Kernel
 // TODO  check this
 ==== Problem
-((("Linux kernel", "compiling")))You need to download, patch, and compile the kernel from its source code.
+You need to download, patch, and compile the kernel from its source code.
 
 ==== Solution
 This is easier than it sounds, thanks to some very powerful scripts.
@@ -311,7 +311,7 @@ Be sure to run this recipe on your host computer. The Bone has enough computatio
 
 ===== Downloading and Compiling the Kernel
 
-((("Linux kernel", "downloading")))To download and compile the kernel, follow these steps:
+To download and compile the kernel, follow these steps:
 
 [source, bash]
 ----
@@ -475,7 +475,7 @@ Linux breadboard-home 5.10.120-ti-r48 #1xross SMP PREEMPT Mon Aug 8 18:30:51 EDT
 === Using the Installed Cross Compiler
 
 ==== Problem
-((("Linux kernel", "using installed cross-compiler")))You have followed the instructions in <<kernel_compiling>> and want to use the cross compiler it has downloaded.
+You have followed the instructions in <<kernel_compiling>> and want to use the cross compiler it has downloaded.
 
 [TIP]
 ====
@@ -555,7 +555,7 @@ host$ <strong>echo $PATH</strong>
 
 [NOTE]
 ====
-Those are backtick characters (left of the "1" key on your keyboard) around +pwd+.((("&#x60; character (backtick)")))((("backtick (&#x60;) character")))  
+Those are backtick characters (left of the "1" key on your keyboard) around +pwd+.  
 ====
 
 The second line shows the +$PATH+ now contains the directory with the cross-development tools.
@@ -603,7 +603,7 @@ The +file+ command shows that +a.out+ was compiled for an ARM processor.
 === Applying Patches
 // TODO check these
 ==== Problem
-((("Linux kernel", "patch file application")))((("patches, applying")))((("files", "patch file application")))You have a patch file that you need to apply to the kernel.
+You have a patch file that you need to apply to the kernel.
 
 ==== Solution
 <<kernel_hello_patch>> shows a patch file that you can use on the kernel. 
@@ -652,7 +652,7 @@ hello.c  Makefile
 === Creating Your Own Patch File
 
 ==== Problem
-((("Linux kernel", "patch file creation")))((("files", "patch file creation")))You made a few changes to the kernel, and you want to share them with your friends.
+You made a few changes to the kernel, and you want to share them with your friends.
 
 ==== Solution
 Create a patch file that contains just the changes you have made. Before making your changes, check out a new branch:

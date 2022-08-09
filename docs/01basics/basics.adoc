@@ -9,7 +9,7 @@ When you buy BeagleBone Black, pretty much everything you need to get going come
 === Picking Your Beagle
 
 ==== Problem
-((("BeagleBoards", "selecting")))((("BeagleBones", "selecting")))((("basic operations", "BeagleBone/BeagleBoard selection")))There are many different BeagleBoards. How do you pick which one to use?
+There are many different BeagleBoards. How do you pick which one to use?
 
 ==== Solution
 // TODO
@@ -21,7 +21,7 @@ Current list of boards: https://git.beagleboard.org/explore/projects/topics/boar
 === Getting Started, Out of the Box
 
 ==== Problem
-((("basic operations", "getting started")))You just got your Bone, and you want to know what to do with it.
+You just got your Bone, and you want to know what to do with it.
 
 ==== Solution
 Fortunately, you have all you need to get running: your Bone and a USB cable. 
@@ -31,7 +31,7 @@ Plug the USB cable into your host computer (Mac, Windows, or Linux) and plug the
 .Plugging BeagleBone Black into a USB port
 image::figures/pluggingIn.jpg[Plugging In]
 
-((("USER LEDs")))((("LEDs", "USER LEDs", seealso="input/output (I/O)")))The four blue +USER+ LEDs will begin to blink, and in 10 or 15 seconds, you'll see a new USB drive appear on your host computer. <<basics_01gettingStarted_fig>> shows how it will appear on a Windows host, and Linux and Mac hosts will look similar. The Bone acting like a USB drive and the files you see are located on the Bone.
+The four blue +USER+ LEDs will begin to blink, and in 10 or 15 seconds, you'll see a new USB drive appear on your host computer. <<basics_01gettingStarted_fig>> shows how it will appear on a Windows host, and Linux and Mac hosts will look similar. The Bone acting like a USB drive and the files you see are located on the Bone.
 
 // TODO Update
 [[basics_01gettingStarted_fig]]
@@ -40,7 +40,7 @@ image::figures/01GettingStarted.png[A new USB drive]
 
 
 [[basics_open_vsc]]
-((("integrated development environment (IDE)")))Browse to http://192.168.7.2:3000 from your host computer (<<basics_05gettingStarted_fig>>).
+Browse to http://192.168.7.2:3000 from your host computer (<<basics_05gettingStarted_fig>>).
 
 [[basics_05gettingStarted_fig]]
 .Visual Studio Code
@@ -50,7 +50,7 @@ Here, you'll find _Visual Studio Code_, a web-based integrated development envir
 
 [WARNING]
 ====
-((("basic operations", "shut-down")))((("halt command")))((("shut down")))Make sure you turn off your Bone properly. It's best to run the +halt+ command:
+Make sure you turn off your Bone properly. It's best to run the +halt+ command:
 
 ++++
 <pre data-type="programlisting">
@@ -71,7 +71,7 @@ The rest of this book goes into the details behind this quick out-of-the-box dem
 
 ==== Problem
 
-((("operating system (OS)", "updating")))((("Debian", "determining version")))((("Linux", "Debian")))((("ID.txt")))((("software", "OS updates")))((("basic operations", "OS updates")))You just got BeagleBone Black, and you want to know which version of the operating system it's running.
+You just got BeagleBone Black, and you want to know which version of the operating system it's running.
 
 ==== Solution
 // TODO  update version
@@ -90,7 +90,7 @@ I'm running the 2022-07-01 version.
 
 ==== Problem
 
-((("basic operations", "BoneScript API tutorials")))((("BoneScript", "tutorials for")))((("JavaScript", "tutorials for")))You'd like to learn Python and JavaScript interact with the Bone to perform physical computing tasks without first learning Linux.
+You'd like to learn Python and JavaScript interact with the Bone to perform physical computing tasks without first learning Linux.
 
 ==== Solution
 
@@ -98,7 +98,7 @@ Plug your board into the USB of your host computer and browse to http://192.168.
 
 [TIP]
 ====
-((("BoneScript", "API examples page")))Explore the various demonstrations of Python and JavaScript. These are what come with the Bone.  In <<basics_repo>> you see how to load the examples for the Cookbook.
+Explore the various demonstrations of Python and JavaScript. These are what come with the Bone.  In <<basics_repo>> you see how to load the examples for the Cookbook.
 ====
 
 [[basics_repo]]
@@ -125,7 +125,7 @@ You can look around from the command line, or explore from Visual Sudio Code. If
 
 ==== Problem
 
-((("basic operations", "wiring a breadboard")))((("breadboards", "wiring")))You would like to use a breadboard to wire things to the Bone.
+You would like to use a breadboard to wire things to the Bone.
 
 ==== Solution
 
@@ -146,7 +146,7 @@ image::figures/template_bb.png[Breadboad]
 === Editing Code Using Visual Studio Code
 
 ==== Problem
-((("VSC", "editing code using")))((("code", "editing with VSC")))((("host computer", "editing code using VSC")))((("blinked.js")))((("Workspace file tree")))((("basic operations", "editing code with VSC")))((("debugging", "using VSC")))((("editors", "web-based")))You want to edit and debug files on the Bone.
+You want to edit and debug files on the Bone.
 
 ==== Solution
 Plug your Bone into a host computer via the USB cable. Open a browser (either Google Chrome or FireFox will work) on your host computer (as shown in <<basics_out_of_the_box>>). After the Bone has booted up, browse to http://192.168.7.2:3000 on your host. You will see something like <<basics_05gettingStarted_fig>>.
@@ -164,15 +164,15 @@ If you edit lines 33 and 37 of the _seqLEDs.py_ file (time.sleep(0.25)), changin
 === Running Python and JavaScript Applications from Visual Studio Code
 
 ==== Problem
-((("basic operations", "running JavaScript applications from VSC")))((("VSC", "running JavaScript applications from")))((("JavaScript", "running applications from VSC")))((("applications", "running from VSC")))You have a file edited in VS Code, and you want to run it.
+You have a file edited in VS Code, and you want to run it.
 
 ==== Solution
-((("bash command window")))VS Code has a +bash+ command window built in at the bottom of the window. If it's not there, hit Ctrl-Shift-P and then type *terminal create new* then hit _Enter_.  The terminal will appear at the bottom of the screen.
+VS Code has a +bash+ command window built in at the bottom of the window. If it's not there, hit Ctrl-Shift-P and then type *terminal create new* then hit _Enter_.  The terminal will appear at the bottom of the screen.
 You can run your code from this window. To do so, add +#!/usr/bin/env python+ at the top of the file that you want to run and save.
 
 [TIP]
 ====
-((("Python")))If you are running JavaScript, replace the word +python+ in the line with +node+.
+If you are running JavaScript, replace the word +python+ in the line with +node+.
 ====
 
 At the bottom of the VS Code window are a series of tabs (<<basics_vscBash_fig>>). 
@@ -182,7 +182,7 @@ Click the +TERMINAL+ tab. Here, you have a command prompt.
 .Visual Studio Code showing bash terminal
 image::figures/vscBash.png[Visual Studio Code showing bash terminal]
 
-((("directories", "changing")))((("cd (change directory) command")))((("commands", "cd (change directory)")))((("chmod (change mode) command")))((("commands", "chmod (change mode)")))((("debugging", "using VSC")))Change to the directory that contains your file, make it executable, and then run it:
+Change to the directory that contains your file, make it executable, and then run it:
 
 ++++
 <pre data-type="programlisting">
@@ -197,7 +197,7 @@ The +cd+ is the change directory command. After you +cd+, you are in a new direc
 === Finding the Latest Version of the OS for Your Bone
 
 ==== Problem
-((("Debian", "finding latest version of")))((("Linux", "Debian")))((("basic operations", "OS updates")))((("operating system (OS)", "updating")))((("software", "OS updates")))You want to find out the latest version of Debian that is available for your Bone.
+You want to find out the latest version of Debian that is available for your Bone.
 
 ==== Solution
 
@@ -218,7 +218,7 @@ These are the images you want to use if you are flashing a Rev C BeagleBone Blac
 
 [NOTE]
 ====
-((("onboard flash", "programming")))The onboard flash is often called the _eMMC_ memory. We just call it _onboard flash_, but you'll often see _eMMC_ appearing in filenames of images used to update the onboard flash.((("eMMC memory", see="onboard flash")))
+
 ====
 
 Click the image you want to use and it will download.  The images are some 500M, so it might take a while.
@@ -228,10 +228,10 @@ Click the image you want to use and it will download.  The images are some 500M,
 
 ==== Problem
 
-((("operating system (OS)", "running the latest")))((("basic operations", "running latest OS version")))You want to run the latest version of the operating system on your Bone without changing the onboard flash.
+You want to run the latest version of the operating system on your Bone without changing the onboard flash.
 
 ==== Solution
-((("microSD card", "booting from")))((("SD cards", "booting from")))This solution is to flash an external microSD card and run the Bone from it. If you boot the Bone with a microSD card inserted with a valid boot image, it will boot from the microSD card. If you boot without the microSD card installed, it will boot from the onboard flash.  
+This solution is to flash an external microSD card and run the Bone from it. If you boot the Bone with a microSD card inserted with a valid boot image, it will boot from the microSD card. If you boot without the microSD card installed, it will boot from the onboard flash.  
 
 [TIP]
 ====
@@ -243,7 +243,7 @@ If you want to reflash the onboard flash memory, see <<basics_onboard_flash>>.
 I instruct my students to use the microSD for booting. I suggest they keep an extra microSD flashed with the current OS. If they mess up the one on the Bone, it takes only a moment to swap in the extra microSD, boot up, and continue running. If they are running off the onboard flash, it will take much longer to reflash and boot from it.
 ====
 
-((("host computer", "Windows OS")))((("operating system (OS)", "Windows ")))Download the image you found in <<basics_find_image>>. It's more than 500 MB, so be sure to have a fast Internet connection. Then go to http://beagleboard.org/getting-started#update and 
+Download the image you found in <<basics_find_image>>. It's more than 500 MB, so be sure to have a fast Internet connection. Then go to http://beagleboard.org/getting-started#update and 
 follow the instructions there to install the image you downloaded.
 
 
@@ -251,7 +251,7 @@ follow the instructions there to install the image you downloaded.
 === Updating the OS on Your Bone
 
 ==== Problem
-((("operating system (OS)", "updating")))((("software", "OS updates")))You've installed the latest version of Debian on your Bone (<<basics_install_os>>), and you want to be sure it's up-to-date.
+You've installed the latest version of Debian on your Bone (<<basics_install_os>>), and you want to be sure it's up-to-date.
 
 ==== Solution
 Ensure that your Bone is on the network and then run the following command on the Bone:
@@ -277,7 +277,7 @@ After you have a current image running on the Bone, it's not at all difficult to
 // TODO keep?
 ==== Problem
 
-((("onboard flash", "backing up")))((("backups, onboard flash")))((("basic operations", "backups")))((("onboard flash", "extracting")))You've modified the state of your Bone in a way that you'd like to preserve or share.
+You've modified the state of your Bone in a way that you'd like to preserve or share.
 
 ==== Solution
 
@@ -306,7 +306,7 @@ The http://elinux.org/Beagleboard[eLinux wiki] is the definitive place for the B
 === Updating the Onboard Flash
 
 ==== Problem
-((("onboard flash", "updating")))((("basic operations", "updating onboard flash")))You want to copy the microSD card to the onboard flash.
+You want to copy the microSD card to the onboard flash.
 
 ==== Solution
 

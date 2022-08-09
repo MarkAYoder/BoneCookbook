@@ -3,7 +3,7 @@
 
 === Introduction
 
-((("USB 2.0 host port")))((("sensors", "interfaces for")))In this chapter, you will learn how to sense the physical world with BeagleBone Black. Various types of electronic sensors, such as cameras and microphones, can be connected to the Bone using one or more interfaces provided by the standard USB 2.0 host port, as shown in <<sensors_host_port>>. 
+In this chapter, you will learn how to sense the physical world with BeagleBone Black. Various types of electronic sensors, such as cameras and microphones, can be connected to the Bone using one or more interfaces provided by the standard USB 2.0 host port, as shown in <<sensors_host_port>>. 
 
 [NOTE]
 ====
@@ -14,13 +14,13 @@ All the examples in the book assume you have cloned the Cookbook repository on w
 .The USB 2.0 host port
 image::figures/black_hardware_details.png[USB Host Port]
 
-((("P8/P9 cape headers", "diagram of")))((("cape headers", "P8/P9 diagram")))The two 46-pin cape headers (called +P8+ and +P9+) along the long edges of the board (<<sensors_P8P9_fig>>) provide connections for cape add-on boards, digital and analog sensors, and more.
+The two 46-pin cape headers (called +P8+ and +P9+) along the long edges of the board (<<sensors_P8P9_fig>>) provide connections for cape add-on boards, digital and analog sensors, and more.
 
 [[sensors_P8P9_fig]]
 .The P8 and P9 cape headers
 image::figures/P8P9_bb.png[Cape Headers P8 and P9]
 
-((("GPIO pins", "for sensor connections")))((("analog-to-digital converter (ADC) inputs")))((("input mode")))The simplest kind of sensor provides a single digital status, such as off or on, 
+The simplest kind of sensor provides a single digital status, such as off or on, 
 and can be handled by an _input mode_ of one of the Bone's 65 general-purpose input/output (GPIO) pins. More complex sensors can be connected by using one of the Bone's seven analog-to-digital converter (ADC) inputs or several I^2^C buses. 
 
 <<displays>> discusses some of the _output mode_ usages of the GPIO pins. 
@@ -31,7 +31,7 @@ All these examples assume that you know how to edit a file (<<basics_vsc>>) and 
 
 ==== Problem
 
-((("sensors", "connection options")))((("P8/P9 cape headers", "sensor connection options")))((("cape headers", "P8/P9 connection options")))You want to acquire and attach a sensor and need to understand your basic options.
+You want to acquire and attach a sensor and need to understand your basic options.
 
 ==== Solution
 
@@ -48,10 +48,10 @@ Choosing the simplest solution available enables you to move on quickly to addre
 === Input and Run a Python or JavaScript Application for Talking to Sensors
 
 ==== Problem
-((("sensors", "entering and running code")))((("code", "entering and running on sensors")))((("JavaScript", "sensor communication with")))You have your sensors all wired up and your Bone booted up, and you need to know how to enter and run your code.
+You have your sensors all wired up and your Bone booted up, and you need to know how to enter and run your code.
 
 ==== Solution
-((("vsc", "running JavaScript applications from")))((("bash command window")))You are just a few simple steps from running any of the recipes in this book.
+You are just a few simple steps from running any of the recipes in this book.
 
 . Plug your Bone into a host computer via the USB cable (<<basics_out_of_the_box>>).
 . Start Visual Studio Code (<<basics_vsc>>).
@@ -68,7 +68,7 @@ bone$ <strong>cd BoneCookbook/docs/02sensors/code</strong>
 .Entering commands in the VSC bash tab
 image::figures/vsc-bash-tab.png[VSC bash tab]
 
-((("cd (change directory) command")))((("commands", "cd (change directory)")))((("~ character")))((("directories", "changing")))Here, we issued the _change directory_ (+cd+) command without specifying a target directory. By default, it takes you to your home directory. Notice that the prompt has changed to reflect the change. 
+Here, we issued the _change directory_ (+cd+) command without specifying a target directory. By default, it takes you to your home directory. Notice that the prompt has changed to reflect the change. 
 
 [NOTE]
 ====
@@ -103,11 +103,11 @@ This process will work for any script in this book.
 
 ==== Problem
 
-((("sensors", "passive on/off")))((("passive on/off sensors")))((("on/off sensors")))((("pushbutton sensors")))((("magnetic switches")))You want to read a pushbutton, a magnetic switch, or other sensor that is electrically open or closed.
+You want to read a pushbutton, a magnetic switch, or other sensor that is electrically open or closed.
 
 ==== Solution
 
-((("pinMode()")))((("b.pinMode()")))((("attachInterrupt()")))((("b.attachInterrupt()")))Connect the switch to a GPIO pin and read from the proper place in +/sys/class/gpio"+.
+Connect the switch to a GPIO pin and read from the proper place in +/sys/class/gpio"+.
 
 To make this recipe, you will need:
 
@@ -145,7 +145,7 @@ include::code/pushbutton.js[]
 ----
 ====
 
-((("pushbutton.js file")))Put this code in a file called _pushbutton.js_ following the steps in <<sensors_getting_started>>. In the VSC +bash+ tab, run it by using the following commands:
+Put this code in a file called _pushbutton.js_ following the steps in <<sensors_getting_started>>. In the VSC +bash+ tab, run it by using the following commands:
 
 ++++
 <pre data-type="programlisting">
@@ -160,7 +160,7 @@ data = 1
 
 The command runs it. Try pushing the button. The code reads the pin and prints its current value.
 
-((("code", "stopping")))((("&#x005E;C (Ctrl-C) command")))((("commands", "&#x005E;C (Ctrl-C)")))You will have to press ^C (Ctrl-C) to stop the code.
+You will have to press ^C (Ctrl-C) to stop the code.
 
 If you want to use the magnetic reed switch wired as shown in <<js_pushbutton_fig>>, change +P9_42+ to +P9_26+ which is gpio +14+. 
 
@@ -206,11 +206,11 @@ gpiochip3 - 32 lines:
 
 ==== Problem
 
-((("sensors", "variable resistance")))((("variable resistance sensors", "reading")))(((position sensors)))(((light sensors)))(((force-sensitive resistors)))((("flex sensors")))You have a variable resistor, force-sensitive resistor, flex sensor, or any of a number of other sensors that output their value as a variable resistance, and you want to read their value with the Bone.
+You have a variable resistor, force-sensitive resistor, flex sensor, or any of a number of other sensors that output their value as a variable resistance, and you want to read their value with the Bone.
 
 ==== Solution
 
-((("analog-to-digital converter (ADC) inputs")))((("resistor divider circuits")))Use the Bone's analog-to-digital converters (ADCs) and a resistor divider circuit to detect the resistance in the sensor.
+Use the Bone's analog-to-digital converters (ADCs) and a resistor divider circuit to detect the resistance in the sensor.
 
 The Bone has seven built-in analog inputs that can easily read a resistive value. <<sensors_cape_headers_analog>> shows them on the lower part of the +P9+ header.
 
@@ -228,7 +228,7 @@ or
 
 ===== A variable resistor with three terminals
 
-((("trimpots")))((("variable resistance sensors", "three terminal")))<<sensors_analogIn_fig>> shows a simple variable resistor (trimpot) wired to the Bone. One end terminal is wired to the ADC 1.8 V power supply on pin +P9_32+, and the other end terminal is attached to the ADC ground (+P9_34+). The middle terminal is wired to one of the seven analog-in ports (+P9_36+).
+<<sensors_analogIn_fig>> shows a simple variable resistor (trimpot) wired to the Bone. One end terminal is wired to the ADC 1.8 V power supply on pin +P9_32+, and the other end terminal is attached to the ADC ground (+P9_34+). The middle terminal is wired to one of the seven analog-in ports (+P9_36+).
 
 [[sensors_analogIn_fig]]
 .Wiring a 10k&#8486; variable resistor (trimpot) to an ADC port
@@ -266,7 +266,7 @@ The code in <<sensors_analogIn_code>> outputs a value between 0 and 4096.
 
 ===== A variable resistor with two terminals
 
-((("variable resistance sensors", "two terminal")))Some resistive sensors have only two terminals, such as the flex sensor in <<sensors_flexResistor_fig>>.
+Some resistive sensors have only two terminals, such as the flex sensor in <<sensors_flexResistor_fig>>.
 The resistance between its two terminals changes when it is flexed.
 In this case, we need to add a fixed resistor in series with the flex sensor. 
 <<sensors_flexResistor_fig>> shows how to wire in a 22 k&#8486; resistor to give a voltage to measure
@@ -283,7 +283,7 @@ The code in <<py_analogIn_code>> and <<sensors_analogIn_code>> also works for th
 
 ==== Problem
 
-((("sensors", "analog or variable voltage")))((("distance sensors")))((("analog voltage sensors")))((("variable voltage sensors")))((("voltage sensors")))((("LV-MaxSonar-EZ1 Sonar Range Finder")))You want to measure distance with a http://bit.ly/1Mt5Elr[LV-MaxSonar-EZ1 Sonar Range Finder], which outputs a voltage in proportion to the distance.
+You want to measure distance with a http://bit.ly/1Mt5Elr[LV-MaxSonar-EZ1 Sonar Range Finder], which outputs a voltage in proportion to the distance.
 
 ==== Solution
 
@@ -331,10 +331,10 @@ include::code/ultrasonicRange.js[]
 === Reading a Distance Sensor (Variable Pulse Width Sensor)
 // TODO
 ==== Problem
-((("sensors", "variable pulse width")))((("variable pulse width sensors")))((("pulse width sensors")))((("HC-SR04 Ultrasonic Range Sensor")))((("distance sensors")))You want to use a HC-SR04 Ultrasonic Range Sensor with BeagleBone Black.
+You want to use a HC-SR04 Ultrasonic Range Sensor with BeagleBone Black.
 
 ==== Solution
-((("Trigger input")))((("Echo output")))The HC-SR04 Ultrasonic Range Sensor (shown in <<sensors_hc_sr04_image_fig>>) works by sending a trigger pulse to the _Trigger_ input and then measuring the pulse width on the _Echo_ output. The width of the pulse tells you the distance.
+The HC-SR04 Ultrasonic Range Sensor (shown in <<sensors_hc_sr04_image_fig>>) works by sending a trigger pulse to the _Trigger_ input and then measuring the pulse width on the _Echo_ output. The width of the pulse tells you the distance.
 
 [[sensors_hc_sr04_image_fig]]
 .HC-SR04 Ultrasonic range sensor
@@ -371,11 +371,11 @@ This code is more complex than others in this chapter, because we have to tell t
 
 ==== Problem
 
-((("sensors", "rotation")))((("position sensors")))((("rotary encoders")))((("dial position")))You have a motor or dial and want to detect rotation using a rotary encoder.
+You have a motor or dial and want to detect rotation using a rotary encoder.
 
 ==== Solution
 
-((("quadrature encoder")))((("eQEP2 encoder")))Use a rotary encoder (also called a _quadrature encoder_) connected to one of the Bone's eQEP ports, as shown in <<digital_rotaryEncoder_fig>>.
+Use a rotary encoder (also called a _quadrature encoder_) connected to one of the Bone's eQEP ports, as shown in <<digital_rotaryEncoder_fig>>.
 
 [[digital_rotaryEncoder_fig]]
 .Wiring a rotary encoder using eQEP2
@@ -475,11 +475,11 @@ You can also measure rotation by using a variable resistor (see <<sensors_analog
 // TODO
 ==== Problem
 
-((("sensors", "smart")))((("streaming data")))((("global positioning system (GPS)")))((("microcontrollers, reading data from")))((("data", "streaming")))You want to connect a smart sensor that uses a built-in microcontroller to stream data, such as a global positioning system (GPS), to the Bone and read the data from it.
+You want to connect a smart sensor that uses a built-in microcontroller to stream data, such as a global positioning system (GPS), to the Bone and read the data from it.
 
 ==== Solution
 
-((("serial ports", "UARTs")))((("UARTs (serial ports)")))The Bone has several serial ports (UARTs) that you can use to read data from an external microcontroller included in smart sensors, such as a GPS. Just wire one up, and you'll soon be gathering useful data, such as your own location.
+The Bone has several serial ports (UARTs) that you can use to read data from an external microcontroller included in smart sensors, such as a GPS. Just wire one up, and you'll soon be gathering useful data, such as your own location.
 
 Here's what you'll need:
 
@@ -492,7 +492,7 @@ Wire your GPS, as shown in <<digital_GPS_fig>>.
 .Wiring a GPS to UART 4
 image::figures/GPS_bb.png[GPS]
 
-((("National Marine Electronics Association (NMEA)")))The GPS will produce raw National Marine Electronics Association (NMEA) data that's easy for a computer to read, but not for a human. 
+The GPS will produce raw National Marine Electronics Association (NMEA) data that's easy for a computer to read, but not for a human. 
 There are many utilities to help convert such sensor data into a human-readable form. For this GPS, run the following command to load a NMEA parser:
 
 ++++
@@ -536,7 +536,7 @@ image::figures/cape-headers-serial.png[UART outputs]
 
 ==== Problem
 
-((("sensors", "temperature")))((("temperature sensors", "TMP101 sensor")))((("digital temperature sensors")))((("TMP101 sensor")))((("environmental sensors", "temperature")))((("I&#x00B2;C-based serial protocol")))You want to measure a temperature using a digital temperature sensor.
+You want to measure a temperature using a digital temperature sensor.
 
 ==== Solution
 
@@ -729,7 +729,7 @@ This gets only 8 bits for the temperature.  See the TMP101 datasheet for details
 
 ==== Problem
 
-((("sensors", "temperature")))((("environmental sensors", "temperature")))((("temperature sensors", "Dallas Semiconductor DS18B20")))((("Dallas Semiconductor DS18B20")))((("DS18B20 temperature sensor")))You want to measure a temperature using a Dallas Semiconductor DS18B20 temperature sensor.
+You want to measure a temperature using a Dallas Semiconductor DS18B20 temperature sensor.
 
 ==== Solution
 
@@ -827,7 +827,7 @@ Each temperature sensor has a unique serial number, so you can have several all 
 // === Sensing All Sorts of Things with SensorTag via Bluetooth v4.0
 // //  TODO Remove
 // ==== Problem
-// ((("sensors", "Bluetooth 4.0 interface for")))((("Bluetooth Low Energy (BLE)")))((("TI SensorTag")))((("SensorTag")))((("environmental sensors", "TI SensorTag")))((("temperature sensors", "Sensor Tag")))((("humidity sensor")))((("accelerometers")))((("pressure sensors")))((("magnetometers")))((("gyroscopes")))((("motion sensors")))You have a TI SensorTag, and you want to interface it to BeagleBone Black via Bluetooth Low Energy (BLE).
+// You have a TI SensorTag, and you want to interface it to BeagleBone Black via Bluetooth Low Energy (BLE).
 
 // ==== Solution
 // TI's http://bit.ly/1C58WIN[SensorTag] (shown in <<sensors_sensortag_fig>>) combines six sensors (temperature, humidity, accelerometer, pressure, magnetometer, and gyroscope) in one package that interfaces via http://bit.ly/1EzMo4x[Bluetooth Low Energy]. 
@@ -937,7 +937,7 @@ Each temperature sensor has a unique serial number, so you can have several all 
 // TODO Remove?
 ==== Problem
 
-((("audio files", "recording")))((("recording audio files")))((("capes", "audio")))((("USB audio adapters")))((("files", "audio")))BeagleBone doesn't have audio built in, but you want to play and record files.
+BeagleBone doesn't have audio built in, but you want to play and record files.
 
 ==== Solution
 
@@ -948,7 +948,7 @@ such as the one shown in <<usb_audio_dongle>>. Some adapters that I've tested ar
 .A USB audio dongle
 image::figures/audioDongle.jpg[Audio Dongle]
 
-((("Advanced Linus Sound Architecture (ALSA)")))Drivers for the http://bit.ly/1MrAJUR[Advanced Linux Sound Architecture] (ALSA) are already installed on the Bone. You can list the recording and playing devices on your Bone by using +aplay+ and +arecord+, as shown in <<sensors_alsa>>. BeagleBone Black has audio-out on the HDMI interface. It's listed as +card 0+ in <<sensors_alsa>>. +card 1+ is my USB audio adapter's audio out.
+Drivers for the http://bit.ly/1MrAJUR[Advanced Linux Sound Architecture] (ALSA) are already installed on the Bone. You can list the recording and playing devices on your Bone by using +aplay+ and +arecord+, as shown in <<sensors_alsa>>. BeagleBone Black has audio-out on the HDMI interface. It's listed as +card 0+ in <<sensors_alsa>>. +card 1+ is my USB audio adapter's audio out.
 
 [[sensors_alsa]]
 .Listing the ALSA audio output and input devices on the Bone

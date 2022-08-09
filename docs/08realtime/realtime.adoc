@@ -2,11 +2,11 @@
 == Real-Time I/O
 
 === Introduction
-((("real-time systems")))((("input/output (I/O)", "soft vs. hard real-time systems")))Sometimes, when BeagleBone Black interacts with the physical world, it needs to respond in a timely manner. For example, your robot has just detected that one of the driving motors needs to turn a bit faster. Systems that can respond quickly to a real event are known as _real-time_ systems. There are two broad categories of real-time systems: soft and hard.  
+Sometimes, when BeagleBone Black interacts with the physical world, it needs to respond in a timely manner. For example, your robot has just detected that one of the driving motors needs to turn a bit faster. Systems that can respond quickly to a real event are known as _real-time_ systems. There are two broad categories of real-time systems: soft and hard.  
 
-((("soft real-time systems")))((("hard real-time systems")))In a _soft real-time_ system, the real-time requirements should be met _most_ of the time, where _most_ depends on the system. A video playback system is a good example. The goal might be to display 60 frames per second, but it doesn't matter much if you miss a frame now and then. In a 100 percent _hard real-time_ system, you can never fail to respond in time. Think of an airbag deployment system on a car. You can't even be pass:[<span class="keep-together">50 ms late</span>].
+In a _soft real-time_ system, the real-time requirements should be met _most_ of the time, where _most_ depends on the system. A video playback system is a good example. The goal might be to display 60 frames per second, but it doesn't matter much if you miss a frame now and then. In a 100 percent _hard real-time_ system, you can never fail to respond in time. Think of an airbag deployment system on a car. You can't even be pass:[<span class="keep-together">50 ms late</span>].
 
-((("Linux", "real-time processing with")))((("ARM processor")))((("programmable real-time units (PRUs)")))Systems running Linux generally can't do 100 percent hard real-time processing, because Linux gets in the way. However, the Bone has an ARM processor running Linux and two additional 32-bit programmable real-time units (PRUs http://bit.ly/1EzTPZv[Ti AM33XX PRUSSv2]) available to do real-time processing. Although the PRUs can achieve 100 percent hard real-time, they take some effort to use.
+Systems running Linux generally can't do 100 percent hard real-time processing, because Linux gets in the way. However, the Bone has an ARM processor running Linux and two additional 32-bit programmable real-time units (PRUs http://bit.ly/1EzTPZv[Ti AM33XX PRUSSv2]) available to do real-time processing. Although the PRUs can achieve 100 percent hard real-time, they take some effort to use.
 
 This chapter shows several ways to do real-time input/output (I/O), starting with the effortless, yet slower Python and moving up with increasing speed (and effort) to using the PRUs.
 
@@ -19,7 +19,7 @@ In this chapter, as in the others, we assume that you are logged in as +debian+ 
 === I/O with Python
 
 ==== Problem
-((("input/output (I/O)", "with Python")))((("Python", "input/output (I/O) with")))You want to read an input pin and write it to the output as quickly as possible with Python.
+You want to read an input pin and write it to the output as quickly as possible with Python.
 
 ==== Solution
 <<sensors_pushbutton>> shows how to read a pushbutton switch and <<displays_externalLED>> controls an external LED. This recipe combines the two to read the switch and turn on the LED in response to it. To make this recipe, you will need:
@@ -75,7 +75,7 @@ Press ^C (Ctrl-C) to stop the code.
 === I/O with C
 
 ==== Problem
-((("input/output (I/O)", "with C")))((("C language", "real time I/O with")))You want to use the C language to process inputs in real time, or Python/JavaScript isn't fast enough.
+You want to use the C language to process inputs in real time, or Python/JavaScript isn't fast enough.
 
 ==== Solution
 <<realtime_Python>> shows how to control an LED with a pushbutton using Python. This recipe accomplishes the same thing using C. It does it in the same way, opening the correct +/sys/class/gpio+ files and reading an writing them.
@@ -114,14 +114,14 @@ The code responds quickly to the pushbutton. If you need more speed, comment-out
 === I/O with devmem2
 
 ==== Problem
-((("input/output (I/O)", "with devmem2")))((("devmem2 utility")))((("AM335x Technical Reference Manual")))Your C code isn't responding fast enough to the input signal. You want to read the GPIO registers directly.
+Your C code isn't responding fast enough to the input signal. You want to read the GPIO registers directly.
 
 ==== Solution
 The solution is to use a simple utility called +devmem2+, with which you can read and write registers from the command line.
 
 [WARNING]
 ====
-((("binary numbers")))((("hex numbers")))This solution is much more involved than the previous ones. You need to understand binary and hex numbers and be able to read the http://bit.ly/1B4Cm45[AM335x Technical Reference Manual].
+This solution is much more involved than the previous ones. You need to understand binary and hex numbers and be able to read the http://bit.ly/1B4Cm45[AM335x Technical Reference Manual].
 ====
 
 First, download and install +devmem2+:
@@ -204,7 +204,7 @@ This is much more tedious than the previous methods, but it's what's necessary i
 === I/O with C and mmap()
 
 ==== Problem
-((("input/output (I/O)", "with C and mmap()")))((("C language", "mapping GPIO registers with mmap() and")))((("mmap()")))Your C code isn't responding fast enough to the input signal.
+Your C code isn't responding fast enough to the input signal.
 
 ==== Solution
 In smaller processors that aren't running an operating system, you can read and write a given memory address directly from C. With Linux running on Bone, many of the memory locations are hardware protected, so you can't accidentally access them directly. 
@@ -440,9 +440,9 @@ The PREEMPT-RT times are all under a 150 pass:[&mu;]s.
 
 [[realtime_simpPRU]]
 === I/O with simpPRU
-// TODO Get t his working
+// TODO Get this working
 ==== Problem
-((("input/output (I/O)", "with programmable real-time units (PRUs)")))((("programmable real-time units (PRUs)")))((("PRU Speak")))You require better timing than running C on the ARM can give you.
+You require better timing than running C on the ARM can give you.
 
 ==== Solution
 The AM335x processor on the Bone has an ARM processor that is running Linux, but it also has two 32-bit PRUs that are available for processing I/O. It takes a fair amount of understanding to program the PRU. Fortunately, https://simppru.readthedocs.io/en/latest/[simpPRU] is an intuitive language for PRU which compiles down to PRU C. This solution shows how to use it.

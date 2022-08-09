@@ -3,17 +3,17 @@
 
 === Introduction
 
-((("motors", "types of")))One of the many fun things about embedded computers is that you can move physical things with motors.
+One of the many fun things about embedded computers is that you can move physical things with motors.
 But there are so many different kinds of motors (_servo_, _stepper_, _DC_), so how do you select the right one?
 
 The type of motor you use depends on the type of motion you want:
 
 R/C or hobby servo motor::
- Can be quickly positioned at various absolute angles, but some don't spin. In fact, many can turn only about 180{deg}.((("R/C motors", see="servo motors")))((("hobby servo motors", see="servo motors")))((("servo motors", "motions available")))
+ Can be quickly positioned at various absolute angles, but some don't spin. In fact, many can turn only about 180{deg}.
 Stepper motor::
- Spins and can also rotate in precise relative angles, such as turning 45{deg}. Stepper motors come in two types: _bipolar_ (which has four wires) and _unipolar_ (which has five or six wires).((("stepper motors", "types of")))((("stepper motors", "motions available")))((("bipolar stepper motors")))((("unipolar stepper motors")))
+ Spins and can also rotate in precise relative angles, such as turning 45{deg}. Stepper motors come in two types: _bipolar_ (which has four wires) and _unipolar_ (which has five or six wires).
 DC motor::
- Spins either clockwise or counter-clockwise and can have the greatest speed of the three. But a DC motor can't easily be made to turn to a given angle.((("DC motors", "motions available")))
+ Spins either clockwise or counter-clockwise and can have the greatest speed of the three. But a DC motor can't easily be made to turn to a given angle.
 
 When you know which type of motor to use, interfacing is easy. This chapter shows how to interface with each of these motors.
 
@@ -37,7 +37,7 @@ All the examples in the book assume you have cloned the Cookbook repository on w
 
 ==== Problem
 
-((("motors", "servo motor control")))((("analogWrite()")))((("pulse width modulation (PWM)")))((("servo motors", "controlling")))((("b.analogWrite()")))You want to use BeagleBone to control the absolute position of a servo motor.
+You want to use BeagleBone to control the absolute position of a servo motor.
 
 ==== Solution
 
@@ -134,7 +134,7 @@ include::code/servoEncoder.py[]
 
 ==== Problem
 
-((("motors", "DC motor speed control")))((("DC motors", "controlling speed of")))((("solenoids", seealso="DC motors")))You have a DC motor (or a solenoid) and want a simple way to control its speed, but not the direction.
+You have a DC motor (or a solenoid) and want a simple way to control its speed, but not the direction.
 
 ==== Solution
 
@@ -195,7 +195,7 @@ How do you change the direction of the motor? See <<motors_dcDirection>>.
 // TODO Not tested for 2nd edition
 ==== Problem
 
-((("motors", "DC motor direction control")))((("DC motors", "controlling direction of")))((("H-bridges")))((("L293D H-Bridge IC")))You would like your DC motor to go forward and backward.
+You would like your DC motor to go forward and backward.
 
 ==== Solution
 
@@ -231,7 +231,7 @@ include::code/h-bridgeMotor.js[]
 
 ==== Problem
 
-((("motors", "bipolar stepper control")))((("bipolar stepper motors")))((("stepper motors", "controlling bipolar")))((("H-bridges")))((("L293D H-Bridge IC")))You want to drive a stepper motor that has four wires.
+You want to drive a stepper motor that has four wires.
 
 ==== Solution
 
@@ -281,7 +281,7 @@ When you run the code, the stepper motor will rotate back and forth.
 
 ==== Problem
 
-((("motors", "unipolar stepper control", seealso="input/output (I/O)")))((("unipolar stepper motors")))((("stepper motors", "controlling unipolar")))((("ULN2003 Darlington Transistor Array IC")))You want to drive a stepper motor that has five or six wires.
+You want to drive a stepper motor that has five or six wires.
 
 ==== Solution
 

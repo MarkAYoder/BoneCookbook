@@ -3,14 +3,14 @@
 
 === Introduction
 
-((("networking", "Internet connections")))You can easily connect BeagleBone Black to the Internet via a wire (<<networking_wired>>), wirelessly (<<networking_wireless>>), or through the USB to a host and then to the Internet (<<networking_usb>>). Either way, it opens up a world of possibilities for the "Internet of Things" (IoT). 
+You can easily connect BeagleBone Black to the Internet via a wire (<<networking_wired>>), wirelessly (<<networking_wireless>>), or through the USB to a host and then to the Internet (<<networking_usb>>). Either way, it opens up a world of possibilities for the "Internet of Things" (IoT). 
 
 Now that you're online, this chapter offers various things to do with your connection.
 
 === Accessing Your Host Computer's Files on the Bone
 
 ==== Problem
-((("networking", "accessing files on host computer")))((("host computer", "accessing files from")))((("files", "accessing from host computer")))((("sshfs command")))((("commands", "sshfs")))You want to access a file on a Linux host computer that's attached to the Bone.
+You want to access a file on a Linux host computer that's attached to the Bone.
 
 ==== Solution
 If you are running Linux on a host computer attached to BeagleBone Black, it's not hard to mount the Bone's files on the host or the host's files on the Bone by using +sshfs+. Suppose that you want to access files on the host from the Bone. First, install +sshfs+:
@@ -32,7 +32,7 @@ bone$ <strong>ls</strong>
 </pre>
 ++++
 
-((("ls command")))((("commands", "ls")))((("files", "listing")))((("directories", "listing files in")))The +ls+ command will now list the files in your home directory on your host computer.  You can edit them as if they were local to the Bone.  You can access all the files by substituting +:/+ for the +:.+ following the IP address.
+The +ls+ command will now list the files in your home directory on your host computer.  You can edit them as if they were local to the Bone.  You can access all the files by substituting +:/+ for the +:.+ following the IP address.
 
 You can go the other way, too. Suppose that you are on your Linux host computer and want to access files on your Bone. Install +sshfs+:
 
@@ -69,7 +69,7 @@ bone$ <strong>umount home</strong>
 === Serving Web Pages from the Bone
 
 ==== Problem
-((("networking", "serving web pages")))((("web servers", "using BeagleBone as")))You want to use BeagleBone Black as a web server.
+You want to use BeagleBone Black as a web server.
 
 ==== Solution
 BeagleBone Black already has the +nginx+ web server running.
@@ -99,7 +99,7 @@ image::figures/nginxTest.png[test.html served by nginx]
 === Interacting with the Bone via a Web Browser
 
 ==== Problem
-((("networking", "interaction via web browsers")))((("web servers", "creating your own")))BeagleBone Black is interacting with the physical world nicely and you want to display that information on a web browser.
+BeagleBone Black is interacting with the physical world nicely and you want to display that information on a web browser.
 
 ==== Solution
 https://www.fullstackpython.com/flask.html[Flask] is a Python web framework built with a small core and easy-to-extend philosophy. <<networking_builtin_server>> shows how to use nginx, the web server that's already running. This recipe shows how easy it is to build your own server. This is an adaptation of https://towardsdatascience.com/python-webserver-with-flask-and-raspberry-pi-398423cc6f5d[Python WebServer With Flask and Raspberry Pi].
@@ -204,7 +204,7 @@ Note that the page’s content changes dynamically any time that you refresh it 
 === Displaying GPIO Status in a Web Browser - reading a button
 
 ==== Problem
-((("networking", "displaying GPIO pin status")))((("GPIO pins", "displaying status of")))You want a web page to display the status of a GPIO pin.
+You want a web page to display the status of a GPIO pin.
 
 ==== Solution
 This solution builds on the Flask-based web server solution in <<networking_nodejs>>.  
@@ -343,7 +343,7 @@ Try clicking the "TURN ON" and "TURN OFF" buttons and your LED will respond.
 === Plotting Data
 
 ==== Problem
-((("networking", "plotting live data")))((("plotting live data")))((("data", "plotting live")))((("flot plotting package")))You have live, continuous,  data coming into your Bone via one of the Analog Ins, and you want to plot it.
+You have live, continuous,  data coming into your Bone via one of the Analog Ins, and you want to plot it.
 
 ==== Solution
 Analog in - Continuous
@@ -532,7 +532,7 @@ bone$ </strong>echo 0 > /sys/bus/iio/devices/iio:device0/buffer/enable</strong>
 === Sending an Email
 
 ==== Problem
-((("networking", "sending email")))((("email")))((("Gmail")))You want to send an email via Gmail from the Bone.
+You want to send an email via Gmail from the Bone.
 
 ==== Solution
 This example came from https://realpython.com/python-send-email/. 
@@ -563,11 +563,11 @@ bone$ <strong>.\emailTest.py</strong>
 
 [WARNING]
 ====
-((("security issues", "email")))This solution requires your Gmail password to be in plain text in a file, which is a security problem. Make sure you know who has access to your Bone. Also, if you remove the microSD card, make sure you know who has access to it. Anyone with your microSD card can read your Gmail password.
+This solution requires your Gmail password to be in plain text in a file, which is a security problem. Make sure you know who has access to your Bone. Also, if you remove the microSD card, make sure you know who has access to it. Anyone with your microSD card can read your Gmail password.
 ====
 
 ==== Discussion
-((("bulk email")))Be careful about putting this into a loop.  Gmail presently limits you to http://group-mail.com/email-marketing/how-to-send-bulk-emails-using-gmail/[500 emails per day and 10 MB per message].
+Be careful about putting this into a loop.  Gmail presently limits you to http://group-mail.com/email-marketing/how-to-send-bulk-emails-using-gmail/[500 emails per day and 10 MB per message].
 
 See https://realpython.com/python-send-email/ for an example that sends an attached file.
 
@@ -576,7 +576,7 @@ See https://realpython.com/python-send-email/ for an example that sends an attac
 // // TODO  My twilio account is suspended.
 
 // ==== Problem
-// ((("networking", "sending SMS messages")))((("SMS messages")))((("text messages")))((("Twilio")))You want to send a text message from BeagleBone Black.
+// You want to send a text message from BeagleBone Black.
 
 // ==== Solution
 // There are a number of SMS services out there. This recipe uses Twilio because you can use it for free, but you will need to http://bit.ly/1MrHBBF[verify the number] to which you are texting. First, go to https://www.twilio.com/[Twilio's home page] and set up an account. Note your account SID and authorization token. If you are using the free version, be sure to http://bit.ly/19c7GZ7[verify your numbers].
@@ -608,7 +608,7 @@ See https://realpython.com/python-send-email/ for an example that sends an attac
 === Displaying the Current Weather Conditions
 
 ==== Problem
-((("networking", "displaying weather conditions")))((("current weather conditions")))((("weather APIs")))You want to display the current weather conditions.
+You want to display the current weather conditions.
 
 ==== Solution
 Because your Bone is on the network, it's not hard to access the current weather conditions from a weather API. 
@@ -657,7 +657,7 @@ The weather API returns lots of information. Use Python to extract the informati
 === Sending and Receiving Tweets
 
 ==== Problem
-((("networking", "sending/receiving Twitter posts")))((("tweets, sending/receiving")))((("Twitter posts")))You want to send and receive tweets (Twitter posts) with your Bone.
+You want to send and receive tweets (Twitter posts) with your Bone.
 
 ==== Solution
 
@@ -758,7 +758,7 @@ This opens up many new possibilities. You can read a temperature sensor and twee
 // === Wiring the IoT with Node-RED
 // // TODO  This needs updating
 // ==== Problem
-// ((("networking", "graphical programing via Node-RED")))((("Node-RED")))((("Internet", "interactions via Node-RED")))You want BeagleBone to interact with the Internet, but you want to program it graphically.
+// You want BeagleBone to interact with the Internet, but you want to program it graphically.
 
 // ==== Solution
 // http://nodered.org/[Node-RED] is a visual tool for wiring the IoT. It makes it easy to turn on a light when a certain hashtag is tweeted, or spin a motor if the forecast is for hot weather.
@@ -847,7 +847,7 @@ This opens up many new possibilities. You can read a temperature sensor and twee
 // image::figures/node-twitter-beagle.png[node-red beagle hash]
 
 // [start=8]
-// . Go back to the left panel, scroll up to the top, and then drag the +debug+ node to the canvas. (+debug+ is in the +output+ section.)((("debugging", "in node-RED")))
+// . Go back to the left panel, scroll up to the top, and then drag the +debug+ node to the canvas. (+debug+ is in the +output+ section.)
 // . Connect the two nodes by clicking and dragging (<<networking_node_twitter_debug_fig>>).
 
 // [[networking_node_twitter_debug_fig]]
@@ -861,7 +861,7 @@ This opens up many new possibilities. You can read a temperature sensor and twee
 // Your Node-RED flow is now running on the Bone. Test it by going to Twitter and tweeting something with the hashtag +#BeagleBone+. Your Bone is now responding to events happening out in the world.
 
 // ===== Adding an LED Toggle
-// ((("LEDs", "toggling with Node-RED")))Now, we're ready to add the LED toggle:
+// Now, we're ready to add the LED toggle:
 
 // . Wire up an LED as shown in <<displays_externalLED>>. Mine is wired to +P9_14+.  
 // . Scroll to the bottom of the left panel and drag the +bbb-discrete-out+ node (second from the bottom of the +bbb+ nodes) to the canvas and wire it (<<networking_node_bbb_out_fig>>).
@@ -886,7 +886,7 @@ This opens up many new possibilities. You can read a temperature sensor and twee
 // === Communicating over a Serial Connection to an Arduino or LaunchPad
 // // TODO Test
 // ==== Problem
-// ((("networking", "interaction over serial connection")))((("serial ports", "interaction via")))((("UARTs (serial ports)")))((("Arduino")))((("LaunchPad")))You would like your Bone to talk to an Arduino or LaunchPad.
+// You would like your Bone to talk to an Arduino or LaunchPad.
 
 // ==== Solution
 // The common serial port (also know as a UART) is the simplest way to talk between the two.  Wire it up as shown in <<networking_launchPad_fig>>.

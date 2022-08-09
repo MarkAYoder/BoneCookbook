@@ -23,7 +23,7 @@ All these examples assume that you know how to edit a file (<<basics_vsc>>) and 
 === Toggling an Onboard LED
 
 ==== Problem
-((("LEDs", "toggling onboard")))((("outputs", "toggling onboard LEDs")))((("displays", "toggling onboard LEDs")))((("USER LEDs")))You want to know how to flash the four LEDs that are next to the Ethernet port on the Bone.
+You want to know how to flash the four LEDs that are next to the Ethernet port on the Bone.
 
 ==== Solution
 Locate the four onboard LEDs shown in <<js_internLED_fig>>. They are labeled +USR0+ through +USR3+, but we'll refer to them as the +USER+ LEDs.
@@ -72,7 +72,7 @@ The +USER0+ LED should now be flashing.
 === Toggling an External LED
 
 ==== Problem
-((("displays", "toggling external LEDs")))((("outputs", "toggling external LEDs")))((("LEDs", "toggling external")))((("series resistors")))((("limiting resistors")))((("resistors", "toggling external LEDs with")))You want to connect your own external LED to the Bone.
+You want to connect your own external LED to the Bone.
 
 ==== Solution
 Connect an LED to one of the GPIO pins using a series resistor to limit the current.  To make this recipe, you will need:
@@ -121,7 +121,7 @@ Save your file and run the code as before (<<displays_onboardLED>>).
 === Toggling a High-Voltage External Device
 
 ==== Problem
-((("outputs", "controlling high-voltage devices")))((("120 V devices")))((("high-voltage devices")))((("hardware", "high-voltage devices")))You want to control a device that runs at 120 V.
+You want to control a device that runs at 120 V.
 
 ==== Solution
 Working with 120 V can be tricky--even dangerous--if you aren't careful.  Here's a safe way to do it.
@@ -143,11 +143,11 @@ After you've wired it, because this uses the same output pin as <<displays_exter
 === Fading an External LED
 
 ==== Problem
-((("outputs", "fading external LEDs")))((("displays", "fading external LEDs")))((("LEDs", "fading external")))You want to change the brightness of an LED from the Bone.
+You want to change the brightness of an LED from the Bone.
 
 ==== Solution
 
-((("analogWrite()")))((("b.analogWrite()")))((("pulse width modulation (PWM)"))) Use the Bone's pulse width modulation (PWM) hardware to fade an LED. We'll use the same circuit as before (<<displays_externLED_fig>>). Find the code in <<py_fadeLED_code>> Next configure the pins.  We are using P9_14 so run:
+ Use the Bone's pulse width modulation (PWM) hardware to fade an LED. We'll use the same circuit as before (<<displays_externLED_fig>>). Find the code in <<py_fadeLED_code>> Next configure the pins.  We are using P9_14 so run:
 
 ++++
 <pre>
@@ -237,7 +237,7 @@ Your LED should now be flashing.
 === Writing to an LED Matrix
 
 ==== Problem
-((("displays", "LED matrix")))((("outputs", "LED matrix")))((("LEDs", "I&#x00B2;C-based matrix")))((("I&#x00B2;C-based serial protocol")))((("Adafruit Bicolor 8x8 LED Square Pixel Matrix")))You have an I^2^C-based LED matrix to interface.
+You have an I^2^C-based LED matrix to interface.
 
 ==== Solution
 There are a number of nice LED matrices that allow you to control several LEDs via one interface. This solution uses an http://www.adafruit.com/products/902[Adafruit Bicolor 8x8 LED Square Pixel Matrix w/I^2^C Backpack].
@@ -318,7 +318,7 @@ include::code/matrixLEDi2c.py[]
 === Driving a 5 V Device
 // TODO  Not tested for 2nd edition
 ==== Problem
-((("outputs", "controlling 5 V devices")))((("hardware", "5 V devices")))((("5 V devices")))((("level translators")))((("PCA9306 level translator")))You have a 5 V device to drive, and the Bone has 3.3 V outputs.
+You have a 5 V device to drive, and the Bone has 3.3 V outputs.
 
 ==== Solution
 If you are lucky, you might be able to drive a 5 V device from the Bone's 3.3 V output. Try it and see if it works. If not, you need a level translator.  
@@ -344,7 +344,7 @@ If your device needs more current than the Bone's 5 V power supply provides, you
 === Writing to a NeoPixel LED String Using the PRUs
 
 ==== Problem
-((("displays", "NeoPixel LED strings")))((("outputs", "NeoPixel LED strings")))((("Adafruit Neopixel LED strings")))((("Neopixel LED strings")))((("LEDs", "Adafruit Neopixel LED strings")))You have an http://www.adafruit.com/products/1138[Adafruit NeoPixel LED string] or http://www.adafruit.com/products/1487[Adafruit NeoPixel LED matrix] and want to light it up.
+You have an http://www.adafruit.com/products/1138[Adafruit NeoPixel LED string] or http://www.adafruit.com/products/1487[Adafruit NeoPixel LED matrix] and want to light it up.
 
 ==== Solution
 
@@ -357,7 +357,7 @@ image::figures/neo_bb.png["NeoPixel Ring"]
 // === Writing to a NeoPixel LED String Using LEDscape
 // // TODO Remove?
 // ==== Problem
-// ((("displays", "NeoPixel LED strings")))((("outputs", "NeoPixel LED strings")))((("Adafruit Neopixel LED strings")))((("Neopixel LED strings")))((("LEDs", "Adafruit Neopixel LED strings")))You have an http://www.adafruit.com/products/1138[Adafruit NeoPixel LED string] or http://www.adafruit.com/products/1487[Adafruit NeoPixel LED matrix] and want to light it up.
+// You have an http://www.adafruit.com/products/1138[Adafruit NeoPixel LED string] or http://www.adafruit.com/products/1487[Adafruit NeoPixel LED matrix] and want to light it up.
 
 // ==== Solution
 
@@ -383,7 +383,7 @@ image::figures/neo_bb.png["NeoPixel Ring"]
 // === Making Your Bone Speak
 // // TODO Not tested for 2nd edition
 // ==== Problem
-// ((("text-to-speech programs")))((("flite text-to-speech program")))((("audio files", "text-to-speech programs")))((("speech")))((("files", "audio")))Your Bone wants to talk.
+// Your Bone wants to talk.
 
 // ==== Solution
 // Just install the _flite_ text-to-speech program:
