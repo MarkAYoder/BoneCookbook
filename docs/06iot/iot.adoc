@@ -767,6 +767,17 @@ http://nodered.org/[Node-RED] is a visual tool for wiring the IoT. It makes it e
 
 Node-RED is already installed and listening on port +1880+. Point your browser to http://192.168.7.2:1880, and you will see the screen shown in <<networking_node_red_fig>>.
 
+[NOTE]
+====
+If NODE-RED doesn't appear, run the following in a terminal widow.
+++++
+<pre data-type="programlisting">
+bone$ <strong>sudo systemctl start nodered.service</strong>
+</pre>
+++++
+Wait a bit, then refresh the browser window running NODE-RED.
+====
+
 [[networking_node_red_fig]]
 .The Node-RED interface
 image::figures/node-red.png[node-red]
@@ -780,7 +791,7 @@ image::figures/node-red-inject.png[node-red-inject]
 
 Set the *msg.payload* to *number* and enter *1*.  Click *Done*. Make a second *inject* node, but make it *0*.
 
-[[networking_node_red_inject_fig]]
+[[networking_node_red_inject2_fig]]
 .Placing two injects
 image::figures/node-red-inject2.png[node-red-inject2]
 
@@ -853,7 +864,7 @@ image::figures/node-twitter-auth.png[node-red authentication]
 image::figures/node-twitter-auth2.png[node-red authentication2]
 
 [start=5]
-. Click on the link,  http://developer.twitter.com/en/apps[] shown in <<networking_node_twitter_auth2_fig>>, and follow the steps to set up your twitter app. Copy from there your *API key* etc.  
+. Click on the link,  http://developer.twitter.com/en/apps[] shown in <<networking_node_twitter_auth2_fig>>, and follow the steps to set up your twitter app. Copy your *API key* etc. from there.  
 
 [start=7]
 . When you're back to Node-RED, click the *Add* button, add your Twitter credentials, enter the hashtags to respond to (<<networking_node_twitter_beagle_fig>>), and then click the *Done* pass:[<span class="keep-together">button</span>].
@@ -863,7 +874,7 @@ image::figures/node-twitter-auth2.png[node-red authentication2]
 image::figures/node-twitter-beagle.png[node-red beagle hash]
 
 [start=8]
-. Go back to the left panel, scroll up to the top, and then drag the +debug+ node to the canvas.
+. Go back to the left panel, scroll up to the top, and then drag the *debug* node to the canvas.
 . Connect the two nodes by clicking and dragging (<<networking_node_twitter_debug_fig>>).
 
 [[networking_node_twitter_debug_fig]]
@@ -872,7 +883,7 @@ image::figures/node-twitter-debug.png[node-red debug]
 
 [start=10]
 . In the right panel, in the upper-right corner, click the "debug" tab.
-. Finally, click the Deploy button above the "debug" tab.
+. Finally, click the *Deploy* button.
 
 Your Node-RED flow is now running on the Bone. Test it by going to Twitter and tweeting something with the hashtag +#BeagleBone+. Your Bone is now responding to events happening out in the world.
 

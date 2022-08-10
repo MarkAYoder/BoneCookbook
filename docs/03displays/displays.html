@@ -728,17 +728,120 @@ function toggle() {
 <p>Save your file and run the code as before (<a href="#displays_onboardLED">Toggling an Onboard LED</a>).</p>
 </div>
 </div>
+<div class="sect3">
+<h4 id="_discussion">Discussion</h4>
+<div class="paragraph">
+<p>This method of controlling and external device uses <strong>sysfs</strong>, a virtual file system that exposes drivers to userspace.  /sys/class is a comment interace.</p>
+</div>
+<pre data-type="programlisting">
+bone$ <strong>cd /sys/class</strong>
+bone$ <strong>ls</strong>
+ata_device  devcoredump     extcon           hidraw       leds      phy           rtc          tpm        usb_role
+ata_link    devfreq         firmware         hwmon        mbox      power_supply  scsi_device  tpmrm      vc
+ata_port    devfreq-event   gb_authenticate  i2c-adapter  mdio_bus  pps           scsi_disk    tty        video4linux
+backlight   devlink         gb_fw_mgmt       i2c-dev      mem       ptp           scsi_host    typec      vtconsole
+bdi         dma             gb_loopback      ieee802154   misc      pwm           spi_master   typec_mux  wakeup
+block       drm             gb_raw           input        mmc_host  regulator     spi_slave    ubi        watchdog
+bluetooth   drm_dp_aux_dev  <strong>gpio</strong>             iommu        mtd       remoteproc    spidev       udc
+bsg         dvb             graphics         lcd          net       rfkill        thermal      uio
+</pre>
+<div class="paragraph">
+<p>There are many interfaces.  We&#8217;re interested in the <strong>gpio</strong> interface.</p>
+</div>
+<pre data-type="programlisting">
+bone$ <strong>cd gpio</strong>
+bone$ <strong>ls</strong>
+export   gpio113  gpio13  gpio23  gpio32  gpio38  gpio47  gpio60  gpio67  gpio72  gpio78  gpio87      gpiochip64
+gpio10   gpio114  gpio14  gpio26  gpio33  gpio39  gpio48  gpio61  gpio68  gpio73  gpio79  gpio88      gpiochip96
+gpio11   gpio115  gpio15  gpio27  gpio34  gpio4   gpio49  gpio62  gpio69  gpio74  gpio8   gpio89      unexport
+gpio110  gpio116  gpio2   gpio3   gpio35  gpio44  gpio5   gpio63  gpio7   gpio75  gpio80  gpio9
+gpio111  gpio117  gpio20  gpio30  gpio36  gpio45  gpio50  gpio65  gpio70  gpio76  gpio81  gpiochip0
+gpio112  gpio12   gpio22  gpio31  gpio37  gpio46  gpio51  gpio66  gpio71  gpio77  gpio86  gpiochip32
+</pre>
+<div class="paragraph">
+<p>In the code in <a href="#displays_externalLED">Toggling an External LED</a> we saw <strong>P9_14</strong> is pin <strong>50</strong>.  That same 50 maps to the <strong>gpio50</strong> directory shown above.  If <strong>gpio50</strong> doesn&#8217;t show up, export it.  A close ook at the Python and JavaScript code shows it looks for gpio50 and exports it if it isn&#8217;t there.</p>
+</div>
+<pre data-type="programlisting">
+bone$ <strong>echo 50 > export</strong>
+bone$ <strong>cd gpio50</strong>
+bone$ <strong>ls</strong>
+active_low  device  direction  edge  label  power  subsystem  uevent  value
+bone$ <strong>cat direction</strong>
+out
+bone$ <strong>cat value</strong>
+1
+</pre>
+<div class="paragraph">
+<p>Here we see it&#8217;s configured to be an output and it&#8217;s currently turned on.  Turn it off with:</p>
+</div>
+<pre data-type="programlisting">
+bone$ <strong>echo 0 > value</strong>
+</pre>
+<div class="paragraph">
+<p>The LED should now be off.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="displays_gpiod">Toggling an External LED via gpiod</h3>
+<div class="sect3">
+<h4 id="_problem_3">Problem</h4>
+<div class="paragraph">
+<p>You hear <a href="https://blog.adafruit.com/2018/11/26/sysfs-is-dead-long-live-libgpiod-libgpiod-for-linux-circuitpython/">sysfs</a> is dead and want to know what to use instead.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_solution_3">Solution</h4>
+<div class="paragraph">
+<p>sysfs is <a href="https://www.kernel.org/doc/Documentation/gpio/sysfs.txt">deprecated</a>, but most believe it will be around for a long time.  The repository has many examples of gpiod in docs/03displays/code/gpiod.  Here&#8217;s an example:</p>
+</div>
+<div id="py_gpiod_code" class="exampleblock">
+<div class="title">Example 5. Code for using an external LED (toggle1.py)</div>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-python" data-lang="python">#!/usr/bin/env python3
+# //////////////////////////////////////
+# 	toggle1.py
+#  Toggles the P9_14 pin as fast as it can. P9_14 is line 18 on chip 1.
+# 	Wiring:	Attach an oscilloscope to P9_14 to see the squarewave or 
+#          uncomment the sleep and attach an LED.
+# 	Setup:	sudo apt update; pip install gpiod
+# 	See:	https://git.kernel.org/pub/scm/libs/libgpiod/libgpiod.git/tree/bindings/python/examples
+# //////////////////////////////////////
+
+import gpiod
+import time
+
+LED_CHIP = 'gpiochip1'
+LED_LINE_OFFSET = [18]  # P9_14
+
+chip = gpiod.Chip(LED_CHIP)
+
+lines = chip.get_lines(LED_LINE_OFFSET)
+lines.request(consumer='blink', type=gpiod.LINE_REQ_DIR_OUT)
+
+while True:
+    lines.set_values([0])
+    time.sleep(0.1)
+    lines.set_values([1])
+    time.sleep(0.1)</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
 </div>
 <div class="sect2">
 <h3 id="displays_powerSwitch">Toggling a High-Voltage External Device</h3>
 <div class="sect3">
-<h4 id="_problem_3">Problem</h4>
+<h4 id="_problem_4">Problem</h4>
 <div class="paragraph">
 <p>You want to control a device that runs at 120 V.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_3">Solution</h4>
+<h4 id="_solution_4">Solution</h4>
 <div class="paragraph">
 <p>Working with 120 V can be tricky&#8212;&#8203;even dangerous&#8212;&#8203;if you aren&#8217;t careful.  Here&#8217;s a safe way to do it.</p>
 </div>
@@ -769,13 +872,13 @@ function toggle() {
 <div class="sect2">
 <h3 id="displays_PWMdiscussion">Fading an External LED</h3>
 <div class="sect3">
-<h4 id="_problem_4">Problem</h4>
+<h4 id="_problem_5">Problem</h4>
 <div class="paragraph">
 <p>You want to change the brightness of an LED from the Bone.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_4">Solution</h4>
+<h4 id="_solution_5">Solution</h4>
 <div class="literalblock">
 <div class="content">
 <pre>Use the Bone's pulse width modulation (PWM) hardware to fade an LED. We'll use the same circuit as before (&lt;&lt;displays_externLED_fig&gt;&gt;). Find the code in &lt;&lt;py_fadeLED_code&gt;&gt; Next configure the pins.  We are using P9_14 so run:</pre>
@@ -788,7 +891,7 @@ bone$ <strong>config-pin P9_14 pwm
 <p>Then run it as before.</p>
 </div>
 <div id="py_fadeLED_code" class="exampleblock pagebreak-before">
-<div class="title">Example 5. Code for using an external LED (fadeLED.py)</div>
+<div class="title">Example 6. Code for using an external LED (fadeLED.py)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -841,7 +944,7 @@ while True:
 </div>
 </div>
 <div id="js_fadeLED_code" class="exampleblock pagebreak-before">
-<div class="title">Example 6. Code for using an external LED (fadeLED.js)</div>
+<div class="title">Example 7. Code for using an external LED (fadeLED.js)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -895,7 +998,7 @@ function fade() {
 </div>
 </div>
 <div class="sect3">
-<h4 id="_discussion">Discussion</h4>
+<h4 id="_discussion_2">Discussion</h4>
 <div class="paragraph">
 <p>The Bone has several outputs that can be used as pwm&#8217;s as shown in <a href="#cape-headers-pwm_fig">Table of PWM outputs</a>.  There are three EHRPWM's (enhanced high resolution pulse width modulation) which each has a pair  of pwm channels.  Each pair must have the same pulse period.</p>
 </div>
@@ -989,13 +1092,13 @@ bone$ <strong>echo 1 > enable</strong>
 <div class="sect2">
 <h3 id="_writing_to_an_led_matrix">Writing to an LED Matrix</h3>
 <div class="sect3">
-<h4 id="_problem_5">Problem</h4>
+<h4 id="_problem_6">Problem</h4>
 <div class="paragraph">
 <p>You have an I<sup>2</sup>C-based LED matrix to interface.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_5">Solution</h4>
+<h4 id="_solution_6">Solution</h4>
 <div class="paragraph">
 <p>There are a number of nice LED matrices that allow you to control several LEDs via one interface. This solution uses an <a href="http://www.adafruit.com/products/902">Adafruit Bicolor 8x8 LED Square Pixel Matrix w/I<sup>2</sup>C Backpack</a>.</p>
 </div>
@@ -1031,7 +1134,7 @@ bone$ <strong>echo 1 > enable</strong>
 <p>Run the i2cdetect -y -r 2 command to discover the address of the display on I<sup>2</sup>C bus 2, as shown in <a href="#displays_i2cdetect">Using I<sup>2</sup>C command-line tools to discover the address of the display</a>.</p>
 </div>
 <div id="displays_i2cdetect" class="exampleblock pagebreak-before">
-<div class="title">Example 7. Using I<sup>2</sup>C command-line tools to discover the address of the display</div>
+<div class="title">Example 8. Using I<sup>2</sup>C command-line tools to discover the address of the display</div>
 <div class="content">
 <pre data-type="programlisting">
 bone$ <strong>i2cdetect -y -r 2</strong>
@@ -1062,7 +1165,7 @@ bone$ <strong>./matrixLEDi2c.py</strong>
 </div>
 </div>
 <div id="displays_matrix_i2c" class="exampleblock">
-<div class="title">Example 8. LED matrix display (matrixLEDi2c.py)</div>
+<div class="title">Example 9. LED matrix display (matrixLEDi2c.py)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -1138,13 +1241,13 @@ bus.write_i2c_block_data(matrix, 0, smile)</code></pre>
 <div class="sect2">
 <h3 id="displays_drive5V">Driving a 5 V Device</h3>
 <div class="sect3">
-<h4 id="_problem_6">Problem</h4>
+<h4 id="_problem_7">Problem</h4>
 <div class="paragraph">
 <p>You have a 5 V device to drive, and the Bone has 3.3 V outputs.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_6">Solution</h4>
+<h4 id="_solution_7">Solution</h4>
 <div class="paragraph">
 <p>If you are lucky, you might be able to drive a 5 V device from the Bone&#8217;s 3.3 V output. Try it and see if it works. If not, you need a level translator.</p>
 </div>
@@ -1192,13 +1295,13 @@ bus.write_i2c_block_data(matrix, 0, smile)</code></pre>
 <div class="sect2">
 <h3 id="_writing_to_a_neopixel_led_string_using_the_prus">Writing to a NeoPixel LED String Using the PRUs</h3>
 <div class="sect3">
-<h4 id="_problem_7">Problem</h4>
+<h4 id="_problem_8">Problem</h4>
 <div class="paragraph">
 <p>You have an <a href="http://www.adafruit.com/products/1138">Adafruit NeoPixel LED string</a> or <a href="http://www.adafruit.com/products/1487">Adafruit NeoPixel LED matrix</a> and want to light it up.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_7">Solution</h4>
+<h4 id="_solution_8">Solution</h4>
 <div class="paragraph">
 <p>The PRU Cookbook has a nice discussion (<a href="https://markayoder.github.io/PRUCookbook/05blocks/blocks.html#blocks_ws2812">WS2812 (NeoPixel) driver</a>) on driving NeoPixels.</p>
 </div>
@@ -1215,7 +1318,7 @@ bus.write_i2c_block_data(matrix, 0, smile)</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2022-08-09 13:40:24 -0400
+Last updated 2022-08-10 11:35:57 -0400
 </div>
 </div>
 </body>

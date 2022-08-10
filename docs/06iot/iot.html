@@ -1831,12 +1831,272 @@ print(json_response)</code></pre>
 </div>
 </div>
 </div>
+<div class="sect2">
+<h3 id="networking_node_red">Wiring the IoT with Node-RED</h3>
+<div class="sect3">
+<h4 id="_problem_10">Problem</h4>
+<div class="paragraph">
+<p>You want your BeagleBone to interact with the Internet, but you want to program it graphically.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_solution_10">Solution</h4>
+<div class="paragraph">
+<p><a href="http://nodered.org/">Node-RED</a> is a visual tool for wiring the IoT. It makes it easy to turn on a light when a certain hashtag is tweeted, or spin a motor if the forecast is for hot weather.</p>
+</div>
+<div class="sect4">
+<h5 id="_installing_node_red">Installing Node-RED</h5>
+<div class="paragraph">
+<p>Node-RED is already installed and listening on port 1880. Point your browser to <a href="http://192.168.7.2:1880" class="bare">http://192.168.7.2:1880</a>, and you will see the screen shown in <a href="#networking_node_red_fig">The Node-RED interface</a>.</p>
+</div>
+<div id="networking_node_red_fig" class="imageblock">
+<div class="content">
+<img src="figures/node-red.png" alt="node-red">
+</div>
+<div class="title">Figure 8. The Node-RED interface</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_building_a_node_red_flow_blink_an_led">Building a Node-RED Flow - Blink an LED</h5>
+<div class="paragraph">
+<p>The example in this recipe builds a Node-RED flow that turn on and off an LED in response to button pushes.  First drag the <strong>inject</strong> node to the canvas and double-click on it.</p>
+</div>
+<div id="networking_node_red_inject_fig" class="imageblock">
+<div class="content">
+<img src="figures/node-red-inject.png" alt="node-red-inject">
+</div>
+<div class="title">Figure 9. Configuring inject</div>
+</div>
+<div class="paragraph">
+<p>Set the <strong>msg.payload</strong> to <strong>number</strong> and enter <strong>1</strong>.  Click <strong>Done</strong>. Make a second <strong>inject</strong> node, but make it <strong>0</strong>.</p>
+</div>
+<div id="networking_node_red_inject2_fig" class="imageblock">
+<div class="content">
+<img src="figures/node-red-inject2.png" alt="node-red-inject2">
+</div>
+<div class="title">Figure 10. Placing two injects</div>
+</div>
+<div class="paragraph">
+<p>Next scroll down on the left list of nodes to <strong>Johnny5</strong> and drag the <strong>gpio out</strong> node to the canvas and double-click to open it.</p>
+</div>
+<div id="networking_node_red_gpio_fig" class="imageblock">
+<div class="content">
+<img src="figures/node-red-gpio.png" alt="node-red-gpio">
+</div>
+<div class="title">Figure 11. Configuring gpio</div>
+</div>
+<div class="paragraph">
+<p>Set the properties as shown, using the Pin that you&#8217;ve wired up.  Click <strong>Done</strong> and wire as shown.</p>
+</div>
+<div id="networking_node_red_wiring-fig" class="imageblock">
+<div class="content">
+<img src="figures/node-red-wiring.png" alt="node-red-wiring">
+</div>
+<div class="title">Figure 12. Wiring the nodes</div>
+</div>
+<div class="paragraph">
+<p>Once wired, click the big red <strong>Deploy</strong> button.  Click the <strong>1</strong> inject button and the LED will light up.  Click the <strong>0</strong> to turn it off.</p>
+</div>
+<div class="paragraph">
+<p>Congratulations, your first NODE-RED flow is working.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_installing_more_nodes">Installing more nodes</h5>
+<div class="paragraph">
+<p>NODE-RED has many other <a href="https://flows.nodered.org/">flows and nodes</a> that can be installed.  You can see them <a href="https://flows.nodered.org/" class="bare">https://flows.nodered.org/</a>.  Here we&#8217;ll install <strong>twitter</strong>.
+First open <strong>Manage palette</strong>.</p>
+</div>
+<div id="networking_node_red_manage-fig" class="imageblock">
+<div class="content">
+<img src="figures/node-red-manage.png" alt="node-red-wiring">
+</div>
+<div class="title">Figure 13. Opening Manage palette</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>If <strong>Manage palette</strong> doesn&#8217;t appear.  Run the following in a terminal widow.</p>
+</div>
+<pre data-type="programlisting">
+bone$ <strong>sudo apt install npm</strong>
+bone$ <strong>sudo systemctl restart nodered.service</strong>
+</pre>
+<div class="paragraph">
+<p>Wait a bit, then refresh the browser window running NODE-RED.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Once <strong>Manage palette</strong> is open, click on the <strong>Install</strong> tab and search for <strong>twitter</strong>.  Click the <strong>Install</strong> button on the first response.  Wait a bit.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="figures/node-red-install-twitter.png" alt="node-red-install-twitter">
+</div>
+<div class="title">Figure 14. Installing Twitter</div>
+</div>
+<div class="paragraph">
+<p>Click <strong>Close</strong> once it&#8217;s installed.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_building_a_node_red_flow_twitter">Building a Node-RED Flow - Twitter</h5>
+<div class="paragraph">
+<p>The example in this recipe builds a Node-RED flow that will blink an LED whenever a certain hashtag is tweeted. But first, you need to set up the Node-RED flow with the twitter node:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>In Node-RED, scroll down until you see the <strong>social</strong> nodes on the left side of the page.</p>
+</li>
+<li>
+<p>Drag the <strong>twitter in</strong> node to the canvas, as shown in <a href="#networking_node_twitter_fig">Node-RED twitter node</a>.</p>
+</li>
+</ol>
+</div>
+<div id="networking_node_twitter_fig" class="imageblock">
+<div class="content">
+<img src="figures/node-twitter.png" alt="node-red">
+</div>
+<div class="title">Figure 15. Node-RED twitter node</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic" start="3">
+<li>
+<p>Authorize Twitter by double-clicking the twitter node. You&#8217;ll see the screen shown in <a href="#networking_node_twitter_auth_fig">Node-RED Twitter authorization, step 1</a>.</p>
+</li>
+</ol>
+</div>
+<div id="networking_node_twitter_auth_fig" class="imageblock">
+<div class="content">
+<img src="figures/node-twitter-auth.png" alt="node-red authentication">
+</div>
+<div class="title">Figure 16. Node-RED Twitter authorization, step 1</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic" start="4">
+<li>
+<p>Click the pencil button to bring up the dialog box shown in <a href="#networking_node_twitter_auth2_fig">Node-RED twitter authorization, step 2</a>.</p>
+</li>
+</ol>
+</div>
+<div id="networking_node_twitter_auth2_fig" class="imageblock">
+<div class="content">
+<img src="figures/node-twitter-auth2.png" alt="node-red authentication2">
+</div>
+<div class="title">Figure 17. Node-RED twitter authorization, step 2</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic" start="5">
+<li>
+<p>Click on the link,  <a href="http://developer.twitter.com/en/apps" class="bare">http://developer.twitter.com/en/apps</a> shown in <a href="#networking_node_twitter_auth2_fig">Node-RED twitter authorization, step 2</a>, and follow the steps to set up your twitter app. Copy from there your <strong>API key</strong> etc.</p>
+</li>
+</ol>
+</div>
+<div class="olist arabic">
+<ol class="arabic" start="7">
+<li>
+<p>When you&#8217;re back to Node-RED, click the <strong>Add</strong> button, add your Twitter credentials, enter the hashtags to respond to (<a href="#networking_node_twitter_beagle_fig">Node-RED adding the #BeagleBone hashtag</a>), and then click the <strong>Done</strong> <span class="keep-together">button</span>.</p>
+</li>
+</ol>
+</div>
+<div id="networking_node_twitter_beagle_fig" class="imageblock">
+<div class="content">
+<img src="figures/node-twitter-beagle.png" alt="node-red beagle hash">
+</div>
+<div class="title">Figure 18. Node-RED adding the #BeagleBone hashtag</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic" start="8">
+<li>
+<p>Go back to the left panel, scroll up to the top, and then drag the debug node to the canvas.</p>
+</li>
+<li>
+<p>Connect the two nodes by clicking and dragging (<a href="#networking_node_twitter_debug_fig">Node-RED Twitter adding debug node and connecting</a>).</p>
+</li>
+</ol>
+</div>
+<div id="networking_node_twitter_debug_fig" class="imageblock">
+<div class="content">
+<img src="figures/node-twitter-debug.png" alt="node-red debug">
+</div>
+<div class="title">Figure 19. Node-RED Twitter adding debug node and connecting</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic" start="10">
+<li>
+<p>In the right panel, in the upper-right corner, click the "debug" tab.</p>
+</li>
+<li>
+<p>Finally, click the Deploy button above the "debug" tab.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Your Node-RED flow is now running on the Bone. Test it by going to Twitter and tweeting something with the hashtag #BeagleBone. Your Bone is now responding to events happening out in the world.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_adding_an_led_toggle">Adding an LED Toggle</h5>
+<div class="paragraph">
+<p>Now, we&#8217;re ready to add an LED to response to tweets:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Wire up an LED as shown in <a href="#displays_externalLED">[displays_externalLED]</a>. Mine is wired to P9_14.</p>
+</li>
+<li>
+<p>Scroll down the left panel and drag the <strong>trigger</strong> node to the canvas and wire it (<a href="#networking_node_bbb_out_fig">Node-RED adding trigger node</a>).</p>
+</li>
+</ol>
+</div>
+<div id="networking_node_bbb_out_fig" class="imageblock">
+<div class="content">
+<img src="figures/node-disc-out.png" alt="node-red trigger node">
+</div>
+<div class="title">Figure 20. Node-RED adding trigger node</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic" start="3">
+<li>
+<p>Double-click the trigger node and set the time to <strong>1000 ms</strong>.</p>
+</li>
+</ol>
+</div>
+<div id="networking_node_bbb_out_setup_fig" class="imageblock">
+<div class="content">
+<img src="figures/node-disc-out-setup.png" alt="node-red trigger setup">
+</div>
+<div class="title">Figure 21. Node-RED adding trigger configuration</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic" start="4">
+<li>
+<p>Click <strong>Done</strong> and then <strong>Deploy</strong>.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Test again. The LED will turn one for 1 second every time the hashtag #BeagleBone is tweeted. With a little more exploring, you should be able to have your Bone ringing a bell or spinning a motor in response to tweets.</p>
+</div>
+</div>
+</div>
+</div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2022-08-09 13:40:24 -0400
+Last updated 2022-08-10 14:05:11 -0400
 </div>
 </div>
 </body>
