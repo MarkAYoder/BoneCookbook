@@ -766,18 +766,6 @@ http://nodered.org/[Node-RED] is a visual tool for wiring the IoT. It makes it e
 ===== Installing Node-RED
 To install Node-RED, run the following commands:
 
-++++
-<pre data-type="programlisting">
-bone$ <strong>cd</strong>          # Change to home directory
-bone$ <strong>git clone https://github.com/node-red/node-red.git</strong>
-bone$ <strong>cd node-red/</strong>
-bone$ <strong>npm install --production</strong>    # almost 6 minutes
-bone$ <strong>cd nodes</strong>
-bone$ <strong>git clone https://github.com/node-red/node-red-nodes.git</strong> # 2 seconds
-bone$ <strong>cd ~/node-red</strong>
-</pre>
-++++
-
  Node-RED is already installed and listening on port +1880+. Point your browser to http://192.168.7.2:1880, and you will see the screen shown in <<networking_node_red_fig>>.
 
 [[networking_node_red_fig]]
@@ -821,6 +809,24 @@ First open *Manage palette*.
 [[networking_node_red_manage-fig]]
 .Opening Manage palette
 image::figures/node-red-manage.png[node-red-wiring]
+
+[NOTE]
+====
+If *Manage palette* doesn't appear.  Run the following in a terminal widow.
+++++
+<pre data-type="programlisting">
+bone$ <strong>sudo apt install npm</strong>
+bone$ <strong>sudo systemctl restart nodered.service</strong>
+</pre>
+++++
+Wait a bit, then refresh the browser window running NODE-RED.
+====
+
+Once *Manage palette* is open, click on the *Install* tab and search for *twitter*.  Lick the *Install* button on the first response.  Wait a bit.
+
+.Installing Twitter
+image::figures/node-red-install-twitter.png[node-red-install-twitter]
+
 
 ===== Building a Node-RED Flow - Twitter
 The example in this recipe builds a Node-RED flow that will toggle an LED whenever a certain hashtag is tweeted. But first, you need to set up the Node-RED flow with the +twitter+ node:
