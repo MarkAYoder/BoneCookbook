@@ -100,7 +100,7 @@ A cookbook for programming Beagles
   ** [x] Commented out: Sending an SMS Message
   ** [x] Displaying the Current Weather Conditions
   ** [x] Sending and Receiving Tweets
-  ** [x] Commented out: Wiring the IoT with Node-RED
+  ** [x] Wiring the IoT with Node-RED
   ** [x] Removed: Serving Web Pages from the Bone by Using Apache
   ** [x] Commented out: Communicating over a Serial Connection to an Arduino or LaunchPad
 
