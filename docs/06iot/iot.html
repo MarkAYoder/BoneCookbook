@@ -1849,6 +1849,26 @@ print(json_response)</code></pre>
 <div class="paragraph">
 <p>Node-RED is already installed and listening on port 1880. Point your browser to <a href="http://192.168.7.2:1880" class="bare">http://192.168.7.2:1880</a>, and you will see the screen shown in <a href="#networking_node_red_fig">The Node-RED interface</a>.</p>
 </div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>If NODE-RED doesn&#8217;t appear, run the following in a terminal widow.</p>
+</div>
+<pre data-type="programlisting">
+bone$ <strong>sudo systemctl start nodered.service</strong>
+</pre>
+<div class="paragraph">
+<p>Wait a bit, then refresh the browser window running NODE-RED.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
 <div id="networking_node_red_fig" class="imageblock">
 <div class="content">
 <img src="figures/node-red.png" alt="node-red">
@@ -1997,7 +2017,7 @@ bone$ <strong>sudo systemctl restart nodered.service</strong>
 <div class="olist arabic">
 <ol class="arabic" start="5">
 <li>
-<p>Click on the link,  <a href="http://developer.twitter.com/en/apps" class="bare">http://developer.twitter.com/en/apps</a> shown in <a href="#networking_node_twitter_auth2_fig">Node-RED twitter authorization, step 2</a>, and follow the steps to set up your twitter app. Copy from there your <strong>API key</strong> etc.</p>
+<p>Click on the link,  <a href="http://developer.twitter.com/en/apps" class="bare">http://developer.twitter.com/en/apps</a> shown in <a href="#networking_node_twitter_auth2_fig">Node-RED twitter authorization, step 2</a>, and follow the steps to set up your twitter app. Copy your <strong>API key</strong> etc. from there.</p>
 </li>
 </ol>
 </div>
@@ -2017,7 +2037,7 @@ bone$ <strong>sudo systemctl restart nodered.service</strong>
 <div class="olist arabic">
 <ol class="arabic" start="8">
 <li>
-<p>Go back to the left panel, scroll up to the top, and then drag the debug node to the canvas.</p>
+<p>Go back to the left panel, scroll up to the top, and then drag the <strong>debug</strong> node to the canvas.</p>
 </li>
 <li>
 <p>Connect the two nodes by clicking and dragging (<a href="#networking_node_twitter_debug_fig">Node-RED Twitter adding debug node and connecting</a>).</p>
@@ -2036,7 +2056,7 @@ bone$ <strong>sudo systemctl restart nodered.service</strong>
 <p>In the right panel, in the upper-right corner, click the "debug" tab.</p>
 </li>
 <li>
-<p>Finally, click the Deploy button above the "debug" tab.</p>
+<p>Finally, click the <strong>Deploy</strong> button.</p>
 </li>
 </ol>
 </div>
@@ -2096,7 +2116,7 @@ bone$ <strong>sudo systemctl restart nodered.service</strong>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2022-08-10 14:05:11 -0400
+Last updated 2022-08-10 14:32:13 -0400
 </div>
 </div>
 </body>
