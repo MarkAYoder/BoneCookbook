@@ -430,7 +430,7 @@ bone$ <strong>./analogInContinuous.py</strong>
 Hit ^C to stop
 </pre>
 ++++
-// TODO verify this works. fonts are taking too long to load
+
 <<analog_sine_fig>> is the output of a 1KHz sine wave.
 
 It's a good idea to disable the buffer when done.
@@ -516,7 +516,7 @@ Hit ^C to stop
 </pre>
 ++++
 Here's the output of a 10KHz triangle wave. 
-// TODO  Is this trun: (The plot is wrong, but eLinux won't let me fix it.)
+
 [[analog_tri_fig]]
 .10KHz triangle wave sampled at 200KHz
 image::figures/Tri10k.png[10KHz triangle wave sampled at 200KHz]
@@ -734,20 +734,6 @@ Use the code in <<twitter_delete_code>> to delete a tweet.  Around line 15 is th
 include::code/twitter_delete_tweet.py[]
 ----
 ====
-
-// // TODO  Start Here
-// The code in <<networking_pushbutton_code>> sends a tweet whenever a button is pushed.
-
-// [[networking_pushbutton_code]]
-// .Tweet when a button is pushed (twitterPushbutton.js)
-// ====
-// [source, js]
-// ----
-
-// include::code/twitterPushbutton.js[]
-
-// ----
-// ====
 
 To see many other examples, go to http://bit.ly/18AvSTW[iStrategyLabs' node-twitter GitHub page].
 

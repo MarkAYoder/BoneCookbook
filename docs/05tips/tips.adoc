@@ -715,7 +715,7 @@ If you are on a wireless network, find the IP address associated with +wlan0+.
 ====
 
 Then run the following, using your host's IP address:
-//  TODO check this iptables, convert to ufw
+
 ++++
 <pre data-type="programlisting">
 host$ <strong>sudo iptables -t nat -A PREROUTING -p tcp -s 0/0 \
@@ -916,7 +916,7 @@ bone$ <strong>ls /dev/mmcblk*</strong>
 The +df+ command shows what partitions are already mounted. The line +/dev/mmcblk0p2  7.2G  2.0G  4.9G  29% /+ shows that +mmcblk0+ partition +p2+ is mounted as +/+, the root file system. The general rule is that the media you're booted from (either the onboard flash or the microSD card) will appear as +mmcblk0+. The second partition (+p2+) is the root of the file system. 
 
 The +ls+ command shows what devices are available to mount. Because +mmcblk0+ is already mounted, +/dev/mmcblk1p1+ must be the other media that we need to mount. Run the following commands to mount it:
-// TODO update
+
 ++++
 <pre data-type="programlisting">
 bone$ <strong>cd /mnt</strong>

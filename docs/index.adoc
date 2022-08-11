@@ -24,7 +24,7 @@ A cookbook for programming Beagles
   ** [x] Finding the Latest Version of the OS for Your Bone
   ** [x] Running the Latest Version of the OS on Your Bone
   ** [x] Updating the OS on Your Bone
-  ** [update] Backing Up the Onboard Flash
+  ** [ ] Backing Up the Onboard Flash
   ** [x] Updating the Onboard Flash
   
 . link:02sensors/sensors.html[Sensors]
@@ -47,7 +47,7 @@ A cookbook for programming Beagles
   ** [x] Toggling an Onboard LED
   ** [x] Toggling an External LED
   ** [x] Toggling an External LED via gpiod
-  ** [python ] Toggling a High-Voltage External Device
+  ** [x] Toggling a High-Voltage External Device
   ** [x] Fading an External LED
   ** [x] Writing to an LED Matrix
   ** [x] Driving a 5 V Device
@@ -122,7 +122,7 @@ A cookbook for programming Beagles
   ** [x] I/O with devmem2
   ** [x] I/O with C and mmap()
   ** [x] Modifying the Linux Kernel to Use PREMPT RT
-  ** [update ] I/O with simpPRU
+  ** [x] Comented out: I/O with simpPRU
 
 . link:09capes/capes.html[Capes]
   ** [ ] Introduction

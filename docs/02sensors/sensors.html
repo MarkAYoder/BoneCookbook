@@ -1091,128 +1091,15 @@ function readPin() {
 </div>
 </div>
 <div class="sect2">
-<h3 id="sensors_hc-sr04">Reading a Distance Sensor (Variable Pulse Width Sensor)</h3>
-<div class="sect3">
-<h4 id="_problem_7">Problem</h4>
-<div class="paragraph">
-<p>You want to use a HC-SR04 Ultrasonic Range Sensor with BeagleBone Black.</p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_solution_7">Solution</h4>
-<div class="paragraph">
-<p>The HC-SR04 Ultrasonic Range Sensor (shown in <a href="#sensors_hc_sr04_image_fig">HC-SR04 Ultrasonic range sensor</a>) works by sending a trigger pulse to the <em>Trigger</em> input and then measuring the pulse width on the <em>Echo</em> output. The width of the pulse tells you the distance.</p>
-</div>
-<div id="sensors_hc_sr04_image_fig" class="imageblock">
-<div class="content">
-<img src="figures/hc-sr04.jpg" alt="HC-SR04 Ultrasonic Sensor">
-</div>
-<div class="title">Figure 10. HC-SR04 Ultrasonic range sensor</div>
-</div>
-<div class="paragraph">
-<p>To make this recipe, you will need:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Breadboard and jumper wires</p>
-</li>
-<li>
-<p>10 k&#8486; and 20 k&#8486; resistors</p>
-</li>
-<li>
-<p>HC-SR04 Ultrsonic Range Sensor</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>Wire the sensor as shown in <a href="#sensors_hc-sr04_fig">Wiring an HC-SR04 ultrasonic sensor</a>. Note that the HC-SR04 is a 5 V
-device, so the <em>banded</em> wire (running from P9_7 on the Bone to VCC on the range finder) attaches the HC-SR04 to the Bone&#8217;s 5 V power supply.</p>
-</div>
-<div id="sensors_hc-sr04_fig" class="imageblock">
-<div class="content">
-<img src="figures/hc-sr04-ultraSonic_bb.png" alt="Wiring an HC-SR04 Ultrasonic Sensor">
-</div>
-<div class="title">Figure 11. Wiring an HC-SR04 ultrasonic sensor</div>
-</div>
-<div class="paragraph">
-<p><a href="#sensors_hc-sr04_code">Driving a HC-SR04 ultrasound sensor (hc-sr04-ultraSonic.js)</a> shows BoneScript code used to drive the HC-SR04.</p>
-</div>
-<div id="sensors_hc-sr04_code" class="exampleblock">
-<div class="title">Example 7. Driving a HC-SR04 ultrasound sensor (hc-sr04-ultraSonic.js)</div>
-<div class="content">
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-js" data-lang="js">#!/usr/bin/env node
-
-// This is an example of reading HC-SR04 Ultrasonic Range Finder
-// This version measures from the fall of the Trigger pulse 
-//   to the end of the Echo pulse
-
-var b = require('bonescript');
-
-var trigger = 'P9_16',  // Pin to trigger the ultrasonic pulse
-    echo    = 'P9_41',  // Pin to measure to pulse width related to the distance
-    ms = 250;           // Trigger period in ms
-    
-var startTime, pulseTime;
-    
-b.pinMode(echo,   b.INPUT, 7, 'pulldown', 'fast', doAttach);
-function doAttach(x) {
-    if(x.err) {
-        console.log('x.err = ' + x.err);
-        return;
-    }
-    // Call pingEnd when the pulse ends
-    b.attachInterrupt(echo, true, b.FALLING, pingEnd);
-}
-
-b.pinMode(trigger, b.OUTPUT);
-
-b.digitalWrite(trigger, 1);     // Unit triggers on a falling edge.
-                                // Set trigger to high so we call pull it low later
-
-// Pull the trigger low at a regular interval.
-setInterval(ping, ms);
-
-// Pull trigger low and start timing.
-function ping() {
-    // console.log('ping');
-    b.digitalWrite(trigger, 0);
-    startTime = process.hrtime();
-}
-
-// Compute the total time and get ready to trigger again.
-function pingEnd(x) {
-    if(x.attached) {
-        console.log("Interrupt handler attached");
-        return;
-    }
-    if(startTime) {
-        pulseTime = process.hrtime(startTime);
-        b.digitalWrite(trigger, 1);
-        console.log('pulseTime = ' + (pulseTime[1]/1000000-0.8).toFixed(3));
-    }
-}</code></pre>
-</div>
-</div>
-</div>
-</div>
-<div class="paragraph">
-<p>This code is more complex than others in this chapter, because we have to tell the device when to start measuring and time the return pulse.</p>
-</div>
-</div>
-</div>
-<div class="sect2">
 <h3 id="_accurately_reading_the_position_of_a_motor_or_dial">Accurately Reading the Position of a Motor or Dial</h3>
 <div class="sect3">
-<h4 id="_problem_8">Problem</h4>
+<h4 id="_problem_7">Problem</h4>
 <div class="paragraph">
 <p>You have a motor or dial and want to detect rotation using a rotary encoder.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_8">Solution</h4>
+<h4 id="_solution_7">Solution</h4>
 <div class="paragraph">
 <p>Use a rotary encoder (also called a <em>quadrature encoder</em>) connected to one of the Bone&#8217;s eQEP ports, as shown in <a href="#digital_rotaryEncoder_fig">Wiring a rotary encoder using eQEP2</a>.</p>
 </div>
@@ -1220,7 +1107,7 @@ function pingEnd(x) {
 <div class="content">
 <img src="figures/rotaryEncoder_bb.png" alt="rotaryEncoder">
 </div>
-<div class="title">Figure 12. Wiring a rotary encoder using eQEP2</div>
+<div class="title">Figure 10. Wiring a rotary encoder using eQEP2</div>
 </div>
 <div class="paragraph">
 <p>On the BeagleBone and PocketBeage the three encoders are:</p>
@@ -1308,7 +1195,7 @@ P8.11        13 fast rx  up  4 qep 2 in B    ocp/P8_11_pinmux (pinmux_P8_11_qep_
 <p>Finally, add the code in <a href="#digital_rotaryEncoder_js">Reading a rotary encoder (rotaryEncoder.js)</a> to a file named <em>rotaryEncoder.js</em> and run it.</p>
 </div>
 <div id="digital_rotaryEncoder_py" class="exampleblock">
-<div class="title">Example 8. Reading a rotary encoder (rotaryEncoder.py)</div>
+<div class="title">Example 7. Reading a rotary encoder (rotaryEncoder.py)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -1360,7 +1247,7 @@ while True:
 </div>
 </div>
 <div id="digital_rotaryEncoder_js" class="exampleblock">
-<div class="title">Example 9. Reading a rotary encoder (rotaryEncoder.js)</div>
+<div class="title">Example 8. Reading a rotary encoder (rotaryEncoder.js)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -1437,132 +1324,15 @@ data = 999972
 </div>
 </div>
 <div class="sect2">
-<h3 id="sensors_GPS">Acquiring Data by Using a Smart Sensor over a Serial Connection</h3>
-<div class="sect3">
-<h4 id="_problem_9">Problem</h4>
-<div class="paragraph">
-<p>You want to connect a smart sensor that uses a built-in microcontroller to stream data, such as a global positioning system (GPS), to the Bone and read the data from it.</p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_solution_9">Solution</h4>
-<div class="paragraph">
-<p>The Bone has several serial ports (UARTs) that you can use to read data from an external microcontroller included in smart sensors, such as a GPS. Just wire one up, and you&#8217;ll soon be gathering useful data, such as your own location.</p>
-</div>
-<div class="paragraph">
-<p>Here&#8217;s what you&#8217;ll need:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Breadboard and jumper wires</p>
-</li>
-<li>
-<p>GPS receiver</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>Wire your GPS, as shown in <a href="#digital_GPS_fig">Wiring a GPS to UART 4</a>.</p>
-</div>
-<div id="digital_GPS_fig" class="imageblock">
-<div class="content">
-<img src="figures/GPS_bb.png" alt="GPS">
-</div>
-<div class="title">Figure 13. Wiring a GPS to UART 4</div>
-</div>
-<div class="paragraph">
-<p>The GPS will produce raw National Marine Electronics Association (NMEA) data that&#8217;s easy for a computer to read, but not for a human.
-There are many utilities to help convert such sensor data into a human-readable form. For this GPS, run the following command to load a NMEA parser:</p>
-</div>
-<pre data-type="programlisting">
-bone$ <strong>npm install -g nmea</strong>
-</pre>
-<div class="paragraph">
-<p>Running the code in <a href="#digital_GPS_code">Talking to a GPS with UART 4 (GPS.js)</a> will print the current location every time the GPS outputs it.</p>
-</div>
-<div id="digital_GPS_code" class="exampleblock">
-<div class="title">Example 10. Talking to a GPS with UART 4 (GPS.js)</div>
-<div class="content">
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-javascript" data-lang="javascript">#!/usr/bin/env node
-// Install with: npm install nmea
-
-// Need to add exports.serialParsers = m.module.parsers;
-// to the end of /usr/local/lib/node_modules/bonescript/serial.js
-
-var b = require('bonescript');
-var nmea = require('nmea');
-
-var port = '/dev/ttyO4';
-var options = {
-    baudrate: 9600,
-    parser: b.serialParsers.readline("\n")
-};
-
-b.serialOpen(port, options, onSerial);
-
-function onSerial(x) {
-    if (x.err) {
-        console.log('***ERROR*** ' + JSON.stringify(x));
-    }
-    if (x.event == 'open') {
-       console.log('***OPENED***');
-    }
-    if (x.event == 'data') {
-        console.log(String(x.data));
-        console.log(nmea.parse(x.data));
-    }
-}</code></pre>
-</div>
-</div>
-</div>
-</div>
-<div class="paragraph">
-<p>If you don&#8217;t need the NMEA formatting, you can skip the npm part and remove the lines in the code that refer to it.</p>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<div class="title">Note</div>
-</td>
-<td class="content">
-<div class="paragraph">
-<p>If you get an error like this</p>
-</div>
-<div class="paragraph">
-<p>TypeError: Cannot call method 'readline' of undefined</p>
-</div>
-<div class="paragraph">
-<p>add this line to the end of file <em>/usr/local/lib/node_modules/bonescript/serial.js</em>:</p>
-</div>
-<div class="paragraph">
-<p>exports.serialParsers = m.module.parsers;</p>
-</div>
-</td>
-</tr>
-</table>
-</div>
-<div id="cape-headers-serial_fig" class="imageblock">
-<div class="content">
-<img src="figures/cape-headers-serial.png" alt="UART outputs">
-</div>
-<div class="title">Figure 14. Table of UART outputs</div>
-</div>
-</div>
-</div>
-<div class="sect2">
 <h3 id="sensors_i2c_temp">Measuring a Temperature</h3>
 <div class="sect3">
-<h4 id="_problem_10">Problem</h4>
+<h4 id="_problem_8">Problem</h4>
 <div class="paragraph">
 <p>You want to measure a temperature using a digital temperature sensor.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_10">Solution</h4>
+<h4 id="_solution_8">Solution</h4>
 <div class="paragraph">
 <p>The TMP101 sensor is a common digital temperature sensor that uses a standard I<sup>2</sup>C-based serial protocol.</p>
 </div>
@@ -1589,7 +1359,7 @@ function onSerial(x) {
 <div class="content">
 <img src="figures/i2cTemp_bb.png" alt="I^2^C  Temp">
 </div>
-<div class="title">Figure 15. Wiring an I<sup>2</sup>C TMP101 temperature sensor</div>
+<div class="title">Figure 11. Wiring an I<sup>2</sup>C TMP101 temperature sensor</div>
 </div>
 <div class="paragraph">
 <p>There are two I<sup>2</sup>C buses brought out to the headers. <a href="#sensors_cape_headers_i2c">Table of I<sup>2</sup>C outputs</a> shows that you have wired your device to I<sup>2</sup>C bus 2.</p>
@@ -1598,13 +1368,13 @@ function onSerial(x) {
 <div class="content">
 <img src="figures/cape-headers-i2c.png" alt="I^2^C  Temp">
 </div>
-<div class="title">Figure 16. Table of I<sup>2</sup>C outputs</div>
+<div class="title">Figure 12. Table of I<sup>2</sup>C outputs</div>
 </div>
 <div class="paragraph">
 <p>Once the I<sup>2</sup>C  device is wired up, you can use a couple handy I<sup>2</sup>C tools to test the device. Because these are Linux command-line tools, you have to use 2 as the bus number. i2cdetect, shown in <a href="#js_i2cTools">I<sup>2</sup>C tools</a>, shows which I<sup>2</sup>C  devices are on the bus. The -r flag indicates which bus to use. Our TMP101 is appearing at address 0x49. You can use the i2cget command to read the value. It returns the temperature in hexidecimal and degrees C. In this example, 0x18 = 24&#176;C, which is 75.2&#176;F. (Hmmm, the office is a bit warm today.) Try warming up the TMP101 with your finger and running i2cget again.</p>
 </div>
 <div id="js_i2cTools" class="exampleblock">
-<div class="title">Example 11. I<sup>2</sup>C tools</div>
+<div class="title">Example 9. I<sup>2</sup>C tools</div>
 <div class="content">
 <pre data-type="programlisting">
 bone$ <strong>i2cdetect -y -r 2</strong>
@@ -1633,7 +1403,7 @@ bone$ <strong>i2cget -y 2 0x49</strong>
 <p>Assuming the TMP101 is on bus 2 (the last digit is the bus number)</p>
 </div>
 <div id="js_i2cKernel" class="exampleblock">
-<div class="title">Example 12. I<sup>2</sup>C TMP101 via Kernel</div>
+<div class="title">Example 10. I<sup>2</sup>C TMP101 via Kernel</div>
 <div class="content">
 <pre data-type="programlisting">
 bone$ <strong>cd /sys/class/i2c-adapter/</strong>
@@ -1712,7 +1482,7 @@ You can try the Linux Kernel Driver Database, <a href="https://cateee.net/lkddb/
 <a href="#py_i2cTemp_code">Reading an I<sup>2</sup>C  device (i2cTemp.py)</a> shows how to read the TMP101 from BoneScript.</p>
 </div>
 <div id="py_i2cTemp_code" class="exampleblock">
-<div class="title">Example 13. Reading an I<sup>2</sup>C  device (i2cTemp.py)</div>
+<div class="title">Example 11. Reading an I<sup>2</sup>C  device (i2cTemp.py)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -1743,7 +1513,7 @@ while True:
 </div>
 </div>
 <div id="js_i2cTemp_code" class="exampleblock">
-<div class="title">Example 14. Reading an I<sup>2</sup>C  device (i2cTemp.js)</div>
+<div class="title">Example 12. Reading an I<sup>2</sup>C  device (i2cTemp.js)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -1805,7 +1575,7 @@ bone$ <strong>pip install smbus</strong>
 </div>
 </div>
 <div id="js_i2ctmp101_code" class="exampleblock">
-<div class="title">Example 15. Reading an I<sup>2</sup>C  device (i2cTemp.py)</div>
+<div class="title">Example 13. Reading an I<sup>2</sup>C  device (i2cTemp.py)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -1840,13 +1610,13 @@ while True:
 <div class="sect2">
 <h3 id="_reading_temperature_via_a_dallas_1_wire_device">Reading Temperature via a Dallas 1-Wire Device</h3>
 <div class="sect3">
-<h4 id="_problem_11">Problem</h4>
+<h4 id="_problem_9">Problem</h4>
 <div class="paragraph">
 <p>You want to measure a temperature using a Dallas Semiconductor DS18B20 temperature sensor.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_11">Solution</h4>
+<h4 id="_solution_9">Solution</h4>
 <div class="paragraph">
 <p>The DS18B20 is an interesting temperature sensor that uses Dallas Semiconductor&#8217;s 1-wire interface. The data communication requires only one wire! (However, you still need wires from ground and 3.3 V.) You can wire it to any GPIO port.</p>
 </div>
@@ -1873,7 +1643,7 @@ while True:
 <div class="content">
 <img src="figures/onewire_bb.png" alt="1-wire">
 </div>
-<div class="title">Figure 17. Wiring a Dallas 1-Wire temperature sensor <sup class="footnote">[<a id="_footnoteref_1" class="footnote" href="#_footnotedef_1" title="View footnote.">1</a>]</sup></div>
+<div class="title">Figure 13. Wiring a Dallas 1-Wire temperature sensor <sup class="footnote">[<a id="_footnoteref_1" class="footnote" href="#_footnotedef_1" title="View footnote.">1</a>]</sup></div>
 </div>
 <div class="paragraph">
 <p>Edit the file /boot/uEnt.txt.   Go to about line 19 and edit as shown:</p>
@@ -1907,7 +1677,7 @@ bone$ <strong>ls /sys/bus/w1/devices/</strong>
 <p>Finally, add the code in <a href="#sensors_onewire__code">Reading a temperature with a DS18B20 (w1.js)</a> in to a file named <em>w1.py</em>, edit the path assigned to w1 so that the path points to your device, and then run it.</p>
 </div>
 <div id="py_onewire__code" class="exampleblock">
-<div class="title">Example 16. Reading a temperature with a DS18B20 (w1.py)</div>
+<div class="title">Example 14. Reading a temperature with a DS18B20 (w1.py)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -1939,7 +1709,7 @@ while True:
 </div>
 </div>
 <div id="sensors_onewire__code" class="exampleblock">
-<div class="title">Example 17. Reading a temperature with a DS18B20 (w1.js)</div>
+<div class="title">Example 15. Reading a temperature with a DS18B20 (w1.js)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -1993,13 +1763,13 @@ temp (C) = 31.0
 <div class="sect2">
 <h3 id="sensors_audio">Playing and Recording Audio</h3>
 <div class="sect3">
-<h4 id="_problem_12">Problem</h4>
+<h4 id="_problem_10">Problem</h4>
 <div class="paragraph">
 <p>BeagleBone doesn&#8217;t have audio built in, but you want to play and record files.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_12">Solution</h4>
+<h4 id="_solution_10">Solution</h4>
 <div class="paragraph">
 <p>One approach is to buy an audio cape (<a href="#app_capes">[app_capes]</a>), but another, possibly cheaper approach is to buy a USB audio adapter,
 such as the one shown in <a href="#usb_audio_dongle">A USB audio dongle</a>. Some adapters that I&#8217;ve tested are provided in <a href="#app_misc">[app_misc]</a>.</p>
@@ -2008,13 +1778,13 @@ such as the one shown in <a href="#usb_audio_dongle">A USB audio dongle</a>. Som
 <div class="content">
 <img src="figures/audioDongle.jpg" alt="Audio Dongle">
 </div>
-<div class="title">Figure 18. A USB audio dongle</div>
+<div class="title">Figure 14. A USB audio dongle</div>
 </div>
 <div class="paragraph">
 <p>Drivers for the <a href="http://bit.ly/1MrAJUR">Advanced Linux Sound Architecture</a> (ALSA) are already installed on the Bone. You can list the recording and playing devices on your Bone by using aplay and arecord, as shown in <a href="#sensors_alsa">Listing the ALSA audio output and input devices on the Bone</a>. BeagleBone Black has audio-out on the HDMI interface. It&#8217;s listed as card 0 in <a href="#sensors_alsa">Listing the ALSA audio output and input devices on the Bone</a>. card 1 is my USB audio adapter&#8217;s audio out.</p>
 </div>
 <div id="sensors_alsa" class="exampleblock">
-<div class="title">Example 18. Listing the ALSA audio output and input devices on the Bone</div>
+<div class="title">Example 16. Listing the ALSA audio output and input devices on the Bone</div>
 <div class="content">
 <pre data-type="programlisting">
 bone$ <strong>aplay -l</strong>
@@ -2038,7 +1808,7 @@ card 1: Device [C-Media USB Audio Device], device 0: USB Audio [USB Audio]
 <p>In the aplay output shown in <a href="#sensors_alsa">Listing the ALSA audio output and input devices on the Bone</a>, you can see the USB adapter&#8217;s audio out. By default, the Bone will send audio to the HDMI. You can change that default by creating a file in your home directory called <em>~/.asoundrc</em> and adding the code in <a href="#sensors_asoundrc">Change the default audio out by putting this in ~/.asoundrc (audio.asoundrc)</a> to it.</p>
 </div>
 <div id="sensors_asoundrc" class="exampleblock">
-<div class="title">Example 19. Change the default audio out by putting this in ~/.asoundrc (audio.asoundrc)</div>
+<div class="title">Example 17. Change the default audio out by putting this in ~/.asoundrc (audio.asoundrc)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -2089,7 +1859,7 @@ bone$ <strong>mplayer test.mp3</strong>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2022-08-10 11:36:07 -0400
+Last updated 2022-08-11 10:09:22 -0400
 </div>
 </div>
 </body>

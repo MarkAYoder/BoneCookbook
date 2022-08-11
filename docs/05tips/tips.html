@@ -1258,9 +1258,6 @@ bone$ <strong>ip a</strong>
 <div class="title">Figure 11. Instructions for setting up your network.</div>
 </div>
 <div class="paragraph">
-<p>Several WiFi adapters work with the Bone. Check <a href="http://bit.ly/1EbEwUo">WiFi Adapters</a> for the latest list.</p>
-</div>
-<div class="paragraph">
 <p>To make this recipe, you will need:</p>
 </div>
 <div class="ulist">
@@ -1543,21 +1540,24 @@ The solution is to use <em>port forwarding</em> from your host.
 Web servers typically listen to port 80. First, look up the IP address of your host:</p>
 </div>
 <pre data-type="programlisting">
-host$ <strong>ifconfig</strong>
-eth0      Link encap:Ethernet  HWaddr 00:e0:4e:00:22:51
-          inet addr:<strong>137.112.41.35</strong>  Bcast:137.112.41.255  Mask:255.255.255.0
-          inet6 addr: fe80::2e0:4eff:fe00:2251/64 Scope:Link
-          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
-          RX packets:5371019 errors:0 dropped:0 overruns:0 frame:0
-          TX packets:4720856 errors:0 dropped:0 overruns:0 carrier:0
-          collisions:0 txqueuelen:1000
-          RX bytes:1667916614 (1.6 GB)  TX bytes:597909671 (597.9 MB)
-
-eth1      Link encap:Ethernet  HWaddr 00:1d:60:40:58:e6
+host$ <strong>ip a</strong>
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host
+       valid_lft forever preferred_lft forever
+2: enp0s25: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel state UP group default qlen 1000
+    link/ether 54:ee:75:19:8d:53 brd ff:ff:ff:ff:ff:ff
+    inet 10.0.5.117/24 brd 10.0.5.255 scope global dynamic noprefixroute enp0s25
+       valid_lft 82690sec preferred_lft 82690sec
+    inet6 fe80::e6d0:8d85:4488:6b5f/64 scope link noprefixroute
+       valid_lft forever preferred_lft forever
+3: wlp3s0: <BROADCAST,MULTICAST> mtu 1500 qdisc noop state DOWN group default qlen 1000
 ...
 </pre>
 <div class="paragraph">
-<p>It&#8217;s the number following inet addr:, which in my case is 137.112.41.35.</p>
+<p>It&#8217;s the number following inet, which in my case is 10.0.5.117.</p>
 </div>
 <div class="admonitionblock tip">
 <table>
@@ -1578,7 +1578,7 @@ eth1      Link encap:Ethernet  HWaddr 00:1d:60:40:58:e6
 </div>
 <pre data-type="programlisting">
 host$ <strong>sudo iptables -t nat -A PREROUTING -p tcp -s 0/0 \
-     -d 137.112.41.35 --dport 1080 -j DNAT --to 192.168.7.2:80</strong>
+     -d 10.0.5.117 --dport 1080 -j DNAT --to 192.168.7.2:80</strong>
 </pre>
 <div class="paragraph">
 <p>Now browse to your host computer at port 1080. That is, if your host&#8217;s IP address is 123.456.789.0, enter 123.456.789.0:1080. The :1080 specifies what port number to use. The request will be forwarded to the server on your Bone listening to port 80. (I used 1080 here, in case your host is running a web server of its own on port 80.)</p>
@@ -2084,7 +2084,7 @@ bone$ <strong>./blinkLED</strong>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2022-08-10 11:35:29 -0400
+Last updated 2022-08-11 11:17:32 -0400
 </div>
 </div>
 </body>

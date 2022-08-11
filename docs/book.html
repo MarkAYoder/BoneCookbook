@@ -477,9 +477,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#sensors_mappiing">Mapping Header Numbers to gpio Numbers</a></li>
 <li><a href="#_reading_a_position_light_or_force_sensor_variable_resistance_sensor">Reading a Position, Light, or Force Sensor (Variable Resistance Sensor)</a></li>
 <li><a href="#_reading_a_distance_sensor_analog_or_variable_voltage_sensor">Reading a Distance Sensor (Analog or Variable Voltage Sensor)</a></li>
-<li><a href="#sensors_hc-sr04">Reading a Distance Sensor (Variable Pulse Width Sensor)</a></li>
 <li><a href="#_accurately_reading_the_position_of_a_motor_or_dial">Accurately Reading the Position of a Motor or Dial</a></li>
-<li><a href="#sensors_GPS">Acquiring Data by Using a Smart Sensor over a Serial Connection</a></li>
 <li><a href="#sensors_i2c_temp">Measuring a Temperature</a></li>
 <li><a href="#_reading_temperature_via_a_dallas_1_wire_device">Reading Temperature via a Dallas 1-Wire Device</a></li>
 <li><a href="#sensors_audio">Playing and Recording Audio</a></li>
@@ -567,7 +565,6 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#realtime_devmem2">I/O with devmem2</a></li>
 <li><a href="#realtime_mmap">I/O with C and mmap()</a></li>
 <li><a href="#_tighter_delay_bounds_with_the_preempt_rt_kernel">Tighter Delay Bounds with the PREEMPT_RT Kernel</a></li>
-<li><a href="#realtime_simpPRU">I/O with simpPRU</a></li>
 </ul>
 </li>
 <li><a href="#capes">Capes</a>
@@ -1802,128 +1799,15 @@ function readPin() {
 </div>
 </div>
 <div class="sect2">
-<h3 id="sensors_hc-sr04">Reading a Distance Sensor (Variable Pulse Width Sensor)</h3>
-<div class="sect3">
-<h4 id="_problem_20">Problem</h4>
-<div class="paragraph">
-<p>You want to use a HC-SR04 Ultrasonic Range Sensor with BeagleBone Black.</p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_solution_20">Solution</h4>
-<div class="paragraph">
-<p>The HC-SR04 Ultrasonic Range Sensor (shown in <a href="#sensors_hc_sr04_image_fig">HC-SR04 Ultrasonic range sensor</a>) works by sending a trigger pulse to the <em>Trigger</em> input and then measuring the pulse width on the <em>Echo</em> output. The width of the pulse tells you the distance.</p>
-</div>
-<div id="sensors_hc_sr04_image_fig" class="imageblock">
-<div class="content">
-<img src="./02sensors/figures/hc-sr04.jpg" alt="HC-SR04 Ultrasonic Sensor">
-</div>
-<div class="title">Figure 17. HC-SR04 Ultrasonic range sensor</div>
-</div>
-<div class="paragraph">
-<p>To make this recipe, you will need:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Breadboard and jumper wires</p>
-</li>
-<li>
-<p>10 k&#8486; and 20 k&#8486; resistors</p>
-</li>
-<li>
-<p>HC-SR04 Ultrsonic Range Sensor</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>Wire the sensor as shown in <a href="#sensors_hc-sr04_fig">Wiring an HC-SR04 ultrasonic sensor</a>. Note that the HC-SR04 is a 5 V
-device, so the <em>banded</em> wire (running from P9_7 on the Bone to VCC on the range finder) attaches the HC-SR04 to the Bone&#8217;s 5 V power supply.</p>
-</div>
-<div id="sensors_hc-sr04_fig" class="imageblock">
-<div class="content">
-<img src="./02sensors/figures/hc-sr04-ultraSonic_bb.png" alt="Wiring an HC-SR04 Ultrasonic Sensor">
-</div>
-<div class="title">Figure 18. Wiring an HC-SR04 ultrasonic sensor</div>
-</div>
-<div class="paragraph">
-<p><a href="#sensors_hc-sr04_code">Driving a HC-SR04 ultrasound sensor (hc-sr04-ultraSonic.js)</a> shows BoneScript code used to drive the HC-SR04.</p>
-</div>
-<div id="sensors_hc-sr04_code" class="exampleblock">
-<div class="title">Example 7. Driving a HC-SR04 ultrasound sensor (hc-sr04-ultraSonic.js)</div>
-<div class="content">
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-js" data-lang="js">#!/usr/bin/env node
-
-// This is an example of reading HC-SR04 Ultrasonic Range Finder
-// This version measures from the fall of the Trigger pulse 
-//   to the end of the Echo pulse
-
-var b = require('bonescript');
-
-var trigger = 'P9_16',  // Pin to trigger the ultrasonic pulse
-    echo    = 'P9_41',  // Pin to measure to pulse width related to the distance
-    ms = 250;           // Trigger period in ms
-    
-var startTime, pulseTime;
-    
-b.pinMode(echo,   b.INPUT, 7, 'pulldown', 'fast', doAttach);
-function doAttach(x) {
-    if(x.err) {
-        console.log('x.err = ' + x.err);
-        return;
-    }
-    // Call pingEnd when the pulse ends
-    b.attachInterrupt(echo, true, b.FALLING, pingEnd);
-}
-
-b.pinMode(trigger, b.OUTPUT);
-
-b.digitalWrite(trigger, 1);     // Unit triggers on a falling edge.
-                                // Set trigger to high so we call pull it low later
-
-// Pull the trigger low at a regular interval.
-setInterval(ping, ms);
-
-// Pull trigger low and start timing.
-function ping() {
-    // console.log('ping');
-    b.digitalWrite(trigger, 0);
-    startTime = process.hrtime();
-}
-
-// Compute the total time and get ready to trigger again.
-function pingEnd(x) {
-    if(x.attached) {
-        console.log("Interrupt handler attached");
-        return;
-    }
-    if(startTime) {
-        pulseTime = process.hrtime(startTime);
-        b.digitalWrite(trigger, 1);
-        console.log('pulseTime = ' + (pulseTime[1]/1000000-0.8).toFixed(3));
-    }
-}</code></pre>
-</div>
-</div>
-</div>
-</div>
-<div class="paragraph">
-<p>This code is more complex than others in this chapter, because we have to tell the device when to start measuring and time the return pulse.</p>
-</div>
-</div>
-</div>
-<div class="sect2">
 <h3 id="_accurately_reading_the_position_of_a_motor_or_dial">Accurately Reading the Position of a Motor or Dial</h3>
 <div class="sect3">
-<h4 id="_problem_21">Problem</h4>
+<h4 id="_problem_20">Problem</h4>
 <div class="paragraph">
 <p>You have a motor or dial and want to detect rotation using a rotary encoder.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_21">Solution</h4>
+<h4 id="_solution_20">Solution</h4>
 <div class="paragraph">
 <p>Use a rotary encoder (also called a <em>quadrature encoder</em>) connected to one of the Bone&#8217;s eQEP ports, as shown in <a href="#digital_rotaryEncoder_fig">Wiring a rotary encoder using eQEP2</a>.</p>
 </div>
@@ -1931,7 +1815,7 @@ function pingEnd(x) {
 <div class="content">
 <img src="./02sensors/figures/rotaryEncoder_bb.png" alt="rotaryEncoder">
 </div>
-<div class="title">Figure 19. Wiring a rotary encoder using eQEP2</div>
+<div class="title">Figure 17. Wiring a rotary encoder using eQEP2</div>
 </div>
 <div class="paragraph">
 <p>On the BeagleBone and PocketBeage the three encoders are:</p>
@@ -2019,7 +1903,7 @@ P8.11        13 fast rx  up  4 qep 2 in B    ocp/P8_11_pinmux (pinmux_P8_11_qep_
 <p>Finally, add the code in <a href="#digital_rotaryEncoder_js">Reading a rotary encoder (rotaryEncoder.js)</a> to a file named <em>rotaryEncoder.js</em> and run it.</p>
 </div>
 <div id="digital_rotaryEncoder_py" class="exampleblock">
-<div class="title">Example 8. Reading a rotary encoder (rotaryEncoder.py)</div>
+<div class="title">Example 7. Reading a rotary encoder (rotaryEncoder.py)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -2071,7 +1955,7 @@ while True:
 </div>
 </div>
 <div id="digital_rotaryEncoder_js" class="exampleblock">
-<div class="title">Example 9. Reading a rotary encoder (rotaryEncoder.js)</div>
+<div class="title">Example 8. Reading a rotary encoder (rotaryEncoder.js)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -2148,132 +2032,15 @@ data = 999972
 </div>
 </div>
 <div class="sect2">
-<h3 id="sensors_GPS">Acquiring Data by Using a Smart Sensor over a Serial Connection</h3>
-<div class="sect3">
-<h4 id="_problem_22">Problem</h4>
-<div class="paragraph">
-<p>You want to connect a smart sensor that uses a built-in microcontroller to stream data, such as a global positioning system (GPS), to the Bone and read the data from it.</p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_solution_22">Solution</h4>
-<div class="paragraph">
-<p>The Bone has several serial ports (UARTs) that you can use to read data from an external microcontroller included in smart sensors, such as a GPS. Just wire one up, and you&#8217;ll soon be gathering useful data, such as your own location.</p>
-</div>
-<div class="paragraph">
-<p>Here&#8217;s what you&#8217;ll need:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Breadboard and jumper wires</p>
-</li>
-<li>
-<p>GPS receiver</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>Wire your GPS, as shown in <a href="#digital_GPS_fig">Wiring a GPS to UART 4</a>.</p>
-</div>
-<div id="digital_GPS_fig" class="imageblock">
-<div class="content">
-<img src="./02sensors/figures/GPS_bb.png" alt="GPS">
-</div>
-<div class="title">Figure 20. Wiring a GPS to UART 4</div>
-</div>
-<div class="paragraph">
-<p>The GPS will produce raw National Marine Electronics Association (NMEA) data that&#8217;s easy for a computer to read, but not for a human.
-There are many utilities to help convert such sensor data into a human-readable form. For this GPS, run the following command to load a NMEA parser:</p>
-</div>
-<pre data-type="programlisting">
-bone$ <strong>npm install -g nmea</strong>
-</pre>
-<div class="paragraph">
-<p>Running the code in <a href="#digital_GPS_code">Talking to a GPS with UART 4 (GPS.js)</a> will print the current location every time the GPS outputs it.</p>
-</div>
-<div id="digital_GPS_code" class="exampleblock">
-<div class="title">Example 10. Talking to a GPS with UART 4 (GPS.js)</div>
-<div class="content">
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code class="language-javascript" data-lang="javascript">#!/usr/bin/env node
-// Install with: npm install nmea
-
-// Need to add exports.serialParsers = m.module.parsers;
-// to the end of /usr/local/lib/node_modules/bonescript/serial.js
-
-var b = require('bonescript');
-var nmea = require('nmea');
-
-var port = '/dev/ttyO4';
-var options = {
-    baudrate: 9600,
-    parser: b.serialParsers.readline("\n")
-};
-
-b.serialOpen(port, options, onSerial);
-
-function onSerial(x) {
-    if (x.err) {
-        console.log('***ERROR*** ' + JSON.stringify(x));
-    }
-    if (x.event == 'open') {
-       console.log('***OPENED***');
-    }
-    if (x.event == 'data') {
-        console.log(String(x.data));
-        console.log(nmea.parse(x.data));
-    }
-}</code></pre>
-</div>
-</div>
-</div>
-</div>
-<div class="paragraph">
-<p>If you don&#8217;t need the NMEA formatting, you can skip the npm part and remove the lines in the code that refer to it.</p>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<div class="title">Note</div>
-</td>
-<td class="content">
-<div class="paragraph">
-<p>If you get an error like this</p>
-</div>
-<div class="paragraph">
-<p>TypeError: Cannot call method 'readline' of undefined</p>
-</div>
-<div class="paragraph">
-<p>add this line to the end of file <em>/usr/local/lib/node_modules/bonescript/serial.js</em>:</p>
-</div>
-<div class="paragraph">
-<p>exports.serialParsers = m.module.parsers;</p>
-</div>
-</td>
-</tr>
-</table>
-</div>
-<div id="cape-headers-serial_fig" class="imageblock">
-<div class="content">
-<img src="./02sensors/figures/cape-headers-serial.png" alt="UART outputs">
-</div>
-<div class="title">Figure 21. Table of UART outputs</div>
-</div>
-</div>
-</div>
-<div class="sect2">
 <h3 id="sensors_i2c_temp">Measuring a Temperature</h3>
 <div class="sect3">
-<h4 id="_problem_23">Problem</h4>
+<h4 id="_problem_21">Problem</h4>
 <div class="paragraph">
 <p>You want to measure a temperature using a digital temperature sensor.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_23">Solution</h4>
+<h4 id="_solution_21">Solution</h4>
 <div class="paragraph">
 <p>The TMP101 sensor is a common digital temperature sensor that uses a standard I<sup>2</sup>C-based serial protocol.</p>
 </div>
@@ -2300,7 +2067,7 @@ function onSerial(x) {
 <div class="content">
 <img src="./02sensors/figures/i2cTemp_bb.png" alt="I^2^C  Temp">
 </div>
-<div class="title">Figure 22. Wiring an I<sup>2</sup>C TMP101 temperature sensor</div>
+<div class="title">Figure 18. Wiring an I<sup>2</sup>C TMP101 temperature sensor</div>
 </div>
 <div class="paragraph">
 <p>There are two I<sup>2</sup>C buses brought out to the headers. <a href="#sensors_cape_headers_i2c">Table of I<sup>2</sup>C outputs</a> shows that you have wired your device to I<sup>2</sup>C bus 2.</p>
@@ -2309,13 +2076,13 @@ function onSerial(x) {
 <div class="content">
 <img src="./02sensors/figures/cape-headers-i2c.png" alt="I^2^C  Temp">
 </div>
-<div class="title">Figure 23. Table of I<sup>2</sup>C outputs</div>
+<div class="title">Figure 19. Table of I<sup>2</sup>C outputs</div>
 </div>
 <div class="paragraph">
 <p>Once the I<sup>2</sup>C  device is wired up, you can use a couple handy I<sup>2</sup>C tools to test the device. Because these are Linux command-line tools, you have to use 2 as the bus number. i2cdetect, shown in <a href="#js_i2cTools">I<sup>2</sup>C tools</a>, shows which I<sup>2</sup>C  devices are on the bus. The -r flag indicates which bus to use. Our TMP101 is appearing at address 0x49. You can use the i2cget command to read the value. It returns the temperature in hexidecimal and degrees C. In this example, 0x18 = 24&#176;C, which is 75.2&#176;F. (Hmmm, the office is a bit warm today.) Try warming up the TMP101 with your finger and running i2cget again.</p>
 </div>
 <div id="js_i2cTools" class="exampleblock">
-<div class="title">Example 11. I<sup>2</sup>C tools</div>
+<div class="title">Example 9. I<sup>2</sup>C tools</div>
 <div class="content">
 <pre data-type="programlisting">
 bone$ <strong>i2cdetect -y -r 2</strong>
@@ -2344,7 +2111,7 @@ bone$ <strong>i2cget -y 2 0x49</strong>
 <p>Assuming the TMP101 is on bus 2 (the last digit is the bus number)</p>
 </div>
 <div id="js_i2cKernel" class="exampleblock">
-<div class="title">Example 12. I<sup>2</sup>C TMP101 via Kernel</div>
+<div class="title">Example 10. I<sup>2</sup>C TMP101 via Kernel</div>
 <div class="content">
 <pre data-type="programlisting">
 bone$ <strong>cd /sys/class/i2c-adapter/</strong>
@@ -2423,7 +2190,7 @@ You can try the Linux Kernel Driver Database, <a href="https://cateee.net/lkddb/
 <a href="#py_i2cTemp_code">Reading an I<sup>2</sup>C  device (i2cTemp.py)</a> shows how to read the TMP101 from BoneScript.</p>
 </div>
 <div id="py_i2cTemp_code" class="exampleblock">
-<div class="title">Example 13. Reading an I<sup>2</sup>C  device (i2cTemp.py)</div>
+<div class="title">Example 11. Reading an I<sup>2</sup>C  device (i2cTemp.py)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -2454,7 +2221,7 @@ while True:
 </div>
 </div>
 <div id="js_i2cTemp_code" class="exampleblock">
-<div class="title">Example 14. Reading an I<sup>2</sup>C  device (i2cTemp.js)</div>
+<div class="title">Example 12. Reading an I<sup>2</sup>C  device (i2cTemp.js)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -2516,7 +2283,7 @@ bone$ <strong>pip install smbus</strong>
 </div>
 </div>
 <div id="js_i2ctmp101_code" class="exampleblock">
-<div class="title">Example 15. Reading an I<sup>2</sup>C  device (i2cTemp.py)</div>
+<div class="title">Example 13. Reading an I<sup>2</sup>C  device (i2cTemp.py)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -2551,13 +2318,13 @@ while True:
 <div class="sect2">
 <h3 id="_reading_temperature_via_a_dallas_1_wire_device">Reading Temperature via a Dallas 1-Wire Device</h3>
 <div class="sect3">
-<h4 id="_problem_24">Problem</h4>
+<h4 id="_problem_22">Problem</h4>
 <div class="paragraph">
 <p>You want to measure a temperature using a Dallas Semiconductor DS18B20 temperature sensor.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_24">Solution</h4>
+<h4 id="_solution_22">Solution</h4>
 <div class="paragraph">
 <p>The DS18B20 is an interesting temperature sensor that uses Dallas Semiconductor&#8217;s 1-wire interface. The data communication requires only one wire! (However, you still need wires from ground and 3.3 V.) You can wire it to any GPIO port.</p>
 </div>
@@ -2584,7 +2351,7 @@ while True:
 <div class="content">
 <img src="./02sensors/figures/onewire_bb.png" alt="1-wire">
 </div>
-<div class="title">Figure 24. Wiring a Dallas 1-Wire temperature sensor <sup class="footnote">[<a id="_footnoteref_1" class="footnote" href="#_footnotedef_1" title="View footnote.">1</a>]</sup></div>
+<div class="title">Figure 20. Wiring a Dallas 1-Wire temperature sensor <sup class="footnote">[<a id="_footnoteref_1" class="footnote" href="#_footnotedef_1" title="View footnote.">1</a>]</sup></div>
 </div>
 <div class="paragraph">
 <p>Edit the file /boot/uEnt.txt.   Go to about line 19 and edit as shown:</p>
@@ -2618,7 +2385,7 @@ bone$ <strong>ls /sys/bus/w1/devices/</strong>
 <p>Finally, add the code in <a href="#sensors_onewire__code">Reading a temperature with a DS18B20 (w1.js)</a> in to a file named <em>w1.py</em>, edit the path assigned to w1 so that the path points to your device, and then run it.</p>
 </div>
 <div id="py_onewire__code" class="exampleblock">
-<div class="title">Example 16. Reading a temperature with a DS18B20 (w1.py)</div>
+<div class="title">Example 14. Reading a temperature with a DS18B20 (w1.py)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -2650,7 +2417,7 @@ while True:
 </div>
 </div>
 <div id="sensors_onewire__code" class="exampleblock">
-<div class="title">Example 17. Reading a temperature with a DS18B20 (w1.js)</div>
+<div class="title">Example 15. Reading a temperature with a DS18B20 (w1.js)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -2704,13 +2471,13 @@ temp (C) = 31.0
 <div class="sect2">
 <h3 id="sensors_audio">Playing and Recording Audio</h3>
 <div class="sect3">
-<h4 id="_problem_25">Problem</h4>
+<h4 id="_problem_23">Problem</h4>
 <div class="paragraph">
 <p>BeagleBone doesn&#8217;t have audio built in, but you want to play and record files.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_25">Solution</h4>
+<h4 id="_solution_23">Solution</h4>
 <div class="paragraph">
 <p>One approach is to buy an audio cape (<a href="#app_capes">[app_capes]</a>), but another, possibly cheaper approach is to buy a USB audio adapter,
 such as the one shown in <a href="#usb_audio_dongle">A USB audio dongle</a>. Some adapters that I&#8217;ve tested are provided in <a href="#app_misc">[app_misc]</a>.</p>
@@ -2719,13 +2486,13 @@ such as the one shown in <a href="#usb_audio_dongle">A USB audio dongle</a>. Som
 <div class="content">
 <img src="./02sensors/figures/audioDongle.jpg" alt="Audio Dongle">
 </div>
-<div class="title">Figure 25. A USB audio dongle</div>
+<div class="title">Figure 21. A USB audio dongle</div>
 </div>
 <div class="paragraph">
 <p>Drivers for the <a href="http://bit.ly/1MrAJUR">Advanced Linux Sound Architecture</a> (ALSA) are already installed on the Bone. You can list the recording and playing devices on your Bone by using aplay and arecord, as shown in <a href="#sensors_alsa">Listing the ALSA audio output and input devices on the Bone</a>. BeagleBone Black has audio-out on the HDMI interface. It&#8217;s listed as card 0 in <a href="#sensors_alsa">Listing the ALSA audio output and input devices on the Bone</a>. card 1 is my USB audio adapter&#8217;s audio out.</p>
 </div>
 <div id="sensors_alsa" class="exampleblock">
-<div class="title">Example 18. Listing the ALSA audio output and input devices on the Bone</div>
+<div class="title">Example 16. Listing the ALSA audio output and input devices on the Bone</div>
 <div class="content">
 <pre data-type="programlisting">
 bone$ <strong>aplay -l</strong>
@@ -2749,7 +2516,7 @@ card 1: Device [C-Media USB Audio Device], device 0: USB Audio [USB Audio]
 <p>In the aplay output shown in <a href="#sensors_alsa">Listing the ALSA audio output and input devices on the Bone</a>, you can see the USB adapter&#8217;s audio out. By default, the Bone will send audio to the HDMI. You can change that default by creating a file in your home directory called <em>~/.asoundrc</em> and adding the code in <a href="#sensors_asoundrc">Change the default audio out by putting this in ~/.asoundrc (audio.asoundrc)</a> to it.</p>
 </div>
 <div id="sensors_asoundrc" class="exampleblock">
-<div class="title">Example 19. Change the default audio out by putting this in ~/.asoundrc (audio.asoundrc)</div>
+<div class="title">Example 17. Change the default audio out by putting this in ~/.asoundrc (audio.asoundrc)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -2819,7 +2586,7 @@ BeagleBone Black&#8217;s general-purpose input/output (GPIO) pins. The Bone has 
 <div class="content">
 <img src="./03displays/figures/P8P9_bb.png" alt="Headers P8 and P9">
 </div>
-<div class="title">Figure 26. The P8 and P9 GPIO headers</div>
+<div class="title">Figure 22. The P8 and P9 GPIO headers</div>
 </div>
 <div class="paragraph">
 <p>The purpose of this chapter is to give simple examples that show how to use various methods of output. Most solutions require a breadboard and some jumper wires.</p>
@@ -2831,13 +2598,13 @@ BeagleBone Black&#8217;s general-purpose input/output (GPIO) pins. The Bone has 
 <div class="sect2">
 <h3 id="displays_onboardLED">Toggling an Onboard LED</h3>
 <div class="sect3">
-<h4 id="_problem_26">Problem</h4>
+<h4 id="_problem_24">Problem</h4>
 <div class="paragraph">
 <p>You want to know how to flash the four LEDs that are next to the Ethernet port on the Bone.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_26">Solution</h4>
+<h4 id="_solution_24">Solution</h4>
 <div class="paragraph">
 <p>Locate the four onboard LEDs shown in <a href="#js_internLED_fig">The four USER LEDs</a>. They are labeled USR0 through USR3, but we&#8217;ll refer to them as the USER LEDs.</p>
 </div>
@@ -2845,13 +2612,13 @@ BeagleBone Black&#8217;s general-purpose input/output (GPIO) pins. The Bone has 
 <div class="content">
 <img src="./03displays/figures/internLED.png" alt="USER LEDs">
 </div>
-<div class="title">Figure 27. The four USER LEDs</div>
+<div class="title">Figure 23. The four USER LEDs</div>
 </div>
 <div class="paragraph">
 <p>Place the code shown in <a href="#py_internLED_code">Using an internal LED (internLED.py)</a> in a file called <em>internLED.py</em>. You can do this using VSC to edit files (as shown in <a href="#basics_vsc">Editing Code Using Visual Studio Code</a>) or with a more traditional editor (as shown in <a href="#tips_editing_files">Editing a Text File from the GNU/Linux Command Shell</a>).</p>
 </div>
 <div id="py_internLED_code" class="exampleblock">
-<div class="title">Example 20. Using an internal LED (internLED.py)</div>
+<div class="title">Example 18. Using an internal LED (internLED.py)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -2886,7 +2653,7 @@ while True:
 </div>
 </div>
 <div id="js_internLED_code" class="exampleblock">
-<div class="title">Example 21. Using an internal LED (internLED.js)</div>
+<div class="title">Example 19. Using an internal LED (internLED.js)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -2934,13 +2701,13 @@ bone$ <strong>./internLED.js</strong>
 <div class="sect2">
 <h3 id="displays_externalLED">Toggling an External LED</h3>
 <div class="sect3">
-<h4 id="_problem_27">Problem</h4>
+<h4 id="_problem_25">Problem</h4>
 <div class="paragraph">
 <p>You want to connect your own external LED to the Bone.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_27">Solution</h4>
+<h4 id="_solution_25">Solution</h4>
 <div class="paragraph">
 <p>Connect an LED to one of the GPIO pins using a series resistor to limit the current.  To make this recipe, you will need:</p>
 </div>
@@ -2978,13 +2745,13 @@ bone$ <strong>./internLED.js</strong>
 <div class="content">
 <img src="./03displays/figures/externLED_bb.png" alt="External LED">
 </div>
-<div class="title">Figure 28. Diagram for using an external LED</div>
+<div class="title">Figure 24. Diagram for using an external LED</div>
 </div>
 <div class="paragraph">
 <p>After you&#8217;ve wired it, start VSC (see <a href="#basics_vsc">Editing Code Using Visual Studio Code</a>) and find the code shown in <a href="#py_externLED_code">Code for using an external LED (externLED.py)</a>.</p>
 </div>
 <div id="py_externLED_code" class="exampleblock">
-<div class="title">Example 22. Code for using an external LED (externLED.py)</div>
+<div class="title">Example 20. Code for using an external LED (externLED.py)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -3033,7 +2800,7 @@ f.close()</code></pre>
 </div>
 </div>
 <div id="js_externLED_code" class="exampleblock">
-<div class="title">Example 23. Code for using an external LED (externLED.js)</div>
+<div class="title">Example 21. Code for using an external LED (externLED.js)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -3135,18 +2902,18 @@ bone$ <strong>echo 0 > value</strong>
 <div class="sect2">
 <h3 id="displays_gpiod">Toggling an External LED via gpiod</h3>
 <div class="sect3">
-<h4 id="_problem_28">Problem</h4>
+<h4 id="_problem_26">Problem</h4>
 <div class="paragraph">
 <p>You hear <a href="https://blog.adafruit.com/2018/11/26/sysfs-is-dead-long-live-libgpiod-libgpiod-for-linux-circuitpython/">sysfs</a> is dead and want to know what to use instead.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_28">Solution</h4>
+<h4 id="_solution_26">Solution</h4>
 <div class="paragraph">
 <p>sysfs is <a href="https://www.kernel.org/doc/Documentation/gpio/sysfs.txt">deprecated</a>, but most believe it will be around for a long time.  The repository has many examples of gpiod in docs/03displays/code/gpiod.  Here&#8217;s an example:</p>
 </div>
 <div id="py_gpiod_code" class="exampleblock">
-<div class="title">Example 24. Code for using an external LED (toggle1.py)</div>
+<div class="title">Example 22. Code for using an external LED (toggle1.py)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -3185,13 +2952,13 @@ while True:
 <div class="sect2">
 <h3 id="displays_powerSwitch">Toggling a High-Voltage External Device</h3>
 <div class="sect3">
-<h4 id="_problem_29">Problem</h4>
+<h4 id="_problem_27">Problem</h4>
 <div class="paragraph">
 <p>You want to control a device that runs at 120 V.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_29">Solution</h4>
+<h4 id="_solution_27">Solution</h4>
 <div class="paragraph">
 <p>Working with 120 V can be tricky&#8212;&#8203;even dangerous&#8212;&#8203;if you aren&#8217;t careful.  Here&#8217;s a safe way to do it.</p>
 </div>
@@ -3212,7 +2979,7 @@ while True:
 <div class="content">
 <img src="./03displays/figures/powerSwitch_bb.png" alt="Power Switch Tail II">
 </div>
-<div class="title">Figure 29. Diagram for wiring PowerSwitch Tail II</div>
+<div class="title">Figure 25. Diagram for wiring PowerSwitch Tail II</div>
 </div>
 <div class="paragraph">
 <p>After you&#8217;ve wired it, because this uses the same output pin as <a href="#displays_externalLED">Toggling an External LED</a>, you can run the same code (<a href="#py_externLED_code">Code for using an external LED (externLED.py)</a>).</p>
@@ -3222,13 +2989,13 @@ while True:
 <div class="sect2">
 <h3 id="displays_PWMdiscussion">Fading an External LED</h3>
 <div class="sect3">
-<h4 id="_problem_30">Problem</h4>
+<h4 id="_problem_28">Problem</h4>
 <div class="paragraph">
 <p>You want to change the brightness of an LED from the Bone.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_30">Solution</h4>
+<h4 id="_solution_28">Solution</h4>
 <div class="literalblock">
 <div class="content">
 <pre>Use the Bone's pulse width modulation (PWM) hardware to fade an LED. We'll use the same circuit as before (&lt;&lt;displays_externLED_fig&gt;&gt;). Find the code in &lt;&lt;py_fadeLED_code&gt;&gt; Next configure the pins.  We are using P9_14 so run:</pre>
@@ -3241,7 +3008,7 @@ bone$ <strong>config-pin P9_14 pwm
 <p>Then run it as before.</p>
 </div>
 <div id="py_fadeLED_code" class="exampleblock pagebreak-before">
-<div class="title">Example 25. Code for using an external LED (fadeLED.py)</div>
+<div class="title">Example 23. Code for using an external LED (fadeLED.py)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -3294,7 +3061,7 @@ while True:
 </div>
 </div>
 <div id="js_fadeLED_code" class="exampleblock pagebreak-before">
-<div class="title">Example 26. Code for using an external LED (fadeLED.js)</div>
+<div class="title">Example 24. Code for using an external LED (fadeLED.js)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -3356,7 +3123,7 @@ function fade() {
 <div class="content">
 <img src="./03displays/figures/cape-headers-pwm.png" alt="PWM outputs">
 </div>
-<div class="title">Figure 30. Table of PWM outputs</div>
+<div class="title">Figure 26. Table of PWM outputs</div>
 </div>
 <div class="paragraph">
 <p>The pwm&#8217;s are accessed through /dev/bone/pwm</p>
@@ -3442,13 +3209,13 @@ bone$ <strong>echo 1 > enable</strong>
 <div class="sect2">
 <h3 id="_writing_to_an_led_matrix">Writing to an LED Matrix</h3>
 <div class="sect3">
-<h4 id="_problem_31">Problem</h4>
+<h4 id="_problem_29">Problem</h4>
 <div class="paragraph">
 <p>You have an I<sup>2</sup>C-based LED matrix to interface.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_31">Solution</h4>
+<h4 id="_solution_29">Solution</h4>
 <div class="paragraph">
 <p>There are a number of nice LED matrices that allow you to control several LEDs via one interface. This solution uses an <a href="http://www.adafruit.com/products/902">Adafruit Bicolor 8x8 LED Square Pixel Matrix w/I<sup>2</sup>C Backpack</a>.</p>
 </div>
@@ -3475,7 +3242,7 @@ bone$ <strong>echo 1 > enable</strong>
 <div class="content">
 <img src="./03displays/figures/i2cMatrix_bb.png" alt="I^2^C LED matrix">
 </div>
-<div class="title">Figure 31. Wiring an I<sup>2</sup>C LED matrix</div>
+<div class="title">Figure 27. Wiring an I<sup>2</sup>C LED matrix</div>
 </div>
 <div class="paragraph">
 <p><a href="#sensors_i2c_temp">Measuring a Temperature</a> shows how to use i2cdetect to discover the address of an I<sup>2</sup>C device.</p>
@@ -3484,7 +3251,7 @@ bone$ <strong>echo 1 > enable</strong>
 <p>Run the i2cdetect -y -r 2 command to discover the address of the display on I<sup>2</sup>C bus 2, as shown in <a href="#displays_i2cdetect">Using I<sup>2</sup>C command-line tools to discover the address of the display</a>.</p>
 </div>
 <div id="displays_i2cdetect" class="exampleblock pagebreak-before">
-<div class="title">Example 27. Using I<sup>2</sup>C command-line tools to discover the address of the display</div>
+<div class="title">Example 25. Using I<sup>2</sup>C command-line tools to discover the address of the display</div>
 <div class="content">
 <pre data-type="programlisting">
 bone$ <strong>i2cdetect -y -r 2</strong>
@@ -3515,7 +3282,7 @@ bone$ <strong>./matrixLEDi2c.py</strong>
 </div>
 </div>
 <div id="displays_matrix_i2c" class="exampleblock">
-<div class="title">Example 28. LED matrix display (matrixLEDi2c.py)</div>
+<div class="title">Example 26. LED matrix display (matrixLEDi2c.py)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -3591,13 +3358,13 @@ bus.write_i2c_block_data(matrix, 0, smile)</code></pre>
 <div class="sect2">
 <h3 id="displays_drive5V">Driving a 5 V Device</h3>
 <div class="sect3">
-<h4 id="_problem_32">Problem</h4>
+<h4 id="_problem_30">Problem</h4>
 <div class="paragraph">
 <p>You have a 5 V device to drive, and the Bone has 3.3 V outputs.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_32">Solution</h4>
+<h4 id="_solution_30">Solution</h4>
 <div class="paragraph">
 <p>If you are lucky, you might be able to drive a 5 V device from the Bone&#8217;s 3.3 V output. Try it and see if it works. If not, you need a level translator.</p>
 </div>
@@ -3624,7 +3391,7 @@ bus.write_i2c_block_data(matrix, 0, smile)</code></pre>
 <div class="content">
 <img src="./03displays/figures/i2cMatrixLevelTrans_bb.png" alt="PCA9306 level translator">
 </div>
-<div class="title">Figure 32. Wiring a PCA9306 level translator to an LED matrix</div>
+<div class="title">Figure 28. Wiring a PCA9306 level translator to an LED matrix</div>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -3645,13 +3412,13 @@ bus.write_i2c_block_data(matrix, 0, smile)</code></pre>
 <div class="sect2">
 <h3 id="_writing_to_a_neopixel_led_string_using_the_prus">Writing to a NeoPixel LED String Using the PRUs</h3>
 <div class="sect3">
-<h4 id="_problem_33">Problem</h4>
+<h4 id="_problem_31">Problem</h4>
 <div class="paragraph">
 <p>You have an <a href="http://www.adafruit.com/products/1138">Adafruit NeoPixel LED string</a> or <a href="http://www.adafruit.com/products/1487">Adafruit NeoPixel LED matrix</a> and want to light it up.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_33">Solution</h4>
+<h4 id="_solution_31">Solution</h4>
 <div class="paragraph">
 <p>The PRU Cookbook has a nice discussion (<a href="https://markayoder.github.io/PRUCookbook/05blocks/blocks.html#blocks_ws2812">WS2812 (NeoPixel) driver</a>) on driving NeoPixels.</p>
 </div>
@@ -3659,7 +3426,7 @@ bus.write_i2c_block_data(matrix, 0, smile)</code></pre>
 <div class="content">
 <img src="./03displays/figures/neo_bb.png" alt="NeoPixel Ring">
 </div>
-<div class="title">Figure 33. Wiring an Adafruit NeoPixel LED matrix to P9_29</div>
+<div class="title">Figure 29. Wiring an Adafruit NeoPixel LED matrix to P9_29</div>
 </div>
 <div style="page-break-after: always;"></div>
 </div>
@@ -3743,13 +3510,13 @@ But there are so many different kinds of motors (<em>servo</em>, <em>stepper</em
 <div class="sect2">
 <h3 id="motors_servo">Controlling a Servo Motor</h3>
 <div class="sect3">
-<h4 id="_problem_34">Problem</h4>
+<h4 id="_problem_32">Problem</h4>
 <div class="paragraph">
 <p>You want to use BeagleBone to control the absolute position of a servo motor.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_34">Solution</h4>
+<h4 id="_solution_32">Solution</h4>
 <div class="paragraph">
 <p>We&#8217;ll use the pulse width modulation (PWM) hardware of the Bone to control a
 servo motor.</p>
@@ -3806,7 +3573,7 @@ bone$ <strong>config-pin P9_16 pwm</strong>
 bone$ <strong>./servoMotor.py</strong>
 </pre>
 <div id="py_servoMotor_code" class="exampleblock pagebreak-before">
-<div class="title">Example 29. Code for driving a servo motor (servoMotor.py)</div>
+<div class="title">Example 27. Code for driving a servo motor (servoMotor.py)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -3871,7 +3638,7 @@ while True:
 </div>
 </div>
 <div id="motors_servoMotor_code" class="exampleblock">
-<div class="title">Example 30. Code for driving a servo motor (servoMotor.js)</div>
+<div class="title">Example 28. Code for driving a servo motor (servoMotor.js)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -3943,13 +3710,13 @@ process.on('SIGINT', function() {
 <div class="sect2">
 <h3 id="_controlling_a_servo_with_an_rotary_encoder">Controlling a Servo with an Rotary Encoder</h3>
 <div class="sect3">
-<h4 id="_problem_35">Problem</h4>
+<h4 id="_problem_33">Problem</h4>
 <div class="paragraph">
 <p>You have a rotary encoder from <a href="#digital_rotaryEncoder_js">Reading a rotary encoder (rotaryEncoder.js)</a> that you want to control a servo motor.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_35">Solution</h4>
+<h4 id="_solution_33">Solution</h4>
 <div class="paragraph">
 <p>Combine the code from <a href="#digital_rotaryEncoder_js">Reading a rotary encoder (rotaryEncoder.js)</a> and <a href="#motors_servo">Controlling a Servo Motor</a>.</p>
 </div>
@@ -3960,7 +3727,7 @@ bone$ <strong>config-pin P8_12 eqep</strong>
 bone$ <strong>./servoEncoder.py</strong>
 </pre>
 <div id="py_servoEncoder_code" class="exampleblock pagebreak-before">
-<div class="title">Example 31. Code for driving a servo motor with a rotary encorder(servoEncoder.py)</div>
+<div class="title">Example 29. Code for driving a servo motor with a rotary encorder(servoEncoder.py)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -4071,13 +3838,13 @@ while True:
 <div class="sect2">
 <h3 id="motors_dcSpeed">Controlling the Speed of a DC Motor</h3>
 <div class="sect3">
-<h4 id="_problem_36">Problem</h4>
+<h4 id="_problem_34">Problem</h4>
 <div class="paragraph">
 <p>You have a DC motor (or a solenoid) and want a simple way to control its speed, but not the direction.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_36">Solution</h4>
+<h4 id="_solution_34">Solution</h4>
 <div class="paragraph">
 <p>It would be nice if you could just wire the DC motor to BeagleBone Black and have it work, but it won&#8217;t.  Most motors require more current than the GPIO ports on the Bone can supply. Our solution is to use a transistor to control the current to the bone.</p>
 </div>
@@ -4123,7 +3890,7 @@ while True:
 <p>Use the code in <a href="#motors_dcMotor_code">Driving a DC motor in one direction (dcMotor.js)</a> (<em>dcMotor.js</em>) to run the motor.</p>
 </div>
 <div id="py_dcMotor_code" class="exampleblock pagebreak-before">
-<div class="title">Example 32. Driving a DC motor in one direction (dcMotor.py)</div>
+<div class="title">Example 30. Driving a DC motor in one direction (dcMotor.py)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -4182,7 +3949,7 @@ while True:
 </div>
 </div>
 <div id="motors_dcMotor_code" class="exampleblock pagebreak-before">
-<div class="title">Example 33. Driving a DC motor in one direction (dcMotor.js)</div>
+<div class="title">Example 31. Driving a DC motor in one direction (dcMotor.js)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -4245,13 +4012,13 @@ process.on('SIGINT', function() {
 <div class="sect2">
 <h3 id="motors_dcDirection">Controlling the Speed and Direction of a DC Motor</h3>
 <div class="sect3">
-<h4 id="_problem_37">Problem</h4>
+<h4 id="_problem_35">Problem</h4>
 <div class="paragraph">
 <p>You would like your DC motor to go forward and backward.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_37">Solution</h4>
+<h4 id="_solution_35">Solution</h4>
 <div class="paragraph">
 <p>Use an H-bridge to switch the terminals on the motor so that it will run both backward and forward. We&#8217;ll use the <em>L293D</em>: a common, single-chip H-bridge.</p>
 </div>
@@ -4286,7 +4053,7 @@ process.on('SIGINT', function() {
 The additional code specifies which direction to spin the motor.</p>
 </div>
 <div id="motors_h-bridge_code" class="exampleblock">
-<div class="title">Example 34. Code for driving a DC motor with an H-bridge (h-bridgeMotor.js)</div>
+<div class="title">Example 32. Code for driving a DC motor with an H-bridge (h-bridgeMotor.js)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -4353,13 +4120,13 @@ process.on('SIGINT', function() {
 <div class="sect2">
 <h3 id="_driving_a_bipolar_stepper_motor">Driving a Bipolar Stepper Motor</h3>
 <div class="sect3">
-<h4 id="_problem_38">Problem</h4>
+<h4 id="_problem_36">Problem</h4>
 <div class="paragraph">
 <p>You want to drive a stepper motor that has four wires.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_38">Solution</h4>
+<h4 id="_solution_36">Solution</h4>
 <div class="paragraph">
 <p>Use an L293D H-bridge. The bipolar stepper motor requires us to reverse the coils, so we need to use an H-bridge.</p>
 </div>
@@ -4390,7 +4157,7 @@ process.on('SIGINT', function() {
 <p>Use the code in <a href="#motors_stepperMotor_code">[motors_stepperMotor_code]</a> to drive the motor.</p>
 </div>
 <div id="motors_stepperMotor_code_py" class="exampleblock">
-<div class="title">Example 35. Driving a bipolar stepper motor (bipolarStepperMotor.py)</div>
+<div class="title">Example 33. Driving a bipolar stepper motor (bipolarStepperMotor.py)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -4497,13 +4264,13 @@ while True:
 <div class="sect2">
 <h3 id="_driving_a_unipolar_stepper_motor">Driving a Unipolar Stepper Motor</h3>
 <div class="sect3">
-<h4 id="_problem_39">Problem</h4>
+<h4 id="_problem_37">Problem</h4>
 <div class="paragraph">
 <p>You want to drive a stepper motor that has five or six wires.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_39">Solution</h4>
+<h4 id="_solution_37">Solution</h4>
 <div class="paragraph">
 <p>If your stepper motor has five or six wires, it&#8217;s a <em>unipolar</em> stepper and is wired differently than the bipolar. Here, we&#8217;ll use a <em>ULN2003 Darlington Transistor Array IC</em> to drive the motor.</p>
 </div>
@@ -4553,7 +4320,7 @@ The stepper motor I&#8217;m using runs better at 5 V, so I&#8217;m using the Bon
 <p>The code for driving the motor is in <em>unipolarStepperMotor.js</em>; however, it is almost identical to the bipolar stepper code (<a href="#motors_stepperMotor_code">[motors_stepperMotor_code]</a>), so <a href="#motors_unistepperMotor_code">Changes to bipolar code to drive a unipolar stepper motor (unipolarStepperMotor.js.diff)</a> shows only the lines that you need to change.</p>
 </div>
 <div id="motors_unistepperMotor_js_code" class="exampleblock">
-<div class="title">Example 36. Changes to bipolar code to drive a unipolar stepper motor (unipolarStepperMotor.py.diff)</div>
+<div class="title">Example 34. Changes to bipolar code to drive a unipolar stepper motor (unipolarStepperMotor.py.diff)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -4568,7 +4335,7 @@ max = 200      // Number of steps to turn before turning around</code></pre>
 </div>
 </div>
 <div id="motors_unistepperMotor_code" class="exampleblock">
-<div class="title">Example 37. Changes to bipolar code to drive a unipolar stepper motor (unipolarStepperMotor.js.diff)</div>
+<div class="title">Example 35. Changes to bipolar code to drive a unipolar stepper motor (unipolarStepperMotor.js.diff)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -4615,13 +4382,13 @@ var ms = 100,       // Time between steps, in ms
 <div class="sect2">
 <h3 id="tips_hdmi">Running Your Bone Standalone</h3>
 <div class="sect3">
-<h4 id="_problem_40">Problem</h4>
+<h4 id="_problem_38">Problem</h4>
 <div class="paragraph">
 <p>You want to use BeagleBone Black as a desktop computer with keyboard, mouse, and an HDMI display.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_40">Solution</h4>
+<h4 id="_solution_38">Solution</h4>
 <div class="paragraph">
 <p>The Bone comes with USB and a microHDMI output. All you need to do is connect your keyboard, mouse, and HDMI display to it.</p>
 </div>
@@ -4682,7 +4449,7 @@ var ms = 100,       // Time between steps, in ms
 <div class="content">
 <img src="./05tips/figures/hdmiConverter.jpg" alt="HDMI Adaptor">
 </div>
-<div class="title">Figure 34. Female HDMI-to-male microHDMI adapter</div>
+<div class="title">Figure 30. Female HDMI-to-male microHDMI adapter</div>
 </div>
 <div class="paragraph">
 <p>Plug the small end into the microHDMI input on the Bone and plug your HDMI cable into the other end of the adapter and your monitor. If nothing displays on your Bone, reboot.</p>
@@ -4762,13 +4529,13 @@ var ms = 100,       // Time between steps, in ms
 <div class="sect2">
 <h3 id="tips_shell">Getting to the Command Shell via SSH</h3>
 <div class="sect3">
-<h4 id="_problem_41">Problem</h4>
+<h4 id="_problem_39">Problem</h4>
 <div class="paragraph">
 <p>You want to connect to the command shell of a remote Bone from your host <span class="keep-together">computer</span>.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_41">Solution</h4>
+<h4 id="_solution_39">Solution</h4>
 <div class="paragraph">
 <p><a href="#basics_vsc_IDE">Running Python and JavaScript Applications from Visual Studio Code</a> shows how to run shell commands in the Visual Studio Code bash tab. However, the Bone has Secure Shell (SSH) enabled right out of the box, so you can easily connect by using the following command to log in as user debian, (note the $ at the end of the prompt):</p>
 </div>
@@ -4794,13 +4561,13 @@ passwd: password updated successfully
 <div class="sect2">
 <h3 id="tips_serial">Getting to the Command Shell via the Virtual Serial Port</h3>
 <div class="sect3">
-<h4 id="_problem_42">Problem</h4>
+<h4 id="_problem_40">Problem</h4>
 <div class="paragraph">
 <p>You want to connect to the command shell of a remote Bone from your host computer without using SSH.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_42">Solution</h4>
+<h4 id="_solution_40">Solution</h4>
 <div class="paragraph">
 <p>Sometimes, you can&#8217;t connect to the Bone via SSH, but you have a network working over USB to the Bone. There is a way to access the command line to fix things without requiring extra hardware. (<a href="#tips_FTDI">Viewing and Debugging the Kernel and u-boot Messages at Boot Time</a> shows a way that works even if you don&#8217;t have a network working over USB, but it requires a special serial-to-USB cable.)</p>
 </div>
@@ -4849,13 +4616,13 @@ tells the speed of the connection. In this case, it&#8217;s 115,200 bits per sec
 <div class="sect2">
 <h3 id="tips_FTDI">Viewing and Debugging the Kernel and u-boot Messages at Boot Time</h3>
 <div class="sect3">
-<h4 id="_problem_43">Problem</h4>
+<h4 id="_problem_41">Problem</h4>
 <div class="paragraph">
 <p>You want to see the messages that are logged by BeagleBone Black as it comes to life.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_43">Solution</h4>
+<h4 id="_solution_41">Solution</h4>
 <div class="paragraph">
 <p>There is no network in place when the Bone first boots up, so <a href="#tips_shell">Getting to the Command Shell via SSH</a> and <a href="#tips_serial">Getting to the Command Shell via the Virtual Serial Port</a> won&#8217;t work. This recipe uses some extra hardware (FTDI cable) to attach to the Bone&#8217;s console serial port.</p>
 </div>
@@ -4901,7 +4668,7 @@ tells the speed of the connection. In this case, it&#8217;s 115,200 bits per sec
 <div class="content">
 <img src="./05tips/figures/FTDIcable.jpg" alt="FTDI Cable">
 </div>
-<div class="title">Figure 35. FTDI cable</div>
+<div class="title">Figure 31. FTDI cable</div>
 </div>
 <div class="paragraph">
 <p>Look for a small triangle at the end of the FTDI cable (<a href="#tips_FTDIconnector_fig">FTDI connector</a>).  It&#8217;s often connected to the black wire.</p>
@@ -4910,7 +4677,7 @@ tells the speed of the connection. In this case, it&#8217;s 115,200 bits per sec
 <div class="content">
 <img src="./05tips/figures/FTDIconnector.jpg" alt="FTDI Connector">
 </div>
-<div class="title">Figure 36. FTDI connector</div>
+<div class="title">Figure 32. FTDI connector</div>
 </div>
 <div class="paragraph">
 <p>Next, look for the FTDI pins of the Bone (labeled J1 on the Bone), shown in <a href="#tips_black_hardware_details_fig">FTDI pins for the FTDI connector</a>.
@@ -4920,7 +4687,7 @@ They are next to the P9 header and begin near pin 20. There is a white dot near 
 <div class="content">
 <img src="./05tips/figures/FTDIPins.png" alt="Serial Debug Pins">
 </div>
-<div class="title">Figure 37. FTDI pins for the FTDI connector</div>
+<div class="title">Figure 33. FTDI pins for the FTDI connector</div>
 </div>
 <div class="paragraph">
 <p>Plug the FTDI connector into the FTDI pins, being sure to connect the <em>triangle</em> pin on the connector to the <em>white dot</em> pin of the FTDI connector.</p>
@@ -4961,13 +4728,13 @@ beaglebone login:
 <div class="sect2">
 <h3 id="_verifying_you_have_the_latest_version_of_the_os_on_your_bone_from_the_shell">Verifying You Have the Latest Version of the OS on Your Bone from the Shell</h3>
 <div class="sect3">
-<h4 id="_problem_44">Problem</h4>
+<h4 id="_problem_42">Problem</h4>
 <div class="paragraph">
 <p>You are logged in to your Bone with a command prompt and want to know what version of the OS you are running.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_44">Solution</h4>
+<h4 id="_solution_42">Solution</h4>
 <div class="paragraph">
 <p>Log in to your Bone and enter the following command:</p>
 </div>
@@ -4986,13 +4753,13 @@ BeagleBoard.org Debian Bullseye IoT Image 2022-07-01
 <div class="sect2">
 <h3 id="_controlling_the_bone_remotely_with_a_vnc">Controlling the Bone Remotely with a VNC</h3>
 <div class="sect3">
-<h4 id="_problem_45">Problem</h4>
+<h4 id="_problem_43">Problem</h4>
 <div class="paragraph">
 <p>You want to access the BeagleBone&#8217;s graphical desktop from your host computer.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_45">Solution</h4>
+<h4 id="_solution_43">Solution</h4>
 <div class="paragraph">
 <p>Run the installed Virtual Network Computing (VNC) server:</p>
 </div>
@@ -5019,7 +4786,7 @@ Log file is /home/debian/.vnc/beagleboard:1.log
 <div class="content">
 <img src="./05tips/figures/vnc1.png" alt="Create a new remote desktop">
 </div>
-<div class="title">Figure 38. Creating a new remote desktop file in Remmina Remote Desktop Client</div>
+<div class="title">Figure 34. Creating a new remote desktop file in Remmina Remote Desktop Client</div>
 </div>
 <div class="paragraph">
 <p>Give your connection a name, being sure to select "Remmina VNC Plugin" Also, be sure to add :1 after the server address, as shown in <a href="#tips_vnc2_fig">Configuring the Remmina Remote Desktop Client</a>. This should match the :1 that was displayed when you started vncserver.</p>
@@ -5028,7 +4795,7 @@ Log file is /home/debian/.vnc/beagleboard:1.log
 <div class="content">
 <img src="./05tips/figures/vnc2.png" alt="Configuring">
 </div>
-<div class="title">Figure 39. Configuring the Remmina Remote Desktop Client</div>
+<div class="title">Figure 35. Configuring the Remmina Remote Desktop Client</div>
 </div>
 <div class="paragraph">
 <p>Click Connect to start graphical access to your Bone, as shown in <a href="#tips_vnc3_fig">The Remmina Remote Desktop Client showing the BeagleBone desktop</a>.</p>
@@ -5037,7 +4804,7 @@ Log file is /home/debian/.vnc/beagleboard:1.log
 <div class="content">
 <img src="./05tips/figures/vnc3.png" alt="Desktop">
 </div>
-<div class="title">Figure 40. The Remmina Remote Desktop Client showing the BeagleBone desktop</div>
+<div class="title">Figure 36. The Remmina Remote Desktop Client showing the BeagleBone desktop</div>
 </div>
 <div class="admonitionblock tip">
 <table>
@@ -5079,13 +4846,13 @@ bone$ <strong>startxfce4</strong>
 <div class="sect2">
 <h3 id="_learning_typical_gnulinux_commands">Learning Typical GNU/Linux Commands</h3>
 <div class="sect3">
-<h4 id="_problem_46">Problem</h4>
+<h4 id="_problem_44">Problem</h4>
 <div class="paragraph">
 <p>There are many powerful commands to use in Linux. How do you learn about them?</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_46">Solution</h4>
+<h4 id="_solution_44">Solution</h4>
 <div class="paragraph">
 <p><a href="#tips_linux_commands">Common Linux commands</a> lists many common Linux commands.</p>
 </div>
@@ -5241,13 +5008,13 @@ bone$ <strong>startxfce4</strong>
 <div class="sect2">
 <h3 id="tips_editing_files">Editing a Text File from the GNU/Linux Command Shell</h3>
 <div class="sect3">
-<h4 id="_problem_47">Problem</h4>
+<h4 id="_problem_45">Problem</h4>
 <div class="paragraph">
 <p>You want to run an editor to change a file.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_47">Solution</h4>
+<h4 id="_solution_45">Solution</h4>
 <div class="paragraph">
 <p>The Bone comes with a number of editors. The simplest to learn is nano. Just enter the following command:</p>
 </div>
@@ -5261,7 +5028,7 @@ bone$ <strong>nano file</strong>
 <div class="content">
 <img src="./05tips/figures/nano.png" alt="nano">
 </div>
-<div class="title">Figure 41. Editing a file with nano</div>
+<div class="title">Figure 37. Editing a file with nano</div>
 </div>
 <div class="admonitionblock tip">
 <table>
@@ -5288,13 +5055,13 @@ bone$ <strong>nano file</strong>
 <div class="sect2">
 <h3 id="networking_wired">Establishing an Ethernet-Based Internet Connection</h3>
 <div class="sect3">
-<h4 id="_problem_48">Problem</h4>
+<h4 id="_problem_46">Problem</h4>
 <div class="paragraph">
 <p>You want to connect your Bone to the Internet using the wired network connection.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_48">Solution</h4>
+<h4 id="_solution_46">Solution</h4>
 <div class="paragraph">
 <p>Plug one end of an Ethernet patch cable into the RJ45 connector on the Bone (see <a href="#networking_rj45">The RJ45 port on the Bone</a>) and the other end into your home hub/router. The yellow and green link lights on both ends should begin to flash.</p>
 </div>
@@ -5302,7 +5069,7 @@ bone$ <strong>nano file</strong>
 <div class="content">
 <img src="./05tips/figures/internLED.png" alt="RJ45">
 </div>
-<div class="title">Figure 42. The RJ45 port on the Bone</div>
+<div class="title">Figure 38. The RJ45 port on the Bone</div>
 </div>
 <div class="paragraph">
 <p>If your router is already configured to run DHCP (Dynamical Host Configuration Protocol), it will automatically assign an IP address to the Bone.</p>
@@ -5386,13 +5153,13 @@ bone$ <strong>ip a</strong>
 <div class="sect2">
 <h3 id="networking_wireless">Establishing a WiFi-Based Internet Connection</h3>
 <div class="sect3">
-<h4 id="_problem_49">Problem</h4>
+<h4 id="_problem_47">Problem</h4>
 <div class="paragraph">
 <p>You want BeagleBone Black to talk to the Internet using a USB wireless adapter.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_49">Solution</h4>
+<h4 id="_solution_47">Solution</h4>
 <div class="paragraph">
 <p>For the correct instructions for the image you are using, go to
 <a href="https://forum.beagleboard.org/tag/latest-images">latest-images</a> and click on the image you are using.</p>
@@ -5404,7 +5171,7 @@ bone$ <strong>ip a</strong>
 <div class="content">
 <img src="./05tips/figures/latest-images.png" alt="Latest Image Page">
 </div>
-<div class="title">Figure 43. Latested Beagle Images</div>
+<div class="title">Figure 39. Latested Beagle Images</div>
 </div>
 <div class="paragraph">
 <p>Scroll to the top of the page and you&#8217;ll see instructions on setting up Wifi. The instructions here are based on using networkctl</p>
@@ -5413,10 +5180,7 @@ bone$ <strong>ip a</strong>
 <div class="content">
 <img src="./05tips/figures/network.png" alt="Network Setup Instructions">
 </div>
-<div class="title">Figure 44. Instructions for setting up your network.</div>
-</div>
-<div class="paragraph">
-<p>Several WiFi adapters work with the Bone. Check <a href="http://bit.ly/1EbEwUo">WiFi Adapters</a> for the latest list.</p>
+<div class="title">Figure 40. Instructions for setting up your network.</div>
 </div>
 <div class="paragraph">
 <p>To make this recipe, you will need:</p>
@@ -5553,13 +5317,13 @@ rtt min/avg/max/mdev = 19.387/19.450/19.513/0.063 ms
 <div class="sect2">
 <h3 id="networking_usb">Sharing the Host&#8217;s Internet Connection over USB</h3>
 <div class="sect3">
-<h4 id="_problem_50">Problem</h4>
+<h4 id="_problem_48">Problem</h4>
 <div class="paragraph">
 <p>Your host computer is connected to the Bone via the USB cable, and you want to run the network between the two.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_50">Solution</h4>
+<h4 id="_solution_48">Solution</h4>
 <div class="paragraph">
 <p><a href="#networking_wired">Establishing an Ethernet-Based Internet Connection</a> shows how to connect BeagleBone Black to the Internet via the RJ45 Ethernet connector.  This recipe shows a way to connect without using the RJ45 <span class="keep-together">connector</span>.</p>
 </div>
@@ -5572,7 +5336,7 @@ rtt min/avg/max/mdev = 19.387/19.450/19.513/0.063 ms
 <p>You need to set up IP masquerading on your host and configure your Bone to use it. Here is a solution that works with a host computer running Linux. Add the code in <a href="#tips_ipmasq_code">Code for IP Masquerading (ipMasquerade.sh)</a> to a file called <em>ipMasquerade.sh</em> on your host computer.</p>
 </div>
 <div id="tips_ipmasq_code" class="exampleblock">
-<div class="title">Example 38. Code for IP Masquerading (ipMasquerade.sh)</div>
+<div class="title">Example 36. Code for IP Masquerading (ipMasquerade.sh)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -5625,7 +5389,7 @@ host$ <strong>./ipMasquerade.sh eth0</strong>
 <p>Now let&#8217;s set up your host to instruct the Bone what to do. Add the code in <a href="#tips_setDNS">Code for setting the DNS on the Bone (setDNS.sh)</a> to <em>setDNS.sh</em> on your host computer.</p>
 </div>
 <div id="tips_setDNS" class="exampleblock">
-<div class="title">Example 39. Code for setting the DNS on the Bone (setDNS.sh)</div>
+<div class="title">Example 37. Code for setting the DNS on the Bone (setDNS.sh)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -5701,21 +5465,24 @@ The solution is to use <em>port forwarding</em> from your host.
 Web servers typically listen to port 80. First, look up the IP address of your host:</p>
 </div>
 <pre data-type="programlisting">
-host$ <strong>ifconfig</strong>
-eth0      Link encap:Ethernet  HWaddr 00:e0:4e:00:22:51
-          inet addr:<strong>137.112.41.35</strong>  Bcast:137.112.41.255  Mask:255.255.255.0
-          inet6 addr: fe80::2e0:4eff:fe00:2251/64 Scope:Link
-          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
-          RX packets:5371019 errors:0 dropped:0 overruns:0 frame:0
-          TX packets:4720856 errors:0 dropped:0 overruns:0 carrier:0
-          collisions:0 txqueuelen:1000
-          RX bytes:1667916614 (1.6 GB)  TX bytes:597909671 (597.9 MB)
-
-eth1      Link encap:Ethernet  HWaddr 00:1d:60:40:58:e6
+host$ <strong>ip a</strong>
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host
+       valid_lft forever preferred_lft forever
+2: enp0s25: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel state UP group default qlen 1000
+    link/ether 54:ee:75:19:8d:53 brd ff:ff:ff:ff:ff:ff
+    inet 10.0.5.117/24 brd 10.0.5.255 scope global dynamic noprefixroute enp0s25
+       valid_lft 82690sec preferred_lft 82690sec
+    inet6 fe80::e6d0:8d85:4488:6b5f/64 scope link noprefixroute
+       valid_lft forever preferred_lft forever
+3: wlp3s0: <BROADCAST,MULTICAST> mtu 1500 qdisc noop state DOWN group default qlen 1000
 ...
 </pre>
 <div class="paragraph">
-<p>It&#8217;s the number following inet addr:, which in my case is 137.112.41.35.</p>
+<p>It&#8217;s the number following inet, which in my case is 10.0.5.117.</p>
 </div>
 <div class="admonitionblock tip">
 <table>
@@ -5736,7 +5503,7 @@ eth1      Link encap:Ethernet  HWaddr 00:1d:60:40:58:e6
 </div>
 <pre data-type="programlisting">
 host$ <strong>sudo iptables -t nat -A PREROUTING -p tcp -s 0/0 \
-     -d 137.112.41.35 --dport 1080 -j DNAT --to 192.168.7.2:80</strong>
+     -d 10.0.5.117 --dport 1080 -j DNAT --to 192.168.7.2:80</strong>
 </pre>
 <div class="paragraph">
 <p>Now browse to your host computer at port 1080. That is, if your host&#8217;s IP address is 123.456.789.0, enter 123.456.789.0:1080. The :1080 specifies what port number to use. The request will be forwarded to the server on your Bone listening to port 80. (I used 1080 here, in case your host is running a web server of its own on port 80.)</p>
@@ -5747,13 +5514,13 @@ host$ <strong>sudo iptables -t nat -A PREROUTING -p tcp -s 0/0 \
 <div class="sect2">
 <h3 id="tips_firewall">Setting Up a Firewall</h3>
 <div class="sect3">
-<h4 id="_problem_51">Problem</h4>
+<h4 id="_problem_49">Problem</h4>
 <div class="paragraph">
 <p>You have put your Bone on the network and want to limit which IP addresses can access it.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_51">Solution</h4>
+<h4 id="_solution_49">Solution</h4>
 <div class="paragraph">
 <p><a href="https://www.howtogeek.com/">How-To Geek</a> has a great posting on how do use ufw, the "uncomplicated firewall". Check out <a href="https://www.howtogeek.com/devops/how-to-secure-your-linux-server-with-a-ufw-firewall/">How to Secure Your Linux Server with a UFW Firewall</a>.  I&#8217;ll summarize the initial setup here.</p>
 </div>
@@ -5833,13 +5600,13 @@ Firewall stopped and disabled on system startup
 <div class="sect2">
 <h3 id="tips_apt">Installing Additional Packages from the Debian Package Feed</h3>
 <div class="sect3">
-<h4 id="_problem_52">Problem</h4>
+<h4 id="_problem_50">Problem</h4>
 <div class="paragraph">
 <p>You want to do more cool things with your BeagleBone by installing more programs.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_52">Solution</h4>
+<h4 id="_solution_50">Solution</h4>
 <div class="admonitionblock warning">
 <table>
 <tr>
@@ -5890,13 +5657,13 @@ bone$ <strong>sudo apt install dict</strong>
 <div class="sect2">
 <h3 id="tips_apt_remove">Removing Packages Installed with apt</h3>
 <div class="sect3">
-<h4 id="_problem_53">Problem</h4>
+<h4 id="_problem_51">Problem</h4>
 <div class="paragraph">
 <p>You&#8217;ve been playing around and installing all sorts of things with apt and now you want to clean things up a bit.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_53">Solution</h4>
+<h4 id="_solution_51">Solution</h4>
 <div class="paragraph">
 <p>apt has a remove option, so you can run the following command:</p>
 </div>
@@ -5919,13 +5686,13 @@ Do you want to continue [Y/n]? <strong>y</strong>
 <div class="sect2">
 <h3 id="_copying_files_between_the_onboard_flash_and_the_microsd_card">Copying Files Between the Onboard Flash and the MicroSD Card</h3>
 <div class="sect3">
-<h4 id="_problem_54">Problem</h4>
+<h4 id="_problem_52">Problem</h4>
 <div class="paragraph">
 <p>You want to move files between the onboard flash and the microSD card.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_54">Solution</h4>
+<h4 id="_solution_52">Solution</h4>
 <div class="paragraph">
 <p>If you booted from the microSD card, run the following command:</p>
 </div>
@@ -5977,13 +5744,13 @@ bone$ <strong>sudo umount /mnt/onboard</strong>
 <div class="sect2">
 <h3 id="_freeing_space_on_the_onboard_flash_or_microsd_card">Freeing Space on the Onboard Flash or MicroSD Card</h3>
 <div class="sect3">
-<h4 id="_problem_55">Problem</h4>
+<h4 id="_problem_53">Problem</h4>
 <div class="paragraph">
 <p>You are starting to run out of room on your microSD card (or onboard flash) and have removed several packages you had previously installed (<a href="#tips_apt_remove">Removing Packages Installed with apt</a>), but you still need to free up more space.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_55">Solution</h4>
+<h4 id="_solution_53">Solution</h4>
 <div class="paragraph">
 <p>To free up space, you can remove preinstalled packages or discover big files to remove.</p>
 </div>
@@ -6148,18 +5915,18 @@ e   4.0 KiB [          ] /media
 <div class="sect2">
 <h3 id="misc_libsoc">Using C to Interact with the Physical World</h3>
 <div class="sect3">
-<h4 id="_problem_56">Problem</h4>
+<h4 id="_problem_54">Problem</h4>
 <div class="paragraph">
 <p>You want to use C on the Bone to talk to the world.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_56">Solution</h4>
+<h4 id="_solution_54">Solution</h4>
 <div class="paragraph">
 <p>The C solution isn&#8217;t as simple as the JavaScript or Python solution, but it does work and is much faster.  The approach is the same, write to the /sys/class/gpio files.</p>
 </div>
 <div id="misc_c_blink" class="exampleblock">
-<div class="title">Example 40. Use C to blink an LED (blinkLED.c)</div>
+<div class="title">Example 38. Use C to blink an LED (blinkLED.c)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -6222,7 +5989,7 @@ int main() {
 <div class="content">
 <img src="./05tips/figures/cape-headers-digital.png" alt="cape headers digital">
 </div>
-<div class="title">Figure 45. Mapping from header pin to internal GPIO number</div>
+<div class="title">Figure 41. Mapping from header pin to internal GPIO number</div>
 </div>
 <div class="paragraph">
 <p>Compile and run the code:</p>
@@ -6255,13 +6022,13 @@ bone$ <strong>./blinkLED</strong>
 <div class="sect2">
 <h3 id="_accessing_your_host_computers_files_on_the_bone">Accessing Your Host Computer&#8217;s Files on the Bone</h3>
 <div class="sect3">
-<h4 id="_problem_57">Problem</h4>
+<h4 id="_problem_55">Problem</h4>
 <div class="paragraph">
 <p>You want to access a file on a Linux host computer that&#8217;s attached to the Bone.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_57">Solution</h4>
+<h4 id="_solution_55">Solution</h4>
 <div class="paragraph">
 <p>If you are running Linux on a host computer attached to BeagleBone Black, it&#8217;s not hard to mount the Bone&#8217;s files on the host or the host&#8217;s files on the Bone by using sshfs. Suppose that you want to access files on the host from the Bone. First, install sshfs:</p>
 </div>
@@ -6313,13 +6080,13 @@ bone$ <strong>umount home</strong>
 <div class="sect2">
 <h3 id="networking_builtin_server">Serving Web Pages from the Bone</h3>
 <div class="sect3">
-<h4 id="_problem_58">Problem</h4>
+<h4 id="_problem_56">Problem</h4>
 <div class="paragraph">
 <p>You want to use BeagleBone Black as a web server.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_58">Solution</h4>
+<h4 id="_solution_56">Solution</h4>
 <div class="paragraph">
 <p>BeagleBone Black already has the nginx web server running.</p>
 </div>
@@ -6327,7 +6094,7 @@ bone$ <strong>umount home</strong>
 <p>When you point your browser to <em>192.168.7.2</em>, you are using the nginx web server.  The web pages are served from <em>/var/www/html/. Add the HTML in <a href="#networking_index_html">A sample web page (test.html)</a> to a file called _/var/www/html/test.html</em>, and then point your browser to <em>192.168.7.2://test.html</em>.</p>
 </div>
 <div id="networking_index_html" class="exampleblock pagebreak-before">
-<div class="title">Example 41. A sample web page (test.html)</div>
+<div class="title">Example 39. A sample web page (test.html)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -6352,20 +6119,20 @@ bone$ <strong>umount home</strong>
 <div class="content">
 <img src="./06iot/figures/nginxTest.png" alt="test.html served by nginx">
 </div>
-<div class="title">Figure 46. test.html as served by nginx</div>
+<div class="title">Figure 42. test.html as served by nginx</div>
 </div>
 </div>
 </div>
 <div class="sect2">
 <h3 id="networking_nodejs">Interacting with the Bone via a Web Browser</h3>
 <div class="sect3">
-<h4 id="_problem_59">Problem</h4>
+<h4 id="_problem_57">Problem</h4>
 <div class="paragraph">
 <p>BeagleBone Black is interacting with the physical world nicely and you want to display that information on a web browser.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_59">Solution</h4>
+<h4 id="_solution_57">Solution</h4>
 <div class="paragraph">
 <p><a href="https://www.fullstackpython.com/flask.html">Flask</a> is a Python web framework built with a small core and easy-to-extend philosophy. <a href="#networking_builtin_server">Serving Web Pages from the Bone</a> shows how to use nginx, the web server that&#8217;s already running. This recipe shows how easy it is to build your own server. This is an adaptation of <a href="https://towardsdatascience.com/python-webserver-with-flask-and-raspberry-pi-398423cc6f5d">Python WebServer With Flask and Raspberry Pi</a>.</p>
 </div>
@@ -6389,7 +6156,7 @@ bone$ <strong>cd BoneCookbook/doc/06iod/code/flash</strong>
 <p>Our first example is <strong>helloWorld.py</strong></p>
 </div>
 <div id="flask_hello_world" class="exampleblock">
-<div class="title">Example 42. Python code for flask hello world (helloWorld.py)</div>
+<div class="title">Example 40. Python code for flask hello world (helloWorld.py)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -6430,7 +6197,7 @@ if __name__ == '__main__':
 <div class="content">
 <img src="./06iot/figures/flaskServer.png" alt="Test page">
 </div>
-<div class="title">Figure 47. Test page served by our custom flask server</div>
+<div class="title">Figure 43. Test page served by our custom flask server</div>
 </div>
 </div>
 <div class="sect4">
@@ -6442,7 +6209,7 @@ if __name__ == '__main__':
 <p>Here&#8217;s what&#8217;s in <strong>templates/index1.html</strong>:</p>
 </div>
 <div id="flask_index1" class="exampleblock">
-<div class="title">Example 43. html code for flask hello world (index1.html)</div>
+<div class="title">Example 41. html code for flask hello world (index1.html)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -6466,7 +6233,7 @@ if __name__ == '__main__':
 <p>Observe that anything in double curly braces within the HTML template is interpreted as a variable that would be passed to it from the Python script via the render_template function. Now, let’s create a new Python script. We will name it app1.py:</p>
 </div>
 <div id="flask_app1" class="exampleblock">
-<div class="title">Example 44. Python code for flask index1.html (app1.py)</div>
+<div class="title">Example 42. Python code for flask index1.html (app1.py)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -6514,7 +6281,7 @@ bone$ <strong>.\app1.py</strong>
 <div class="content">
 <img src="./06iot/figures/flaskapp1.png" alt="app1.py">
 </div>
-<div class="title">Figure 48. Test page served by app1.py</div>
+<div class="title">Figure 44. Test page served by app1.py</div>
 </div>
 <div class="paragraph">
 <p>Note that the page’s content changes dynamically any time that you refresh it with the actual variable data passed by Python script. In our case, “title” is a fixed value, but “time” changes every second.</p>
@@ -6525,13 +6292,13 @@ bone$ <strong>.\app1.py</strong>
 <div class="sect2">
 <h3 id="_displaying_gpio_status_in_a_web_browser_reading_a_button">Displaying GPIO Status in a Web Browser - reading a button</h3>
 <div class="sect3">
-<h4 id="_problem_60">Problem</h4>
+<h4 id="_problem_58">Problem</h4>
 <div class="paragraph">
 <p>You want a web page to display the status of a GPIO pin.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_60">Solution</h4>
+<h4 id="_solution_58">Solution</h4>
 <div class="paragraph">
 <p>This solution builds on the Flask-based web server solution in <a href="#networking_nodejs">Interacting with the Bone via a Web Browser</a>.</p>
 </div>
@@ -6558,7 +6325,7 @@ bone$ <strong>.\app1.py</strong>
 <p>Let’s use a new Python script named <strong>app2.py</strong>.</p>
 </div>
 <div id="flask_app2" class="exampleblock">
-<div class="title">Example 45. A simple Flask-based web server to read a GPIO (app2.py)</div>
+<div class="title">Example 43. A simple Flask-based web server to read a GPIO (app2.py)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -6610,7 +6377,7 @@ if __name__ == "__main__":
 <p>Let’s also see the new <strong>index2.html</strong> to show the GPIO status:</p>
 </div>
 <div id="flask_index2" class="exampleblock">
-<div class="title">Example 46. A simple Flask-based web server to read a GPIO (index2.html)</div>
+<div class="title">Example 44. A simple Flask-based web server to read a GPIO (index2.html)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -6641,7 +6408,7 @@ bone$ <strong>./app2.py</strong>
 <div class="content">
 <img src="./06iot/figures/flaskapp2.png" alt="GPIO status">
 </div>
-<div class="title">Figure 49. Status of a GPIO pin on a web page</div>
+<div class="title">Figure 45. Status of a GPIO pin on a web page</div>
 </div>
 <div class="paragraph">
 <p>Currently, the 0 shows that the button isn&#8217;t pressed. Try refreshing the page while pushing the button, and you will see 1 displayed.</p>
@@ -6657,13 +6424,13 @@ bone$ <strong>./app2.py</strong>
 <div class="sect2">
 <h3 id="_controlling_gpios">Controlling GPIOs</h3>
 <div class="sect3">
-<h4 id="_problem_61">Problem</h4>
+<h4 id="_problem_59">Problem</h4>
 <div class="paragraph">
 <p>You want to control an LED attached to a GPIO pin.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_61">Solution</h4>
+<h4 id="_solution_59">Solution</h4>
 <div class="paragraph">
 <p>Now that we know how to “read” GPIO Status, let’s change them. What we will do will control the LED via the web page. We have an LED connected to <strong>P9_14</strong>. Controlling remotely we will change its status from LOW to HIGH and vice-versa.</p>
 </div>
@@ -6671,7 +6438,7 @@ bone$ <strong>./app2.py</strong>
 <p>The python script Let’s create a new Python script and named it <strong>app3.py</strong>.</p>
 </div>
 <div id="flask_app3" class="exampleblock">
-<div class="title">Example 47. A simple Flask-based web server to read a GPIO (app3.py)</div>
+<div class="title">Example 45. A simple Flask-based web server to read a GPIO (app3.py)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -6803,7 +6570,7 @@ If “action = on” for example, we must use the command: f.write("1")</p>
 <p>Let’s now create an index.html to show the GPIO status of each actuator and more importantly, create “buttons” to send the commands:</p>
 </div>
 <div id="flask_index3" class="exampleblock">
-<div class="title">Example 48. A simple Flask-based web server to write a GPIO (index3.html)</div>
+<div class="title">Example 46. A simple Flask-based web server to write a GPIO (index3.html)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -6837,7 +6604,7 @@ bone$ <strong>./app3.py</strong>
 <div class="content">
 <img src="./06iot/figures/flaskapp3.png" alt="Control LED">
 </div>
-<div class="title">Figure 50. Status of a GPIO pin on a web page</div>
+<div class="title">Figure 46. Status of a GPIO pin on a web page</div>
 </div>
 <div class="paragraph">
 <p>Try clicking the "TURN ON" and "TURN OFF" buttons and your LED will respond.</p>
@@ -6850,13 +6617,13 @@ bone$ <strong>./app3.py</strong>
 <div class="sect2">
 <h3 id="_plotting_data">Plotting Data</h3>
 <div class="sect3">
-<h4 id="_problem_62">Problem</h4>
+<h4 id="_problem_60">Problem</h4>
 <div class="paragraph">
 <p>You have live, continuous,  data coming into your Bone via one of the Analog Ins, and you want to plot it.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_62">Solution</h4>
+<h4 id="_solution_60">Solution</h4>
 <div class="paragraph">
 <p>Analog in - Continuous
 (This is based on information at: <a href="http://software-dl.ti.com/processor-sdk-linux/esd/docs/latest/linux/Foundational_Components/Kernel/Kernel_Drivers/ADC.html#Continuous%20Mode" class="bare">http://software-dl.ti.com/processor-sdk-linux/esd/docs/latest/linux/Foundational_Components/Kernel/Kernel_Drivers/ADC.html#Continuous%20Mode</a>)</p>
@@ -6912,13 +6679,13 @@ bone$ <strong>echo 1 > buffer/enable</strong>
 <div class="content">
 <img src="./06iot/figures/Sine1k.png" alt="1KHz sine wave sampled at 8KHz">
 </div>
-<div class="title">Figure 51. 1KHz sine wave sampled at 8KHz</div>
+<div class="title">Figure 47. 1KHz sine wave sampled at 8KHz</div>
 </div>
 <div class="paragraph">
 <p>An example Python program that does the above and the reads and plot the buffer is here: analogInContinuous.py</p>
 </div>
 <div id="analog_code" class="exampleblock">
-<div class="title">Example 49. Code to read and plot a continuous analog input(analogInContinuous.py)</div>
+<div class="title">Example 47. Code to read and plot a continuous analog input(analogInContinuous.py)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -7115,7 +6882,7 @@ Hit ^C to stop
 <div class="content">
 <img src="./06iot/figures/Tri10k.png" alt="10KHz triangle wave sampled at 200KHz">
 </div>
-<div class="title">Figure 52. 10KHz triangle wave sampled at 200KHz</div>
+<div class="title">Figure 48. 10KHz triangle wave sampled at 200KHz</div>
 </div>
 <div class="paragraph">
 <p>It&#8217;s still a good idea to disable the buffer when done.</p>
@@ -7129,13 +6896,13 @@ bone$ </strong>echo 0 > /sys/bus/iio/devices/iio:device0/buffer/enable</strong>
 <div class="sect2">
 <h3 id="_sending_an_email">Sending an Email</h3>
 <div class="sect3">
-<h4 id="_problem_63">Problem</h4>
+<h4 id="_problem_61">Problem</h4>
 <div class="paragraph">
 <p>You want to send an email via Gmail from the Bone.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_63">Solution</h4>
+<h4 id="_solution_61">Solution</h4>
 <div class="paragraph">
 <p>This example came from <a href="https://realpython.com/python-send-email/" class="bare">https://realpython.com/python-send-email/</a>.
 First, you need to <a href="https://mail.google.com">set up a Gmail account</a>, if you don&#8217;t already have one. Then add the code in <a href="#networking_nodemailer_code">Sending email using nodemailer (emailTest.py)</a> to a file named <em>emailTest.py</em>. Substitute your own Gmail username.  For the password:</p>
@@ -7157,7 +6924,7 @@ First, you need to <a href="https://mail.google.com">set up a Gmail account</a>,
 </ul>
 </div>
 <div id="networking_nodemailer_code" class="exampleblock">
-<div class="title">Example 50. Sending email using nodemailer (emailTest.py)</div>
+<div class="title">Example 48. Sending email using nodemailer (emailTest.py)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -7224,13 +6991,13 @@ bone$ <strong>.\emailTest.py</strong>
 <div class="sect2">
 <h3 id="_displaying_the_current_weather_conditions">Displaying the Current Weather Conditions</h3>
 <div class="sect3">
-<h4 id="_problem_64">Problem</h4>
+<h4 id="_problem_62">Problem</h4>
 <div class="paragraph">
 <p>You want to display the current weather conditions.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_64">Solution</h4>
+<h4 id="_solution_62">Solution</h4>
 <div class="paragraph">
 <p>Because your Bone is on the network, it&#8217;s not hard to access the current weather conditions from a weather API.</p>
 </div>
@@ -7261,7 +7028,7 @@ bash$ <strong>export APPID="Your key"</strong>
 </ul>
 </div>
 <div id="networking_weather_code" class="exampleblock">
-<div class="title">Example 51. Code for getting current weather conditions (<em>weather.py</em>)</div>
+<div class="title">Example 49. Code for getting current weather conditions (<em>weather.py</em>)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -7351,13 +7118,13 @@ sunrise: 2022-07-14 14:32:46
 <div class="sect2">
 <h3 id="_sending_and_receiving_tweets">Sending and Receiving Tweets</h3>
 <div class="sect3">
-<h4 id="_problem_65">Problem</h4>
+<h4 id="_problem_63">Problem</h4>
 <div class="paragraph">
 <p>You want to send and receive tweets (Twitter posts) with your Bone.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_65">Solution</h4>
+<h4 id="_solution_63">Solution</h4>
 <div class="paragraph">
 <p><a href="https://twitter.com/">Twitter</a> has a whole <a href="https://github.com/twitterdev/Twitter-API-v2-sample-code">git repo</a> of sample code for interacting with Twitter.  Here I&#8217;ll show how to create a tweet and then how to delete it.</p>
 </div>
@@ -7427,7 +7194,7 @@ bash$ <strong>source twitterKeys.sh</strong>
 <p>Run <em>twitter_create_tweet</em>.py_ to see your timeline.</p>
 </div>
 <div id="twitter_create_code" class="exampleblock">
-<div class="title">Example 52. Create a Tweet (<em>twitter_create_tweet.py</em>)</div>
+<div class="title">Example 50. Create a Tweet (<em>twitter_create_tweet.py</em>)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -7537,7 +7304,7 @@ Record the <strong>id</strong> number and we&#8217;ll use it next to delete the 
 <p>Use the code in <a href="#twitter_delete_code">Code to delete a tweet  (<em>twitter_delete_tweet.py</em>)</a> to delete a tweet.  Around line 15 is the <strong>id</strong> number.  Paste in the value returned above.</p>
 </div>
 <div id="twitter_delete_code" class="exampleblock">
-<div class="title">Example 53. Code to delete a tweet  (<em>twitter_delete_tweet.py</em>)</div>
+<div class="title">Example 51. Code to delete a tweet  (<em>twitter_delete_tweet.py</em>)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -7632,13 +7399,13 @@ print(json_response)</code></pre>
 <div class="sect2">
 <h3 id="networking_node_red">Wiring the IoT with Node-RED</h3>
 <div class="sect3">
-<h4 id="_problem_66">Problem</h4>
+<h4 id="_problem_64">Problem</h4>
 <div class="paragraph">
 <p>You want your BeagleBone to interact with the Internet, but you want to program it graphically.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_66">Solution</h4>
+<h4 id="_solution_64">Solution</h4>
 <div class="paragraph">
 <p><a href="http://nodered.org/">Node-RED</a> is a visual tool for wiring the IoT. It makes it easy to turn on a light when a certain hashtag is tweeted, or spin a motor if the forecast is for hot weather.</p>
 </div>
@@ -7671,7 +7438,7 @@ bone$ <strong>sudo systemctl start nodered.service</strong>
 <div class="content">
 <img src="./06iot/figures/node-red.png" alt="node-red">
 </div>
-<div class="title">Figure 53. The Node-RED interface</div>
+<div class="title">Figure 49. The Node-RED interface</div>
 </div>
 </div>
 <div class="sect4">
@@ -7683,7 +7450,7 @@ bone$ <strong>sudo systemctl start nodered.service</strong>
 <div class="content">
 <img src="./06iot/figures/node-red-inject.png" alt="node-red-inject">
 </div>
-<div class="title">Figure 54. Configuring inject</div>
+<div class="title">Figure 50. Configuring inject</div>
 </div>
 <div class="paragraph">
 <p>Set the <strong>msg.payload</strong> to <strong>number</strong> and enter <strong>1</strong>.  Click <strong>Done</strong>. Make a second <strong>inject</strong> node, but make it <strong>0</strong>.</p>
@@ -7692,7 +7459,7 @@ bone$ <strong>sudo systemctl start nodered.service</strong>
 <div class="content">
 <img src="./06iot/figures/node-red-inject2.png" alt="node-red-inject2">
 </div>
-<div class="title">Figure 55. Placing two injects</div>
+<div class="title">Figure 51. Placing two injects</div>
 </div>
 <div class="paragraph">
 <p>Next scroll down on the left list of nodes to <strong>Johnny5</strong> and drag the <strong>gpio out</strong> node to the canvas and double-click to open it.</p>
@@ -7701,7 +7468,7 @@ bone$ <strong>sudo systemctl start nodered.service</strong>
 <div class="content">
 <img src="./06iot/figures/node-red-gpio.png" alt="node-red-gpio">
 </div>
-<div class="title">Figure 56. Configuring gpio</div>
+<div class="title">Figure 52. Configuring gpio</div>
 </div>
 <div class="paragraph">
 <p>Set the properties as shown, using the Pin that you&#8217;ve wired up.  Click <strong>Done</strong> and wire as shown.</p>
@@ -7710,7 +7477,7 @@ bone$ <strong>sudo systemctl start nodered.service</strong>
 <div class="content">
 <img src="./06iot/figures/node-red-wiring.png" alt="node-red-wiring">
 </div>
-<div class="title">Figure 57. Wiring the nodes</div>
+<div class="title">Figure 53. Wiring the nodes</div>
 </div>
 <div class="paragraph">
 <p>Once wired, click the big red <strong>Deploy</strong> button.  Click the <strong>1</strong> inject button and the LED will light up.  Click the <strong>0</strong> to turn it off.</p>
@@ -7729,7 +7496,7 @@ First open <strong>Manage palette</strong>.</p>
 <div class="content">
 <img src="./06iot/figures/node-red-manage.png" alt="node-red-wiring">
 </div>
-<div class="title">Figure 58. Opening Manage palette</div>
+<div class="title">Figure 54. Opening Manage palette</div>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -7759,7 +7526,7 @@ bone$ <strong>sudo systemctl restart nodered.service</strong>
 <div class="content">
 <img src="./06iot/figures/node-red-install-twitter.png" alt="node-red-install-twitter">
 </div>
-<div class="title">Figure 59. Installing Twitter</div>
+<div class="title">Figure 55. Installing Twitter</div>
 </div>
 <div class="paragraph">
 <p>Click <strong>Close</strong> once it&#8217;s installed.</p>
@@ -7784,7 +7551,7 @@ bone$ <strong>sudo systemctl restart nodered.service</strong>
 <div class="content">
 <img src="./06iot/figures/node-twitter.png" alt="node-red">
 </div>
-<div class="title">Figure 60. Node-RED twitter node</div>
+<div class="title">Figure 56. Node-RED twitter node</div>
 </div>
 <div class="olist arabic">
 <ol class="arabic" start="3">
@@ -7797,7 +7564,7 @@ bone$ <strong>sudo systemctl restart nodered.service</strong>
 <div class="content">
 <img src="./06iot/figures/node-twitter-auth.png" alt="node-red authentication">
 </div>
-<div class="title">Figure 61. Node-RED Twitter authorization, step 1</div>
+<div class="title">Figure 57. Node-RED Twitter authorization, step 1</div>
 </div>
 <div class="olist arabic">
 <ol class="arabic" start="4">
@@ -7810,7 +7577,7 @@ bone$ <strong>sudo systemctl restart nodered.service</strong>
 <div class="content">
 <img src="./06iot/figures/node-twitter-auth2.png" alt="node-red authentication2">
 </div>
-<div class="title">Figure 62. Node-RED twitter authorization, step 2</div>
+<div class="title">Figure 58. Node-RED twitter authorization, step 2</div>
 </div>
 <div class="olist arabic">
 <ol class="arabic" start="5">
@@ -7830,7 +7597,7 @@ bone$ <strong>sudo systemctl restart nodered.service</strong>
 <div class="content">
 <img src="./06iot/figures/node-twitter-beagle.png" alt="node-red beagle hash">
 </div>
-<div class="title">Figure 63. Node-RED adding the #BeagleBone hashtag</div>
+<div class="title">Figure 59. Node-RED adding the #BeagleBone hashtag</div>
 </div>
 <div class="olist arabic">
 <ol class="arabic" start="8">
@@ -7846,7 +7613,7 @@ bone$ <strong>sudo systemctl restart nodered.service</strong>
 <div class="content">
 <img src="./06iot/figures/node-twitter-debug.png" alt="node-red debug">
 </div>
-<div class="title">Figure 64. Node-RED Twitter adding debug node and connecting</div>
+<div class="title">Figure 60. Node-RED Twitter adding debug node and connecting</div>
 </div>
 <div class="olist arabic">
 <ol class="arabic" start="10">
@@ -7881,7 +7648,7 @@ bone$ <strong>sudo systemctl restart nodered.service</strong>
 <div class="content">
 <img src="./06iot/figures/node-disc-out.png" alt="node-red trigger node">
 </div>
-<div class="title">Figure 65. Node-RED adding trigger node</div>
+<div class="title">Figure 61. Node-RED adding trigger node</div>
 </div>
 <div class="olist arabic">
 <ol class="arabic" start="3">
@@ -7894,7 +7661,7 @@ bone$ <strong>sudo systemctl restart nodered.service</strong>
 <div class="content">
 <img src="./06iot/figures/node-disc-out-setup.png" alt="node-red trigger setup">
 </div>
-<div class="title">Figure 66. Node-RED adding trigger configuration</div>
+<div class="title">Figure 62. Node-RED adding trigger configuration</div>
 </div>
 <div class="olist arabic">
 <ol class="arabic" start="4">
@@ -7941,13 +7708,13 @@ bone$ <strong>sudo systemctl restart nodered.service</strong>
 <div class="sect2">
 <h3 id="_updating_the_kernel">Updating the Kernel</h3>
 <div class="sect3">
-<h4 id="_problem_67">Problem</h4>
+<h4 id="_problem_65">Problem</h4>
 <div class="paragraph">
 <p>You have an out-of-date kernel and want to want to make it current.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_67">Solution</h4>
+<h4 id="_solution_65">Solution</h4>
 <div class="paragraph">
 <p>Use the following command to determine which kernel you are running:</p>
 </div>
@@ -7967,13 +7734,13 @@ Linux beaglebone <strong>3.8.13-bone67</strong> #1 SMP Wed Sep 24 21:30:03 UTC 2
 <div class="sect2">
 <h3 id="kernel_building_modules">Building and Installing Kernel Modules</h3>
 <div class="sect3">
-<h4 id="_problem_68">Problem</h4>
+<h4 id="_problem_66">Problem</h4>
 <div class="paragraph">
 <p>You need to use a peripheral for which there currently is no driver, or you need to improve the performance of an interface previously handled in user space.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_68">Solution</h4>
+<h4 id="_solution_66">Solution</h4>
 <div class="paragraph">
 <p>The solution is to run in kernel space by building a kernel module. There are entire <a href="http://bit.ly/1Fb0usf">books on writing Linux Device Drivers</a>. This recipe assumes that the driver has already been written and shows how to compile and install it. After you&#8217;ve followed the steps for this simple module, you will be able to apply them to any other module.</p>
 </div>
@@ -7987,7 +7754,7 @@ bone$ <strong>cd ~/BoneCookbook/docs/07kernel/code</strong>
 <p>And look at <em>hello.c</em>.</p>
 </div>
 <div id="kernel_simple_module" class="exampleblock">
-<div class="title">Example 54. Simple Kernel Module (hello.c)</div>
+<div class="title">Example 52. Simple Kernel Module (hello.c)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -8044,7 +7811,7 @@ bone$ <strong>sudo apt install linux-headers-`uname -r`</strong>
 <p>Next look at <em>Makefile</em>.</p>
 </div>
 <div id="kernel_Makefle" class="exampleblock">
-<div class="title">Example 55. Simple Kernel Module (<em>Makefile</em>)</div>
+<div class="title">Example 53. Simple Kernel Module (<em>Makefile</em>)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -8118,13 +7885,13 @@ bone$ <strong>dmesg -H | tail -4</strong>
 <div class="sect2">
 <h3 id="kernel_LEDs">Controlling LEDs by Using SYSFS Entries</h3>
 <div class="sect3">
-<h4 id="_problem_69">Problem</h4>
+<h4 id="_problem_67">Problem</h4>
 <div class="paragraph">
 <p>You want to control the onboard LEDs from the command line.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_69">Solution</h4>
+<h4 id="_solution_67">Solution</h4>
 <div class="paragraph">
 <p>On Linux, <a href="http://bit.ly/1AjhWUW">everything is a file</a>; that is, you can access all the inputs and outputs, the LEDs, and so on by opening the right <em>file</em> and reading or writing to it. For example, try the following:</p>
 </div>
@@ -8175,13 +7942,13 @@ bone$ <strong>echo 0 > brightness</strong>
 <div class="sect2">
 <h3 id="kernel_gpio_sysfs">Controlling GPIOs by Using SYSFS Entries</h3>
 <div class="sect3">
-<h4 id="_problem_70">Problem</h4>
+<h4 id="_problem_68">Problem</h4>
 <div class="paragraph">
 <p>You want to control a GPIO pin from the command line.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_70">Solution</h4>
+<h4 id="_solution_68">Solution</h4>
 <div class="paragraph">
 <p><a href="#kernel_LEDs">Controlling LEDs by Using SYSFS Entries</a> introduces the sysfs. This recipe shows how to read and write a GPIO pin.</p>
 </div>
@@ -8194,7 +7961,7 @@ bone$ <strong>echo 0 > brightness</strong>
 <div class="content">
 <img src="./07kernel/figures/cape-headers-digitalGPIO7.png" alt="Mapping Header Position to GPIO Numbers">
 </div>
-<div class="title">Figure 67. Mapping P9_42 header position to GPIO 7</div>
+<div class="title">Figure 63. Mapping P9_42 header position to GPIO 7</div>
 </div>
 <div class="paragraph">
 <p>Next, change to the GPIO sysfs directory:</p>
@@ -8274,13 +8041,13 @@ bone$ <strong>echo 0 > value</strong>
 <div class="sect2">
 <h3 id="kernel_compiling">Compiling the Kernel</h3>
 <div class="sect3">
-<h4 id="_problem_71">Problem</h4>
+<h4 id="_problem_69">Problem</h4>
 <div class="paragraph">
 <p>You need to download, patch, and compile the kernel from its source code.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_71">Solution</h4>
+<h4 id="_solution_69">Solution</h4>
 <div class="paragraph">
 <p>This is easier than it sounds, thanks to some very powerful scripts.</p>
 </div>
@@ -8358,7 +8125,7 @@ host$ ./build_kernel.sh # <b class="conum">(4)</b></code></pre>
 <div class="content">
 <img src="./07kernel/figures/KernelConfig5.10.png" alt="Kernel configuration menu">
 </div>
-<div class="title">Figure 68. Kernel configuration menu</div>
+<div class="title">Figure 64. Kernel configuration menu</div>
 </div>
 <div class="paragraph">
 <p>You can use the arrow keys to navigate. No changes need to be made, so you can just press the right arrow and Enter to start the kernel compiling. The entire process took about 25 minutes on my 8-core host.</p>
@@ -8487,7 +8254,7 @@ Linux breadboard-home 5.10.120-ti-r48 #1xross SMP PREEMPT Mon Aug 8 18:30:51 EDT
 <div class="sect2">
 <h3 id="kernel_using_cross_compiler">Using the Installed Cross Compiler</h3>
 <div class="sect3">
-<h4 id="_problem_72">Problem</h4>
+<h4 id="_problem_70">Problem</h4>
 <div class="paragraph">
 <p>You have followed the instructions in <a href="#kernel_compiling">Compiling the Kernel</a> and want to use the cross compiler it has downloaded.</p>
 </div>
@@ -8502,7 +8269,7 @@ Linux breadboard-home 5.10.120-ti-r48 #1xross SMP PREEMPT Mon Aug 8 18:30:51 EDT
 <p>You can cross-compile without installing the entire kernel source by running the following:</p>
 </div>
 <pre data-type="programlisting">
-host$ <strong>sudo apt install gcc-arm-linux-gnueabi</strong>
+host$ <strong>sudo apt install gcc-arm-linux-gnueabihf</strong>
 </pre>
 <div class="paragraph">
 <p>Then skip down to <a href="#kernel_skip_to_here">Setting Up Variables</a>.</p>
@@ -8513,7 +8280,7 @@ host$ <strong>sudo apt install gcc-arm-linux-gnueabi</strong>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_72">Solution</h4>
+<h4 id="_solution_70">Solution</h4>
 <div class="paragraph">
 <p><a href="#kernel_compiling">Compiling the Kernel</a> installs a cross compiler, but you need to set up a couple of things so that it can be found. <a href="#kernel_compiling">Compiling the Kernel</a> installed the kernel and other tools in a directory called <em>ti-linux-kernel-dev</em>. Run the following commands to find the path to the cross compiler:</p>
 </div>
@@ -8595,7 +8362,7 @@ host$ <strong>export CROSS_COMPILE=arm-linux-gnueabi-</strong>
 <p>These lines set up the standard environmental variables so that you can determine which cross-development tools to use. Test the cross compiler by adding <a href="#kernel_helloWorld">Simple helloWorld.c to test cross compiling (helloWorld.c)</a> to a file named <em>helloWorld.c</em>.</p>
 </div>
 <div id="kernel_helloWorld" class="exampleblock">
-<div class="title">Example 56. Simple helloWorld.c to test cross compiling (helloWorld.c)</div>
+<div class="title">Example 54. Simple helloWorld.c to test cross compiling (helloWorld.c)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -8626,18 +8393,18 @@ a.out: ELF 32-bit LSB executable, ARM, version 1 (SYSV),
 <div class="sect2">
 <h3 id="kernel_patches">Applying Patches</h3>
 <div class="sect3">
-<h4 id="_problem_73">Problem</h4>
+<h4 id="_problem_71">Problem</h4>
 <div class="paragraph">
 <p>You have a patch file that you need to apply to the kernel.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_73">Solution</h4>
+<h4 id="_solution_71">Solution</h4>
 <div class="paragraph">
 <p><a href="#kernel_hello_patch">Simple kernel patch file (hello.patch)</a> shows a patch file that you can use on the kernel.</p>
 </div>
 <div id="kernel_hello_patch" class="exampleblock">
-<div class="title">Example 57. Simple kernel patch file (hello.patch)</div>
+<div class="title">Example 55. Simple kernel patch file (hello.patch)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -8742,13 +8509,13 @@ hello.c  Makefile
 <div class="sect2">
 <h3 id="kernel_create_patch">Creating Your Own Patch File</h3>
 <div class="sect3">
-<h4 id="_problem_74">Problem</h4>
+<h4 id="_problem_72">Problem</h4>
 <div class="paragraph">
 <p>You made a few changes to the kernel, and you want to share them with your friends.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_74">Solution</h4>
+<h4 id="_solution_72">Solution</h4>
 <div class="paragraph">
 <p>Create a patch file that contains just the changes you have made. Before making your changes, check out a new branch:</p>
 </div>
@@ -8854,13 +8621,13 @@ host$ <strong>git format-patch master --stdout &gt; hello1.patch</strong>
 <div class="sect2">
 <h3 id="realtime_Python">I/O with Python</h3>
 <div class="sect3">
-<h4 id="_problem_75">Problem</h4>
+<h4 id="_problem_73">Problem</h4>
 <div class="paragraph">
 <p>You want to read an input pin and write it to the output as quickly as possible with Python.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_75">Solution</h4>
+<h4 id="_solution_73">Solution</h4>
 <div class="paragraph">
 <p><a href="#sensors_pushbutton">Reading the Status of a Pushbutton or Magnetic Switch (Passive On/Off Sensor)</a> shows how to read a pushbutton switch and <a href="#displays_externalLED">Toggling an External LED</a> controls an external LED. This recipe combines the two to read the switch and turn on the LED in response to it. To make this recipe, you will need:</p>
 </div>
@@ -8887,13 +8654,13 @@ host$ <strong>git format-patch master --stdout &gt; hello1.patch</strong>
 <div class="content">
 <img src="./08realtime/figures/pushLED_bb.png" alt="Bone with pushbutton and LED">
 </div>
-<div class="title">Figure 69. Diagram for wiring a pushbutton and LED with the LED attached to P9_14</div>
+<div class="title">Figure 65. Diagram for wiring a pushbutton and LED with the LED attached to P9_14</div>
 </div>
 <div class="paragraph">
 <p>The code in <a href="#realtime_pushLED_code">Monitoring a pushbutton (pushLED.js)</a> reads GPIO port P9_42, which is attached to the <span class="keep-together">pushbutton</span>, and turns on the LED attached to P9_12 when the button is pushed.</p>
 </div>
 <div id="py_pushLED_code" class="exampleblock">
-<div class="title">Example 58. Monitoring a pushbutton (pushLED.py)</div>
+<div class="title">Example 56. Monitoring a pushbutton (pushLED.py)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -8951,7 +8718,7 @@ while True:
 </div>
 </div>
 <div id="realtime_pushLED_code" class="exampleblock">
-<div class="title">Example 59. Monitoring a pushbutton (pushLED.js)</div>
+<div class="title">Example 57. Monitoring a pushbutton (pushLED.js)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -9017,13 +8784,13 @@ data = 1
 <div class="sect2">
 <h3 id="realtime_c">I/O with C</h3>
 <div class="sect3">
-<h4 id="_problem_76">Problem</h4>
+<h4 id="_problem_74">Problem</h4>
 <div class="paragraph">
 <p>You want to use the C language to process inputs in real time, or Python/JavaScript isn&#8217;t fast enough.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_76">Solution</h4>
+<h4 id="_solution_74">Solution</h4>
 <div class="paragraph">
 <p><a href="#realtime_Python">I/O with Python</a> shows how to control an LED with a pushbutton using Python. This recipe accomplishes the same thing using C. It does it in the same way, opening the correct /sys/class/gpio files and reading an writing them.</p>
 </div>
@@ -9031,7 +8798,7 @@ data = 1
 <p>Wire up the pushbutton and LED as shown in <a href="#realtime_pushLED_fig">Diagram for wiring a pushbutton and LED with the LED attached to P9_14</a>and open <em>pushLED.c</em>.</p>
 </div>
 <div id="realtime_pushLED_c_code" class="exampleblock">
-<div class="title">Example 60. Code for reading a switch and blinking an LED (pushLED.c)</div>
+<div class="title">Example 58. Code for reading a switch and blinking an LED (pushLED.c)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -9129,13 +8896,13 @@ state: 1
 <div class="sect2">
 <h3 id="realtime_devmem2">I/O with devmem2</h3>
 <div class="sect3">
-<h4 id="_problem_77">Problem</h4>
+<h4 id="_problem_75">Problem</h4>
 <div class="paragraph">
 <p>Your C code isn&#8217;t responding fast enough to the input signal. You want to read the GPIO registers directly.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_77">Solution</h4>
+<h4 id="_solution_75">Solution</h4>
 <div class="paragraph">
 <p>The solution is to use a simple utility called devmem2, with which you can read and write registers from the command line.</p>
 </div>
@@ -9168,7 +8935,7 @@ bone$ <strong>sudo mv devmem2 /usr/bin</strong>
 <div class="content">
 <img src="./08realtime/figures/pushLEDmmap_bb.png" alt="Bone with pushbutton and LED wired to P9_13">
 </div>
-<div class="title">Figure 70. Diagram for wiring a pushbutton and LED with the LED attached to P9_13</div>
+<div class="title">Figure 66. Diagram for wiring a pushbutton and LED with the LED attached to P9_13</div>
 </div>
 <div class="paragraph">
 <p>Now, flash the LED attached to P9_13 using the Linux sysfs interface (<a href="#kernel_gpio_sysfs">Controlling GPIOs by Using SYSFS Entries</a>). To do this, first look up which GPIO number P9_13 is attached to by referring to <a href="#tips_cape_headers_digital">Mapping from header pin to internal GPIO number</a>. Finding P9_13 at GPIO 31, export GPIO 31 and make it an output:</p>
@@ -9233,13 +9000,13 @@ Value at address 0x44E07138 (0xb6fe2138): 0x4000C484
 <div class="sect2">
 <h3 id="realtime_mmap">I/O with C and mmap()</h3>
 <div class="sect3">
-<h4 id="_problem_78">Problem</h4>
+<h4 id="_problem_76">Problem</h4>
 <div class="paragraph">
 <p>Your C code isn&#8217;t responding fast enough to the input signal.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_78">Solution</h4>
+<h4 id="_solution_76">Solution</h4>
 <div class="paragraph">
 <p>In smaller processors that aren&#8217;t running an operating system, you can read and write a given memory address directly from C. With Linux running on Bone, many of the memory locations are hardware protected, so you can&#8217;t accidentally access them directly.</p>
 </div>
@@ -9281,7 +9048,7 @@ Value at address 0x44E07138 (0xb6fe2138): 0x4000C484
 <p>Add the code in <a href="#realtime_pushLEDmmap_h">Memory address definitions (pushLEDmmap.h)</a> to a file named <em>pushLEDmmap.h</em>.</p>
 </div>
 <div id="realtime_pushLEDmmap_h" class="exampleblock">
-<div class="title">Example 61. Memory address definitions (pushLEDmmap.h)</div>
+<div class="title">Example 59. Memory address definitions (pushLEDmmap.h)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -9328,7 +9095,7 @@ Value at address 0x44E07138 (0xb6fe2138): 0x4000C484
 <p>Add the code in <a href="#realtime_pushLEDmmap_c">Code for directly reading memory addresses (pushLEDmmap.c)</a> to a file named <em>pushLEDmmap.c</em>.</p>
 </div>
 <div id="realtime_pushLEDmmap_c" class="exampleblock">
-<div class="title">Example 62. Code for directly reading memory addresses (pushLEDmmap.c)</div>
+<div class="title">Example 60. Code for directly reading memory addresses (pushLEDmmap.c)</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -9426,13 +9193,13 @@ Ctrl-C pressed, cleaning up and exiting...
 <div class="sect2">
 <h3 id="_tighter_delay_bounds_with_the_preempt_rt_kernel">Tighter Delay Bounds with the PREEMPT_RT Kernel</h3>
 <div class="sect3">
-<h4 id="_problem_79">Problem</h4>
+<h4 id="_problem_77">Problem</h4>
 <div class="paragraph">
 <p>You want to run real-time processes on the Beagle, but the OS is slowing things down.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_79">Solution</h4>
+<h4 id="_solution_77">Solution</h4>
 <div class="paragraph">
 <p>The Kernel can be compiled with PREEMPT_RT enabled which reduces the delay from when a thread is scheduled to when it runs.</p>
 </div>
@@ -9464,7 +9231,7 @@ Linux breadboard-home 5.10.120-ti-r47 #1bullseye SMP PREEMPT Tue Jul 12 18:59:38
 <div class="content">
 <img src="./08realtime/figures/kernel_update.png" alt="The regular and RT kernels">
 </div>
-<div class="title">Figure 71. The regular and RT kernels</div>
+<div class="title">Figure 67. The regular and RT kernels</div>
 </div>
 <div class="paragraph">
 <p>In <a href="#realtime_kernel_update_fig">The regular and RT kernels</a> you see the regular kernel on top and the RT below.</p>
@@ -9561,7 +9328,7 @@ uname_r=5.10.120-ti-rt-r47
 </ul>
 </div>
 <div id="realtime_install_fig" class="exampleblock">
-<div class="title">Example 63. install.sh</div>
+<div class="title">Example 61. install.sh</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -9586,7 +9353,7 @@ bone$ <strong>time sudo ./hist.gen > nort.hist</strong>
 <p><a href="#realtime_hist_gen_fig">hist.gen</a> shows what&#8217;s being run.  It defaults to 100,000 loops, so it takes a while.  The data is saved in nort.hist, which stands for no RT  histogram.</p>
 </div>
 <div id="realtime_hist_gen_fig" class="exampleblock">
-<div class="title">Example 64. hist.gen</div>
+<div class="title">Example 62. hist.gen</div>
 <div class="content">
 <div class="listingblock">
 <div class="content">
@@ -9697,7 +9464,7 @@ bone$ <strong>gnuplot hist.plt</strong>
 <div class="content">
 <img src="./08realtime/code/rt/cyclictest.png" alt="Histogram of Non-RT and RT kernels running cyclictest">
 </div>
-<div class="title">Figure 72. Histogram of Non-RT and RT kernels running cyclictest</div>
+<div class="title">Figure 68. Histogram of Non-RT and RT kernels running cyclictest</div>
 </div>
 <div class="paragraph">
 <p>Notice the NON-RT data have much longer latenices. They may not happen often (fewer than 10 times in each bin), but they are occuring and may be enough to miss a real-time deadline.</p>
@@ -9705,28 +9472,7 @@ bone$ <strong>gnuplot hist.plt</strong>
 <div class="paragraph">
 <p>The PREEMPT-RT times are all under a 150 &mu;s.</p>
 </div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="realtime_simpPRU">I/O with simpPRU</h3>
-<div class="sect3">
-<h4 id="_problem_80">Problem</h4>
-<div class="paragraph">
-<p>You require better timing than running C on the ARM can give you.</p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_solution_80">Solution</h4>
-<div class="paragraph">
-<p>The AM335x processor on the Bone has an ARM processor that is running Linux, but it also has two 32-bit PRUs that are available for processing I/O. It takes a fair amount of understanding to program the PRU. Fortunately, <a href="https://simppru.readthedocs.io/en/latest/">simpPRU</a> is an intuitive language for PRU which compiles down to PRU C. This solution shows how to use it.</p>
-</div>
-<div class="sect4">
-<h5 id="_background">Background</h5>
-<div class="paragraph">
-<p>simpPRU</p>
-</div>
 <div style="page-break-after: always;"></div>
-</div>
 </div>
 </div>
 </div>
@@ -9749,13 +9495,13 @@ bone$ <strong>gnuplot hist.plt</strong>
 <div class="sect2">
 <h3 id="capes_7inLCD">Using a Seven-Inch LCD Cape</h3>
 <div class="sect3">
-<h4 id="_problem_81">Problem</h4>
+<h4 id="_problem_78">Problem</h4>
 <div class="paragraph">
 <p>You want to display the Bone&#8217;s desktop on a portable LCD.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_81">Solution</h4>
+<h4 id="_solution_78">Solution</h4>
 <div class="paragraph">
 <p>A number of <a href="http://bit.ly/1AjlXJ9">LCD capes</a> are built for the Bone, ranging in size from three to seven inches. This recipe attaches a seven-inch <a href="http://bit.ly/1NK8Hra">BeagleBone LCD7</a> from <a href="http://circuitco.com/">CircuitCo</a> (shown in <a href="#capes_7inLCD_fig">Seven-inch LCD from CircuitCo <sup class="footnote">[3]</sup></sup> was originally posted by CircuitCo at http://elinux.org/File:BeagleBone-LCD7-Front.jpg under a Creative Commons Attribution-ShareAlike 3.0 Unported License.]</a>) to the Bone.</p>
 </div>
@@ -9763,7 +9509,7 @@ bone$ <strong>gnuplot hist.plt</strong>
 <div class="content">
 <img src="./09capes/figures/LCD.png" alt="7 inch LCD">
 </div>
-<div class="title">Figure 73. Seven-inch LCD from CircuitCo <sup class="footnote">[<a id="_footnoteref_3" class="footnote" href="#_footnotedef_3" title="View footnote.">3</a>]</sup></sup></a> was originally posted by CircuitCo at <a href="http://elinux.org/File:BeagleBone-LCD7-Front.jpg" class="bare">http://elinux.org/File:BeagleBone-LCD7-Front.jpg</a> under a <a href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons Attribution-ShareAlike 3.0 Unported License</a>.]</div>
+<div class="title">Figure 69. Seven-inch LCD from CircuitCo <sup class="footnote">[<a id="_footnoteref_3" class="footnote" href="#_footnotedef_3" title="View footnote.">3</a>]</sup></sup></a> was originally posted by CircuitCo at <a href="http://elinux.org/File:BeagleBone-LCD7-Front.jpg" class="bare">http://elinux.org/File:BeagleBone-LCD7-Front.jpg</a> under a <a href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons Attribution-ShareAlike 3.0 Unported License</a>.]</div>
 </div>
 <div class="paragraph">
 <p>To make this recipe, you will need:</p>
@@ -9785,7 +9531,7 @@ bone$ <strong>gnuplot hist.plt</strong>
 <div class="content">
 <img src="./09capes/figures/LCD7Desktop.png" alt="7 inch LCD desktop">
 </div>
-<div class="title">Figure 74. Seven-inch LCD desktop</div>
+<div class="title">Figure 70. Seven-inch LCD desktop</div>
 </div>
 <div class="paragraph">
 <p>Attach a USB keyboard and mouse, and you have a portable Bone. <a href="https://www.adafruit.com/products/922">Wireless keyboard and mouse combinations</a> make a nice solution to avoid the need to add a USB hub.</p>
@@ -9795,13 +9541,13 @@ bone$ <strong>gnuplot hist.plt</strong>
 <div class="sect2">
 <h3 id="capes_miniDisplay">Using a 128 x 128-Pixel LCD Cape</h3>
 <div class="sect3">
-<h4 id="_problem_82">Problem</h4>
+<h4 id="_problem_79">Problem</h4>
 <div class="paragraph">
 <p>You want to use a small LCD to display things other than the desktop.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_82">Solution</h4>
+<h4 id="_solution_79">Solution</h4>
 <div class="paragraph">
 <p>The <a href="http://bit.ly/1xd0r8p">MiniDisplay</a> is a 128 x 128 full-color LCD cape that just fits on the Bone, as shown in <a href="#capes_miniDisplay_fig">MiniDisplay 128 x 128-pixel LCD from CircuitCo</a>.</p>
 </div>
@@ -9809,7 +9555,7 @@ bone$ <strong>gnuplot hist.plt</strong>
 <div class="content">
 <img src="./09capes/figures/MiniDisplay-A1.jpg" alt="miniDisplay LCD">
 </div>
-<div class="title">Figure 75. MiniDisplay 128 x 128-pixel LCD from CircuitCo</div>
+<div class="title">Figure 71. MiniDisplay 128 x 128-pixel LCD from CircuitCo</div>
 </div>
 <div class="paragraph">
 <p>To make this recipe, you will need:</p>
@@ -9954,20 +9700,20 @@ bone$ <strong>./minidisplay-test</strong>
 <div class="content">
 <img src="./09capes/figures/miniDisplay_Boris.png" alt="miniDisplay LCD showing Boris">
 </div>
-<div class="title">Figure 76. MiniDisplay showing Boris <sup class="footnote">[<a id="_footnoteref_5" class="footnote" href="#_footnotedef_5" title="View footnote.">5</a>]</sup></sup></a> was originally posted by David Anders at <a href="http://elinux.org/File:Minidisplay-boris.jpg" class="bare">http://elinux.org/File:Minidisplay-boris.jpg</a> under a <a href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons Attribution-ShareAlike 3.0 Unported License</a>.]</div>
+<div class="title">Figure 72. MiniDisplay showing Boris <sup class="footnote">[<a id="_footnoteref_5" class="footnote" href="#_footnotedef_5" title="View footnote.">5</a>]</sup></sup></a> was originally posted by David Anders at <a href="http://elinux.org/File:Minidisplay-boris.jpg" class="bare">http://elinux.org/File:Minidisplay-boris.jpg</a> under a <a href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons Attribution-ShareAlike 3.0 Unported License</a>.]</div>
 </div>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_connecting_multiple_capes">Connecting Multiple Capes</h3>
 <div class="sect3">
-<h4 id="_problem_83">Problem</h4>
+<h4 id="_problem_80">Problem</h4>
 <div class="paragraph">
 <p>You want to use more than one cape at a time.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_83">Solution</h4>
+<h4 id="_solution_80">Solution</h4>
 <div class="paragraph">
 <p>First, look at each cape that you want to stack mechanically. Are they all using stacking
 headers like the ones shown in <a href="#capes_stacking_headers">Stacking headers</a>? No more than one should be using non-stacking headers.</p>
@@ -9976,7 +9722,7 @@ headers like the ones shown in <a href="#capes_stacking_headers">Stacking header
 <div class="content">
 <img src="./09capes/figures/stacking_headers.JPG" alt="stacking headers">
 </div>
-<div class="title">Figure 77. Stacking headers</div>
+<div class="title">Figure 73. Stacking headers</div>
 </div>
 <div class="paragraph">
 <p>Note that larger LCD panels might provide expansion headers, such as the ones
@@ -9987,7 +9733,7 @@ additional capes.</p>
 <div class="content">
 <img src="./09capes/figures/LCD7back.png" alt="LCD7back">
 </div>
-<div class="title">Figure 78. Back side of LCD7 cape <sup class="footnote">[<a id="_footnoteref_7" class="footnote" href="#_footnotedef_7" title="View footnote.">7</a>]</sup></sup></a> was originally posted by CircuitCo at <a href="http://elinux.org/File:BeagleBone-LCD-Backside.jpg" class="bare">http://elinux.org/File:BeagleBone-LCD-Backside.jpg</a> under a <a href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons Attribution-ShareAlike 3.0 Unported License</a>.]</div>
+<div class="title">Figure 74. Back side of LCD7 cape <sup class="footnote">[<a id="_footnoteref_7" class="footnote" href="#_footnotedef_7" title="View footnote.">7</a>]</sup></sup></a> was originally posted by CircuitCo at <a href="http://elinux.org/File:BeagleBone-LCD-Backside.jpg" class="bare">http://elinux.org/File:BeagleBone-LCD-Backside.jpg</a> under a <a href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons Attribution-ShareAlike 3.0 Unported License</a>.]</div>
 </div>
 <div class="paragraph">
 <p>Next, take a note of each pin utilized by each cape. The <a href="http://beaglebonecapes.com">BeagleBone Capes catalog</a> provides a graphical representation for the pin usage of most capes, as shown in <a href="#Audio_cape_pins_fig">Pins utilized by CircuitCo Audio Cape <sup class="footnote">[9]</sup></sup> was originally posted by Djackson at http://elinux.org/File:Audio_pins_revb.png under a Creative Commons Attribution-ShareAlike 3.0 Unported License.]</a> for the Circuitco Audio Cape.</p>
@@ -9996,7 +9742,7 @@ additional capes.</p>
 <div class="content">
 <img src="./09capes/figures/audioCape.png" alt="CircuitCo Audio Cape">
 </div>
-<div class="title">Figure 79. Pins utilized by CircuitCo Audio Cape <sup class="footnote">[<a id="_footnoteref_9" class="footnote" href="#_footnotedef_9" title="View footnote.">9</a>]</sup></sup></a> was originally posted by Djackson at <a href="http://elinux.org/File:Audio_pins_revb.png" class="bare">http://elinux.org/File:Audio_pins_revb.png</a> under a <a href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons Attribution-ShareAlike 3.0 Unported License</a>.]</div>
+<div class="title">Figure 75. Pins utilized by CircuitCo Audio Cape <sup class="footnote">[<a id="_footnoteref_9" class="footnote" href="#_footnotedef_9" title="View footnote.">9</a>]</sup></sup></a> was originally posted by Djackson at <a href="http://elinux.org/File:Audio_pins_revb.png" class="bare">http://elinux.org/File:Audio_pins_revb.png</a> under a <a href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons Attribution-ShareAlike 3.0 Unported License</a>.]</div>
 </div>
 <div class="paragraph">
 <p>In most cases, the same pin should never be used on two different capes, though in some cases, pins can be shared. Here are some exceptions:</p>
@@ -10034,13 +9780,13 @@ additional capes.</p>
 <div class="sect2">
 <h3 id="capes_soldering">Moving from a Breadboard to a Protoboard</h3>
 <div class="sect3">
-<h4 id="_problem_84">Problem</h4>
+<h4 id="_problem_81">Problem</h4>
 <div class="paragraph">
 <p>You have your circuit working fine on the breadboard, but you want a more reliable solution.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_84">Solution</h4>
+<h4 id="_solution_81">Solution</h4>
 <div class="paragraph">
 <p>Solder your components to a protoboard.</p>
 </div>
@@ -10067,7 +9813,7 @@ additional capes.</p>
 <div class="content">
 <img src="./09capes/figures/breadboard.png" alt="BeagleBone Breadboard">
 </div>
-<div class="title">Figure 80. BeagleBone breadboard <sup class="footnote">[<a id="_footnoteref_11" class="footnote" href="#_footnotedef_11" title="View footnote.">11</a>]</sup></sup></a> was originally posted by William Traynor at <a href="http://elinux.org/File:BeagleBone-Breadboard.jpg" class="bare">http://elinux.org/File:BeagleBone-Breadboard.jpg</a> under a <a href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons Attribution-ShareAlike 3.0 Unported License</a>.]</div>
+<div class="title">Figure 76. BeagleBone breadboard <sup class="footnote">[<a id="_footnoteref_11" class="footnote" href="#_footnotedef_11" title="View footnote.">11</a>]</sup></sup></a> was originally posted by William Traynor at <a href="http://elinux.org/File:BeagleBone-Breadboard.jpg" class="bare">http://elinux.org/File:BeagleBone-Breadboard.jpg</a> under a <a href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons Attribution-ShareAlike 3.0 Unported License</a>.]</div>
 </div>
 <div class="paragraph">
 <p>You just solder your parts on the protoboard as you had them on the breadboard.</p>
@@ -10077,13 +9823,13 @@ additional capes.</p>
 <div class="sect2">
 <h3 id="capes_creating_prototype_schematic">Creating a Prototype Schematic</h3>
 <div class="sect3">
-<h4 id="_problem_85">Problem</h4>
+<h4 id="_problem_82">Problem</h4>
 <div class="paragraph">
 <p>You&#8217;ve wired up a circuit on a breadboard. How do you turn that prototype into a schematic others can read and that you can import into other design tools?</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_85">Solution</h4>
+<h4 id="_solution_82">Solution</h4>
 <div class="paragraph">
 <p>In <a href="#tips_fritzing">[tips_fritzing]</a>, we introduced Fritzing as a useful tool for drawing block diagrams. Fritzing can also do circuit schematics and printed-circuit layout. For example, <a href="#capes_quickRobo_fig">A simple robot controller diagram (quickBot.fzz)</a> shows a block diagram for a simple robot controller (<em><span class="keep-together">quickBot.fzz</span></em> is the name of the Fritzing file used to create the diagram).</p>
 </div>
@@ -10091,10 +9837,10 @@ additional capes.</p>
 <div class="content">
 <img src="./09capes/figures/quickBot_bb.png" alt="Simple robot diagram">
 </div>
-<div class="title">Figure 81. A simple robot controller diagram (quickBot.fzz)</div>
+<div class="title">Figure 77. A simple robot controller diagram (quickBot.fzz)</div>
 </div>
 <div class="paragraph">
-<p>The controller has an H-bridge to drive two DC motors (<a href="#motors_dcDirection">Controlling the Speed and Direction of a DC Motor</a>), an IR range sensor, and two headers for attaching analog encoders for the motors. Both the IR sensor and the encoders have analog outputs that exceed 1.8 V, so each is run through a voltage divider (two resistors) to scale the voltage to the correct range (see <a href="#sensors_hc-sr04">Reading a Distance Sensor (Variable Pulse Width Sensor)</a> for a voltage divider example).</p>
+<p>The controller has an H-bridge to drive two DC motors (<a href="#motors_dcDirection">Controlling the Speed and Direction of a DC Motor</a>), an IR range sensor, and two headers for attaching analog encoders for the motors. Both the IR sensor and the encoders have analog outputs that exceed 1.8 V, so each is run through a voltage divider (two resistors) to scale the voltage to the correct range (see <a href="#sensors_hc-sr04">[sensors_hc-sr04]</a> for a voltage divider example).</p>
 </div>
 <div class="paragraph">
 <p><a href="#capes_quickRobo_schemRaw">Automatically generated schematic</a> shows the schematic automatically generated by Fritzing. It&#8217;s a mess. It&#8217;s up to you to fix it.</p>
@@ -10103,7 +9849,7 @@ additional capes.</p>
 <div class="content">
 <img src="./09capes/figures/quickBot_schemRaw.png" alt="Autogenerated schematic">
 </div>
-<div class="title">Figure 82. Automatically generated schematic</div>
+<div class="title">Figure 78. Automatically generated schematic</div>
 </div>
 <div class="paragraph">
 <p><a href="#capes_quickRobo_schem">Cleaned-up schematic</a> shows my cleaned-up schematic. I did it by moving the parts around until it looked better.</p>
@@ -10112,13 +9858,13 @@ additional capes.</p>
 <div class="content">
 <img src="./09capes/figures/quickBot_schem.png" alt="Cleaned up schematic">
 </div>
-<div class="title">Figure 83. Cleaned-up schematic</div>
+<div class="title">Figure 79. Cleaned-up schematic</div>
 </div>
 <div id="capes_quickRobo_schemZoom" class="imageblock">
 <div class="content">
 <img src="./09capes/figures/quickBot_schemZoom.png" alt="Zoomed in schematic">
 </div>
-<div class="title">Figure 84. Zoomed-in schematic</div>
+<div class="title">Figure 80. Zoomed-in schematic</div>
 </div>
 <div class="paragraph">
 <p>You might find that you want to create your design in a more advanced design tool, perhaps because it has the library components you desire, it integrates better with other tools you are using, or it has some other feature (such as simulation) of which you&#8217;d like to take advantage.</p>
@@ -10128,13 +9874,13 @@ additional capes.</p>
 <div class="sect2">
 <h3 id="capes_verify">Verifying Your Cape Design</h3>
 <div class="sect3">
-<h4 id="_problem_86">Problem</h4>
+<h4 id="_problem_83">Problem</h4>
 <div class="paragraph">
 <p>You&#8217;ve got a design. How do you quickly verify that it works?</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_86">Solution</h4>
+<h4 id="_solution_83">Solution</h4>
 <div class="paragraph">
 <p>To make this recipe, you will need:</p>
 </div>
@@ -10149,7 +9895,7 @@ additional capes.</p>
 <p>Break down your design into functional subcomponents and write tests for each. Use components you already know are working, such as the onboard LEDs, to display the test status with the code in <a href="#capes_quickBot_motor_test_code">Testing the quickBot motors interface (quickBot_motor_test.js)</a>.</p>
 </div>
 <div id="capes_quickBot_motor_test_code" class="exampleblock">
-<div class="title">Example 65. Testing the quickBot motors interface (quickBot_motor_test.js)</div>
+<div class="title">Example 63. Testing the quickBot motors interface (quickBot_motor_test.js)</div>
 <div class="content">
 <pre data-type="programlisting">#!/usr/bin/env node
 var b = require('bonescript');
@@ -10296,7 +10042,7 @@ function M2_set(speed) {
 <div class="content">
 <img src="./09capes/figures/quickBot_motor_kickback.JPG" alt="quickBot kicking back">
 </div>
-<div class="title">Figure 85. quickBot motor test showing kickback</div>
+<div class="title">Figure 81. quickBot motor test showing kickback</div>
 </div>
 <div class="paragraph">
 <p>Using the solution in <a href="#basics_autorun">[basics_autorun]</a>, you can untether from your coding station to test your design at your lab workbench, as shown in <a href="#quickBot_scope_fig">quickBot motor test code under scope</a>.</p>
@@ -10305,7 +10051,7 @@ function M2_set(speed) {
 <div class="content">
 <img src="./09capes/figures/quickBot_motor_test_scope.JPG" alt="quickBot under scope">
 </div>
-<div class="title">Figure 86. quickBot motor test code under scope</div>
+<div class="title">Figure 82. quickBot motor test code under scope</div>
 </div>
 <div class="paragraph">
 <p>SparkFun provides a <a href="http://bit.ly/18AzuoR">useful guide to using an oscilloscope</a>. You might want to check it out if you&#8217;ve never used an oscilloscope before.
@@ -10316,13 +10062,13 @@ Looking at the stimulus you&#8217;ll generate <em>before</em> you connect up you
 <div class="sect2">
 <h3 id="capes_layout">Laying Out Your Cape PCB</h3>
 <div class="sect3">
-<h4 id="_problem_87">Problem</h4>
+<h4 id="_problem_84">Problem</h4>
 <div class="paragraph">
 <p>You&#8217;ve generated a diagram and schematic for your circuit and verified that they are correct. How do you create a PCB?</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_87">Solution</h4>
+<h4 id="_solution_84">Solution</h4>
 <div class="paragraph">
 <p>If you&#8217;ve been using Fritzing, all you need to do is click the PCB tab, and there&#8217;s your board. Well, almost. Much like the schematic view shown in <a href="#capes_creating_prototype_schematic">Creating a Prototype Schematic</a>, you need to do some layout work before it&#8217;s actually usable. I just moved the components around until they seemed to be grouped logically and then clicked the Autoroute button.  After a minute or two of trying various layouts, Fritzing picked the one it determined to be the best. <a href="#capes_quickRobo_pcb">Simple robot PCB</a> shows the results.</p>
 </div>
@@ -10330,7 +10076,7 @@ Looking at the stimulus you&#8217;ll generate <em>before</em> you connect up you
 <div class="content">
 <img src="./09capes/figures/quickBot_pcb.png" alt="Simple robot PCB">
 </div>
-<div class="title">Figure 87. Simple robot PCB</div>
+<div class="title">Figure 83. Simple robot PCB</div>
 </div>
 <div class="paragraph">
 <p>The <a href="http://bit.ly/1HCxokQ">Fritzing pre-fab web page</a> has a few helpful hints, including checking the widths of all your traces and cleaning up any questionable routing created by the autorouter.</p>
@@ -10367,7 +10113,7 @@ Looking at the stimulus you&#8217;ll generate <em>before</em> you connect up you
 <p>The <a href="http://bit.ly/1xd1aGV">Fritzing custom PCB outline page</a> describes how to create and use a custom board outline. Although it is possible to use a drawing tool like <a href="https://inkscape.org/en/">Inkscape</a>, I chose to use <a href="http://bit.ly/1b2aZmn">the SVG <em>path</em> command</a> directly to create <a href="#capes_boardoutline_code">Outline SVG for BeagleBone cape (beaglebone_cape_boardoutline.svg)</a>.</p>
 </div>
 <div id="capes_boardoutline_code" class="exampleblock">
-<div class="title">Example 66. Outline SVG for BeagleBone cape (beaglebone_cape_boardoutline.svg)</div>
+<div class="title">Example 64. Outline SVG for BeagleBone cape (beaglebone_cape_boardoutline.svg)</div>
 <div class="content">
 <pre data-type="programlisting">&lt;?xml version='1.0' encoding='UTF-8' standalone='no'?&gt;
 &lt;svg xmlns="http://www.w3.org/2000/svg" version="1.1"
@@ -10394,7 +10140,7 @@ Looking at the stimulus you&#8217;ll generate <em>before</em> you connect up you
 <div class="content">
 <img src="./09capes/figures/srm_cape_dimensions.png" alt="Cape dimensions in SRM">
 </div>
-<div class="title">Figure 88. Cape dimensions</div>
+<div class="title">Figure 84. Cape dimensions</div>
 </div>
 <div class="paragraph">
 <p>You can observe the rendered output of <a href="#capes_boardoutline_code">Outline SVG for BeagleBone cape (beaglebone_cape_boardoutline.svg)</a> quickly by opening the file in a web browser, as shown in <a href="#capes_boardoutline_fig">Rendered cape outline in Chrome</a>.</p>
@@ -10403,7 +10149,7 @@ Looking at the stimulus you&#8217;ll generate <em>before</em> you connect up you
 <div class="content">
 <img src="./09capes/figures/beaglebone_cape_boardoutline.png" alt="Board outline in Chrome">
 </div>
-<div class="title">Figure 89. Rendered cape outline in Chrome</div>
+<div class="title">Figure 85. Rendered cape outline in Chrome</div>
 </div>
 <div class="paragraph">
 <p>After you have the SVG outline, you&#8217;ll need to select the PCB in Fritzing and select a custom shape in the Inspector box. Begin with the original background, as shown in <a href="#capes_fritzing1">PCB with original board, without notch for Ethernet connector</a>.</p>
@@ -10412,7 +10158,7 @@ Looking at the stimulus you&#8217;ll generate <em>before</em> you connect up you
 <div class="content">
 <img src="./09capes/figures/fritzing1.png" alt="PCB orginal baord">
 </div>
-<div class="title">Figure 90. PCB with original board, without notch for Ethernet connector</div>
+<div class="title">Figure 86. PCB with original board, without notch for Ethernet connector</div>
 </div>
 <div class="paragraph">
 <p>Hide all but the Board Layer (<a href="#capes_fritzing2">PCB with all but the Board Layer hidden</a>).</p>
@@ -10421,7 +10167,7 @@ Looking at the stimulus you&#8217;ll generate <em>before</em> you connect up you
 <div class="content">
 <img src="./09capes/figures/fritzing2.png" alt="PCB orginal baord hidden">
 </div>
-<div class="title">Figure 91. PCB with all but the Board Layer hidden</div>
+<div class="title">Figure 87. PCB with all but the Board Layer hidden</div>
 </div>
 <div class="paragraph">
 <p>Select the PCB1 object and  then, in the Inspector pane, scroll down to the "load image file" button (<a href="#capes_fritzing3">Clicking :load image file: with PCB1 selected</a>).</p>
@@ -10430,7 +10176,7 @@ Looking at the stimulus you&#8217;ll generate <em>before</em> you connect up you
 <div class="content">
 <img src="./09capes/figures/fritzing3.png" alt="PCB load image file">
 </div>
-<div class="title">Figure 92. Clicking :load image file: with PCB1 selected</div>
+<div class="title">Figure 88. Clicking :load image file: with PCB1 selected</div>
 </div>
 <div class="paragraph">
 <p>Navigate to the <em>beaglebone_cape_boardoutline.svg</em> file created in <a href="#capes_boardoutline_code">Outline SVG for BeagleBone cape (beaglebone_cape_boardoutline.svg)</a>, as shown in <a href="#capes_fritzing4">Selecting the .svg file</a>.</p>
@@ -10439,7 +10185,7 @@ Looking at the stimulus you&#8217;ll generate <em>before</em> you connect up you
 <div class="content">
 <img src="./09capes/figures/fritzing4.png" alt="PCB selecting svg file">
 </div>
-<div class="title">Figure 93. Selecting the .svg file</div>
+<div class="title">Figure 89. Selecting the .svg file</div>
 </div>
 <div class="paragraph">
 <p>Turn on the other layers and line up the Board Layer with the rest of the PCB, as shown in <a href="#capes_fritzing_inspector_fig">PCB Inspector</a>.</p>
@@ -10448,7 +10194,7 @@ Looking at the stimulus you&#8217;ll generate <em>before</em> you connect up you
 <div class="content">
 <img src="./09capes/figures/Fritzing_Inspector.png" alt="PCB Inspector">
 </div>
-<div class="title">Figure 94. PCB Inspector</div>
+<div class="title">Figure 90. PCB Inspector</div>
 </div>
 <div class="paragraph">
 <p>Now, you can save your file and send it off to be made, as described in <a href="#capes_prototype">Producing a Prototype</a>.</p>
@@ -10469,13 +10215,13 @@ Looking at the stimulus you&#8217;ll generate <em>before</em> you connect up you
 <div class="content">
 <img src="./09capes/figures/miniDisplay_Cape_schem.png" alt="Schematic for miniDisplay">
 </div>
-<div class="title">Figure 95. Schematic for the MiniDisplay cape</div>
+<div class="title">Figure 91. Schematic for the MiniDisplay cape</div>
 </div>
 <div id="capes_miniDisplay_pcb" class="imageblock">
 <div class="content">
 <img src="./09capes/figures/miniDisplay_Cape_pcb.png" alt="PCB for miniDisplay">
 </div>
-<div class="title">Figure 96. PCB for MiniDisplay cape</div>
+<div class="title">Figure 92. PCB for MiniDisplay cape</div>
 </div>
 <div class="paragraph">
 <p>A good starting point is to take the PCB layout for the MiniDisplay and edit it for your project. The connectors for P8 and P9 are already in place and ready to go.</p>
@@ -10516,7 +10262,7 @@ host$ <strong>eagle</strong>
 <div class="content">
 <img src="./09capes/figures/EagleLicense.png" alt="Eagle License">
 </div>
-<div class="title">Figure 97. Eagle PCB startup screen</div>
+<div class="title">Figure 93. Eagle PCB startup screen</div>
 </div>
 <div class="paragraph">
 <p>Click "Run as Freeware." When my Eagle started, it said it needed to be updated. To update on Linux, follow the link provided by Eagle and download <em>eagle-lin-7.2.0.run</em> (or whatever version is current.). Then run the following commands:</p>
@@ -10532,7 +10278,7 @@ host$ <strong>./eagle-lin-7.2.0.run</strong>
 <div class="content">
 <img src="./09capes/figures/eagle3.png" alt="Eagle install destination directory">
 </div>
-<div class="title">Figure 98. The Eagle installation destination directory</div>
+<div class="title">Figure 94. The Eagle installation destination directory</div>
 </div>
 <div class="paragraph">
 <p>Continue clicking Next until it&#8217;s installed. Then run the following commands (where ~/eagle-7.2.0 is the path you noted in <a href="#capes_eagle3">The Eagle installation destination directory</a>):</p>
@@ -10551,7 +10297,7 @@ host$ <strong>eagle</strong>
 <div class="content">
 <img src="./09capes/figures/eagle7.png" alt="Eagle start screen">
 </div>
-<div class="title">Figure 99. The Eagle start screen</div>
+<div class="title">Figure 95. The Eagle start screen</div>
 </div>
 <div class="paragraph">
 <p>Ensure that the correct version number appears.</p>
@@ -10597,13 +10343,13 @@ host$ <strong>eagle</strong>
 <div class="sect2">
 <h3 id="capes_schematic_migration">Migrating a Fritzing Schematic to Another Tool</h3>
 <div class="sect3">
-<h4 id="_problem_88">Problem</h4>
+<h4 id="_problem_85">Problem</h4>
 <div class="paragraph">
 <p>You created your schematic in Fritzing, but it doesn&#8217;t integrate with everything you need. How can you move the schematic to another tool?</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_88">Solution</h4>
+<h4 id="_solution_85">Solution</h4>
 <div class="paragraph">
 <p>Use the <a href="http://bit.ly/1wXUkdM">Upverter schematic-file-converter</a> Python script. For example, suppose that you want to convert the Fritzing file for the diagram shown in <a href="#capes_quickRobo_fig">A simple robot controller diagram (quickBot.fzz)</a>. First, install Upverter.</p>
 </div>
@@ -10774,7 +10520,7 @@ drwxrwxr-x 9 ubuntu ubuntu   4096 Nov 25 19:42 schematic-file-converter
 <div class="content">
 <img src="./09capes/figures/quickBot_eaglexml.png" alt="Converter Output">
 </div>
-<div class="title">Figure 100. Output of Upverter conversion</div>
+<div class="title">Figure 96. Output of Upverter conversion</div>
 </div>
 <div class="paragraph">
 <p>No one said it would be pretty!</p>
@@ -10790,13 +10536,13 @@ drwxrwxr-x 9 ubuntu ubuntu   4096 Nov 25 19:42 schematic-file-converter
 <div class="sect2">
 <h3 id="capes_prototype">Producing a Prototype</h3>
 <div class="sect3">
-<h4 id="_problem_89">Problem</h4>
+<h4 id="_problem_86">Problem</h4>
 <div class="paragraph">
 <p>You have your PCB all designed. How do you get it made?</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_89">Solution</h4>
+<h4 id="_solution_86">Solution</h4>
 <div class="paragraph">
 <p>To make this recipe, you will need:</p>
 </div>
@@ -10826,7 +10572,7 @@ drwxrwxr-x 9 ubuntu ubuntu   4096 Nov 25 19:42 schematic-file-converter
 <div class="content">
 <img src="./09capes/figures/quickBot_oshpark_share.png" alt="quickBot oshpark share">
 </div>
-<div class="title">Figure 101. The OSH Park QuickBot Cape shared project page</div>
+<div class="title">Figure 97. The OSH Park QuickBot Cape shared project page</div>
 </div>
 <div class="paragraph">
 <p>Within Fritzing, click the menu next to "Export for PCB" and choose "Extended Gerber," as shown in <a href="#capes_fritzing_export_fig">Choosing "Extended Gerber" in Fritzing</a>. You&#8217;ll need to choose a directory in which to save them and then compress them all into a <a href="http://bit.ly/1Br5lEh">Zip file</a>. The <a href="http://bit.ly/1B4GqRU">WikiHow article on creating Zip files</a> might be helpful if you aren&#8217;t very experienced at making these.</p>
@@ -10835,7 +10581,7 @@ drwxrwxr-x 9 ubuntu ubuntu   4096 Nov 25 19:42 schematic-file-converter
 <div class="content">
 <img src="./09capes/figures/quickBot_fritzing_export.png" alt="quickBot fritzing export">
 </div>
-<div class="title">Figure 102. Choosing "Extended Gerber" in Fritzing</div>
+<div class="title">Figure 98. Choosing "Extended Gerber" in Fritzing</div>
 </div>
 <div class="paragraph">
 <p>Things on the <a href="http://oshpark.com">OSH Park website</a> are reasonably self-explanatory. You&#8217;ll need to create an account and upload the Zip file containing the <a href="http://bit.ly/1B4GzEZ">Gerber files</a> you created. If you are a cautious person, you might choose to examine the Gerber files with a Gerber file viewer first. The <a href="http://bit.ly/18bUgeA">Fritzing fabrication FAQ</a> offers several suggestions, including <a href="http://gerbv.sourceforge.net/">gerbv</a> for Windows and Linux users.</p>
@@ -10847,7 +10593,7 @@ drwxrwxr-x 9 ubuntu ubuntu   4096 Nov 25 19:42 schematic-file-converter
 <div class="content">
 <img src="./09capes/figures/quickBot_pcb.JPG" alt="quickBot pcb">
 </div>
-<div class="title">Figure 103. QuickBot PCB</div>
+<div class="title">Figure 99. QuickBot PCB</div>
 </div>
 <div class="paragraph">
 <p>Now is a good time to ensure that you have all of your components and a soldering station set up as in <a href="#capes_soldering">Moving from a Breadboard to a Protoboard</a>, as well as an oscilloscope, as used in <a href="#capes_verify">Verifying Your Cape Design</a>.</p>
@@ -10865,7 +10611,7 @@ drwxrwxr-x 9 ubuntu ubuntu   4096 Nov 25 19:42 schematic-file-converter
 <div class="content">
 <img src="./09capes/figures/quickBot_motors.jpg" alt="quickBot motors">
 </div>
-<div class="title">Figure 104. QuickBot motors under test</div>
+<div class="title">Figure 100. QuickBot motors under test</div>
 </div>
 <div class="paragraph">
 <p>Continue assembling and testing your board until you are happy. If you find issues, you might choose to cut traces and use point-to-point wiring to resolve your issues before placing an order for a new PCB. Better right the second time than the third!</p>
@@ -10875,13 +10621,13 @@ drwxrwxr-x 9 ubuntu ubuntu   4096 Nov 25 19:42 schematic-file-converter
 <div class="sect2">
 <h3 id="_creating_contents_for_your_cape_configuration_eeprom">Creating Contents for Your Cape Configuration EEPROM</h3>
 <div class="sect3">
-<h4 id="_problem_90">Problem</h4>
+<h4 id="_problem_87">Problem</h4>
 <div class="paragraph">
 <p>Your cape is ready to go, and you want it to automatically initialize when the Bone boots up.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_90">Solution</h4>
+<h4 id="_solution_87">Solution</h4>
 <div class="paragraph">
 <p>Complete capes have an I<sup>2</sup>C EEPROM on board that contains configuration information that is read at boot time. <a href="http://bit.ly/1Fb64uF">Adventures in BeagleBone Cape EEPROMs</a> gives a helpful description of two methods for programming the EEPROM.  <a href="http://bit.ly/1E5M7RJ">How to Roll your own BeagleBone Capes</a> is a good four-part series on creating a cape, including how to wire and program the EEPROM.</p>
 </div>
@@ -10890,13 +10636,13 @@ drwxrwxr-x 9 ubuntu ubuntu   4096 Nov 25 19:42 schematic-file-converter
 <div class="sect2">
 <h3 id="capes_production">Putting Your Cape Design into Production</h3>
 <div class="sect3">
-<h4 id="_problem_91">Problem</h4>
+<h4 id="_problem_88">Problem</h4>
 <div class="paragraph">
 <p>You want to share your cape with others.  How do you scale up?</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_solution_91">Solution</h4>
+<h4 id="_solution_88">Solution</h4>
 <div class="paragraph">
 <p><a href="https://circuithub.com/">CircuitHub</a> offers a great tool to get a quick quote on assembled PCBs. To make things simple, I downloaded the <a href="http://bit.ly/1C5uvJc">CircuitCo MiniDisplay Cape Eagle design materials</a> and uploaded them to CircuitHub.</p>
 </div>
@@ -10907,7 +10653,7 @@ drwxrwxr-x 9 ubuntu ubuntu   4096 Nov 25 19:42 schematic-file-converter
 <div class="content">
 <img src="./09capes/figures/circuithub_part_matching.png" alt="circuithub part matching">
 </div>
-<div class="title">Figure 105. CircuitHub part matching</div>
+<div class="title">Figure 101. CircuitHub part matching</div>
 </div>
 <div class="paragraph">
 <p>When you&#8217;ve selected all of your parts, a quote tool appears at the bottom of the page, as shown in <a href="#capes_circuithub_quote">CircuitHub quote generation</a>.</p>
@@ -10916,7 +10662,7 @@ drwxrwxr-x 9 ubuntu ubuntu   4096 Nov 25 19:42 schematic-file-converter
 <div class="content">
 <img src="./09capes/figures/circuithub_quote.png" alt="circuithub quote">
 </div>
-<div class="title">Figure 106. CircuitHub quote generation</div>
+<div class="title">Figure 102. CircuitHub quote generation</div>
 </div>
 <div class="paragraph">
 <p>Checking out the pricing on the MiniDisplay Cape (without including the LCD itself) in <a href="#capes_circuithub_pricing_table">CircuitHub price examples (all prices USD)</a>, you can get a quick idea of how increased volume can dramatically impact the per-unit costs.</p>
@@ -11100,7 +10846,7 @@ drwxrwxr-x 9 ubuntu ubuntu   4096 Nov 25 19:42 schematic-file-converter
 <div id="footer">
 <div id="footer-text">
 Version 2.0 beta<br>
-Last updated 2022-08-10 14:38:15 -0400
+Last updated 2022-08-11 11:28:55 -0400
 </div>
 </div>
 </body>

@@ -297,7 +297,6 @@ The LED turns on when a +1+ is written to +value+ and turns off when a +0+ is wr
 
 [[kernel_compiling]]
 === Compiling the Kernel
-// TODO  check this
 ==== Problem
 You need to download, patch, and compile the kernel from its source code.
 
@@ -484,7 +483,7 @@ You can cross-compile without installing the entire kernel source by running the
 
 ++++
 <pre data-type="programlisting">
-host$ <strong>sudo apt install gcc-arm-linux-gnueabi</strong>
+host$ <strong>sudo apt install gcc-arm-linux-gnueabihf</strong>
 </pre>
 ++++
 

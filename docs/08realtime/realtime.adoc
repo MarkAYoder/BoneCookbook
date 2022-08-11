@@ -438,14 +438,14 @@ Notice the NON-RT data have much longer latenices. They may not happen often (fe
 
 The PREEMPT-RT times are all under a 150 pass:[&mu;]s. 
 
-[[realtime_simpPRU]]
-=== I/O with simpPRU
-// TODO Get this working
-==== Problem
-You require better timing than running C on the ARM can give you.
+// [[realtime_simpPRU]]
+// === I/O with simpPRU
+// // TODO Get this working
+// ==== Problem
+// You require better timing than running C on the ARM can give you.
 
-==== Solution
-The AM335x processor on the Bone has an ARM processor that is running Linux, but it also has two 32-bit PRUs that are available for processing I/O. It takes a fair amount of understanding to program the PRU. Fortunately, https://simppru.readthedocs.io/en/latest/[simpPRU] is an intuitive language for PRU which compiles down to PRU C. This solution shows how to use it.
+// ==== Solution
+// The AM335x processor on the Bone has an ARM processor that is running Linux, but it also has two 32-bit PRUs that are available for processing I/O. It takes a fair amount of understanding to program the PRU. Fortunately, https://simppru.readthedocs.io/en/latest/[simpPRU] is an intuitive language for PRU which compiles down to PRU C. This solution shows how to use it.
 
-===== Background
-simpPRU
+// ===== Background
+// simpPRU
