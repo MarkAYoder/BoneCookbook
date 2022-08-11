@@ -34,9 +34,9 @@ A cookbook for programming Beagles
   ** [x] Reading the Status of a Pushbutton or Magnetic Switch (Passive On/Off Sensor)
   ** [x] Reading a Position, Light, or Force Sensor (Variable Resistance Sensor)
   ** [x] Added continous, gnuplot: Reading a Distance Sensor (Analog or Variable Voltage Sensor)
-  ** [js too complicated, try py ] Reading a Distance Sensor (Variable Pulse Width Sensor)
+  ** [x] Commented out: Reading a Distance Sensor (Variable Pulse Width Sensor)
   ** [x] Accurately Reading the Position of a Motor or Dial
-  ** [ ] Acquiring Data by Using a Smart Sensor over a Serial Connection
+  ** [x] Commented out: Acquiring Data by Using a Smart Sensor over a Serial Connection
   ** [x] Measuring a Temperature
   ** [x] Reading Temperature via a Dallas 1-Wire Device
   ** [x] Commented out: Sensing All Sorts of Things with SensorTag via Bluetooth v4.0
@@ -59,14 +59,14 @@ A cookbook for programming Beagles
   ** [ ] Introduction
   ** [x] Controlling a Servo Motor
   ** [x] Controlling the Speed of a DC Motor
-  ** [parts?] Controlling the Speed and Direction of a DC Motor
+  ** [x] Not tested: Controlling the Speed and Direction of a DC Motor
   ** [x] Driving a Bipolar Stepper Motor
   ** [x] Driving a Unipolar Stepper Motor
 
 . link:05tips/tips.html[Beyond Basics]
   ** [ ] Introduction
   ** [x] Running Your Bone Standalone
-  ** [x] Selecting an OS for Your Development Host Computer
+  ** [x] Removed: Selecting an OS for Your Development Host Computer
   ** [x] Getting to the Command Shell via SSH
   ** [x] Getting to the Command Shell via the Virtual Serial Port
   ** [x] Viewing and Debugging the Kernel and u-boot Messages at Boot Time
