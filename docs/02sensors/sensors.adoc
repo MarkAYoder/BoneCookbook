@@ -327,45 +327,45 @@ include::code/ultrasonicRange.js[]
 ====
 
 
-[[sensors_hc-sr04]]
-=== Reading a Distance Sensor (Variable Pulse Width Sensor)
-// TODO
-==== Problem
-You want to use a HC-SR04 Ultrasonic Range Sensor with BeagleBone Black.
+// [[sensors_hc-sr04]]
+// === Reading a Distance Sensor (Variable Pulse Width Sensor)
+// // TODO
+// ==== Problem
+// You want to use a HC-SR04 Ultrasonic Range Sensor with BeagleBone Black.
 
-==== Solution
-The HC-SR04 Ultrasonic Range Sensor (shown in <<sensors_hc_sr04_image_fig>>) works by sending a trigger pulse to the _Trigger_ input and then measuring the pulse width on the _Echo_ output. The width of the pulse tells you the distance.
+// ==== Solution
+// The HC-SR04 Ultrasonic Range Sensor (shown in <<sensors_hc_sr04_image_fig>>) works by sending a trigger pulse to the _Trigger_ input and then measuring the pulse width on the _Echo_ output. The width of the pulse tells you the distance.
 
-[[sensors_hc_sr04_image_fig]]
-.HC-SR04 Ultrasonic range sensor
-image::figures/hc-sr04.jpg["HC-SR04 Ultrasonic Sensor"]
+// [[sensors_hc_sr04_image_fig]]
+// .HC-SR04 Ultrasonic range sensor
+// image::figures/hc-sr04.jpg["HC-SR04 Ultrasonic Sensor", 500]
 
-To make this recipe, you will need:
+// To make this recipe, you will need:
 
-* Breadboard and jumper wires
-* 10 k&#8486; and 20 k&#8486; resistors
-* HC-SR04 Ultrsonic Range Sensor
+// * Breadboard and jumper wires
+// * 10 k&#8486; and 20 k&#8486; resistors
+// * HC-SR04 Ultrsonic Range Sensor
 
-Wire the sensor as shown in <<sensors_hc-sr04_fig>>. Note that the HC-SR04 is a 5 V
-device, so the _banded_ wire (running from +P9_7+ on the Bone to VCC on the range finder) attaches the HC-SR04 to the Bone's 5 V power supply. 
+// Wire the sensor as shown in <<sensors_hc-sr04_fig>>. Note that the HC-SR04 is a 5 V
+// device, so the _banded_ wire (running from +P9_7+ on the Bone to VCC on the range finder) attaches the HC-SR04 to the Bone's 5 V power supply. 
 
-[[sensors_hc-sr04_fig]]
-.Wiring an HC-SR04 ultrasonic sensor
-image::figures/hc-sr04-ultraSonic_bb.png["Wiring an HC-SR04 Ultrasonic Sensor"]
+// [[sensors_hc-sr04_fig]]
+// .Wiring an HC-SR04 ultrasonic sensor
+// image::figures/hc-sr04-ultraSonic_bb.png["Wiring an HC-SR04 Ultrasonic Sensor"]
 
-<<sensors_hc-sr04_code>> shows BoneScript code used to drive the HC-SR04.  
+// <<sensors_hc-sr04_code>> shows BoneScript code used to drive the HC-SR04.  
 
-[[sensors_hc-sr04_code]]
-.Driving a HC-SR04 ultrasound sensor (hc-sr04-ultraSonic.js)
-====
-[source, js]
-----
+// [[sensors_hc-sr04_code]]
+// .Driving a HC-SR04 ultrasound sensor (hc-sr04-ultraSonic.js)
+// ====
+// [source, js]
+// ----
 
-include::code/hc-sr04-ultraSonic.js[]
+// include::code/hc-sr04-ultraSonic.js[]
 
-----
-====
-This code is more complex than others in this chapter, because we have to tell the device when to start measuring and time the return pulse.
+// ----
+// ====
+// This code is more complex than others in this chapter, because we have to tell the device when to start measuring and time the return pulse.
 
 === Accurately Reading the Position of a Motor or Dial
 
@@ -470,66 +470,66 @@ The values you get for +data+ will depend on which way you are turning the devic
 
 You can also measure rotation by using a variable resistor (see <<sensors_analogIn_fig>>).
 
-[[sensors_GPS]]
-=== Acquiring Data by Using a Smart Sensor over a Serial Connection
-// TODO
-==== Problem
+// [[sensors_GPS]]
+// === Acquiring Data by Using a Smart Sensor over a Serial Connection
+// // TODO
+// ==== Problem
 
-You want to connect a smart sensor that uses a built-in microcontroller to stream data, such as a global positioning system (GPS), to the Bone and read the data from it.
+// You want to connect a smart sensor that uses a built-in microcontroller to stream data, such as a global positioning system (GPS), to the Bone and read the data from it.
 
-==== Solution
+// ==== Solution
 
-The Bone has several serial ports (UARTs) that you can use to read data from an external microcontroller included in smart sensors, such as a GPS. Just wire one up, and you'll soon be gathering useful data, such as your own location.
+// The Bone has several serial ports (UARTs) that you can use to read data from an external microcontroller included in smart sensors, such as a GPS. Just wire one up, and you'll soon be gathering useful data, such as your own location.
 
-Here's what you'll need:
+// Here's what you'll need:
 
-* Breadboard and jumper wires
-* GPS receiver
+// * Breadboard and jumper wires
+// * GPS receiver
 
-Wire your GPS, as shown in <<digital_GPS_fig>>.
+// Wire your GPS, as shown in <<digital_GPS_fig>>.
 
-[[digital_GPS_fig]]
-.Wiring a GPS to UART 4
-image::figures/GPS_bb.png[GPS]
+// [[digital_GPS_fig]]
+// .Wiring a GPS to UART 4
+// image::figures/GPS_bb.png[GPS]
 
-The GPS will produce raw National Marine Electronics Association (NMEA) data that's easy for a computer to read, but not for a human. 
-There are many utilities to help convert such sensor data into a human-readable form. For this GPS, run the following command to load a NMEA parser:
+// The GPS will produce raw National Marine Electronics Association (NMEA) data that's easy for a computer to read, but not for a human. 
+// There are many utilities to help convert such sensor data into a human-readable form. For this GPS, run the following command to load a NMEA parser:
 
-++++
-<pre data-type="programlisting">
-bone$ <strong>npm install -g nmea</strong>
-</pre>
-++++
+// ++++
+// <pre data-type="programlisting">
+// bone$ <strong>npm install -g nmea</strong>
+// </pre>
+// ++++
 
-Running the code in <<digital_GPS_code>> will print the current location every time the GPS outputs it.
+// Running the code in <<digital_GPS_code>> will print the current location every time the GPS outputs it.
 
-[[digital_GPS_code]]
-.Talking to a GPS with UART 4 (GPS.js)
-====
-[source, javascript]
-----
+// [[digital_GPS_code]]
+// .Talking to a GPS with UART 4 (GPS.js)
+// ====
+// [source, javascript]
+// ----
 
-include::code/GPS.js[]
+// include::code/GPS.js[]
 
-----
-====
-If you don't need the NMEA formatting, you can skip the +npm+ part and remove the lines in the code that refer to it.
+// ----
+// ====
+// If you don't need the NMEA formatting, you can skip the +npm+ part and remove the lines in the code that refer to it.
 
-[NOTE]
-====
-If you get an error like this
+// [NOTE]
+// ====
+// If you get an error like this
 
-+TypeError: Cannot call method 'readline' of undefined+
+// +TypeError: Cannot call method 'readline' of undefined+
 
-add this line to the end of file _/usr/local/lib/node_modules/bonescript/serial.js_:
+// add this line to the end of file _/usr/local/lib/node_modules/bonescript/serial.js_:
 
-+exports.serialParsers = m.module.parsers;+
-====
+// +exports.serialParsers = m.module.parsers;+
+// ====
 
 
-[[cape-headers-serial_fig]]
-.Table of UART outputs
-image::figures/cape-headers-serial.png[UART outputs]
+// [[cape-headers-serial_fig]]
+// .Table of UART outputs
+// image::figures/cape-headers-serial.png[UART outputs]
 
 [[sensors_i2c_temp]]
 === Measuring a Temperature

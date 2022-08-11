@@ -85,19 +85,6 @@ A powered hub is recommended because USB can supply only 500 mA, and you'll want
 ==== Discussion
 This recipe disables the HDMI audio, which allows the Bone to try other resolutions. If this fails, see http://bit.ly/1GEPcOH[BeagleBoneBlack HDMI] for how to force the Bone's resolution to match your monitor.
 
-// // TODO  Needs a discussion
-// [[tips_pick_os]]
-// === Selecting an OS for Your Development Host Computer
-
-// ==== Problem
-// Your project needs a host computer, and you need to select an operating system (OS) for it.
-
-// ==== Solution
-// For projects that require a host computer, we assume that you are running http://bit.ly/1wXOwkw[Linux Ubuntu 20.04 LTS]. You can be running either a native installation, through https://docs.microsoft.com/en-us/windows/wsl/[Windows Subsystem for Linux], via a virtual machine such as https://www.virtualbox.org/[VirtualBox], or in the cloud (https://portal.azure.com/[Microsoft Azure] or http://aws.amazon.com/ec2/[Amazon Elastic Compute Cloud] [EC2], for example).
-
-// Recently I've been prefering https://docs.microsoft.com/en-us/windows/wsl/[Windows Subsystem for Linux].
-
-
 [[tips_shell]]
 === Getting to the Command Shell via SSH
 
@@ -273,7 +260,7 @@ BeagleBoard.org Debian Bullseye IoT Image 2022-07-01
 <<basics_latest_os>> shows how to open the _ID.txt_ file to see the OS version. The _/etc/dogtag_ file has the same contents and is easier to find if you already have a command prompt. See <<basics_install_os>> if you need to update your OS.
 
 === Controlling the Bone Remotely with a VNC
-// TODO  check this
+//   check this
 ==== Problem
 You want to access the BeagleBone's graphical desktop from your host computer.
 
@@ -312,7 +299,7 @@ Give your connection a name, being sure to select "Remmina VNC Plugin" Also, be 
 image::figures/vnc2.png[Configuring]
 
 Click Connect to start graphical access to your Bone, as shown in <<tips_vnc3_fig>>.
-// TODO update this
+
 [[tips_vnc3_fig]]
 .The Remmina Remote Desktop Client showing the BeagleBone desktop
 image::figures/vnc3.png[Desktop]
@@ -510,9 +497,6 @@ Scroll to the top of the page and you'll see instructions on setting up Wifi. Th
 .Instructions for setting up your network.
 image::figures/network.png[Network Setup Instructions]
 
-// TODO is this up to date?
-Several WiFi adapters work with the Bone. Check http://bit.ly/1EbEwUo[WiFi Adapters] for the latest list.
-
 To make this recipe, you will need:
 
 * USB Wifi adapter
@@ -541,10 +525,6 @@ Bus 002 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
 ====
 There is a well-known bug in the Bone's 3.8 kernel series that prevents USB devices from being discovered when hot-plugged, which is why you should reboot. Newer kernels should address this issue.
 ====
-
-// TODO  update
-
-
 
 Next, run +networkctl+ to find your adapter's name.  Mine is called +wlan0+, but you might see other names, such as +ra0+.
 
@@ -635,8 +615,6 @@ rtt min/avg/max/mdev = 19.387/19.450/19.513/0.063 ms
 [[networking_usb]]
 === Sharing the Host's Internet Connection over USB
 
-// TODO  Test this
-
 ==== Problem
 Your host computer is connected to the Bone via the USB cable, and you want to run the network between the two.
 
@@ -708,25 +686,28 @@ Now your Bone can access the world via the USB port and your host computer, but
 what if you have a web server on your Bone that you want to access from the world?
 The solution is to use _port forwarding_ from your host. 
 Web servers typically listen to port +80+. First, look up the IP address of your host:
-// TODO  switch to ip a
+
 ++++
 <pre data-type="programlisting">
-host$ <strong>ifconfig</strong>
-eth0      Link encap:Ethernet  HWaddr 00:e0:4e:00:22:51  
-          inet addr:<strong>137.112.41.35</strong>  Bcast:137.112.41.255  Mask:255.255.255.0
-          inet6 addr: fe80::2e0:4eff:fe00:2251/64 Scope:Link
-          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
-          RX packets:5371019 errors:0 dropped:0 overruns:0 frame:0
-          TX packets:4720856 errors:0 dropped:0 overruns:0 carrier:0
-          collisions:0 txqueuelen:1000 
-          RX bytes:1667916614 (1.6 GB)  TX bytes:597909671 (597.9 MB)
-
-eth1      Link encap:Ethernet  HWaddr 00:1d:60:40:58:e6   
+host$ <strong>ip a</strong>
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host 
+       valid_lft forever preferred_lft forever
+2: enp0s25: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel state UP group default qlen 1000
+    link/ether 54:ee:75:19:8d:53 brd ff:ff:ff:ff:ff:ff
+    inet 10.0.5.117/24 brd 10.0.5.255 scope global dynamic noprefixroute enp0s25
+       valid_lft 82690sec preferred_lft 82690sec
+    inet6 fe80::e6d0:8d85:4488:6b5f/64 scope link noprefixroute 
+       valid_lft forever preferred_lft forever
+3: wlp3s0: <BROADCAST,MULTICAST> mtu 1500 qdisc noop state DOWN group default qlen 1000  
 ...
 </pre>
 ++++
 
-It's the number following +inet addr:+, which in my case is +137.112.41.35+. 
+It's the number following +inet+, which in my case is +10.0.5.117+. 
 
 [TIP]
 ====
@@ -738,7 +719,7 @@ Then run the following, using your host's IP address:
 ++++
 <pre data-type="programlisting">
 host$ <strong>sudo iptables -t nat -A PREROUTING -p tcp -s 0/0 \
-     -d 137.112.41.35 --dport 1080 -j DNAT --to 192.168.7.2:80</strong>
+     -d 10.0.5.117 --dport 1080 -j DNAT --to 192.168.7.2:80</strong>
 </pre>
 ++++
 

@@ -427,32 +427,6 @@ The PRU Cookbook has a nice discussion (https://markayoder.github.io/PRUCookbook
 .Wiring an Adafruit NeoPixel LED matrix to +P9_29+
 image::figures/neo_bb.png["NeoPixel Ring"]
 
-// === Writing to a NeoPixel LED String Using LEDscape
-// // TODO Remove?
-// ==== Problem
-// You have an http://www.adafruit.com/products/1138[Adafruit NeoPixel LED string] or http://www.adafruit.com/products/1487[Adafruit NeoPixel LED matrix] and want to light it up.
-
-// ==== Solution
-
-// Wire up an Adafruit NeoPixel LED 8-by-8 matrix as shown in <<js_neoPixelMatrix_fig>>.
-
-// [[js_neoPixelMatrix_fig]]
-// .Wiring an Adafruit NeoPixel LED matrix to +P8_30+
-// image::figures/neoPixelMatrix_bb.png["NeoPixel Matrix"]
-
-// <<js_neoPixel_code>> shows how to install LEDscape and run the LEDs.
-
-// [[js_neoPixel_code]]
-// .Installing and running LEDscape and OpenPixelControl (neoPixel.sh)
-// ====
-// [source, bash]
-// ----
-
-// include::code/neoPixel.sh[]
-
-// ----
-// ====
-
 // === Making Your Bone Speak
 // // TODO Not tested for 2nd edition
 // ==== Problem

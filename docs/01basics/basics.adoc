@@ -33,7 +33,6 @@ image::figures/pluggingIn.jpg[Plugging In]
 
 The four blue +USER+ LEDs will begin to blink, and in 10 or 15 seconds, you'll see a new USB drive appear on your host computer. <<basics_01gettingStarted_fig>> shows how it will appear on a Windows host, and Linux and Mac hosts will look similar. The Bone acting like a USB drive and the files you see are located on the Bone.
 
-// TODO Update
 [[basics_01gettingStarted_fig]]
 .The Bone appears as a USB drive
 image::figures/01GettingStarted.png[A new USB drive]
@@ -106,7 +105,6 @@ Explore the various demonstrations of Python and JavaScript. These are what come
 
 ==== Problem
 You want to run the Cookbook examples.
-// TODO update for new docs
 
 ==== Solution
 Connect your Bone to the Internet and log into it.  From the command line run:

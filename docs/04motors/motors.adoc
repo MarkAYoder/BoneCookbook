@@ -262,18 +262,6 @@ include::code/bipolarStepperMotor.py[]
 ----
 ====
 
-// // TODO update for js
-// [[motors_stepperMotor_code]]
-// .Driving a bipolar stepper motor (bipolarStepperMotor.js)
-// ====
-// [source, js]
-// ----
-
-// include::code/bipolarStepperMotor.js[]
-
-// ----
-// ====
-
 When you run the code, the stepper motor will rotate back and forth.
 
 
