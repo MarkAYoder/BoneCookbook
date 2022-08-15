@@ -13,4 +13,4 @@
 // :author: Mark A. Yoder
 // :email:	Mark.A.Yoder@Rose-Hulman.edu
 
-link:../index.html[Outline]
+// link:../index.html[Outline]
