@@ -8,8 +8,6 @@ v2.0 beta
 
 A cookbook for programming Beagles
 
-// * link:notes.html[Notes]
-
 . link:01basics/basics.html[Basics]
   * Done Update Remove
   ** [ ] Introduction
