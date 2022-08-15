@@ -9,130 +9,117 @@ v2.0 beta
 A cookbook for programming Beagles
 
 . link:01basics/basics.html[Basics]
-  * Done Update Remove
-  ** [ ] Introduction
-  ** [update which Beagles?] Picking Your Beagle
-  ** [x] Getting Started, Out of the Box
-  ** [x] Verifying You Have the Latest Version of the OS on Your Bone
-  ** [x] Running the Python and JavaScript Examples
-  ** [x] Wiring a Breadboard
-  ** [x] Editing Code Using VS Code
-  ** [x] Running Python Applications from VSC
-  ** [x] Removed: Running Applications Automatically
-  ** [x] Finding the Latest Version of the OS for Your Bone
-  ** [x] Running the Latest Version of the OS on Your Bone
-  ** [x] Updating the OS on Your Bone
-  ** [ ] Backing Up the Onboard Flash
-  ** [x] Updating the Onboard Flash
+** Introduction
+** Picking Your Beagle
+** Getting Started, Out of the Box
+** Verifying You Have the Latest Version of the OS on Your Bone
+** Running the Python and JavaScript Examples
+** Cloning the Cookbook Repository
+** Wiring a Breadboard
+** Editing Code Using Visual Studio Code
+** Running Python and JavaScript Applications from Visual Studio Code
+** Finding the Latest Version of the OS for Your Bone
+** Running the Latest Version of the OS on Your Bone
+** Updating the OS on Your Bone
+** Backing Up the Onboard Flash
+** Updating the Onboard Flash
   
 . link:02sensors/sensors.html[Sensors]
-  ** [ ] Introduction
-  ** [x] Choosing a Method to Connect Your Sensor
-  ** [x] Input and Run a JavaScript Application for Talking to Sensors
-  ** [x] Reading the Status of a Pushbutton or Magnetic Switch (Passive On/Off Sensor)
-  ** [x] Reading a Position, Light, or Force Sensor (Variable Resistance Sensor)
-  ** [x] Added continous, gnuplot: Reading a Distance Sensor (Analog or Variable Voltage Sensor)
-  ** [x] Commented out: Reading a Distance Sensor (Variable Pulse Width Sensor)
-  ** [x] Accurately Reading the Position of a Motor or Dial
-  ** [x] Commented out: Acquiring Data by Using a Smart Sensor over a Serial Connection
-  ** [x] Measuring a Temperature
-  ** [x] Reading Temperature via a Dallas 1-Wire Device
-  ** [x] Commented out: Sensing All Sorts of Things with SensorTag via Bluetooth v4.0
-  ** [x] Commented out: Playing and Recording Audio
-  
+** Introduction
+** Choosing a Method to Connect Your Sensor
+** Input and Run a Python or JavaScript Application for Talking 
+** Reading the Status of a Pushbutton or Magnetic Switch (Passive 
+** Mapping Header Numbers to gpio Numbers
+** Reading a Position, Light, or Force Sensor (Variable 
+** Reading a Distance Sensor (Analog or Variable Voltage Sensor)
+** Accurately Reading the Position of a Motor or Dial
+** Measuring a Temperature
+** Reading Temperature via a Dallas 1-Wire Device
+** Playing and Recording Audio
+
 . link:03displays/displays.html[Displays]
-  ** [ ] Introduction
-  ** [x] Toggling an Onboard LED
-  ** [x] Toggling an External LED
-  ** [x] Toggling an External LED via gpiod
-  ** [x] Toggling a High-Voltage External Device
-  ** [x] Fading an External LED
-  ** [x] Writing to an LED Matrix
-  ** [x] Driving a 5 V Device
-  ** [x] PRU Cookbook: Writing to a NeoPixel LED String
-  ** [x] removed - Using a Nokia 5510 LCD Display
-  ** [x] Making Your Bone Speak
+** Introduction
+** Toggling an Onboard LED
+** Toggling an External LED
+** Toggling an External LED via gpiod
+** Toggling a High-Voltage External Device
+** Fading an External LED
+** Writing to an LED Matrix
+** Driving a 5 V Device
+** Writing to a NeoPixel LED String Using the PRUs
 
  . link:04motors/motors.html[Motors]
-  ** [ ] Introduction
-  ** [x] Controlling a Servo Motor
-  ** [x] Controlling the Speed of a DC Motor
-  ** [x] Not tested: Controlling the Speed and Direction of a DC Motor
-  ** [x] Driving a Bipolar Stepper Motor
-  ** [x] Driving a Unipolar Stepper Motor
+** Introduction
+** Controlling a Servo Motor
+** Controlling a Servo with an Rotary Encoder
+** Controlling the Speed of a DC Motor
+** Controlling the Speed and Direction of a DC Motor
+** Driving a Bipolar Stepper Motor
+** Driving a Unipolar Stepper Motor
+
 
 . link:05tips/tips.html[Beyond Basics]
-  ** [ ] Introduction
-  ** [x] Running Your Bone Standalone
-  ** [x] Removed: Selecting an OS for Your Development Host Computer
-  ** [x] Getting to the Command Shell via SSH
-  ** [x] Getting to the Command Shell via the Virtual Serial Port
-  ** [x] Viewing and Debugging the Kernel and u-boot Messages at Boot Time
-  ** [x] Verifying You Have the Latest Version of the OS on Your Bone from the Shell
-  ** [x] Controlling the Bone Remotely with VNC
-  ** [x] Learning Typical GNU/Linux Commands
-  ** [x] Editing a Text File from the GNU/Linux Command Shell
-  ** [x] removed Using a Graphical Editor
-  ** [x] Establishing an Ethernet-Based Internet Connection
-  ** [x] Establishing a WiFi-Based Internet Connection
-  ** [x] Sharing the Host's Internet Connection over USB
-  ** [x] Setting Up a Firewall
-  ** [x] Installing Additional Packages from the Debian Package Feed
-  ** [x] Removing Packages Installed with apt
-  ** [x] Copying Files Between the Onboard Flash and the MicroSD Card
-  ** [x] Freeing Space on the Onboard Flash or MicroSD Card
-  ** [x] Removed: installing Additional Node.js Packages
-  ** [x] Removed: Using Python to Interact with the Physical World
-  ** [x] Removed libsoc: Using C to Interact with the Physical World
+** Introduction
+** Running Your Bone Standalone
+** Getting to the Command Shell via SSH
+** Getting to the Command Shell via the Virtual Serial Port
+** Viewing and Debugging the Kernel and u-boot Messages at Boot Time
+** Verifying You Have the Latest Version of the OS on Your Bone from the Shell
+** Controlling the Bone Remotely with a VNC
+** Learning Typical GNU/Linux Commands
+** Editing a Text File from the GNU/Linux Command Shell
+** Establishing an Ethernet-Based Internet Connection
+** Establishing a WiFi-Based Internet Connection
+** Sharing the Host's Internet Connection over USB
+** Setting Up a Firewall
+** Installing Additional Packages from the Debian Package Feed
+** Removing Packages Installed with apt
+** Copying Files Between the Onboard Flash and the MicroSD Card
+** Freeing Space on the Onboard Flash or MicroSD Card
+** Using C to Interact with the Physical World
 
 . link:06iot/iot.html[Internet of Things]
-  ** [ ] Introduction
-  ** [x] Accessing Your Host Computer's Files on the Bone
-  ** [x] nginx: Serving Web Pages from the Bone
-  ** [x] Flask: Interacting with the Bone via a Web Browser
-  ** [x] Displaying GPIO Status in a Web Browser
-  ** [x] Removed: Continuously Displaying the GPIO Value via jsfiddle
-  ** [x] Removed: Continuously Displaying the GPIO Value
-  ** [x] gnuplot: Plotting Data
-  ** [x] Sending an Email
-  ** [x] Commented out: Sending an SMS Message
-  ** [x] Displaying the Current Weather Conditions
-  ** [x] Sending and Receiving Tweets
-  ** [x] Wiring the IoT with Node-RED
-  ** [x] Removed: Serving Web Pages from the Bone by Using Apache
-  ** [x] Commented out: Communicating over a Serial Connection to an Arduino or LaunchPad
+** Introduction
+** Accessing Your Host Computer's Files on the Bone
+** Serving Web Pages from the Bone
+** Interacting with the Bone via a Web Browser
+** Displaying GPIO Status in a Web Browser - reading a button
+** Controlling GPIOs
+** Plotting Data
+** Sending an Email
+** Displaying the Current Weather Conditions
+** Sending and Receiving Tweets
+** Wiring the IoT with Node-RED
 
 . link:07kernel/kernel.html[The Kernel]
-  ** [ ] Introduction
-  ** [x] Updating the Kernel
-  ** [x] Building and Installing Kernel Modules
-  ** [x] Controlling LEDs by Using SYSFS Entries
-  ** [x] Controlling GPIOs by Using SYSFS Entries
-  ** [x] Compiling the Kernel
-  ** [x] Using a Cross Compiler
-  ** [ ] Applying Patches
-  ** [ ] Creating Your Own Patch File
+** Introduction
+** Updating the Kernel
+** Building and Installing Kernel Modules
+** Controlling LEDs by Using SYSFS Entries
+** Controlling GPIOs by Using SYSFS Entries
+** Compiling the Kernel
+** Using the Installed Cross Compiler
+** Applying Patches
+** Creating Your Own Patch File
 
 . link:08realtime/realtime.html[Real-Time I/O]
-  ** [ ] Introduction
-  ** [x] I/O with Python and JavaScript
-  ** [x] I/O with C
-  ** [x] I/O with devmem2
-  ** [x] I/O with C and mmap()
-  ** [x] Modifying the Linux Kernel to Use PREMPT RT
-  ** [x] Comented out: I/O with simpPRU
+** Introduction
+** I/O with Python
+** I/O with C
+** I/O with devmem2
+** I/O with C and mmap()
+** Tighter Delay Bounds with the PREEMPT_RT Kernel
 
 . link:09capes/capes.html[Capes]
-  ** [ ] Introduction
-  ** [remove? ] Using a Seven-Inch LCD Cape
-  ** [parts?] Using a 128 x 128-Pixel LCD Cape
-  ** [ ] Connecting Multiple Capes
-  ** [jason ] Moving from a Breadboard to a Protoboard
-  ** [ ] Creating a Prototype Schematic
-  ** [python ] Verifying Your Cape Design
-  ** [ ] Laying Out Your Cape PCB
-  ** [ ] Migrating a Fritzing Schematic to Another Tool
-  ** [ ] Producing a Prototype
-  ** [ ] Creating Contents for Your Cape Configuration EEPROM
-  ** [ ] Putting Your Cape Design into Production
-
+** Introduction
+** Using a Seven-Inch LCD Cape
+** Using a 128 x 128-Pixel LCD Cape
+** Connecting Multiple Capes
+** Moving from a Breadboard to a Protoboard
+** Creating a Prototype Schematic
+** Verifying Your Cape Design
+** Laying Out Your Cape PCB
+** Migrating a Fritzing Schematic to Another Tool
+** Producing a Prototype
+** Creating Contents for Your Cape Configuration EEPROM
+** Putting Your Cape Design into Production
