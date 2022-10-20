@@ -1,4 +1,7 @@
 ## BoneCookbook
+This site is not longer being updated.  The new site is https://docs.beagleboard.io/latest/books/beaglebone-cookbook/index.html
+
+
 This is for the second edition of the BeagleBone Cookbook.
 
 Look in the *docs* folder to see the source for the examples.
