@@ -5,7 +5,7 @@
 import time
     
 eQEP = '2'
-COUNTERPATH = '/dev/bone/counter/counter'+eQEP+'/count0'
+COUNTERPATH = '/dev/bone/counter/'+eQEP+'/count0'
 	
 ms = 100 	# Time between samples in ms
 maxCount = '1000000'
